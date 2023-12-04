@@ -1,0 +1,37 @@
+# Variable substitution
+# https://docs.docker.com/compose/compose-file/compose-file-v3/#variable-substitution
+# 環境変数は local/Makefile で設定されています。
+version: "3.7"
+name: "sk_goa_chat_containers_localdev"
+services:
+  mysql:
+    platform: linux/amd64
+    image: mysql:8.0.35
+    container_name: localdev_mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE_NAME}
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_HOST: "%"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ../mysql/conf.d:/etc/mysql/conf.d
+      - ./data/mysql/log/:/var/log/mysql
+      - ./data/mysql/data:/var/lib/mysql
+    networks:
+      - network1
+
+  firebase-emulators:
+    build:
+      context: ../firebase-emulators
+      dockerfile: Dockerfile
+    ports:
+      - "9099:9099"
+      - "4000:4000"
+    volumes:
+      - ./data/firebase-emulators:/srv/firebase-emulators/data
+    command: firebase emulators:start --import /srv/firebase-emulators/data/firebase --export-on-exit /srv/firebase-emulators/data/firebase
+
+networks:
+  network1:
