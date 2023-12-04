@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { app, auth, isFirebaseError } from '$lib/firebase';
+	import { app, isFirebaseError } from '$lib/firebase';
+	import { auth } from '$lib/firebase/auth';
 	import { createSession } from '$lib/session';
 	import { page } from '$app/stores';
 
