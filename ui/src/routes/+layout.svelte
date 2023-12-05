@@ -10,11 +10,9 @@
 	} from 'flowbite-svelte';
 
 	import '../app.pcss';
+	import { page } from '$app/stores';
 
-	const user = {
-		name: 'Foo',
-		email: 'foo@example.com'
-	};
+	const user = $page.data.user;
 </script>
 
 <div class="mx-36 max-w-full my-2">
