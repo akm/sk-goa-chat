@@ -1,3 +1,5 @@
+github.com/go-sql-driver/mysql v1.7.1 h1:lUIinVbN1DY0xBg0eMOzmmtGoHwWBbvnWubQUrtU8EI=
+github.com/go-sql-driver/mysql v1.7.1/go.mod h1:OXbVy3sEdcQ2Doequ6Z5BW6fXNQTmx+9S1MCJN5yJMI=
 github.com/pressly/goose/v3 v3.16.0 h1:xMJUsZdHLqSnCqESyKSqEfcYVYsUuup1nrOhaEFftQg=
 github.com/pressly/goose/v3 v3.16.0/go.mod h1:JwdKVnmCRhnF6XLQs2mHEQtucFD49cQBdRM4UiwkxsM=
 github.com/sethvargo/go-retry v0.2.4 h1:T+jHEQy/zKJf5s95UkguisicE0zuF9y7+/vgz08Ocec=
