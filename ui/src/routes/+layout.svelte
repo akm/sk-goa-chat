@@ -18,6 +18,7 @@
 		window.location.href = $page.url.origin + '/signin';
 	};
 
+	// user の例: {id: 'nUhxKTpuXq4phNaBp1NF6Vp605wJ', name: 'Foo', email: 'foo@example.com'}
 	const user = $page.data.user;
 </script>
 
