@@ -10,11 +10,16 @@
 	} from 'flowbite-svelte';
 
 	import '../app.pcss';
+	import { page } from '$app/stores';
+	import { deleteSession } from '$lib/session';
 
-	const user = {
-		name: 'Foo',
-		email: 'foo@example.com'
+	const signout = async () => {
+		await deleteSession();
+		window.location.href = $page.url.origin + '/signin';
 	};
+
+	// user の例: {id: 'nUhxKTpuXq4phNaBp1NF6Vp605wJ', name: 'Foo', email: 'foo@example.com'}
+	const user = $page.data.user;
 </script>
 
 <div class="mx-36 max-w-full my-2">
@@ -37,7 +42,7 @@
 						>{user.email}</span
 					>
 				</DropdownHeader>
-				<DropdownItem>ログアウト</DropdownItem>
+				<DropdownItem on:click={signout}>ログアウト</DropdownItem>
 			</Dropdown>
 		{/if}
 	</Navbar>

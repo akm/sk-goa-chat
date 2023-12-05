@@ -3,7 +3,10 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "run-p dev:containers:up dev:run",
+		"dev:run": "GOOGLE_CLOUD_PROJECT=sk-goa-chat FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:9099' vite dev",
+		"dev:containers:up": "make -C ../containers/localdev up",
+		"dev:containers:down": "make -C ../containers/localdev down",
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "npm run test:integration && npm run test:unit",
@@ -26,6 +29,8 @@
 		"eslint-plugin-svelte": "^2.30.0",
 		"flowbite": "^2.2.0",
 		"flowbite-svelte": "^0.44.20",
+		"flowbite-svelte-icons": "^0.4.5",
+		"npm-run-all": "^4.1.5",
 		"postcss": "^8.4.24",
 		"postcss-load-config": "^4.0.1",
 		"prettier": "^3.0.0",
@@ -40,6 +45,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"firebase": "^10.7.0"
+		"firebase": "^10.7.0",
+		"firebase-admin": "^11.11.1"
 	}
 }
