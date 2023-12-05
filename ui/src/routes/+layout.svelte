@@ -11,6 +11,12 @@
 
 	import '../app.pcss';
 	import { page } from '$app/stores';
+	import { deleteSession } from '$lib/session';
+
+	const signout = async () => {
+		await deleteSession();
+		window.location.href = $page.url.origin + '/signin';
+	};
 
 	const user = $page.data.user;
 </script>
@@ -35,7 +41,7 @@
 						>{user.email}</span
 					>
 				</DropdownHeader>
-				<DropdownItem>ログアウト</DropdownItem>
+				<DropdownItem on:click={signout}>ログアウト</DropdownItem>
 			</Dropdown>
 		{/if}
 	</Navbar>
