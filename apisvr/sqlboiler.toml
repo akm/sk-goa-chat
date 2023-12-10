@@ -1,0 +1,14 @@
+# # https://github.com/volatiletech/sqlboiler#generic-config-options
+
+output = "models"
+wipe = true
+no-tests = false
+add-enum-types = true
+
+[mysql]
+dbname = "sk_goa_chat_db"
+host = "localhost"
+port = 3306
+user = "root"
+# pass = ""
+sslmode = "false"
