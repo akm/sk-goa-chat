@@ -3,6 +3,14 @@ module apisvr
 go 1.21.4
 
 require (
+	github.com/friendsofgo/errors v0.9.2
+	github.com/go-sql-driver/mysql v1.6.0
+	github.com/kat-co/vala v0.0.0-20170210184112-42e1d8b61f12
+	github.com/spf13/viper v1.12.0
+	github.com/volatiletech/null/v8 v8.1.2
+	github.com/volatiletech/randomize v0.0.1
+	github.com/volatiletech/sqlboiler/v4 v4.15.0
+	github.com/volatiletech/strmangle v0.0.5
 	goa.design/goa/v3 v3.14.0
 	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.0
@@ -14,7 +22,6 @@ require (
 	github.com/Masterminds/semver/v3 v3.1.1 // indirect
 	github.com/Masterminds/sprig/v3 v3.2.2 // indirect
 	github.com/dimfeld/httppath v0.0.0-20170720192232-ee938bf73598 // indirect
-	github.com/friendsofgo/errors v0.9.2 // indirect
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/go-chi/chi/v5 v5.0.10 // indirect
 	github.com/gofrs/uuid v4.2.0+incompatible // indirect
@@ -39,13 +46,8 @@ require (
 	github.com/spf13/cobra v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/spf13/viper v1.12.0 // indirect
 	github.com/subosito/gotenv v1.4.1 // indirect
 	github.com/volatiletech/inflect v0.0.1 // indirect
-	github.com/volatiletech/null/v8 v8.1.2 // indirect
-	github.com/volatiletech/randomize v0.0.1 // indirect
-	github.com/volatiletech/sqlboiler/v4 v4.15.0 // indirect
-	github.com/volatiletech/strmangle v0.0.5 // indirect
 	golang.org/x/crypto v0.14.0 // indirect
 	golang.org/x/mod v0.13.0 // indirect
 	golang.org/x/net v0.17.0 // indirect
