@@ -4,11 +4,11 @@ import (
 	"context"
 	"database/sql"
 
-	"dbmigrations/local"
+	"dbmigrations/helpers"
 )
 
 func init() {
-	local.AddNamedMigrationContext(upGo, downGo)
+	helpers.LocalDev.AddNamedMigrationContext(upGo, downGo)
 }
 
 func upGo(ctx context.Context, tx *sql.Tx) error {
