@@ -1,9 +1,14 @@
 package chatapi
 
 import (
+	"apisvr/models"
 	channels "apisvr/services/gen/channels"
+	"apisvr/sql"
 	"context"
 	"log"
+	"time"
+
+	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
 // channels service example implementation.
@@ -19,35 +24,134 @@ func NewChannels(logger *log.Logger) channels.Service {
 
 // List implements list.
 func (s *channelssrvc) List(ctx context.Context) (res *channels.ChannelList, err error) {
-	res = &channels.ChannelList{}
 	s.logger.Print("channels.list")
+	db, err := sql.Open()
+	if err != nil {
+		return nil, err
+	}
+	defer db.Close()
+
+	results, err := models.Channels().All(ctx, db)
+	if err != nil {
+		return nil, err
+	}
+
+	items := make(channels.ChannelListItemCollection, len(results))
+	for i, result := range results {
+		items[i] = &channels.ChannelListItem{
+			ID:        result.ID,
+			CreatedAt: result.CreatedAt.Time.Format(time.RFC3339),
+			UpdatedAt: result.UpdatedAt.Time.Format(time.RFC3339),
+			Name:      result.Name,
+		}
+	}
+	res = &channels.ChannelList{
+		Items:  items,
+		Total:  uint64(len(items)),
+		Offset: 0,
+	}
 	return
 }
 
 // Show implements show.
 func (s *channelssrvc) Show(ctx context.Context, p *channels.ShowPayload) (res *channels.Channel, err error) {
-	res = &channels.Channel{}
 	s.logger.Print("channels.show")
+	db, err := sql.Open()
+	if err != nil {
+		return nil, err
+	}
+	defer db.Close()
+
+	m, err := models.FindChannel(ctx, db, p.ID)
+	if err != nil {
+		return nil, err
+	}
+	res = &channels.Channel{
+		ID:        m.ID,
+		CreatedAt: m.CreatedAt.Time.Format(time.RFC3339),
+		UpdatedAt: m.UpdatedAt.Time.Format(time.RFC3339),
+		Name:      m.Name,
+	}
 	return
 }
 
 // Create implements create.
 func (s *channelssrvc) Create(ctx context.Context, p *channels.ChannelCreatePayload) (res *channels.Channel, err error) {
-	res = &channels.Channel{}
 	s.logger.Print("channels.create")
+	db, err := sql.Open()
+	if err != nil {
+		return nil, err
+	}
+	defer db.Close()
+
+	m := &models.Channel{
+		Name:       p.Name,
+		Visibility: models.ChannelsVisibilityPublic,
+	}
+	if err := m.Insert(ctx, db, boil.Infer()); err != nil {
+		return nil, err
+	}
+	res = &channels.Channel{
+		ID:        m.ID,
+		CreatedAt: m.CreatedAt.Time.Format(time.RFC3339),
+		UpdatedAt: m.UpdatedAt.Time.Format(time.RFC3339),
+		Name:      m.Name,
+	}
+
 	return
 }
 
 // Update implements update.
 func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayload) (res *channels.Channel, err error) {
-	res = &channels.Channel{}
 	s.logger.Print("channels.update")
+	db, err := sql.Open()
+	if err != nil {
+		return nil, err
+	}
+	defer db.Close()
+
+	m, err := models.FindChannel(ctx, db, p.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	m.Name = p.Name
+	if _, err := m.Update(ctx, db, boil.Infer()); err != nil {
+		return nil, err
+	}
+
+	res = &channels.Channel{
+		ID:        m.ID,
+		CreatedAt: m.CreatedAt.Time.Format(time.RFC3339),
+		UpdatedAt: m.UpdatedAt.Time.Format(time.RFC3339),
+		Name:      m.Name,
+	}
 	return
 }
 
 // Delete implements delete.
 func (s *channelssrvc) Delete(ctx context.Context, p *channels.DeletePayload) (res *channels.Channel, err error) {
-	res = &channels.Channel{}
 	s.logger.Print("channels.delete")
+	db, err := sql.Open()
+	if err != nil {
+		return nil, err
+	}
+	defer db.Close()
+
+	m, err := models.FindChannel(ctx, db, p.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	if _, err := m.Delete(ctx, db); err != nil {
+		return nil, err
+	}
+
+	res = &channels.Channel{
+		ID:        m.ID,
+		CreatedAt: m.CreatedAt.Time.Format(time.RFC3339),
+		UpdatedAt: m.UpdatedAt.Time.Format(time.RFC3339),
+		Name:      m.Name,
+	}
 	return
 }
