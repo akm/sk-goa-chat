@@ -1,12 +1,14 @@
 <script lang="ts">
 	import {
+		Button,
 		Navbar,
 		NavBrand,
 		NavHamburger,
 		Avatar,
 		Dropdown,
 		DropdownItem,
-		DropdownHeader
+		DropdownHeader,
+		Listgroup
 	} from 'flowbite-svelte';
 
 	import '../app.pcss';
@@ -20,6 +22,11 @@
 
 	// user の例: {id: 'nUhxKTpuXq4phNaBp1NF6Vp605wJ', name: 'Foo', email: 'foo@example.com'}
 	const user = $page.data.user;
+
+	const channelLinks = $page.data.channels.map((channel) => ({
+		name: channel.name,
+		href: `/channels/${channel.id}`
+	}));
 </script>
 
 <div class="mx-36 max-w-full my-2">
@@ -47,5 +54,16 @@
 		{/if}
 	</Navbar>
 
-	<slot />
+	<div class="flex">
+		<div class="flex flex-col">
+			<Listgroup active items={channelLinks} let:item class="w-48">
+				{item.name}
+			</Listgroup>
+
+			<Button class="mt-4" color="alternative" href="/channels/new">New Channel</Button>
+		</div>
+		<div class="grow m-4">
+			<slot />
+		</div>
+	</div>
 </div>
