@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {
+		Button,
 		Navbar,
 		NavBrand,
 		NavHamburger,
@@ -54,10 +55,12 @@
 	</Navbar>
 
 	<div class="flex">
-		<div class="flex w-100">
+		<div class="flex flex-col">
 			<Listgroup active items={channelLinks} let:item class="w-48">
 				{item.name}
 			</Listgroup>
+
+			<Button class="mt-4" color="alternative" href="/channels/new">New Channel</Button>
 		</div>
 		<div class="grow m-4">
 			<slot />
