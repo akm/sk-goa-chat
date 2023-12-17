@@ -1,18 +1,51 @@
 <script lang="ts">
-	import { Heading, TextPlaceholder } from 'flowbite-svelte';
+	import { Heading, Button, Label, Input, Alert } from 'flowbite-svelte';
+	import { InfoCircleSolid } from 'flowbite-svelte-icons';
 
-	import type { Channel } from '$lib/models/channel';
-	import { Button, Modal, Label, Input, Hr } from 'flowbite-svelte';
+	let name = '';
+	let errorMessage = '';
+
+	const createChannel = async () => {
+		const result = await fetch('/api/channels', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ name })
+		});
+		const json = await result.json();
+		console.log('json', json);
+		if (!json.id) {
+			errorMessage = json.message;
+			return;
+		}
+		// goto だと追加したチャンネルが一覧に反映されないので window.location.href でリロードする
+		window.location.href = `/channels/${json.id}`;
+	};
 </script>
 
 <Heading tag="h3" class="mb-4">New Channel</Heading>
 
-<form class="flex flex-col space-y-6" action="#">
+{#if errorMessage}
+	<Alert
+		type="error"
+		class="mb-4"
+		dismissable
+		on:close={() => {
+			errorMessage = '';
+		}}
+	>
+		<InfoCircleSolid slot="icon" class="w-4 h-4" />
+		{errorMessage}
+	</Alert>
+{/if}
+
+<div>
 	<Label class="space-y-2">
 		<span>Name</span>
-		<Input type="text" name="name" placeholder="new channel name" required />
+		<Input type="text" name="name" placeholder="new channel name" required bind:value={name} />
 	</Label>
-	<div class="flex">
-		<Button type="submit" class="mr-4">Create</Button>
+	<div class="flex mt-4">
+		<Button type="submit" class="mr-4" on:click={createChannel}>Create</Button>
 	</div>
-</form>
+</div>
