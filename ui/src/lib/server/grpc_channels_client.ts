@@ -34,7 +34,7 @@ export const createChannel = async (arg: { name: string }): Promise<{ id: string
 	return { id: response.id.toString() };
 };
 
-export const updateChannel = async (arg: { id: bigint; name: boolean }): Promise<void> => {
+export const updateChannel = async (arg: { id: bigint; name: string }): Promise<void> => {
 	if (!arg.id) return;
 	const { response } = await client.show({ id: BigInt(arg.id) });
 	await client.update({
