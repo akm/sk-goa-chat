@@ -23,6 +23,11 @@ export const listChannels = async (): Promise<Channel[]> => {
 	);
 };
 
+export const showChannel = async (arg: { id: bigint }): Promise<Channel> => {
+	const { response } = await client.show({ id: BigInt(arg.id) });
+	return response;
+};
+
 export const createChannel = async (arg: { name: string }): Promise<{ id: string }> => {
 	const { name } = arg;
 	const { response } = await client.create({ name: name });
