@@ -17,6 +17,7 @@ require (
 )
 
 require (
+	dbmigrations v0.0.0-00010101000000-000000000000 // indirect
 	github.com/AnatolyRugalev/goregen v0.1.0 // indirect
 	github.com/Masterminds/goutils v1.1.1 // indirect
 	github.com/Masterminds/semver/v3 v3.1.1 // indirect
@@ -69,3 +70,5 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
+
+replace dbmigrations => ../dbmigrations
