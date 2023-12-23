@@ -1,10 +1,12 @@
 TEST_CONTAINER_ENVS=$(shell $(MAKE) -C ../containers/localtest --no-print-directory envs)
+TEST_MYSQL_PORT?=$(shell $(TEST_CONTAINER_ENVS) $(MAKE) -C ../containers/mysql --no-print-directory port)
 TEST_MYSQL_DSN?='$(shell $(TEST_CONTAINER_ENVS) $(MAKE) -C ../containers/mysql --no-print-directory dsn)'
 
 TEST_ENVS=\
 	STAGE=$(STAGE) \
 	ENV_TYPE=test \
 	STAGE_ENV=$(shell ENV_TYPE=test $(MAKE) stage_env) \
+	MYSQL_PORT=$(TEST_MYSQL_PORT) \
 	MYSQL_DSN=$(TEST_MYSQL_DSN)
 
 .PHONY: test
