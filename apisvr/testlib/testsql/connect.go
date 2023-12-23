@@ -3,6 +3,8 @@ package testsql
 import (
 	"apisvr/lib/sql"
 	"testing"
+
+	_ "apisvr/lib/sqlboiler"
 )
 
 func Open(t *testing.T) *sql.DB {
