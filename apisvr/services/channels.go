@@ -53,6 +53,28 @@ func (s *channelssrvc) List(ctx context.Context) (res *channels.ChannelList, err
 	return
 }
 
+func (s *channelssrvc) ConvertModelsToListResult(models []*models.Channel) *channels.ChannelList {
+	items := s.ConvertModelsToListItems(models)
+	return &channels.ChannelList{
+		Items:  items,
+		Total:  uint64(len(items)),
+		Offset: 0,
+	}
+}
+
+func (*channelssrvc) ConvertModelsToListItems(models []*models.Channel) channels.ChannelListItemCollection {
+	items := make(channels.ChannelListItemCollection, len(models))
+	for i, result := range models {
+		items[i] = &channels.ChannelListItem{
+			ID:        result.ID,
+			CreatedAt: result.CreatedAt.Time.Format(time.RFC3339),
+			UpdatedAt: result.UpdatedAt.Time.Format(time.RFC3339),
+			Name:      result.Name,
+		}
+	}
+	return items
+}
+
 // Show implements show.
 func (s *channelssrvc) Show(ctx context.Context, p *channels.ShowPayload) (res *channels.Channel, err error) {
 	s.logger.Print("channels.show")
@@ -66,12 +88,8 @@ func (s *channelssrvc) Show(ctx context.Context, p *channels.ShowPayload) (res *
 	if err != nil {
 		return nil, err
 	}
-	res = &channels.Channel{
-		ID:        m.ID,
-		CreatedAt: m.CreatedAt.Time.Format(time.RFC3339),
-		UpdatedAt: m.UpdatedAt.Time.Format(time.RFC3339),
-		Name:      m.Name,
-	}
+
+	res = s.ConvertModelToResult(m)
 	return
 }
 
@@ -91,13 +109,8 @@ func (s *channelssrvc) Create(ctx context.Context, p *channels.ChannelCreatePayl
 	if err := m.Insert(ctx, db, boil.Infer()); err != nil {
 		return nil, err
 	}
-	res = &channels.Channel{
-		ID:        m.ID,
-		CreatedAt: m.CreatedAt.Time.Format(time.RFC3339),
-		UpdatedAt: m.UpdatedAt.Time.Format(time.RFC3339),
-		Name:      m.Name,
-	}
 
+	res = s.ConvertModelToResult(m)
 	return
 }
 
@@ -120,12 +133,7 @@ func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayl
 		return nil, err
 	}
 
-	res = &channels.Channel{
-		ID:        m.ID,
-		CreatedAt: m.CreatedAt.Time.Format(time.RFC3339),
-		UpdatedAt: m.UpdatedAt.Time.Format(time.RFC3339),
-		Name:      m.Name,
-	}
+	res = s.ConvertModelToResult(m)
 	return
 }
 
@@ -147,11 +155,15 @@ func (s *channelssrvc) Delete(ctx context.Context, p *channels.DeletePayload) (r
 		return nil, err
 	}
 
-	res = &channels.Channel{
-		ID:        m.ID,
-		CreatedAt: m.CreatedAt.Time.Format(time.RFC3339),
-		UpdatedAt: m.UpdatedAt.Time.Format(time.RFC3339),
-		Name:      m.Name,
-	}
+	res = s.ConvertModelToResult(m)
 	return
+}
+
+func (*channelssrvc) ConvertModelToResult(model *models.Channel) *channels.Channel {
+	return &channels.Channel{
+		ID:        model.ID,
+		CreatedAt: model.CreatedAt.Time.Format(time.RFC3339),
+		UpdatedAt: model.UpdatedAt.Time.Format(time.RFC3339),
+		Name:      model.Name,
+	}
 }
