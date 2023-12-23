@@ -1,9 +1,9 @@
 package chatapi
 
 import (
+	"apisvr/lib/sql"
 	"apisvr/models"
 	channels "apisvr/services/gen/channels"
-	"apisvr/sql"
 	"context"
 	"log"
 	"time"
