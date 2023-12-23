@@ -14,7 +14,7 @@ import (
 )
 
 func TestChannels(t *testing.T) {
-	conn := testsql.Open(t)
+	conn := testsql.Setup(t)
 	defer conn.Close()
 
 	ctx := context.Background()
