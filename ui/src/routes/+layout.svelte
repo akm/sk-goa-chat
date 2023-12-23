@@ -55,13 +55,15 @@
 	</Navbar>
 
 	<div class="flex">
-		<div class="flex flex-col">
-			<Listgroup active items={channelLinks} let:item class="w-48">
-				{item.name}
-			</Listgroup>
+		{#if user}
+			<div class="flex flex-col">
+				<Listgroup active items={channelLinks} let:item class="w-48">
+					{item.name}
+				</Listgroup>
 
-			<Button class="mt-4" color="alternative" href="/channels/new">New Channel</Button>
-		</div>
+				<Button class="mt-4" color="alternative" href="/channels/new">New Channel</Button>
+			</div>
+		{/if}
 		<div class="grow m-4">
 			<slot />
 		</div>
