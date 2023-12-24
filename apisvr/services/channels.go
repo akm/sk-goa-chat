@@ -40,8 +40,8 @@ func (s *channelssrvc) List(ctx context.Context) (res *channels.ChannelList, err
 	for i, result := range results {
 		items[i] = &channels.ChannelListItem{
 			ID:        result.ID,
-			CreatedAt: result.CreatedAt.Time.Format(time.RFC3339),
-			UpdatedAt: result.UpdatedAt.Time.Format(time.RFC3339),
+			CreatedAt: result.CreatedAt.Format(time.RFC3339),
+			UpdatedAt: result.UpdatedAt.Format(time.RFC3339),
 			Name:      result.Name,
 		}
 	}
@@ -67,8 +67,8 @@ func (*channelssrvc) ConvertModelsToListItems(models []*models.Channel) channels
 	for i, result := range models {
 		items[i] = &channels.ChannelListItem{
 			ID:        result.ID,
-			CreatedAt: result.CreatedAt.Time.Format(time.RFC3339),
-			UpdatedAt: result.UpdatedAt.Time.Format(time.RFC3339),
+			CreatedAt: result.CreatedAt.Format(time.RFC3339),
+			UpdatedAt: result.UpdatedAt.Format(time.RFC3339),
 			Name:      result.Name,
 		}
 	}
@@ -162,8 +162,8 @@ func (s *channelssrvc) Delete(ctx context.Context, p *channels.DeletePayload) (r
 func (*channelssrvc) ConvertModelToResult(model *models.Channel) *channels.Channel {
 	return &channels.Channel{
 		ID:        model.ID,
-		CreatedAt: model.CreatedAt.Time.Format(time.RFC3339),
-		UpdatedAt: model.UpdatedAt.Time.Format(time.RFC3339),
+		CreatedAt: model.CreatedAt.Format(time.RFC3339),
+		UpdatedAt: model.UpdatedAt.Format(time.RFC3339),
 		Name:      model.Name,
 	}
 }
