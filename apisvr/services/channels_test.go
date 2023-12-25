@@ -24,13 +24,6 @@ func TestChannels(t *testing.T) {
 	ctx := context.Background()
 	srvc := channelssrvc{logger: testlog.New(t)}
 
-	models.AddChannelHook(boil.BeforeInsertHook, func(ctx context.Context, exec boil.ContextExecutor, p *models.Channel) error {
-		now := time.Now()
-		p.CreatedAt = now
-		p.UpdatedAt = now
-		return nil
-	})
-
 	t.Run("no data", func(t *testing.T) {
 		t.Run("list", func(t *testing.T) {
 			res, err := srvc.List(ctx)
@@ -45,7 +38,7 @@ func TestChannels(t *testing.T) {
 		ch1 := &models.Channel{Name: "general", Visibility: models.ChannelsVisibilityPublic}
 		ch2 := &models.Channel{Name: "random", Visibility: models.ChannelsVisibilityPublic}
 		testsqlboiler.Insert(t, ctx, conn, boil.Infer(), ch1, ch2)
-		assert.NotZero(t, ch1.CreatedAt)
+		assert.Equal(t, now, ch1.CreatedAt)
 
 		t.Run("list", func(t *testing.T) {
 			res, err := srvc.List(ctx)
