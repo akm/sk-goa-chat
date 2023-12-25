@@ -1,6 +1,7 @@
 package chatapi
 
 import (
+	"apisvr/lib/time"
 	"apisvr/models"
 	"apisvr/services/gen/channels"
 	"apisvr/testlib/testlog"
@@ -17,8 +18,19 @@ func TestChannels(t *testing.T) {
 	conn := testsql.Setup(t)
 	defer conn.Close()
 
+	now := time.Now()
+	defer time.SetTime(now)
+
 	ctx := context.Background()
+	ctx = boil.SkipTimestamps(ctx)
 	srvc := channelssrvc{logger: testlog.New(t)}
+
+	models.AddChannelHook(boil.BeforeInsertHook, func(ctx context.Context, exec boil.ContextExecutor, p *models.Channel) error {
+		now := time.Now()
+		p.CreatedAt = now
+		p.UpdatedAt = now
+		return nil
+	})
 
 	t.Run("no data", func(t *testing.T) {
 		t.Run("list", func(t *testing.T) {
@@ -34,6 +46,7 @@ func TestChannels(t *testing.T) {
 		ch1 := &models.Channel{Name: "general", Visibility: models.ChannelsVisibilityPublic}
 		ch2 := &models.Channel{Name: "random", Visibility: models.ChannelsVisibilityPublic}
 		testsqlboiler.Insert(t, ctx, conn, boil.Infer(), ch1, ch2)
+		assert.NotZero(t, ch1.CreatedAt)
 
 		t.Run("list", func(t *testing.T) {
 			res, err := srvc.List(ctx)
