@@ -5,7 +5,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
-	"apisvr/errors"
+	"apisvr/lib/errors"
 )
 
 func Open() (*DB, error) {

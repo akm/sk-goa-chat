@@ -8,7 +8,7 @@ var (
 	// As        = orig.As
 	// Cause     = orig.Cause
 	// Is        = orig.Is
-	// Errorf    = orig.Errorf
+	Errorf = orig.Errorf
 	// WithStack = orig.WithStack
 	// Wrap      = orig.Wrap
 	Wrapf = orig.Wrapf

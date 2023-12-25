@@ -36,9 +36,9 @@ STAGE_ENV_production_server=prodsrv
 STAGE_ENV_staging_server=stgsrv
 STAGE_ENV_local_dev=localdev
 STAGE_ENV_local_e2e_test=locale2e
-STAGE_ENV_local_unit_test=localunit
+STAGE_ENV_local_unit_test=localtest
 STAGE_ENV_github_e2e_test=githube2e
-STAGE_ENV_github_unit_test=githubunit
+STAGE_ENV_github_unit_test=githubtest
 STAGE_ENV?=$(STAGE_ENV_$(STAGE)_$(ENV_TYPE))
 
 .PHONY: stage_env

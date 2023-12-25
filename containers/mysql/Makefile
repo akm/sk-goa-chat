@@ -33,3 +33,8 @@ MYSQL_DSN?=$(MYSQL_USER_NAME):$(MYSQL_USER_PASSWORD)@tcp($(MYSQL_HOST):$(MYSQL_P
 .PHONY: dsn
 dsn:
 	@echo "$(MYSQL_DSN)"
+
+.PHONY: port
+port:
+	@echo "$(MYSQL_PORT)"
+
