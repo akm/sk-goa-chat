@@ -22,7 +22,6 @@ func TestChannels(t *testing.T) {
 	defer time.SetTime(now)
 
 	ctx := context.Background()
-	ctx = boil.SkipTimestamps(ctx)
 	srvc := channelssrvc{logger: testlog.New(t)}
 
 	models.AddChannelHook(boil.BeforeInsertHook, func(ctx context.Context, exec boil.ContextExecutor, p *models.Channel) error {
