@@ -56,6 +56,26 @@ func TestChannels(t *testing.T) {
 					assert.Equal(t, srvc.ConvertModelToResult(ch), res)
 				})
 			}
+			t.Run("not found", func(t *testing.T) {
+				res, err := srvc.Show(ctx, &channels.ShowPayload{ID: 999})
+				assert.Error(t, err)
+				assert.Nil(t, res)
+			})
+		})
+
+		t.Run("create", func(t *testing.T) {
+			t.Run("valid name", func(t *testing.T) {
+				name := "test1"
+				res, err := srvc.Create(ctx, &channels.ChannelCreatePayload{Name: name})
+				assert.NoError(t, err)
+				ch := &models.Channel{ID: res.ID, Name: name, CreatedAt: now, UpdatedAt: now}
+				assert.Equal(t, srvc.ConvertModelToResult(ch), res)
+			})
+			t.Run("empty name", func(t *testing.T) {
+				res, err := srvc.Create(ctx, &channels.ChannelCreatePayload{Name: ""})
+				assert.Error(t, err)
+				assert.Nil(t, res)
+			})
 		})
 	})
 }
