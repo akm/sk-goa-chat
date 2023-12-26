@@ -4,10 +4,12 @@ import (
 	"apisvr/lib/time"
 	"apisvr/models"
 	"apisvr/services/gen/channels"
+	"apisvr/testlib/testgoa"
 	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
 	"apisvr/testlib/testsqlboiler"
 	"context"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -58,7 +60,7 @@ func TestChannels(t *testing.T) {
 			}
 			t.Run("not found", func(t *testing.T) {
 				res, err := srvc.Show(ctx, &channels.ShowPayload{ID: 999})
-				assert.Error(t, err)
+				testgoa.AssertServiceError(t, "not_found", err) // ステータスコードは確認できない
 				assert.Nil(t, res)
 			})
 		})
@@ -73,7 +75,12 @@ func TestChannels(t *testing.T) {
 			})
 			t.Run("empty name", func(t *testing.T) {
 				res, err := srvc.Create(ctx, &channels.ChannelCreatePayload{Name: ""})
-				assert.Error(t, err)
+				testgoa.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
+				assert.Nil(t, res)
+			})
+			t.Run("too long name", func(t *testing.T) {
+				res, err := srvc.Create(ctx, &channels.ChannelCreatePayload{Name: strings.Repeat("a", 256)})
+				testgoa.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
 				assert.Nil(t, res)
 			})
 		})
