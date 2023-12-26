@@ -192,7 +192,7 @@ Show implements show.
 
 Example:
     %[1]s channels show --message '{
-      "id": 3220564782923821898
+      "id": 7179248999906013810
    }'
 `, os.Args[0])
 }
@@ -205,7 +205,7 @@ Create implements create.
 
 Example:
     %[1]s channels create --message '{
-      "name": "Voluptas commodi ut."
+      "name": "Ipsum adipisci sunt qui nisi."
    }'
 `, os.Args[0])
 }
@@ -218,8 +218,8 @@ Update implements update.
 
 Example:
     %[1]s channels update --message '{
-      "id": 158218705981460379,
-      "name": "Iste veniam blanditiis necessitatibus cumque distinctio molestiae."
+      "id": 18394200013453555426,
+      "name": "Qui dolor nam labore odit et reiciendis."
    }'
 `, os.Args[0])
 }
@@ -232,7 +232,7 @@ Delete implements delete.
 
 Example:
     %[1]s channels delete --message '{
-      "id": 16634798007957750782
+      "id": 9178827906163796587
    }'
 `, os.Args[0])
 }

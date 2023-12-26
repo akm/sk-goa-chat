@@ -91,6 +91,96 @@ type DeleteResponseBody struct {
 	Name string `form:"name" json:"name" xml:"name"`
 }
 
+// ShowNotFoundResponseBody is the type of the "channels" service "show"
+// endpoint HTTP response body for the "not_found" error.
+type ShowNotFoundResponseBody struct {
+	// Name is the name of this class of errors.
+	Name string `form:"name" json:"name" xml:"name"`
+	// ID is a unique identifier for this particular occurrence of the problem.
+	ID string `form:"id" json:"id" xml:"id"`
+	// Message is a human-readable explanation specific to this occurrence of the
+	// problem.
+	Message string `form:"message" json:"message" xml:"message"`
+	// Is the error temporary?
+	Temporary bool `form:"temporary" json:"temporary" xml:"temporary"`
+	// Is the error a timeout?
+	Timeout bool `form:"timeout" json:"timeout" xml:"timeout"`
+	// Is the error a server-side fault?
+	Fault bool `form:"fault" json:"fault" xml:"fault"`
+}
+
+// CreateInvalidPayloadResponseBody is the type of the "channels" service
+// "create" endpoint HTTP response body for the "invalid_payload" error.
+type CreateInvalidPayloadResponseBody struct {
+	// Name is the name of this class of errors.
+	Name string `form:"name" json:"name" xml:"name"`
+	// ID is a unique identifier for this particular occurrence of the problem.
+	ID string `form:"id" json:"id" xml:"id"`
+	// Message is a human-readable explanation specific to this occurrence of the
+	// problem.
+	Message string `form:"message" json:"message" xml:"message"`
+	// Is the error temporary?
+	Temporary bool `form:"temporary" json:"temporary" xml:"temporary"`
+	// Is the error a timeout?
+	Timeout bool `form:"timeout" json:"timeout" xml:"timeout"`
+	// Is the error a server-side fault?
+	Fault bool `form:"fault" json:"fault" xml:"fault"`
+}
+
+// UpdateNotFoundResponseBody is the type of the "channels" service "update"
+// endpoint HTTP response body for the "not_found" error.
+type UpdateNotFoundResponseBody struct {
+	// Name is the name of this class of errors.
+	Name string `form:"name" json:"name" xml:"name"`
+	// ID is a unique identifier for this particular occurrence of the problem.
+	ID string `form:"id" json:"id" xml:"id"`
+	// Message is a human-readable explanation specific to this occurrence of the
+	// problem.
+	Message string `form:"message" json:"message" xml:"message"`
+	// Is the error temporary?
+	Temporary bool `form:"temporary" json:"temporary" xml:"temporary"`
+	// Is the error a timeout?
+	Timeout bool `form:"timeout" json:"timeout" xml:"timeout"`
+	// Is the error a server-side fault?
+	Fault bool `form:"fault" json:"fault" xml:"fault"`
+}
+
+// UpdateInvalidPayloadResponseBody is the type of the "channels" service
+// "update" endpoint HTTP response body for the "invalid_payload" error.
+type UpdateInvalidPayloadResponseBody struct {
+	// Name is the name of this class of errors.
+	Name string `form:"name" json:"name" xml:"name"`
+	// ID is a unique identifier for this particular occurrence of the problem.
+	ID string `form:"id" json:"id" xml:"id"`
+	// Message is a human-readable explanation specific to this occurrence of the
+	// problem.
+	Message string `form:"message" json:"message" xml:"message"`
+	// Is the error temporary?
+	Temporary bool `form:"temporary" json:"temporary" xml:"temporary"`
+	// Is the error a timeout?
+	Timeout bool `form:"timeout" json:"timeout" xml:"timeout"`
+	// Is the error a server-side fault?
+	Fault bool `form:"fault" json:"fault" xml:"fault"`
+}
+
+// DeleteNotFoundResponseBody is the type of the "channels" service "delete"
+// endpoint HTTP response body for the "not_found" error.
+type DeleteNotFoundResponseBody struct {
+	// Name is the name of this class of errors.
+	Name string `form:"name" json:"name" xml:"name"`
+	// ID is a unique identifier for this particular occurrence of the problem.
+	ID string `form:"id" json:"id" xml:"id"`
+	// Message is a human-readable explanation specific to this occurrence of the
+	// problem.
+	Message string `form:"message" json:"message" xml:"message"`
+	// Is the error temporary?
+	Temporary bool `form:"temporary" json:"temporary" xml:"temporary"`
+	// Is the error a timeout?
+	Timeout bool `form:"timeout" json:"timeout" xml:"timeout"`
+	// Is the error a server-side fault?
+	Fault bool `form:"fault" json:"fault" xml:"fault"`
+}
+
 // ChannelListItemResponseBodyCollection is used to define fields on response
 // body types.
 type ChannelListItemResponseBodyCollection []*ChannelListItemResponseBody
@@ -169,6 +259,76 @@ func NewDeleteResponseBody(res *channelsviews.ChannelView) *DeleteResponseBody {
 		CreatedAt: *res.CreatedAt,
 		UpdatedAt: *res.UpdatedAt,
 		Name:      *res.Name,
+	}
+	return body
+}
+
+// NewShowNotFoundResponseBody builds the HTTP response body from the result of
+// the "show" endpoint of the "channels" service.
+func NewShowNotFoundResponseBody(res *goa.ServiceError) *ShowNotFoundResponseBody {
+	body := &ShowNotFoundResponseBody{
+		Name:      res.Name,
+		ID:        res.ID,
+		Message:   res.Message,
+		Temporary: res.Temporary,
+		Timeout:   res.Timeout,
+		Fault:     res.Fault,
+	}
+	return body
+}
+
+// NewCreateInvalidPayloadResponseBody builds the HTTP response body from the
+// result of the "create" endpoint of the "channels" service.
+func NewCreateInvalidPayloadResponseBody(res *goa.ServiceError) *CreateInvalidPayloadResponseBody {
+	body := &CreateInvalidPayloadResponseBody{
+		Name:      res.Name,
+		ID:        res.ID,
+		Message:   res.Message,
+		Temporary: res.Temporary,
+		Timeout:   res.Timeout,
+		Fault:     res.Fault,
+	}
+	return body
+}
+
+// NewUpdateNotFoundResponseBody builds the HTTP response body from the result
+// of the "update" endpoint of the "channels" service.
+func NewUpdateNotFoundResponseBody(res *goa.ServiceError) *UpdateNotFoundResponseBody {
+	body := &UpdateNotFoundResponseBody{
+		Name:      res.Name,
+		ID:        res.ID,
+		Message:   res.Message,
+		Temporary: res.Temporary,
+		Timeout:   res.Timeout,
+		Fault:     res.Fault,
+	}
+	return body
+}
+
+// NewUpdateInvalidPayloadResponseBody builds the HTTP response body from the
+// result of the "update" endpoint of the "channels" service.
+func NewUpdateInvalidPayloadResponseBody(res *goa.ServiceError) *UpdateInvalidPayloadResponseBody {
+	body := &UpdateInvalidPayloadResponseBody{
+		Name:      res.Name,
+		ID:        res.ID,
+		Message:   res.Message,
+		Temporary: res.Temporary,
+		Timeout:   res.Timeout,
+		Fault:     res.Fault,
+	}
+	return body
+}
+
+// NewDeleteNotFoundResponseBody builds the HTTP response body from the result
+// of the "delete" endpoint of the "channels" service.
+func NewDeleteNotFoundResponseBody(res *goa.ServiceError) *DeleteNotFoundResponseBody {
+	body := &DeleteNotFoundResponseBody{
+		Name:      res.Name,
+		ID:        res.ID,
+		Message:   res.Message,
+		Temporary: res.Temporary,
+		Timeout:   res.Timeout,
+		Fault:     res.Fault,
 	}
 	return body
 }

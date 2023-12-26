@@ -104,6 +104,9 @@ func (c *Client) BuildShowRequest(ctx context.Context, v any) (*http.Request, er
 // DecodeShowResponse returns a decoder for responses returned by the channels
 // show endpoint. restoreBody controls whether the response body should be
 // restored after having been read.
+// DecodeShowResponse may return the following errors:
+//   - "not_found" (type *goa.ServiceError): http.StatusNotFound
+//   - error: internal error
 func DecodeShowResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
 		if restoreBody {
@@ -136,6 +139,20 @@ func DecodeShowResponse(decoder func(*http.Response) goahttp.Decoder, restoreBod
 			}
 			res := channels.NewChannel(vres)
 			return res, nil
+		case http.StatusNotFound:
+			var (
+				body ShowNotFoundResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("channels", "show", err)
+			}
+			err = ValidateShowNotFoundResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("channels", "show", err)
+			}
+			return nil, NewShowNotFound(&body)
 		default:
 			body, _ := io.ReadAll(resp.Body)
 			return nil, goahttp.ErrInvalidResponse("channels", "show", resp.StatusCode, string(body))
@@ -177,6 +194,9 @@ func EncodeCreateRequest(encoder func(*http.Request) goahttp.Encoder) func(*http
 // DecodeCreateResponse returns a decoder for responses returned by the
 // channels create endpoint. restoreBody controls whether the response body
 // should be restored after having been read.
+// DecodeCreateResponse may return the following errors:
+//   - "invalid_payload" (type *goa.ServiceError): http.StatusBadRequest
+//   - error: internal error
 func DecodeCreateResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
 		if restoreBody {
@@ -209,6 +229,20 @@ func DecodeCreateResponse(decoder func(*http.Response) goahttp.Decoder, restoreB
 			}
 			res := channels.NewChannel(vres)
 			return res, nil
+		case http.StatusBadRequest:
+			var (
+				body CreateInvalidPayloadResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("channels", "create", err)
+			}
+			err = ValidateCreateInvalidPayloadResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("channels", "create", err)
+			}
+			return nil, NewCreateInvalidPayload(&body)
 		default:
 			body, _ := io.ReadAll(resp.Body)
 			return nil, goahttp.ErrInvalidResponse("channels", "create", resp.StatusCode, string(body))
@@ -260,6 +294,10 @@ func EncodeUpdateRequest(encoder func(*http.Request) goahttp.Encoder) func(*http
 // DecodeUpdateResponse returns a decoder for responses returned by the
 // channels update endpoint. restoreBody controls whether the response body
 // should be restored after having been read.
+// DecodeUpdateResponse may return the following errors:
+//   - "not_found" (type *goa.ServiceError): http.StatusNotFound
+//   - "invalid_payload" (type *goa.ServiceError): http.StatusBadRequest
+//   - error: internal error
 func DecodeUpdateResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
 		if restoreBody {
@@ -292,6 +330,34 @@ func DecodeUpdateResponse(decoder func(*http.Response) goahttp.Decoder, restoreB
 			}
 			res := channels.NewChannel(vres)
 			return res, nil
+		case http.StatusNotFound:
+			var (
+				body UpdateNotFoundResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("channels", "update", err)
+			}
+			err = ValidateUpdateNotFoundResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("channels", "update", err)
+			}
+			return nil, NewUpdateNotFound(&body)
+		case http.StatusBadRequest:
+			var (
+				body UpdateInvalidPayloadResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("channels", "update", err)
+			}
+			err = ValidateUpdateInvalidPayloadResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("channels", "update", err)
+			}
+			return nil, NewUpdateInvalidPayload(&body)
 		default:
 			body, _ := io.ReadAll(resp.Body)
 			return nil, goahttp.ErrInvalidResponse("channels", "update", resp.StatusCode, string(body))
@@ -327,6 +393,9 @@ func (c *Client) BuildDeleteRequest(ctx context.Context, v any) (*http.Request, 
 // DecodeDeleteResponse returns a decoder for responses returned by the
 // channels delete endpoint. restoreBody controls whether the response body
 // should be restored after having been read.
+// DecodeDeleteResponse may return the following errors:
+//   - "not_found" (type *goa.ServiceError): http.StatusNotFound
+//   - error: internal error
 func DecodeDeleteResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
 		if restoreBody {
@@ -359,6 +428,20 @@ func DecodeDeleteResponse(decoder func(*http.Response) goahttp.Decoder, restoreB
 			}
 			res := channels.NewChannel(vres)
 			return res, nil
+		case http.StatusNotFound:
+			var (
+				body DeleteNotFoundResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("channels", "delete", err)
+			}
+			err = ValidateDeleteNotFoundResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("channels", "delete", err)
+			}
+			return nil, NewDeleteNotFound(&body)
 		default:
 			body, _ := io.ReadAll(resp.Body)
 			return nil, goahttp.ErrInvalidResponse("channels", "delete", resp.StatusCode, string(body))

@@ -44,6 +44,9 @@ func (c *Client) List(ctx context.Context) (res *ChannelList, err error) {
 }
 
 // Show calls the "show" endpoint of the "channels" service.
+// Show may return the following errors:
+//   - "not_found" (type *goa.ServiceError)
+//   - error: internal error
 func (c *Client) Show(ctx context.Context, p *ShowPayload) (res *Channel, err error) {
 	var ires any
 	ires, err = c.ShowEndpoint(ctx, p)
@@ -54,6 +57,9 @@ func (c *Client) Show(ctx context.Context, p *ShowPayload) (res *Channel, err er
 }
 
 // Create calls the "create" endpoint of the "channels" service.
+// Create may return the following errors:
+//   - "invalid_payload" (type *goa.ServiceError)
+//   - error: internal error
 func (c *Client) Create(ctx context.Context, p *ChannelCreatePayload) (res *Channel, err error) {
 	var ires any
 	ires, err = c.CreateEndpoint(ctx, p)
@@ -64,6 +70,10 @@ func (c *Client) Create(ctx context.Context, p *ChannelCreatePayload) (res *Chan
 }
 
 // Update calls the "update" endpoint of the "channels" service.
+// Update may return the following errors:
+//   - "not_found" (type *goa.ServiceError)
+//   - "invalid_payload" (type *goa.ServiceError)
+//   - error: internal error
 func (c *Client) Update(ctx context.Context, p *ChannelUpdatePayload) (res *Channel, err error) {
 	var ires any
 	ires, err = c.UpdateEndpoint(ctx, p)
@@ -74,6 +84,9 @@ func (c *Client) Update(ctx context.Context, p *ChannelUpdatePayload) (res *Chan
 }
 
 // Delete calls the "delete" endpoint of the "channels" service.
+// Delete may return the following errors:
+//   - "not_found" (type *goa.ServiceError)
+//   - error: internal error
 func (c *Client) Delete(ctx context.Context, p *DeletePayload) (res *Channel, err error) {
 	var ires any
 	ires, err = c.DeleteEndpoint(ctx, p)

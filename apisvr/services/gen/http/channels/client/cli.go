@@ -39,7 +39,7 @@ func BuildCreatePayload(channelsCreateBody string) (*channels.ChannelCreatePaylo
 	{
 		err = json.Unmarshal([]byte(channelsCreateBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"name\": \"Assumenda soluta atque commodi adipisci.\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"name\": \"Enim iste odio.\"\n   }'")
 		}
 	}
 	v := &channels.ChannelCreatePayload{
@@ -57,7 +57,7 @@ func BuildUpdatePayload(channelsUpdateBody string, channelsUpdateID string) (*ch
 	{
 		err = json.Unmarshal([]byte(channelsUpdateBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"name\": \"Sint nihil a et.\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"name\": \"Consequatur officia dolores corporis.\"\n   }'")
 		}
 	}
 	var id uint64
