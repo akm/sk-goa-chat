@@ -83,6 +83,21 @@ func TestChannels(t *testing.T) {
 				testgoa.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
 				assert.Nil(t, res)
 			})
+
+			t.Run("multi byte characters", func(t *testing.T) {
+				maxMultiByteCharacters := strings.Repeat("薔", 255)
+				t.Run("max", func(t *testing.T) {
+					res, err := srvc.Create(ctx, &channels.ChannelCreatePayload{Name: maxMultiByteCharacters})
+					assert.NoError(t, err)
+					ch := &models.Channel{ID: res.ID, Name: maxMultiByteCharacters, CreatedAt: now, UpdatedAt: now}
+					assert.Equal(t, srvc.ConvertModelToResult(ch), res)
+				})
+				t.Run("max plus 1", func(t *testing.T) {
+					res, err := srvc.Create(ctx, &channels.ChannelCreatePayload{Name: maxMultiByteCharacters + "a"})
+					testgoa.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
+					assert.Nil(t, res)
+				})
+			})
 		})
 	})
 }
