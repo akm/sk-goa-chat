@@ -1,6 +1,7 @@
 package chatapi
 
 import (
+	"apisvr/lib/sql"
 	"apisvr/lib/time"
 	"apisvr/models"
 	"apisvr/services/gen/channels"
@@ -138,6 +139,27 @@ func TestChannels(t *testing.T) {
 				testgoa.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
 				assert.Nil(t, res)
 			})
+		})
+	})
+
+	t.Run("delete", func(t *testing.T) {
+		t.Run("invalid id", func(t *testing.T) {
+			res, err := srvc.Delete(ctx, &channels.DeletePayload{ID: 999})
+			testgoa.AssertServiceError(t, "not_found", err) // ステータスコードは確認できない
+			assert.Nil(t, res)
+		})
+		t.Run("valid id", func(t *testing.T) {
+			ch, err := models.FindChannel(ctx, conn, ch1.ID)
+			assert.NoError(t, err)
+			res, err := srvc.Delete(ctx, &channels.DeletePayload{ID: ch1.ID})
+			assert.NoError(t, err)
+			assert.Equal(t, srvc.ConvertModelToResult(ch), res)
+			// DBから削除されていることを確認
+			ch2, err := models.FindChannel(ctx, conn, ch1.ID)
+			if assert.Error(t, err) {
+				assert.Equal(t, sql.ErrNoRows, err)
+			}
+			assert.Nil(t, ch2)
 		})
 	})
 }
