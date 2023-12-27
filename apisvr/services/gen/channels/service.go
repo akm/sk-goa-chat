@@ -10,6 +10,8 @@ package channels
 import (
 	channelsviews "apisvr/services/gen/channels/views"
 	"context"
+
+	goa "goa.design/goa/v3/pkg"
 )
 
 // Service is the channels service interface.
@@ -97,6 +99,16 @@ type DeletePayload struct {
 type ShowPayload struct {
 	// ID
 	ID uint64
+}
+
+// MakeNotFound builds a goa.ServiceError from an error.
+func MakeNotFound(err error) *goa.ServiceError {
+	return goa.NewServiceError(err, "not_found", false, false, false)
+}
+
+// MakeInvalidPayload builds a goa.ServiceError from an error.
+func MakeInvalidPayload(err error) *goa.ServiceError {
+	return goa.NewServiceError(err, "invalid_payload", false, false, false)
 }
 
 // NewChannelList initializes result type ChannelList from viewed result type

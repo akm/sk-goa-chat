@@ -66,10 +66,12 @@ var _ = Service("channels", func() {
 	Method("show", func() {
 		Result(ChannelRT)
 		Payload(func() { Required(field(1, "id", UInt64, "ID")) })
+		notFoundResponse := notFound()
 
 		HTTP(func() {
 			GET("/{id}")
 			Response(StatusOK)
+			notFoundResponse()
 		})
 		gRPC()
 	})
@@ -77,10 +79,12 @@ var _ = Service("channels", func() {
 	Method("create", func() {
 		Result(ChannelRT)
 		Payload(ChannelCreatePayload)
+		invalidPayloadResponse := invalidPayload()
 
 		HTTP(func() {
 			POST("")
 			Response(StatusCreated)
+			invalidPayloadResponse()
 		})
 		gRPC()
 	})
@@ -88,10 +92,14 @@ var _ = Service("channels", func() {
 	Method("update", func() {
 		Result(ChannelRT)
 		Payload(ChannelUpdatePayload)
+		notFoundResponse := notFound()
+		invalidPayloadResponse := invalidPayload()
 
 		HTTP(func() {
 			PUT("/{id}")
 			Response(StatusOK)
+			notFoundResponse()
+			invalidPayloadResponse()
 		})
 		gRPC()
 	})
@@ -99,10 +107,12 @@ var _ = Service("channels", func() {
 	Method("delete", func() {
 		Result(ChannelRT)
 		Payload(func() { Required(field(1, "id", UInt64, "ID")) })
+		notFoundResponse := notFound()
 
 		HTTP(func() {
 			DELETE("/{id}")
 			Response(StatusOK)
+			notFoundResponse()
 		})
 		gRPC()
 	})

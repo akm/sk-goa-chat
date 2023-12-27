@@ -5,6 +5,7 @@ import (
 	"apisvr/models"
 	channels "apisvr/services/gen/channels"
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -88,6 +89,9 @@ func (s *channelssrvc) Show(ctx context.Context, p *channels.ShowPayload) (res *
 
 	m, err := models.FindChannel(ctx, db, p.ID)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, channels.MakeNotFound(err)
+		}
 		return nil, err
 	}
 
@@ -98,6 +102,16 @@ func (s *channelssrvc) Show(ctx context.Context, p *channels.ShowPayload) (res *
 // Create implements create.
 func (s *channelssrvc) Create(ctx context.Context, p *channels.ChannelCreatePayload) (res *channels.Channel, err error) {
 	s.logger.Print("channels.create")
+
+	if p.Name == "" {
+		return nil, channels.MakeInvalidPayload(fmt.Errorf("name is required"))
+	} else {
+		runes := []rune(p.Name)
+		if len(runes) > 255 {
+			return nil, channels.MakeInvalidPayload(fmt.Errorf("name is too long"))
+		}
+	}
+
 	ctx = SetupContext(ctx)
 	db, err := sql.Open()
 	if err != nil {
@@ -120,6 +134,16 @@ func (s *channelssrvc) Create(ctx context.Context, p *channels.ChannelCreatePayl
 // Update implements update.
 func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayload) (res *channels.Channel, err error) {
 	s.logger.Print("channels.update")
+
+	if p.Name == "" {
+		return nil, channels.MakeInvalidPayload(fmt.Errorf("name is required"))
+	} else {
+		runes := []rune(p.Name)
+		if len(runes) > 255 {
+			return nil, channels.MakeInvalidPayload(fmt.Errorf("name is too long"))
+		}
+	}
+
 	ctx = SetupContext(ctx)
 	db, err := sql.Open()
 	if err != nil {
@@ -129,6 +153,9 @@ func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayl
 
 	m, err := models.FindChannel(ctx, db, p.ID)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, channels.MakeNotFound(err)
+		}
 		return nil, err
 	}
 
@@ -153,6 +180,9 @@ func (s *channelssrvc) Delete(ctx context.Context, p *channels.DeletePayload) (r
 
 	m, err := models.FindChannel(ctx, db, p.ID)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, channels.MakeNotFound(err)
+		}
 		return nil, err
 	}
 

@@ -10,4 +10,6 @@ type (
 
 var (
 	OrigOpen = orig.Open
+
+	ErrNoRows = orig.ErrNoRows
 )

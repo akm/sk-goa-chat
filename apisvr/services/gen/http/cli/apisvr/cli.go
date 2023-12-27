@@ -211,7 +211,7 @@ Create implements create.
 
 Example:
     %[1]s channels create --body '{
-      "name": "Assumenda soluta atque commodi adipisci."
+      "name": "Enim iste odio."
    }'
 `, os.Args[0])
 }
@@ -225,8 +225,8 @@ Update implements update.
 
 Example:
     %[1]s channels update --body '{
-      "name": "Sint nihil a et."
-   }' --id 17409760595284137384
+      "name": "Consequatur officia dolores corporis."
+   }' --id 5039307373017843324
 `, os.Args[0])
 }
 
@@ -237,6 +237,6 @@ Delete implements delete.
     -id UINT64: ID
 
 Example:
-    %[1]s channels delete --id 10770895715350257430
+    %[1]s channels delete --id 8275257875255490841
 `, os.Args[0])
 }
