@@ -134,6 +134,16 @@ func (s *channelssrvc) Create(ctx context.Context, p *channels.ChannelCreatePayl
 // Update implements update.
 func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayload) (res *channels.Channel, err error) {
 	s.logger.Print("channels.update")
+
+	if p.Name == "" {
+		return nil, channels.MakeInvalidPayload(fmt.Errorf("name is required"))
+	} else {
+		runes := []rune(p.Name)
+		if len(runes) > 255 {
+			return nil, channels.MakeInvalidPayload(fmt.Errorf("name is too long"))
+		}
+	}
+
 	ctx = SetupContext(ctx)
 	db, err := sql.Open()
 	if err != nil {
@@ -143,6 +153,9 @@ func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayl
 
 	m, err := models.FindChannel(ctx, db, p.ID)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, channels.MakeNotFound(err)
+		}
 		return nil, err
 	}
 
