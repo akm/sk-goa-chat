@@ -180,6 +180,9 @@ func (s *channelssrvc) Delete(ctx context.Context, p *channels.DeletePayload) (r
 
 	m, err := models.FindChannel(ctx, db, p.ID)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, channels.MakeNotFound(err)
+		}
 		return nil, err
 	}
 
