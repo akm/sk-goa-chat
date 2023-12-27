@@ -98,4 +98,46 @@ func TestChannels(t *testing.T) {
 			})
 		})
 	})
+
+	t.Run("update", func(t *testing.T) {
+		t.Run("invalid id", func(t *testing.T) {
+			res, err := srvc.Update(ctx, &channels.ChannelUpdatePayload{ID: 999, Name: "test"})
+			testgoa.AssertServiceError(t, "not_found", err) // ステータスコードは確認できない
+			assert.Nil(t, res)
+		})
+		t.Run("valid name", func(t *testing.T) {
+			now, before := time.Now(), now
+			defer time.SetTime(now)
+			name := ch1.Name + "-dash"
+			res, err := srvc.Update(ctx, &channels.ChannelUpdatePayload{ID: ch1.ID, Name: name})
+			assert.NoError(t, err)
+			ch := &models.Channel{ID: ch1.ID, Name: name, CreatedAt: before, UpdatedAt: now}
+			assert.Equal(t, srvc.ConvertModelToResult(ch), res)
+		})
+		t.Run("empty name", func(t *testing.T) {
+			res, err := srvc.Update(ctx, &channels.ChannelUpdatePayload{ID: ch1.ID, Name: ""})
+			testgoa.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
+			assert.Nil(t, res)
+		})
+		t.Run("too long name", func(t *testing.T) {
+			res, err := srvc.Update(ctx, &channels.ChannelUpdatePayload{ID: ch1.ID, Name: strings.Repeat("a", 256)})
+			testgoa.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
+			assert.Nil(t, res)
+		})
+
+		t.Run("multi byte characters", func(t *testing.T) {
+			maxMultiByteCharacters := strings.Repeat("薔", 255)
+			t.Run("max", func(t *testing.T) {
+				res, err := srvc.Update(ctx, &channels.ChannelUpdatePayload{ID: ch1.ID, Name: maxMultiByteCharacters})
+				assert.NoError(t, err)
+				ch := &models.Channel{ID: res.ID, Name: maxMultiByteCharacters, CreatedAt: now, UpdatedAt: now}
+				assert.Equal(t, srvc.ConvertModelToResult(ch), res)
+			})
+			t.Run("max plus 1", func(t *testing.T) {
+				res, err := srvc.Update(ctx, &channels.ChannelUpdatePayload{ID: ch1.ID, Name: maxMultiByteCharacters + "a"})
+				testgoa.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
+				assert.Nil(t, res)
+			})
+		})
+	})
 }
