@@ -27,6 +27,34 @@ func TestChannels(t *testing.T) {
 	ctx := context.Background()
 	srvc := channelssrvc{logger: testlog.New(t)}
 
+	// Convert 関係のメソッドはテストで期待する値を作成するためにも使うので、メソッド単体のテストが必要
+	t.Run("convert", func(t *testing.T) {
+		t.Run("ConvertModelsToListResult", func(t *testing.T) {
+			ch1 := &models.Channel{ID: 1, Name: "test1", CreatedAt: now, UpdatedAt: now}
+			ch2 := &models.Channel{ID: 2, Name: "test2", CreatedAt: now, UpdatedAt: now}
+			res := srvc.ConvertModelsToListResult([]*models.Channel{ch1, ch2})
+			assert.Equal(t, &channels.ChannelList{
+				Total:  2,
+				Offset: 0,
+				Items: []*channels.ChannelListItem{
+					{ID: 1, Name: "test1", CreatedAt: now.Format(time.RFC3339), UpdatedAt: now.Format(time.RFC3339)},
+					{ID: 2, Name: "test2", CreatedAt: now.Format(time.RFC3339), UpdatedAt: now.Format(time.RFC3339)},
+				},
+			}, res)
+		})
+
+		t.Run("ConvertModelToResult", func(t *testing.T) {
+			ch := &models.Channel{ID: 1, Name: "test1", CreatedAt: now, UpdatedAt: now}
+			res := srvc.ConvertModelToResult(ch)
+			assert.Equal(t, &channels.Channel{
+				ID:        1,
+				Name:      "test1",
+				CreatedAt: now.Format(time.RFC3339),
+				UpdatedAt: now.Format(time.RFC3339),
+			}, res)
+		})
+	})
+
 	t.Run("no data", func(t *testing.T) {
 		t.Run("list", func(t *testing.T) {
 			res, err := srvc.List(ctx)
