@@ -16,11 +16,12 @@ import (
 // The example methods log the requests and return zero values.
 type channelssrvc struct {
 	logger *log.Logger
+	*ChannelsConvertor
 }
 
 // NewChannels returns the channels service implementation.
 func NewChannels(logger *log.Logger) channels.Service {
-	return &channelssrvc{logger}
+	return &channelssrvc{logger: logger, ChannelsConvertor: &ChannelsConvertor{}}
 }
 
 // List implements list.
@@ -53,28 +54,6 @@ func (s *channelssrvc) List(ctx context.Context) (res *channels.ChannelList, err
 		Offset: 0,
 	}
 	return
-}
-
-func (s *channelssrvc) ConvertModelsToListResult(models []*models.Channel) *channels.ChannelList {
-	items := s.ConvertModelsToListItems(models)
-	return &channels.ChannelList{
-		Items:  items,
-		Total:  uint64(len(items)),
-		Offset: 0,
-	}
-}
-
-func (*channelssrvc) ConvertModelsToListItems(models []*models.Channel) channels.ChannelListItemCollection {
-	items := make(channels.ChannelListItemCollection, len(models))
-	for i, result := range models {
-		items[i] = &channels.ChannelListItem{
-			ID:        result.ID,
-			CreatedAt: result.CreatedAt.Format(time.RFC3339),
-			UpdatedAt: result.UpdatedAt.Format(time.RFC3339),
-			Name:      result.Name,
-		}
-	}
-	return items
 }
 
 // Show implements show.
@@ -194,7 +173,31 @@ func (s *channelssrvc) Delete(ctx context.Context, p *channels.DeletePayload) (r
 	return
 }
 
-func (*channelssrvc) ConvertModelToResult(model *models.Channel) *channels.Channel {
+type ChannelsConvertor struct{}
+
+func (s *ChannelsConvertor) ConvertModelsToListResult(models []*models.Channel) *channels.ChannelList {
+	items := s.ConvertModelsToListItems(models)
+	return &channels.ChannelList{
+		Items:  items,
+		Total:  uint64(len(items)),
+		Offset: 0,
+	}
+}
+
+func (*ChannelsConvertor) ConvertModelsToListItems(models []*models.Channel) channels.ChannelListItemCollection {
+	items := make(channels.ChannelListItemCollection, len(models))
+	for i, result := range models {
+		items[i] = &channels.ChannelListItem{
+			ID:        result.ID,
+			CreatedAt: result.CreatedAt.Format(time.RFC3339),
+			UpdatedAt: result.UpdatedAt.Format(time.RFC3339),
+			Name:      result.Name,
+		}
+	}
+	return items
+}
+
+func (*ChannelsConvertor) ConvertModelToResult(model *models.Channel) *channels.Channel {
 	return &channels.Channel{
 		ID:        model.ID,
 		CreatedAt: model.CreatedAt.Format(time.RFC3339),
