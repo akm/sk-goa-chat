@@ -21,7 +21,7 @@ type channelssrvc struct {
 
 // NewChannels returns the channels service implementation.
 func NewChannels(logger *log.Logger) channels.Service {
-	return &channelssrvc{logger: logger, ChannelsConvertor: &ChannelsConvertor{}}
+	return &channelssrvc{logger: logger, ChannelsConvertor: NewChannelsConvertor()}
 }
 
 // List implements list.
@@ -174,6 +174,10 @@ func (s *channelssrvc) Delete(ctx context.Context, p *channels.DeletePayload) (r
 }
 
 type ChannelsConvertor struct{}
+
+func NewChannelsConvertor() *ChannelsConvertor {
+	return &ChannelsConvertor{}
+}
 
 func (s *ChannelsConvertor) ModelsToList(models []*models.Channel) *channels.ChannelList {
 	items := s.ModelsToListItems(models)

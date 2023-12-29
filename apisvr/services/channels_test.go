@@ -26,7 +26,7 @@ func TestChannels(t *testing.T) {
 
 	ctx := context.Background()
 	srvc := NewChannels(testlog.New(t))
-	conv := &ChannelsConvertor{}
+	conv := NewChannelsConvertor()
 
 	t.Run("no data", func(t *testing.T) {
 		t.Run("list", func(t *testing.T) {
