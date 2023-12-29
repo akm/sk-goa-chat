@@ -32,6 +32,7 @@ require (
 	github.com/gorilla/websocket v1.5.1 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/huandu/xstrings v1.3.2 // indirect
+	github.com/iancoleman/strcase v0.3.0 // indirect
 	github.com/ikawaha/goahttpcheck v1.15.3 // indirect
 	github.com/ikawaha/httpcheck v1.10.0 // indirect
 	github.com/imdario/mergo v0.3.16 // indirect
