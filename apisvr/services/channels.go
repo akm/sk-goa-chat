@@ -74,7 +74,7 @@ func (s *channelssrvc) Show(ctx context.Context, p *channels.ShowPayload) (res *
 		return nil, err
 	}
 
-	res = s.ConvertModelToResult(m)
+	res = s.ModelToResult(m)
 	return
 }
 
@@ -106,7 +106,7 @@ func (s *channelssrvc) Create(ctx context.Context, p *channels.ChannelCreatePayl
 		return nil, err
 	}
 
-	res = s.ConvertModelToResult(m)
+	res = s.ModelToResult(m)
 	return
 }
 
@@ -143,7 +143,7 @@ func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayl
 		return nil, err
 	}
 
-	res = s.ConvertModelToResult(m)
+	res = s.ModelToResult(m)
 	return
 }
 
@@ -169,14 +169,14 @@ func (s *channelssrvc) Delete(ctx context.Context, p *channels.DeletePayload) (r
 		return nil, err
 	}
 
-	res = s.ConvertModelToResult(m)
+	res = s.ModelToResult(m)
 	return
 }
 
 type ChannelsConvertor struct{}
 
-func (s *ChannelsConvertor) ConvertModelsToListResult(models []*models.Channel) *channels.ChannelList {
-	items := s.ConvertModelsToListItems(models)
+func (s *ChannelsConvertor) ModelsToList(models []*models.Channel) *channels.ChannelList {
+	items := s.ModelsToListItems(models)
 	return &channels.ChannelList{
 		Items:  items,
 		Total:  uint64(len(items)),
@@ -184,7 +184,7 @@ func (s *ChannelsConvertor) ConvertModelsToListResult(models []*models.Channel) 
 	}
 }
 
-func (*ChannelsConvertor) ConvertModelsToListItems(models []*models.Channel) channels.ChannelListItemCollection {
+func (*ChannelsConvertor) ModelsToListItems(models []*models.Channel) channels.ChannelListItemCollection {
 	items := make(channels.ChannelListItemCollection, len(models))
 	for i, result := range models {
 		items[i] = &channels.ChannelListItem{
@@ -197,7 +197,7 @@ func (*ChannelsConvertor) ConvertModelsToListItems(models []*models.Channel) cha
 	return items
 }
 
-func (*ChannelsConvertor) ConvertModelToResult(model *models.Channel) *channels.Channel {
+func (*ChannelsConvertor) ModelToResult(model *models.Channel) *channels.Channel {
 	return &channels.Channel{
 		ID:        model.ID,
 		CreatedAt: model.CreatedAt.Format(time.RFC3339),

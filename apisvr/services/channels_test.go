@@ -32,7 +32,7 @@ func TestChannels(t *testing.T) {
 		t.Run("ConvertModelsToListResult", func(t *testing.T) {
 			ch1 := &models.Channel{ID: 1, Name: "test1", CreatedAt: now, UpdatedAt: now}
 			ch2 := &models.Channel{ID: 2, Name: "test2", CreatedAt: now, UpdatedAt: now}
-			res := srvc.ConvertModelsToListResult([]*models.Channel{ch1, ch2})
+			res := srvc.ModelsToList([]*models.Channel{ch1, ch2})
 			assert.Equal(t, &channels.ChannelList{
 				Total:  2,
 				Offset: 0,
@@ -45,7 +45,7 @@ func TestChannels(t *testing.T) {
 
 		t.Run("ConvertModelToResult", func(t *testing.T) {
 			ch := &models.Channel{ID: 1, Name: "test1", CreatedAt: now, UpdatedAt: now}
-			res := srvc.ConvertModelToResult(ch)
+			res := srvc.ModelToResult(ch)
 			assert.Equal(t, &channels.Channel{
 				ID:        1,
 				Name:      "test1",
@@ -75,7 +75,7 @@ func TestChannels(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, uint64(2), res.Total)
 		assert.Zero(t, res.Offset)
-		assert.Equal(t, srvc.ConvertModelsToListResult([]*models.Channel{ch1, ch2}), res)
+		assert.Equal(t, srvc.ModelsToList([]*models.Channel{ch1, ch2}), res)
 	})
 
 	t.Run("show", func(t *testing.T) {
@@ -83,7 +83,7 @@ func TestChannels(t *testing.T) {
 			t.Run(ch.Name, func(t *testing.T) {
 				res, err := srvc.Show(ctx, &channels.ShowPayload{ID: ch.ID})
 				assert.NoError(t, err)
-				assert.Equal(t, srvc.ConvertModelToResult(ch), res)
+				assert.Equal(t, srvc.ModelToResult(ch), res)
 			})
 		}
 		t.Run("not found", func(t *testing.T) {
@@ -99,7 +99,7 @@ func TestChannels(t *testing.T) {
 			res, err := srvc.Create(ctx, &channels.ChannelCreatePayload{Name: name})
 			assert.NoError(t, err)
 			ch := &models.Channel{ID: res.ID, Name: name, CreatedAt: now, UpdatedAt: now}
-			assert.Equal(t, srvc.ConvertModelToResult(ch), res)
+			assert.Equal(t, srvc.ModelToResult(ch), res)
 		})
 		t.Run("empty name", func(t *testing.T) {
 			res, err := srvc.Create(ctx, &channels.ChannelCreatePayload{Name: ""})
@@ -118,7 +118,7 @@ func TestChannels(t *testing.T) {
 				res, err := srvc.Create(ctx, &channels.ChannelCreatePayload{Name: maxMultiByteCharacters})
 				assert.NoError(t, err)
 				ch := &models.Channel{ID: res.ID, Name: maxMultiByteCharacters, CreatedAt: now, UpdatedAt: now}
-				assert.Equal(t, srvc.ConvertModelToResult(ch), res)
+				assert.Equal(t, srvc.ModelToResult(ch), res)
 			})
 			t.Run("max plus 1", func(t *testing.T) {
 				res, err := srvc.Create(ctx, &channels.ChannelCreatePayload{Name: maxMultiByteCharacters + "a"})
@@ -141,7 +141,7 @@ func TestChannels(t *testing.T) {
 			res, err := srvc.Update(ctx, &channels.ChannelUpdatePayload{ID: ch1.ID, Name: name})
 			assert.NoError(t, err)
 			ch := &models.Channel{ID: ch1.ID, Name: name, CreatedAt: before, UpdatedAt: now}
-			assert.Equal(t, srvc.ConvertModelToResult(ch), res)
+			assert.Equal(t, srvc.ModelToResult(ch), res)
 		})
 		t.Run("empty name", func(t *testing.T) {
 			res, err := srvc.Update(ctx, &channels.ChannelUpdatePayload{ID: ch1.ID, Name: ""})
@@ -160,7 +160,7 @@ func TestChannels(t *testing.T) {
 				res, err := srvc.Update(ctx, &channels.ChannelUpdatePayload{ID: ch1.ID, Name: maxMultiByteCharacters})
 				assert.NoError(t, err)
 				ch := &models.Channel{ID: res.ID, Name: maxMultiByteCharacters, CreatedAt: now, UpdatedAt: now}
-				assert.Equal(t, srvc.ConvertModelToResult(ch), res)
+				assert.Equal(t, srvc.ModelToResult(ch), res)
 			})
 			t.Run("max plus 1", func(t *testing.T) {
 				res, err := srvc.Update(ctx, &channels.ChannelUpdatePayload{ID: ch1.ID, Name: maxMultiByteCharacters + "a"})
@@ -181,7 +181,7 @@ func TestChannels(t *testing.T) {
 			assert.NoError(t, err)
 			res, err := srvc.Delete(ctx, &channels.DeletePayload{ID: ch1.ID})
 			assert.NoError(t, err)
-			assert.Equal(t, srvc.ConvertModelToResult(ch), res)
+			assert.Equal(t, srvc.ModelToResult(ch), res)
 			// DBから削除されていることを確認
 			ch2, err := models.FindChannel(ctx, conn, ch1.ID)
 			if assert.Error(t, err) {
