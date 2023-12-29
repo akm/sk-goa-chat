@@ -25,8 +25,8 @@ func TestChannels(t *testing.T) {
 	defer time.SetTime(now)
 
 	ctx := context.Background()
-	srvc := channelssrvc{logger: testlog.New(t)}
-	conv := srvc.ChannelsConvertor
+	srvc := NewChannels(testlog.New(t))
+	conv := &ChannelsConvertor{}
 
 	t.Run("no data", func(t *testing.T) {
 		t.Run("list", func(t *testing.T) {
