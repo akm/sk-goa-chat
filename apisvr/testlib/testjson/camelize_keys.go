@@ -2,6 +2,7 @@ package testjson
 
 import (
 	"encoding/json"
+	"io"
 	"testing"
 
 	"github.com/iancoleman/strcase"
@@ -37,4 +38,12 @@ func CamelizeKeys(v interface{}) interface{} {
 	default:
 		return v
 	}
+}
+
+func CamelizeJsonKeysAndUnmarshal[T any](t *testing.T, b []byte) *T {
+	return Unmarshal[T](t, CamelizeJsonKeys(t, b))
+}
+
+func CamelizeJsonKeysAndUnmarshalFrom[T any](t *testing.T, reader io.Reader) *T {
+	return UnmarshalFrom[T](t, reader, CamelizeJsonKeys)
 }

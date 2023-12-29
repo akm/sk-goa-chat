@@ -15,11 +15,14 @@ func Unmarshal[T any](t *testing.T, b []byte) *T {
 	return &v
 }
 
-func UnmarshalFrom[T any](t *testing.T, reader io.Reader) *T {
+func UnmarshalFrom[T any](t *testing.T, reader io.Reader, filters ...func(*testing.T, []byte) []byte) *T {
 	t.Helper()
 	b, err := io.ReadAll(reader)
 	if err != nil {
 		t.Fatal(err)
+	}
+	for _, filter := range filters {
+		b = filter(t, b)
 	}
 	return Unmarshal[T](t, b)
 }
