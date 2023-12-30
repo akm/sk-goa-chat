@@ -16,11 +16,12 @@ import (
 // The example methods log the requests and return zero values.
 type channelssrvc struct {
 	logger *log.Logger
+	*ChannelsConvertor
 }
 
 // NewChannels returns the channels service implementation.
 func NewChannels(logger *log.Logger) channels.Service {
-	return &channelssrvc{logger}
+	return &channelssrvc{logger: logger, ChannelsConvertor: NewChannelsConvertor()}
 }
 
 // List implements list.
@@ -55,28 +56,6 @@ func (s *channelssrvc) List(ctx context.Context) (res *channels.ChannelList, err
 	return
 }
 
-func (s *channelssrvc) ConvertModelsToListResult(models []*models.Channel) *channels.ChannelList {
-	items := s.ConvertModelsToListItems(models)
-	return &channels.ChannelList{
-		Items:  items,
-		Total:  uint64(len(items)),
-		Offset: 0,
-	}
-}
-
-func (*channelssrvc) ConvertModelsToListItems(models []*models.Channel) channels.ChannelListItemCollection {
-	items := make(channels.ChannelListItemCollection, len(models))
-	for i, result := range models {
-		items[i] = &channels.ChannelListItem{
-			ID:        result.ID,
-			CreatedAt: result.CreatedAt.Format(time.RFC3339),
-			UpdatedAt: result.UpdatedAt.Format(time.RFC3339),
-			Name:      result.Name,
-		}
-	}
-	return items
-}
-
 // Show implements show.
 func (s *channelssrvc) Show(ctx context.Context, p *channels.ShowPayload) (res *channels.Channel, err error) {
 	s.logger.Print("channels.show")
@@ -95,7 +74,7 @@ func (s *channelssrvc) Show(ctx context.Context, p *channels.ShowPayload) (res *
 		return nil, err
 	}
 
-	res = s.ConvertModelToResult(m)
+	res = s.ModelToResult(m)
 	return
 }
 
@@ -127,7 +106,7 @@ func (s *channelssrvc) Create(ctx context.Context, p *channels.ChannelCreatePayl
 		return nil, err
 	}
 
-	res = s.ConvertModelToResult(m)
+	res = s.ModelToResult(m)
 	return
 }
 
@@ -164,7 +143,7 @@ func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayl
 		return nil, err
 	}
 
-	res = s.ConvertModelToResult(m)
+	res = s.ModelToResult(m)
 	return
 }
 
@@ -190,11 +169,39 @@ func (s *channelssrvc) Delete(ctx context.Context, p *channels.DeletePayload) (r
 		return nil, err
 	}
 
-	res = s.ConvertModelToResult(m)
+	res = s.ModelToResult(m)
 	return
 }
 
-func (*channelssrvc) ConvertModelToResult(model *models.Channel) *channels.Channel {
+type ChannelsConvertor struct{}
+
+func NewChannelsConvertor() *ChannelsConvertor {
+	return &ChannelsConvertor{}
+}
+
+func (s *ChannelsConvertor) ModelsToList(models []*models.Channel) *channels.ChannelList {
+	items := s.ModelsToListItems(models)
+	return &channels.ChannelList{
+		Items:  items,
+		Total:  uint64(len(items)),
+		Offset: 0,
+	}
+}
+
+func (*ChannelsConvertor) ModelsToListItems(models []*models.Channel) channels.ChannelListItemCollection {
+	items := make(channels.ChannelListItemCollection, len(models))
+	for i, result := range models {
+		items[i] = &channels.ChannelListItem{
+			ID:        result.ID,
+			CreatedAt: result.CreatedAt.Format(time.RFC3339),
+			UpdatedAt: result.UpdatedAt.Format(time.RFC3339),
+			Name:      result.Name,
+		}
+	}
+	return items
+}
+
+func (*ChannelsConvertor) ModelToResult(model *models.Channel) *channels.Channel {
 	return &channels.Channel{
 		ID:        model.ID,
 		CreatedAt: model.CreatedAt.Format(time.RFC3339),
