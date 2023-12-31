@@ -14,14 +14,18 @@ import (
 	"context"
 	"log"
 	"net"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	grpcmdlwr "goa.design/goa/v3/grpc/middleware"
 	"goa.design/goa/v3/middleware"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/status"
 	"google.golang.org/grpc/test/bufconn"
 )
 
@@ -61,6 +65,90 @@ func TestChannels(t *testing.T) {
 		out, err := client.List(ctx, &channelspb.ListRequest{})
 		assert.NoError(t, err)
 		assert.Equal(t, conv.ModelsToListResponse([]*models.Channel{ch1, ch2}), testjson.Reassign(t, out))
+	})
+
+	t.Run("show", func(t *testing.T) {
+		for _, ch := range []*models.Channel{ch1, ch2} {
+			t.Run(ch.Name, func(t *testing.T) {
+				out, err := client.Show(ctx, &channelspb.ShowRequest{Id: ch.ID})
+				assert.NoError(t, err)
+				assert.Equal(t, conv.ModelToShowResponse(ch), testjson.Reassign(t, out))
+			})
+		}
+		t.Run("not found", func(t *testing.T) {
+			out, err := client.Show(ctx, &channelspb.ShowRequest{Id: 999})
+			assert.Nil(t, out)
+			assert.Error(t, err)
+			assert.Equal(t, status.Error(codes.NotFound, "sql: no rows in result set").Error(), err.Error())
+		})
+	})
+
+	t.Run("create", func(t *testing.T) {
+		t.Run("valid name", func(t *testing.T) {
+			name := "test1"
+			out, err := client.Create(ctx, &channelspb.CreateRequest{Name: name})
+			assert.NoError(t, err)
+			require.NotNil(t, out)
+			ch := &models.Channel{ID: out.Id, Name: name, CreatedAt: now, UpdatedAt: now}
+			assert.Equal(t, conv.ModelToCreateResponse(t, ch), testjson.Reassign(t, out))
+		})
+		t.Run("empty name", func(t *testing.T) {
+			out, err := client.Create(ctx, &channelspb.CreateRequest{Name: ""})
+			assert.Nil(t, out)
+			assert.Error(t, err)
+			assert.Equal(t, status.Error(codes.InvalidArgument, "name is required").Error(), err.Error())
+		})
+		t.Run("too long name", func(t *testing.T) {
+			out, err := client.Create(ctx, &channelspb.CreateRequest{Name: strings.Repeat("a", 256)})
+			assert.Nil(t, out)
+			assert.Error(t, err)
+			assert.Equal(t, status.Error(codes.InvalidArgument, "name is too long").Error(), err.Error())
+		})
+	})
+
+	t.Run("update", func(t *testing.T) {
+		t.Run("invalid id", func(t *testing.T) {
+			out, err := client.Update(ctx, &channelspb.UpdateRequest{Id: 999, Name: "test"})
+			assert.Nil(t, out)
+			assert.Error(t, err)
+			assert.Equal(t, status.Error(codes.NotFound, "sql: no rows in result set").Error(), err.Error())
+		})
+		t.Run("valid name", func(t *testing.T) {
+			newName := ch1.Name + "-dash"
+			out, err := client.Update(ctx, &channelspb.UpdateRequest{Id: ch1.ID, Name: newName})
+			assert.NoError(t, err)
+			require.NotNil(t, out)
+			ch := &models.Channel{ID: ch1.ID, Name: newName, CreatedAt: now, UpdatedAt: now}
+			assert.Equal(t, conv.ModelToUpdateResponse(t, ch), testjson.Reassign(t, out))
+
+		})
+		t.Run("empty name", func(t *testing.T) {
+			out, err := client.Update(ctx, &channelspb.UpdateRequest{Id: ch1.ID, Name: ""})
+			assert.Nil(t, out)
+			assert.Error(t, err)
+			assert.Equal(t, status.Error(codes.InvalidArgument, "name is required").Error(), err.Error())
+		})
+		t.Run("too long name", func(t *testing.T) {
+			out, err := client.Update(ctx, &channelspb.UpdateRequest{Id: ch1.ID, Name: strings.Repeat("a", 256)})
+			assert.Nil(t, out)
+			assert.Error(t, err)
+			assert.Equal(t, status.Error(codes.InvalidArgument, "name is too long").Error(), err.Error())
+		})
+	})
+
+	t.Run("delete", func(t *testing.T) {
+		t.Run("invalid id", func(t *testing.T) {
+			out, err := client.Delete(ctx, &channelspb.DeleteRequest{Id: 999})
+			assert.Nil(t, out)
+			assert.Error(t, err)
+			assert.Equal(t, status.Error(codes.NotFound, "sql: no rows in result set").Error(), err.Error())
+		})
+		t.Run("valid id", func(t *testing.T) {
+			out, err := client.Delete(ctx, &channelspb.DeleteRequest{Id: ch2.ID})
+			assert.NoError(t, err)
+			require.NotNil(t, out)
+			assert.Equal(t, conv.ModelToDeleteResponse(t, ch2), testjson.Reassign(t, out))
+		})
 	})
 }
 
@@ -137,4 +225,22 @@ func (c *channelsConvertor) ModelToListItem(m *models.Channel) *channelspb.Chann
 		CreatedAt: m.CreatedAt.Format(time.RFC3339),
 		UpdatedAt: m.UpdatedAt.Format(time.RFC3339),
 	}
+}
+
+func (c *channelsConvertor) ModelToShowResponse(m *models.Channel) *channelspb.ShowResponse {
+	return &channelspb.ShowResponse{
+		Id:        m.ID,
+		Name:      m.Name,
+		CreatedAt: m.CreatedAt.Format(time.RFC3339),
+		UpdatedAt: m.UpdatedAt.Format(time.RFC3339),
+	}
+}
+func (c *channelsConvertor) ModelToCreateResponse(t *testing.T, m *models.Channel) *channelspb.CreateResponse {
+	return testjson.ReassignAs[channelspb.ShowResponse, channelspb.CreateResponse](t, c.ModelToShowResponse(m))
+}
+func (c *channelsConvertor) ModelToUpdateResponse(t *testing.T, m *models.Channel) *channelspb.UpdateResponse {
+	return testjson.ReassignAs[channelspb.ShowResponse, channelspb.UpdateResponse](t, c.ModelToShowResponse(m))
+}
+func (c *channelsConvertor) ModelToDeleteResponse(t *testing.T, m *models.Channel) *channelspb.DeleteResponse {
+	return testjson.ReassignAs[channelspb.ShowResponse, channelspb.DeleteResponse](t, c.ModelToShowResponse(m))
 }
