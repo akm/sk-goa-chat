@@ -24,7 +24,9 @@ const config: PlaywrightTestConfig = {
 			reuseExistingServer: !process.env.CI,
 			env: {
 				GOOGLE_CLOUD_PROJECT: 'sk-goa-chat',
-				FIREBASE_AUTH_EMULATOR_HOST: '127.0.0.1:9090'
+				FIREBASE_AUTH_EMULATOR_HOST: '127.0.0.1:9090',
+				APISVR_HTTP_PORT: '8001',
+				APISVR_GRPC_PORT: '8081'
 			}
 		}
 	],
