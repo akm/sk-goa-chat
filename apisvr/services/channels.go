@@ -69,7 +69,7 @@ func (s *channelssrvc) Show(ctx context.Context, p *channels.ShowPayload) (res *
 	m, err := models.FindChannel(ctx, db, p.ID)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, channels.MakeNotFound(err)
+			return nil, channels.MakeNotFound(fmt.Errorf("channel not found"))
 		}
 		return nil, err
 	}
@@ -133,7 +133,7 @@ func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayl
 	m, err := models.FindChannel(ctx, db, p.ID)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, channels.MakeNotFound(err)
+			return nil, channels.MakeNotFound(fmt.Errorf("channel not found"))
 		}
 		return nil, err
 	}
@@ -160,7 +160,7 @@ func (s *channelssrvc) Delete(ctx context.Context, p *channels.DeletePayload) (r
 	m, err := models.FindChannel(ctx, db, p.ID)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, channels.MakeNotFound(err)
+			return nil, channels.MakeNotFound(fmt.Errorf("channel not found"))
 		}
 		return nil, err
 	}
