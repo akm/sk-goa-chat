@@ -83,7 +83,7 @@ func TestChannels(t *testing.T) {
 				defer r.Body.Close()
 				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
 					Name:    "not_found",
-					Message: "sql: no rows in result set", // This message is not good. It should not be exposed to the client.
+					Message: "channel not found",
 				})
 			})
 		})
@@ -125,7 +125,7 @@ func TestChannels(t *testing.T) {
 				defer r.Body.Close()
 				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
 					Name:    "not_found",
-					Message: "sql: no rows in result set", // This message is not good. It should not be exposed to the client.
+					Message: "channel not found",
 				})
 			})
 		})
@@ -164,7 +164,7 @@ func TestChannels(t *testing.T) {
 				defer r.Body.Close()
 				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
 					Name:    "not_found",
-					Message: "sql: no rows in result set", // This message is not good. It should not be exposed to the client.
+					Message: "channel not found",
 				})
 			})
 		})
@@ -182,7 +182,7 @@ func TestChannels(t *testing.T) {
 				defer r.Body.Close()
 				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
 					Name:    "not_found",
-					Message: "sql: no rows in result set", // This message is not good. It should not be exposed to the client.
+					Message: "channel not found",
 				})
 			})
 		})
