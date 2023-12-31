@@ -1,5 +1,5 @@
-include ../../../config.mk
-include ../../envs.mk
+include ../../../../config.mk
+include ../envs.mk
 
 .PHONY: run
 run:
