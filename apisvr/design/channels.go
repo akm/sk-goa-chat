@@ -66,54 +66,67 @@ var _ = Service("channels", func() {
 	Method("show", func() {
 		Result(ChannelRT)
 		Payload(func() { Required(field(1, "id", UInt64, "ID")) })
-		notFoundResponse := notFound()
+		httpNotFound, grpcNotFound := notFound()
 
 		HTTP(func() {
 			GET("/{id}")
 			Response(StatusOK)
-			notFoundResponse()
+			httpNotFound()
 		})
-		gRPC()
+		GRPC(func() {
+			Response(CodeOK)
+			grpcNotFound()
+		})
 	})
 
 	Method("create", func() {
 		Result(ChannelRT)
 		Payload(ChannelCreatePayload)
-		invalidPayloadResponse := invalidPayload()
+		httpInvalidPayload, grpcInvalidPayload := invalidPayload()
 
 		HTTP(func() {
 			POST("")
 			Response(StatusCreated)
-			invalidPayloadResponse()
+			httpInvalidPayload()
 		})
-		gRPC()
+		GRPC(func() {
+			Response(CodeOK)
+			grpcInvalidPayload()
+		})
 	})
 
 	Method("update", func() {
 		Result(ChannelRT)
 		Payload(ChannelUpdatePayload)
-		notFoundResponse := notFound()
-		invalidPayloadResponse := invalidPayload()
+		httpNotFound, grpcNotFound := notFound()
+		httpInvalidPayload, grpcInvalidPayload := invalidPayload()
 
 		HTTP(func() {
 			PUT("/{id}")
 			Response(StatusOK)
-			notFoundResponse()
-			invalidPayloadResponse()
+			httpNotFound()
+			httpInvalidPayload()
 		})
-		gRPC()
+		GRPC(func() {
+			Response(CodeOK)
+			grpcNotFound()
+			grpcInvalidPayload()
+		})
 	})
 
 	Method("delete", func() {
 		Result(ChannelRT)
 		Payload(func() { Required(field(1, "id", UInt64, "ID")) })
-		notFoundResponse := notFound()
+		httpNotFound, grpcNotFound := notFound()
 
 		HTTP(func() {
 			DELETE("/{id}")
 			Response(StatusOK)
-			notFoundResponse()
+			httpNotFound()
 		})
-		gRPC()
+		GRPC(func() {
+			Response(CodeOK)
+			grpcNotFound()
+		})
 	})
 })
