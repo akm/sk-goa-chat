@@ -79,7 +79,7 @@ func TestChannels(t *testing.T) {
 			out, err := client.Show(ctx, &channelspb.ShowRequest{Id: 999})
 			assert.Nil(t, out)
 			assert.Error(t, err)
-			assert.Equal(t, status.Error(codes.NotFound, "sql: no rows in result set").Error(), err.Error())
+			assert.Equal(t, status.Error(codes.NotFound, "channel not found").Error(), err.Error())
 		})
 	})
 
@@ -111,7 +111,7 @@ func TestChannels(t *testing.T) {
 			out, err := client.Update(ctx, &channelspb.UpdateRequest{Id: 999, Name: "test"})
 			assert.Nil(t, out)
 			assert.Error(t, err)
-			assert.Equal(t, status.Error(codes.NotFound, "sql: no rows in result set").Error(), err.Error())
+			assert.Equal(t, status.Error(codes.NotFound, "channel not found").Error(), err.Error())
 		})
 		t.Run("valid name", func(t *testing.T) {
 			newName := ch1.Name + "-dash"
@@ -141,7 +141,7 @@ func TestChannels(t *testing.T) {
 			out, err := client.Delete(ctx, &channelspb.DeleteRequest{Id: 999})
 			assert.Nil(t, out)
 			assert.Error(t, err)
-			assert.Equal(t, status.Error(codes.NotFound, "sql: no rows in result set").Error(), err.Error())
+			assert.Equal(t, status.Error(codes.NotFound, "channel not found").Error(), err.Error())
 		})
 		t.Run("valid id", func(t *testing.T) {
 			out, err := client.Delete(ctx, &channelspb.DeleteRequest{Id: ch2.ID})
