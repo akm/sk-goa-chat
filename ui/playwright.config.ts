@@ -14,7 +14,7 @@ const config: PlaywrightTestConfig = {
 	// https://playwright.dev/docs/api/class-testconfig#test-config-web-server
 	webServer: [
 		{
-			command: 'make -C tests/e2e apisvr_run',
+			command: 'make -C tests/integration apisvr_run',
 			port: 8001,
 			reuseExistingServer: !process.env.CI
 		},
