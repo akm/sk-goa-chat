@@ -1,6 +1,9 @@
 import { expect, test } from '@playwright/test';
 
-test('index page has expected h1', async ({ page }) => {
+test('show signin page when go to root', async ({ page }) => {
 	await page.goto('/');
-	await expect(page.getByRole('heading', { name: 'Welcome to SvelteKit' })).toBeVisible();
+	// await page.pause();
+	await expect(page).toHaveURL(/signin/);
+	await expect(page.locator('nav span:text("SK Goa Chat")')).toBeVisible();
+	await expect(page.locator('h3:text("ログイン")')).toBeVisible();
 });
