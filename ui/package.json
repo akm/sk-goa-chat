@@ -20,7 +20,7 @@
 		"test:integration:containers:up": "make -C tests/containers up",
 		"test:integration:containers:down": "make -C tests/containers down",
 		"test:integration:containers:restart": " make -C tests/containers down up",
-		"test:integration:dbmigrattions:up": "sleep 20 && make dbmigrations_up",
+		"test:integration:dbmigrattions:up": "make mysql_wait_to_connect dbmigrations_up",
 		"test:integration:run": "sleep 30 && playwright test",
 		"test:integration:setup": "run-s test:integration:containers:restart test:integration:dbmigrattions:up",
 		"test:integration:teardown": "npm run test:integration:containers:down",

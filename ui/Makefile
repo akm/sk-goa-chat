@@ -5,6 +5,10 @@ include ./envs.mk
 mysql_dsn:
 	@$(ENVS) $(MAKE) -C ../containers/mysql dsn
 
+.PHONY: mysql_wait_to_connect
+mysql_wait_to_connect:
+	$(ENVS) $(MAKE) -C ../containers/mysql wait_to_connect
+
 .PHONY: dbmigrations_up
 dbmigrations_up:
 	$(ENVS) $(MAKE) -C ../dbmigrations up
