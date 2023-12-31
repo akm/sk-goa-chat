@@ -21,7 +21,7 @@
 		"test:integration:containers:down": "make -C tests/integration/containers down",
 		"test:integration:containers:restart": " make -C tests/integration/containers down up",
 		"test:integration:dbmigrattions:up": "make -C tests/integration mysql_wait_to_connect dbmigrations_up",
-		"test:integration:run": "playwright test",
+		"test:integration:run": "playwright test tests/integration/test.ts",
 		"test:integration:setup": "run-s test:integration:containers:restart test:integration:dbmigrattions:up",
 		"test:integration:teardown": "npm run test:integration:containers:down",
 		"test:unit": "vitest"
