@@ -9,10 +9,6 @@ DEV_SERVER_ENVS=\
 dev: dev_containers_up
 	$(DEV_SERVER_ENVS) $(MAKE) run
 
-.PHONY: run
-run:
-	go run ./services/cmd/apisvr
-
 .PHONY: dev_containers_up
 dev_containers_up:
 	$(DEV_SERVER_ENVS) $(MAKE) -C ../containers/localdev up
