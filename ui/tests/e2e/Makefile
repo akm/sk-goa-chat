@@ -18,6 +18,11 @@ APISVR_ENVS=HTTP_PORT=$(APISVR_HTTP_PORT) GRPC_PORT=$(APISVR_GRPC_PORT)
 apisvr_envs:
 	@echo $(APISVR_ENVS)
 
+APISVR_MYSQL_DSN=$(shell $(MAKE) -C ../../../containers/mysql --no-print-directory dsn)
+
 .PHONY: apisvr_run
 apisvr_run:
-	$(ENVS) $(APISVR_ENVS) $(MAKE) -C ../../../apisvr run
+	$(ENVS) \
+	$(APISVR_ENVS) \
+	MYSQL_DSN='$(APISVR_MYSQL_DSN)' \
+		$(MAKE) -C ../../../apisvr run
