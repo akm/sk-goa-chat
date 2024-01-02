@@ -26,7 +26,7 @@ func NewChannels(logger *log.Logger) channels.Service {
 
 // List implements list.
 func (s *channelssrvc) List(ctx context.Context) (res *channels.ChannelList, err error) {
-	s.logger.Print("channels.list")
+	s.logger.Info().Msg("channels.list")
 	ctx = SetupContext(ctx)
 	db, err := sql.Open()
 	if err != nil {
@@ -58,7 +58,7 @@ func (s *channelssrvc) List(ctx context.Context) (res *channels.ChannelList, err
 
 // Show implements show.
 func (s *channelssrvc) Show(ctx context.Context, p *channels.ShowPayload) (res *channels.Channel, err error) {
-	s.logger.Print("channels.show")
+	s.logger.Info().Msg("channels.show")
 	ctx = SetupContext(ctx)
 	db, err := sql.Open()
 	if err != nil {
@@ -80,7 +80,7 @@ func (s *channelssrvc) Show(ctx context.Context, p *channels.ShowPayload) (res *
 
 // Create implements create.
 func (s *channelssrvc) Create(ctx context.Context, p *channels.ChannelCreatePayload) (res *channels.Channel, err error) {
-	s.logger.Print("channels.create")
+	s.logger.Info().Msg("channels.create")
 
 	if p.Name == "" {
 		return nil, channels.MakeInvalidPayload(fmt.Errorf("name is required"))
@@ -112,7 +112,7 @@ func (s *channelssrvc) Create(ctx context.Context, p *channels.ChannelCreatePayl
 
 // Update implements update.
 func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayload) (res *channels.Channel, err error) {
-	s.logger.Print("channels.update")
+	s.logger.Info().Msg("channels.update")
 
 	if p.Name == "" {
 		return nil, channels.MakeInvalidPayload(fmt.Errorf("name is required"))
@@ -149,7 +149,7 @@ func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayl
 
 // Delete implements delete.
 func (s *channelssrvc) Delete(ctx context.Context, p *channels.DeletePayload) (res *channels.Channel, err error) {
-	s.logger.Print("channels.delete")
+	s.logger.Info().Msg("channels.delete")
 	ctx = SetupContext(ctx)
 	db, err := sql.Open()
 	if err != nil {
