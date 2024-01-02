@@ -7,12 +7,12 @@ import (
 	"apisvr/services/gen/channels"
 	channelspb "apisvr/services/gen/grpc/channels/pb"
 	channelssvr "apisvr/services/gen/grpc/channels/server"
+	"apisvr/services/gen/log"
 	"apisvr/testlib/testjson"
 	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
 	"apisvr/testlib/testsqlboiler"
 	"context"
-	"log"
 	"net"
 	"strings"
 	"testing"
@@ -21,7 +21,6 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	grpcmdlwr "goa.design/goa/v3/grpc/middleware"
-	"goa.design/goa/v3/middleware"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials/insecure"
@@ -36,7 +35,7 @@ func TestChannels(t *testing.T) {
 	client, closer := setupChannelsServer(ctx, logger)
 	defer closer()
 
-	conn := testsql.Setup(t)
+	conn := testsql.Setup(t, logger)
 	defer conn.Close()
 
 	now := time.Now()
@@ -156,7 +155,7 @@ func setupChannelsServer(ctx context.Context, logger *log.Logger) (channelspb.Ch
 	buffer := 101024 * 1024
 	listener := bufconn.Listen(buffer)
 
-	adapter := middleware.NewLogger(logger)
+	adapter := logger // middleware.NewLogger(logger)
 	srv := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(
 			grpcmdlwr.UnaryRequestID(),
@@ -170,7 +169,7 @@ func setupChannelsServer(ctx context.Context, logger *log.Logger) (channelspb.Ch
 
 	go func() {
 		if err := srv.Serve(listener); err != nil {
-			log.Printf("error serving server: %v", err)
+			logger.Error().Msgf("error serving server: %v", err)
 		}
 	}()
 
@@ -182,13 +181,13 @@ func setupChannelsServer(ctx context.Context, logger *log.Logger) (channelspb.Ch
 	}
 	conn, err := grpc.DialContext(ctx, "", gRpcDialOptions...)
 	if err != nil {
-		log.Printf("error connecting to server: %v", err)
+		logger.Error().Msgf("error connecting to server: %v", err)
 	}
 
 	closer := func() {
 		err := listener.Close()
 		if err != nil {
-			log.Printf("error closing listener: %v", err)
+			logger.Error().Msgf("error closing listener: %v", err)
 		}
 		srv.Stop()
 	}

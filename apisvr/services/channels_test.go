@@ -18,14 +18,15 @@ import (
 )
 
 func TestChannels(t *testing.T) {
-	conn := testsql.Setup(t)
+	logger := testlog.New(t)
+	conn := testsql.Setup(t, logger)
 	defer conn.Close()
 
 	now := time.Now()
 	defer time.SetTime(now)
 
 	ctx := context.Background()
-	srvc := NewChannels(testlog.New(t))
+	srvc := NewChannels(logger)
 	conv := NewChannelsConvertor()
 
 	t.Run("no data", func(t *testing.T) {
