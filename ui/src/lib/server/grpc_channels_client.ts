@@ -4,7 +4,7 @@ import { GrpcTransport } from '@protobuf-ts/grpc-transport';
 import type { Channel } from '$lib/models/channel';
 import { ChannelsClient, type IChannelsClient } from './protos/goagen_services_channels.client';
 
-const apisvrGrpcPort = process.env.APISVR_GRPC_PORT ?? '8080';
+const apisvrGrpcPort = import.meta.env.VITE_APISVR_GRPC_PORT ?? '8080';
 
 const transport = new GrpcTransport({
 	host: 'localhost:' + apisvrGrpcPort,

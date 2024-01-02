@@ -28,7 +28,7 @@ const config: PlaywrightTestConfig = {
 				FIREBASE_AUTH_EMULATOR_HOST: '127.0.0.1:9090',
 				VITE_FIREBASE_AUTH_EMULATOR_HOST: '127.0.0.1:9090',
 				// VITE_APISVR_HTTP_PORT: '8001',
-				APISVR_GRPC_PORT: '8081'
+				VITE_APISVR_GRPC_PORT: '8081'
 			}
 		}
 	],
