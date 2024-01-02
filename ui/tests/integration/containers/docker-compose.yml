@@ -24,7 +24,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - ${FIREBASE_AUTH_PORT}:9099
-      # - '4000:4000'
+      # emulator の console のJSは 9099 でアクセスしようとするのでポート番号を変えると期待通りには動かないため使わない
+      # - 9099:9099
+      # - 4000:4000
     command: firebase emulators:start
 
 networks:
