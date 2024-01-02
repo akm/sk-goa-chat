@@ -33,7 +33,7 @@ func main() {
 		logger *log.Logger
 	)
 	{
-		logger = log.New("chatapi", false)
+		logger = log.New("chatapi", dbgF != nil && *dbgF)
 	}
 
 	// Initialize the services.

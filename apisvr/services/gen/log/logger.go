@@ -9,7 +9,10 @@ package log
 
 import (
 	"fmt"
+	"io"
 	"os"
+	"regexp"
+	"time"
 
 	"github.com/rs/zerolog"
 )
@@ -26,7 +29,14 @@ func New(serviceName string, isDebug bool) *Logger {
 		logLevel = zerolog.DebugLevel
 	}
 	zerolog.SetGlobalLevel(logLevel)
-	logger := zerolog.New(os.Stderr).With().Timestamp().Str("service", serviceName).Logger()
+	var output io.Writer
+	useConsoleWriter := regexp.MustCompile(`(?i)^(?:1|true|on|yes)$`).MatchString(os.Getenv("LOG_CONSOLE_WRITER"))
+	if useConsoleWriter {
+		output = zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339}
+	} else {
+		output = os.Stderr
+	}
+	logger := zerolog.New(output).With().Timestamp().Str("service", serviceName).Logger()
 	return &Logger{&logger}
 }
 
