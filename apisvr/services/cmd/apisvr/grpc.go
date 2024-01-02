@@ -4,8 +4,8 @@ import (
 	channels "apisvr/services/gen/channels"
 	channelspb "apisvr/services/gen/grpc/channels/pb"
 	channelssvr "apisvr/services/gen/grpc/channels/server"
+	log "apisvr/services/gen/log"
 	"context"
-	"log"
 	"net"
 	"net/url"
 	"sync"
@@ -25,7 +25,7 @@ func handleGRPCServer(ctx context.Context, u *url.URL, channelsEndpoints *channe
 		adapter middleware.Logger
 	)
 	{
-		adapter = middleware.NewLogger(logger)
+		adapter = logger
 	}
 
 	// Wrap the endpoints with the transport specific layers. The generated
@@ -52,7 +52,7 @@ func handleGRPCServer(ctx context.Context, u *url.URL, channelsEndpoints *channe
 
 	for svc, info := range srv.GetServiceInfo() {
 		for _, m := range info.Methods {
-			logger.Printf("serving gRPC method %s", svc+"/"+m.Name)
+			logger.Info().Msgf("serving gRPC method %s", svc+"/"+m.Name)
 		}
 	}
 
@@ -70,12 +70,12 @@ func handleGRPCServer(ctx context.Context, u *url.URL, channelsEndpoints *channe
 			if err != nil {
 				errc <- err
 			}
-			logger.Printf("gRPC server listening on %q", u.Host)
+			logger.Info().Msgf("gRPC server listening on %q", u.Host)
 			errc <- srv.Serve(lis)
 		}()
 
 		<-ctx.Done()
-		logger.Printf("shutting down gRPC server at %q", u.Host)
+		logger.Info().Msgf("shutting down gRPC server at %q", u.Host)
 		srv.Stop()
 	}()
 }
