@@ -14,6 +14,7 @@
 	import '../app.pcss';
 	import { page } from '$app/stores';
 	import { deleteSession } from '$lib/session';
+	import type { Channel } from '$lib/models/channel';
 
 	const signout = async () => {
 		await deleteSession();
@@ -23,14 +24,14 @@
 	// user の例: {id: 'nUhxKTpuXq4phNaBp1NF6Vp605wJ', name: 'Foo', email: 'foo@example.com'}
 	const user = $page.data.user;
 
-	const channelLinks = $page.data.channels.map((channel) => ({
+	const channelLinks = ($page.data.channels as Channel[]).map((channel) => ({
 		name: channel.name,
 		href: `/channels/${channel.id}`
 	}));
 </script>
 
 <div class="mx-36 max-w-full my-2">
-	<Navbar>
+	<Navbar data-testid="header_nav">
 		<NavBrand href="/">
 			<img src="/logo192.png" class="mr-3 h-6 sm:h-9" alt="SK Goa Chat Logo" />
 			<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
@@ -56,10 +57,12 @@
 
 	<div class="flex">
 		{#if user}
-			<div class="flex flex-col">
-				<Listgroup active items={channelLinks} let:item class="w-48">
-					{item.name}
-				</Listgroup>
+			<div class="flex flex-col" data-testid="channel_list_pane">
+				{#if channelLinks.length > 0}
+					<Listgroup active items={channelLinks} let:item class="w-48" data-testid="channel_list">
+						{item.name}
+					</Listgroup>
+				{/if}
 
 				<Button class="mt-4" color="alternative" href="/channels/new">New Channel</Button>
 			</div>

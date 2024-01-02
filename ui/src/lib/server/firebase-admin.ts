@@ -1,6 +1,11 @@
 // See https://firebase.google.com/docs/admin/setup?hl=ja
+//     https://firebase.google.com/docs/emulator-suite/connect_auth?hl=ja#web-modular-api
 import { initializeApp, getApp, getApps } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
+
+if (!process.env.GOOGLE_CLOUD_PROJECT && import.meta.env.VITE_GOOGLE_CLOUD_PROJECT) {
+	process.env.GOOGLE_CLOUD_PROJECT = import.meta.env.VITE_GOOGLE_CLOUD_PROJECT;
+}
 
 // FirebaseAppError: The default Firebase app already exists.
 // This means you called initializeApp() more than once without
