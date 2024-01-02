@@ -23,10 +23,9 @@ const config: PlaywrightTestConfig = {
 			port: 4173,
 			reuseExistingServer: !process.env.CI,
 			env: {
-				GOOGLE_CLOUD_PROJECT: 'sk-goa-chat',
 				VITE_GOOGLE_CLOUD_PROJECT: 'sk-goa-chat',
 				// https://firebase.google.com/docs/emulator-suite/connect_auth?hl=ja
-				FIREBASE_AUTH_EMULATOR_HOST: '127.0.0.1:9090',
+				FIREBASE_AUTH_EMULATOR_HOST: '127.0.0.1:9090', // VITE_FIREBASE_AUTH_EMULATOR_HOST と重複していますが、この環境変数も必要です
 				VITE_FIREBASE_AUTH_EMULATOR_HOST: '127.0.0.1:9090',
 				// VITE_APISVR_HTTP_PORT: '8001',
 				VITE_APISVR_GRPC_PORT: '8081'
