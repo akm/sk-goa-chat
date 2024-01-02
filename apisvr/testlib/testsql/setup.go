@@ -2,6 +2,7 @@ package testsql
 
 import (
 	"apisvr/lib/sql"
+	"apisvr/services/gen/log"
 	"apisvr/testlib/testdir"
 	"path/filepath"
 	"testing"
@@ -12,8 +13,8 @@ import (
 )
 
 // 呼び出し元で必ず defer Close() すること
-func Setup(t *testing.T) *sql.DB {
-	conn := Open(t)
+func Setup(t *testing.T, logger *log.Logger) *sql.DB {
+	conn := Open(t, logger)
 
 	// 全テーブルをDROP
 	DropAll(t, conn)
