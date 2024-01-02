@@ -12,6 +12,7 @@ require (
 	github.com/volatiletech/sqlboiler/v4 v4.15.0
 	github.com/volatiletech/strmangle v0.0.5
 	goa.design/goa/v3 v3.14.1
+	goa.design/plugins/v3 v3.14.1
 	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.0
 )
