@@ -24,6 +24,7 @@ const config: PlaywrightTestConfig = {
 			reuseExistingServer: !process.env.CI,
 			env: {
 				GOOGLE_CLOUD_PROJECT: 'sk-goa-chat',
+				VITE_GOOGLE_CLOUD_PROJECT: 'sk-goa-chat',
 				// https://firebase.google.com/docs/emulator-suite/connect_auth?hl=ja
 				FIREBASE_AUTH_EMULATOR_HOST: '127.0.0.1:9090',
 				VITE_FIREBASE_AUTH_EMULATOR_HOST: '127.0.0.1:9090',
