@@ -442,6 +442,8 @@ github.com/shopspring/decimal v1.3.1 h1:2Usl1nmF/WZucqkFZhnfFYxxxu8LG21F6nPQBE5g
 github.com/shopspring/decimal v1.3.1/go.mod h1:DKyhrW/HYNuLGql+MJL6WCR6knT2jwCFRcu2hWCYk4o=
 github.com/simukti/sqldb-logger v0.0.0-20230108155151-646c1a075551 h1:+EXKKt7RC4HyE/iE8zSeFL+7YBL8Z7vpBaEE3c7lCnk=
 github.com/simukti/sqldb-logger v0.0.0-20230108155151-646c1a075551/go.mod h1:ztTX0ctjRZ1wn9OXrzhonvNmv43yjFUXJYJR95JQAJE=
+github.com/simukti/sqldb-logger/logadapter/zerologadapter v0.0.0-20230108155151-646c1a075551 h1:bczJjKEboy7QOlt2Is8oDVHOANiPo+WZ1BQ7sXE7aTw=
+github.com/simukti/sqldb-logger/logadapter/zerologadapter v0.0.0-20230108155151-646c1a075551/go.mod h1:B5eKZqvueyvIu/v97d/JBqYKgchoWWoks6cceAtf56g=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/sirupsen/logrus v1.4.2/go.mod h1:tLMulIdttU9McNUspp0xgXVQah82FyeX6MwdIuYE2rE=
 github.com/sirupsen/logrus v1.6.0/go.mod h1:7uNnSEd1DgxDLC74fIahvMZmmYsHGZGEOFrfsX/uA88=
