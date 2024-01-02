@@ -30,7 +30,7 @@
 </script>
 
 <div class="mx-36 max-w-full my-2">
-	<Navbar>
+	<Navbar data-testid="header_nav">
 		<NavBrand href="/">
 			<img src="/logo192.png" class="mr-3 h-6 sm:h-9" alt="SK Goa Chat Logo" />
 			<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
@@ -56,8 +56,8 @@
 
 	<div class="flex">
 		{#if user}
-			<div class="flex flex-col">
-				<Listgroup active items={channelLinks} let:item class="w-48">
+			<div class="flex flex-col" data-testid="channel_list_pane">
+				<Listgroup active items={channelLinks} let:item class="w-48" data-testid="channel_list">
 					{item.name}
 				</Listgroup>
 
