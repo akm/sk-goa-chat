@@ -28,7 +28,7 @@ func NewChannels(logger *log.Logger) channels.Service {
 func (s *channelssrvc) List(ctx context.Context) (res *channels.ChannelList, err error) {
 	s.logger.Info().Msg("channels.list")
 	ctx = SetupContext(ctx)
-	db, err := sql.Open()
+	db, err := sql.Open(s.logger)
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +60,7 @@ func (s *channelssrvc) List(ctx context.Context) (res *channels.ChannelList, err
 func (s *channelssrvc) Show(ctx context.Context, p *channels.ShowPayload) (res *channels.Channel, err error) {
 	s.logger.Info().Msg("channels.show")
 	ctx = SetupContext(ctx)
-	db, err := sql.Open()
+	db, err := sql.Open(s.logger)
 	if err != nil {
 		return nil, err
 	}
@@ -92,7 +92,7 @@ func (s *channelssrvc) Create(ctx context.Context, p *channels.ChannelCreatePayl
 	}
 
 	ctx = SetupContext(ctx)
-	db, err := sql.Open()
+	db, err := sql.Open(s.logger)
 	if err != nil {
 		return nil, err
 	}
@@ -124,7 +124,7 @@ func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayl
 	}
 
 	ctx = SetupContext(ctx)
-	db, err := sql.Open()
+	db, err := sql.Open(s.logger)
 	if err != nil {
 		return nil, err
 	}
@@ -151,7 +151,7 @@ func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayl
 func (s *channelssrvc) Delete(ctx context.Context, p *channels.DeletePayload) (res *channels.Channel, err error) {
 	s.logger.Info().Msg("channels.delete")
 	ctx = SetupContext(ctx)
-	db, err := sql.Open()
+	db, err := sql.Open(s.logger)
 	if err != nil {
 		return nil, err
 	}
