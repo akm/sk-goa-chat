@@ -4,9 +4,9 @@ import (
 	"apisvr/lib/sql"
 	"apisvr/models"
 	channels "apisvr/services/gen/channels"
+	log "apisvr/services/gen/log"
 	"context"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/volatiletech/sqlboiler/v4/boil"
