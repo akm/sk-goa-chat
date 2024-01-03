@@ -1,12 +1,13 @@
 package main
 
 import (
+	"apisvr/lib/goa/goaext"
 	chatapi "apisvr/services"
 	channels "apisvr/services/gen/channels"
+	log "apisvr/services/gen/log"
 	"context"
 	"flag"
 	"fmt"
-	"log"
 	"net"
 	"net/url"
 	"os"
@@ -33,7 +34,7 @@ func main() {
 		logger *log.Logger
 	)
 	{
-		logger = log.New(os.Stderr, "[chatapi] ", log.Ltime)
+		logger = log.New("chatapi", dbgF != nil && *dbgF)
 	}
 
 	// Initialize the services.
@@ -50,7 +51,13 @@ func main() {
 		channelsEndpoints *channels.Endpoints
 	)
 	{
-		channelsEndpoints = channels.NewEndpoints(channelsSvc)
+		var eh func(err error) error
+		if os.Getenv("STAGE") != "local" {
+			eh = goaext.LoggerErrorHandlerFunc(logger)
+		} else {
+			eh = goaext.StderrErrorHandler
+		}
+		channelsEndpoints = goaext.ErrorHandledEndpoints[*channels.Endpoints](channels.NewEndpoints(channelsSvc), eh)
 	}
 
 	// Create channel used by both the signal handler and server goroutines
@@ -75,7 +82,7 @@ func main() {
 			addr := "http://localhost:8000"
 			u, err := url.Parse(addr)
 			if err != nil {
-				logger.Fatalf("invalid URL %#v: %s\n", addr, err)
+				logger.Fatal().Msgf("invalid URL %#v: %s\n", addr, err)
 			}
 			if *secureF {
 				u.Scheme = "https"
@@ -86,7 +93,7 @@ func main() {
 			if *httpPortF != "" {
 				h, _, err := net.SplitHostPort(u.Host)
 				if err != nil {
-					logger.Fatalf("invalid URL %#v: %s\n", u.Host, err)
+					logger.Fatal().Msgf("invalid URL %#v: %s\n", u.Host, err)
 				}
 				u.Host = net.JoinHostPort(h, *httpPortF)
 			} else if u.Port() == "" {
@@ -99,7 +106,7 @@ func main() {
 			addr := "grpc://localhost:8080"
 			u, err := url.Parse(addr)
 			if err != nil {
-				logger.Fatalf("invalid URL %#v: %s\n", addr, err)
+				logger.Fatal().Msgf("invalid URL %#v: %s\n", addr, err)
 			}
 			if *secureF {
 				u.Scheme = "grpcs"
@@ -110,7 +117,7 @@ func main() {
 			if *grpcPortF != "" {
 				h, _, err := net.SplitHostPort(u.Host)
 				if err != nil {
-					logger.Fatalf("invalid URL %#v: %s\n", u.Host, err)
+					logger.Fatal().Msgf("invalid URL %#v: %s\n", u.Host, err)
 				}
 				u.Host = net.JoinHostPort(h, *grpcPortF)
 			} else if u.Port() == "" {
@@ -120,15 +127,15 @@ func main() {
 		}
 
 	default:
-		logger.Fatalf("invalid host argument: %q (valid hosts: localhost)\n", *hostF)
+		logger.Fatal().Msgf("invalid host argument: %q (valid hosts: localhost)\n", *hostF)
 	}
 
 	// Wait for signal.
-	logger.Printf("exiting (%v)", <-errc)
+	logger.Info().Msgf("exiting (%v)", <-errc)
 
 	// Send cancellation signal to the goroutines.
 	cancel()
 
 	wg.Wait()
-	logger.Println("exited")
+	logger.Info().Msg("exited")
 }

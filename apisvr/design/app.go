@@ -2,6 +2,7 @@ package design
 
 import (
 	. "goa.design/goa/v3/dsl"
+	_ "goa.design/plugins/v3/zerologger" // Enables the plugin
 )
 
 // APIに指定した引数は ***srvc を定義するファイルののパッケージ名として使われる
