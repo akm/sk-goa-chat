@@ -7,7 +7,9 @@ TEST_ENVS=\
 	ENV_TYPE=test \
 	STAGE_ENV=$(shell ENV_TYPE=test $(MAKE) stage_env) \
 	MYSQL_PORT=$(TEST_MYSQL_PORT) \
-	MYSQL_DSN=$(TEST_MYSQL_DSN)
+	MYSQL_DSN=$(TEST_MYSQL_DSN) \
+	GOOGLE_CLOUD_PROJECT=sk-goa-chat \
+	FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:9091'
 
 .PHONY: test
 test: test_containers_up test_mysql_wait_to_connect test_dbmigration_up
