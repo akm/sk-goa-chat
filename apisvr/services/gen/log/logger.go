@@ -9,34 +9,24 @@ package log
 
 import (
 	"fmt"
-	"io"
 	"os"
-	"regexp"
-	"time"
 
-	"github.com/rs/zerolog"
+	"apisvr/lib/log"
 )
 
 // Logger is an adapted zerologger
 type Logger struct {
-	*zerolog.Logger
+	*log.Logger
 }
 
 // New creates a new zerologger
 func New(serviceName string, isDebug bool) *Logger {
-	logLevel := zerolog.InfoLevel
+	logLevel := log.InfoLevel
 	if isDebug {
-		logLevel = zerolog.DebugLevel
+		logLevel = log.DebugLevel
 	}
-	zerolog.SetGlobalLevel(logLevel)
-	var output io.Writer
-	useConsoleWriter := regexp.MustCompile(`(?i)^(?:1|true|on|yes)$`).MatchString(os.Getenv("LOG_CONSOLE_WRITER"))
-	if useConsoleWriter {
-		output = zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339}
-	} else {
-		output = os.Stderr
-	}
-	logger := zerolog.New(output).With().Timestamp().Str("service", serviceName).Logger()
+	log.SetGlobalLevel(logLevel)
+	logger := *log.NewServiceLogger(os.Stderr, serviceName)
 	return &Logger{&logger}
 }
 
