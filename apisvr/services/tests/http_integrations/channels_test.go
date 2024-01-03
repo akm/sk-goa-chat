@@ -6,6 +6,7 @@ import (
 	chatapi "apisvr/services"
 	"apisvr/services/gen/channels"
 	"apisvr/services/gen/http/channels/server"
+	"apisvr/services/gen/log"
 	"apisvr/testlib/testgoa"
 	"apisvr/testlib/testjson"
 	"apisvr/testlib/testlog"
@@ -31,7 +32,7 @@ func TestChannels(t *testing.T) {
 	defer time.SetTime(now)
 
 	ctx := context.Background()
-	srvc := chatapi.NewChannels(logger)
+	srvc := chatapi.NewChannels(&log.Logger{Logger: logger})
 	conv := chatapi.NewChannelsConvertor()
 
 	checker := goahttpcheck.New()

@@ -1,16 +1,14 @@
 package testlog
 
 import (
-	"apisvr/services/gen/log"
+	"apisvr/lib/log"
 	"testing"
 	"time"
-
-	"github.com/rs/zerolog"
 )
 
 func NewServicesLogger(t *testing.T) *log.Logger {
 	w := NewLogWriter(t)
-	output := zerolog.ConsoleWriter{Out: w, TimeFormat: time.RFC3339}
-	logger := zerolog.New(output).With().Timestamp().Logger()
-	return &log.Logger{Logger: &logger}
+	output := log.ConsoleWriter{Out: w, TimeFormat: time.RFC3339}
+	logger := log.New(output).With().Timestamp().Logger()
+	return &logger
 }

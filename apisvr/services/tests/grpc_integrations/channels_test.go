@@ -32,7 +32,7 @@ func TestChannels(t *testing.T) {
 	ctx := context.Background()
 	logger := testlog.New(t)
 
-	client, closer := setupChannelsServer(ctx, logger)
+	client, closer := setupChannelsServer(ctx, &log.Logger{Logger: logger})
 	defer closer()
 
 	conn := testsql.Setup(t, logger)

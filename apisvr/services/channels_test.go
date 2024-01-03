@@ -5,6 +5,7 @@ import (
 	"apisvr/lib/time"
 	"apisvr/models"
 	"apisvr/services/gen/channels"
+	"apisvr/services/gen/log"
 	"apisvr/testlib/testgoa"
 	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
@@ -26,7 +27,7 @@ func TestChannels(t *testing.T) {
 	defer time.SetTime(now)
 
 	ctx := context.Background()
-	srvc := NewChannels(logger)
+	srvc := NewChannels(&log.Logger{Logger: logger})
 	conv := NewChannelsConvertor()
 
 	t.Run("no data", func(t *testing.T) {

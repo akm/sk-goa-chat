@@ -1,8 +1,8 @@
 package testsql
 
 import (
+	"apisvr/lib/log"
 	"apisvr/lib/sql"
-	"apisvr/services/gen/log"
 	"apisvr/testlib/testdir"
 	"path/filepath"
 	"testing"

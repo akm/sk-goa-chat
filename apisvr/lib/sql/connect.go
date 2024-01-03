@@ -2,7 +2,7 @@ package sql
 
 import (
 	"apisvr/lib/errors"
-	"apisvr/services/gen/log"
+	"apisvr/lib/log"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -17,7 +17,7 @@ func Open(logger *log.Logger) (*DB, error) {
 		return nil, errors.Wrapf(err, "failed to open database with %s", dsn)
 	}
 	// See https://github.com/simukti/sqldb-logger
-	loggerAdapter := zerologadapter.New(*logger.Logger)
+	loggerAdapter := zerologadapter.New(*logger)
 	db = sqldblogger.OpenDriver(dsn, db.Driver(), loggerAdapter) // db is STILL *sql.DB
 	return db, nil
 }
