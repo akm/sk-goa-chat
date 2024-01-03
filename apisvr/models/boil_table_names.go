@@ -6,7 +6,9 @@ package models
 var TableNames = struct {
 	Channels       string
 	GooseDBVersion string
+	Users          string
 }{
 	Channels:       "channels",
 	GooseDBVersion: "goose_db_version",
+	Users:          "users",
 }
