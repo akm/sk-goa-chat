@@ -9,6 +9,7 @@ package cli
 
 import (
 	channelsc "apisvr/services/gen/grpc/channels/client"
+	usersc "apisvr/services/gen/grpc/users/client"
 	"flag"
 	"fmt"
 	"os"
@@ -22,12 +23,14 @@ import (
 //	command (subcommand1|subcommand2|...)
 func UsageCommands() string {
 	return `channels (list|show|create|update|delete)
+users (list|create)
 `
 }
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
 	return os.Args[0] + ` channels list` + "\n" +
+		os.Args[0] + ` users list` + "\n" +
 		""
 }
 
@@ -50,6 +53,13 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 
 		channelsDeleteFlags       = flag.NewFlagSet("delete", flag.ExitOnError)
 		channelsDeleteMessageFlag = channelsDeleteFlags.String("message", "", "")
+
+		usersFlags = flag.NewFlagSet("users", flag.ContinueOnError)
+
+		usersListFlags = flag.NewFlagSet("list", flag.ExitOnError)
+
+		usersCreateFlags       = flag.NewFlagSet("create", flag.ExitOnError)
+		usersCreateMessageFlag = usersCreateFlags.String("message", "", "")
 	)
 	channelsFlags.Usage = channelsUsage
 	channelsListFlags.Usage = channelsListUsage
@@ -57,6 +67,10 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 	channelsCreateFlags.Usage = channelsCreateUsage
 	channelsUpdateFlags.Usage = channelsUpdateUsage
 	channelsDeleteFlags.Usage = channelsDeleteUsage
+
+	usersFlags.Usage = usersUsage
+	usersListFlags.Usage = usersListUsage
+	usersCreateFlags.Usage = usersCreateUsage
 
 	if err := flag.CommandLine.Parse(os.Args[1:]); err != nil {
 		return nil, nil, err
@@ -75,6 +89,8 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 		switch svcn {
 		case "channels":
 			svcf = channelsFlags
+		case "users":
+			svcf = usersFlags
 		default:
 			return nil, nil, fmt.Errorf("unknown service %q", svcn)
 		}
@@ -106,6 +122,16 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 
 			case "delete":
 				epf = channelsDeleteFlags
+
+			}
+
+		case "users":
+			switch epn {
+			case "list":
+				epf = usersListFlags
+
+			case "create":
+				epf = usersCreateFlags
 
 			}
 
@@ -147,6 +173,16 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 			case "delete":
 				endpoint = c.Delete()
 				data, err = channelsc.BuildDeletePayload(*channelsDeleteMessageFlag)
+			}
+		case "users":
+			c := usersc.NewClient(cc, opts...)
+			switch epn {
+			case "list":
+				endpoint = c.List()
+				data = nil
+			case "create":
+				endpoint = c.Create()
+				data, err = usersc.BuildCreatePayload(*usersCreateMessageFlag)
 			}
 		}
 	}
@@ -192,7 +228,7 @@ Show implements show.
 
 Example:
     %[1]s channels show --message '{
-      "id": 7179248999906013810
+      "id": 4179308011755768829
    }'
 `, os.Args[0])
 }
@@ -205,7 +241,7 @@ Create implements create.
 
 Example:
     %[1]s channels create --message '{
-      "name": "Ipsum adipisci sunt qui nisi."
+      "name": "Architecto inventore expedita dolores."
    }'
 `, os.Args[0])
 }
@@ -218,8 +254,8 @@ Update implements update.
 
 Example:
     %[1]s channels update --message '{
-      "id": 18394200013453555426,
-      "name": "Qui dolor nam labore odit et reiciendis."
+      "id": 17853287536152313575,
+      "name": "Tempora dolor."
    }'
 `, os.Args[0])
 }
@@ -232,7 +268,45 @@ Delete implements delete.
 
 Example:
     %[1]s channels delete --message '{
-      "id": 9178827906163796587
+      "id": 14143474729002507714
+   }'
+`, os.Args[0])
+}
+
+// usersUsage displays the usage of the users command and its subcommands.
+func usersUsage() {
+	fmt.Fprintf(os.Stderr, `Service is the users service interface.
+Usage:
+    %[1]s [globalflags] users COMMAND [flags]
+
+COMMAND:
+    list: List implements list.
+    create: Create implements create.
+
+Additional help:
+    %[1]s users COMMAND --help
+`, os.Args[0])
+}
+func usersListUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] users list
+
+List implements list.
+
+Example:
+    %[1]s users list
+`, os.Args[0])
+}
+
+func usersCreateUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] users create -message JSON
+
+Create implements create.
+    -message JSON: 
+
+Example:
+    %[1]s users create --message '{
+      "email": "Culpa repellendus voluptatem sit aut quia quas.",
+      "name": "Corrupti nihil excepturi eveniet."
    }'
 `, os.Args[0])
 }

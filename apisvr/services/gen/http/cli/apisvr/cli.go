@@ -9,6 +9,7 @@ package cli
 
 import (
 	channelsc "apisvr/services/gen/http/channels/client"
+	usersc "apisvr/services/gen/http/users/client"
 	"flag"
 	"fmt"
 	"net/http"
@@ -23,12 +24,14 @@ import (
 //	command (subcommand1|subcommand2|...)
 func UsageCommands() string {
 	return `channels (list|show|create|update|delete)
+users (list|create)
 `
 }
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
 	return os.Args[0] + ` channels list` + "\n" +
+		os.Args[0] + ` users list` + "\n" +
 		""
 }
 
@@ -58,6 +61,13 @@ func ParseEndpoint(
 
 		channelsDeleteFlags  = flag.NewFlagSet("delete", flag.ExitOnError)
 		channelsDeleteIDFlag = channelsDeleteFlags.String("id", "REQUIRED", "ID")
+
+		usersFlags = flag.NewFlagSet("users", flag.ContinueOnError)
+
+		usersListFlags = flag.NewFlagSet("list", flag.ExitOnError)
+
+		usersCreateFlags    = flag.NewFlagSet("create", flag.ExitOnError)
+		usersCreateBodyFlag = usersCreateFlags.String("body", "REQUIRED", "")
 	)
 	channelsFlags.Usage = channelsUsage
 	channelsListFlags.Usage = channelsListUsage
@@ -65,6 +75,10 @@ func ParseEndpoint(
 	channelsCreateFlags.Usage = channelsCreateUsage
 	channelsUpdateFlags.Usage = channelsUpdateUsage
 	channelsDeleteFlags.Usage = channelsDeleteUsage
+
+	usersFlags.Usage = usersUsage
+	usersListFlags.Usage = usersListUsage
+	usersCreateFlags.Usage = usersCreateUsage
 
 	if err := flag.CommandLine.Parse(os.Args[1:]); err != nil {
 		return nil, nil, err
@@ -83,6 +97,8 @@ func ParseEndpoint(
 		switch svcn {
 		case "channels":
 			svcf = channelsFlags
+		case "users":
+			svcf = usersFlags
 		default:
 			return nil, nil, fmt.Errorf("unknown service %q", svcn)
 		}
@@ -114,6 +130,16 @@ func ParseEndpoint(
 
 			case "delete":
 				epf = channelsDeleteFlags
+
+			}
+
+		case "users":
+			switch epn {
+			case "list":
+				epf = usersListFlags
+
+			case "create":
+				epf = usersCreateFlags
 
 			}
 
@@ -155,6 +181,16 @@ func ParseEndpoint(
 			case "delete":
 				endpoint = c.Delete()
 				data, err = channelsc.BuildDeletePayload(*channelsDeleteIDFlag)
+			}
+		case "users":
+			c := usersc.NewClient(scheme, host, doer, enc, dec, restore)
+			switch epn {
+			case "list":
+				endpoint = c.List()
+				data = nil
+			case "create":
+				endpoint = c.Create()
+				data, err = usersc.BuildCreatePayload(*usersCreateBodyFlag)
 			}
 		}
 	}
@@ -199,7 +235,7 @@ Show implements show.
     -id UINT64: ID
 
 Example:
-    %[1]s channels show --id 13959009638458441834
+    %[1]s channels show --id 4238415144844304710
 `, os.Args[0])
 }
 
@@ -211,7 +247,7 @@ Create implements create.
 
 Example:
     %[1]s channels create --body '{
-      "name": "Enim iste odio."
+      "name": "Est nesciunt perspiciatis optio."
    }'
 `, os.Args[0])
 }
@@ -225,8 +261,8 @@ Update implements update.
 
 Example:
     %[1]s channels update --body '{
-      "name": "Consequatur officia dolores corporis."
-   }' --id 5039307373017843324
+      "name": "Ut veritatis in odit vero."
+   }' --id 158218705981460379
 `, os.Args[0])
 }
 
@@ -237,6 +273,44 @@ Delete implements delete.
     -id UINT64: ID
 
 Example:
-    %[1]s channels delete --id 8275257875255490841
+    %[1]s channels delete --id 4399751439308725398
+`, os.Args[0])
+}
+
+// usersUsage displays the usage of the users command and its subcommands.
+func usersUsage() {
+	fmt.Fprintf(os.Stderr, `Service is the users service interface.
+Usage:
+    %[1]s [globalflags] users COMMAND [flags]
+
+COMMAND:
+    list: List implements list.
+    create: Create implements create.
+
+Additional help:
+    %[1]s users COMMAND --help
+`, os.Args[0])
+}
+func usersListUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] users list
+
+List implements list.
+
+Example:
+    %[1]s users list
+`, os.Args[0])
+}
+
+func usersCreateUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] users create -body JSON
+
+Create implements create.
+    -body JSON: 
+
+Example:
+    %[1]s users create --body '{
+      "email": "Omnis dolorem.",
+      "name": "Incidunt sint similique numquam nihil."
+   }'
 `, os.Args[0])
 }
