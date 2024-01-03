@@ -1,6 +1,7 @@
 package main
 
 import (
+	"apisvr/lib/goa/goaext"
 	chatapi "apisvr/services"
 	channels "apisvr/services/gen/channels"
 	log "apisvr/services/gen/log"
@@ -50,7 +51,13 @@ func main() {
 		channelsEndpoints *channels.Endpoints
 	)
 	{
-		channelsEndpoints = channels.NewEndpoints(channelsSvc)
+		var eh func(err error) error
+		if os.Getenv("STAGE") != "local" {
+			eh = goaext.LoggerErrorHandlerFunc(logger)
+		} else {
+			eh = goaext.StderrErrorHandler
+		}
+		channelsEndpoints = goaext.ErrorHandledEndpoints[*channels.Endpoints](channels.NewEndpoints(channelsSvc), eh)
 	}
 
 	// Create channel used by both the signal handler and server goroutines
