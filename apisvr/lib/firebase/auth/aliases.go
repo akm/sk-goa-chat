@@ -10,5 +10,8 @@ type (
 	UserToCreate = orig.UserToCreate
 	UserToUpdate = orig.UserToUpdate
 
+	UserIterator       = orig.UserIterator
+	ExportedUserRecord = orig.ExportedUserRecord
+
 	OrigClient = orig.Client
 )
