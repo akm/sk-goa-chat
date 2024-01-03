@@ -11,6 +11,9 @@ import (
 // ErrorHandledEndpoints は endpoints で指定された struct の各フィールドのうち
 // goa.Endpoint 型のフィールドに対して、エラーハンドラ eh を適用した関数を作成します。
 // 戻り値は、元の endpoints と同じ型の struct で、 eh が適用された goa.Endpoint 型のフィールドを持ちます。
+//
+// この関数は reflect を使用しますが、サーバー起動時にのみ使用され、リクエスト処理時には使用されません。
+// サーバー起動も著しく遅くなることはないので reflect を使っても問題ないと判断しました。
 func ErrorHandledEndpoints[T any](endpoints T, eh func(error) error) T {
 	srcVal := reflect.ValueOf(endpoints).Elem() // ポインタ
 	fmt.Printf("srcVal: [%T] %+v\n", srcVal.Interface(), srcVal.Interface())
