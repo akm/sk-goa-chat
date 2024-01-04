@@ -15,7 +15,7 @@ func NewClientWithLogger(ctx context.Context, app *firebase.App, logger *log.Log
 	if err != nil {
 		return nil, err
 	}
-	return NewClientLogger(origClient, logger), nil
+	return NewClientLogger(NewClientErrorWrapper(origClient), logger), nil
 }
 
 type ClientFactoryFunc = func(ctx context.Context, app *firebase.App, logger *log.Logger) (Client, error)
