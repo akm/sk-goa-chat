@@ -4,8 +4,7 @@ import "context"
 
 type Client interface {
 	CreateUser(ctx context.Context, user *UserToCreate) (*UserRecord, error)
-	UpdateUser(ctx context.Context, uid string, user *UserToUpdate) (ur *UserRecord, err error)
-	DeleteUser(ctx context.Context, uid string) error
+	GetUserByEmail(ctx context.Context, email string) (*UserRecord, error)
 }
 
 var _ (Client) = (*OrigClient)(nil)

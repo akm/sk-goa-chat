@@ -28,26 +28,38 @@ func (c *ClientLogger) CreateUser(ctx context.Context, user *UserToCreate) (*Use
 	}
 }
 
-func (c *ClientLogger) UpdateUser(ctx context.Context, uid string, user *UserToUpdate) (ur *UserRecord, err error) {
-	c.logger.Info().Msgf("UpdateUser calling %s: %+v", uid, user)
-	res, err := c.impl.UpdateUser(ctx, uid, user)
+func (c *ClientLogger) GetUserByEmail(ctx context.Context, email string) (*UserRecord, error) {
+	c.logger.Info().Msgf("GetUserByEmail calling %s", email)
+	res, err := c.impl.GetUserByEmail(ctx, email)
 	if err != nil {
-		c.logger.Error().Err(err).Msgf("UpdateUser %s : %+v", uid, user)
+		c.logger.Error().Err(err).Msgf("GetUserByEmail %s", email)
 		return nil, err
 	} else {
-		c.logger.Info().Msgf("UpdateUser result %s: %+v", uid, res)
+		c.logger.Info().Msgf("GetUserByEmail result %s: %+v", email, res)
 		return res, nil
 	}
 }
 
-func (c *ClientLogger) DeleteUser(ctx context.Context, uid string) error {
-	c.logger.Info().Msgf("DeleteUser calling %s", uid)
-	err := c.impl.DeleteUser(ctx, uid)
-	if err != nil {
-		c.logger.Error().Err(err).Msgf("DeleteUser %s", uid)
-		return err
-	} else {
-		c.logger.Info().Msgf("DeleteUser result %s", uid)
-		return nil
-	}
-}
+// func (c *ClientLogger) UpdateUser(ctx context.Context, uid string, user *UserToUpdate) (ur *UserRecord, err error) {
+// 	c.logger.Info().Msgf("UpdateUser calling %s: %+v", uid, user)
+// 	res, err := c.impl.UpdateUser(ctx, uid, user)
+// 	if err != nil {
+// 		c.logger.Error().Err(err).Msgf("UpdateUser %s : %+v", uid, user)
+// 		return nil, err
+// 	} else {
+// 		c.logger.Info().Msgf("UpdateUser result %s: %+v", uid, res)
+// 		return res, nil
+// 	}
+// }
+
+// func (c *ClientLogger) DeleteUser(ctx context.Context, uid string) error {
+// 	c.logger.Info().Msgf("DeleteUser calling %s", uid)
+// 	err := c.impl.DeleteUser(ctx, uid)
+// 	if err != nil {
+// 		c.logger.Error().Err(err).Msgf("DeleteUser %s", uid)
+// 		return err
+// 	} else {
+// 		c.logger.Info().Msgf("DeleteUser result %s", uid)
+// 		return nil
+// 	}
+// }
