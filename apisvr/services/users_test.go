@@ -78,3 +78,36 @@ func TestUsers(t *testing.T) {
 		assert.Equal(t, conv.ModelToResult(user), res)
 	})
 }
+
+func TestUsersConvertor(t *testing.T) {
+	now := time.Now()
+	defer time.SetTime(now)
+
+	conv := &UsersConvertor{}
+
+	// Convertor はテストで期待する値を作成するためにも使うものなので、メソッド単体のテストが必要
+	t.Run("ModelsToList", func(t *testing.T) {
+		user1 := &models.User{ID: 1, Name: "test1", CreatedAt: now, UpdatedAt: now}
+		user2 := &models.User{ID: 2, Name: "test2", CreatedAt: now, UpdatedAt: now}
+		res := conv.ModelsToList([]*models.User{user1, user2})
+		assert.Equal(t, &users.UserList{
+			Total:  2,
+			Offset: 0,
+			Items: []*users.UserListItem{
+				{ID: 1, Name: "test1"},
+				{ID: 2, Name: "test2"},
+			},
+		}, res)
+	})
+
+	t.Run("ModelToResult", func(t *testing.T) {
+		user1 := &models.User{ID: 1, Name: "test1", CreatedAt: now, UpdatedAt: now}
+		res := conv.ModelToResult(user1)
+		assert.Equal(t, &users.User{
+			ID:        1,
+			Name:      "test1",
+			CreatedAt: now.Format(time.RFC3339),
+			UpdatedAt: now.Format(time.RFC3339),
+		}, res)
+	})
+}
