@@ -2,6 +2,8 @@ package chatapi
 
 import (
 	"apisvr/lib/errors"
+	"apisvr/lib/firebase"
+	"apisvr/lib/firebase/auth"
 	"apisvr/lib/sql"
 	"apisvr/models"
 	log "apisvr/services/gen/log"
@@ -70,6 +72,15 @@ func (s *userssrvc) Create(ctx context.Context, p *users.UserCreatePayload) (res
 		}
 	}
 
+	fbapp, err := firebase.NewApp(ctx, nil)
+	if err != nil {
+		return nil, errors.Wrapf(err, "firebase.NewApp")
+	}
+	fbauth, err := auth.NewClientWithLogger(ctx, fbapp, s.logger.Logger)
+	if err != nil {
+		return nil, errors.Wrapf(err, "auth.NewClientWithLogger")
+	}
+
 	ctx = SetupContext(ctx)
 	db, err := s.sqlOpen()
 	if err != nil {
@@ -77,25 +88,41 @@ func (s *userssrvc) Create(ctx context.Context, p *users.UserCreatePayload) (res
 	}
 	defer db.Close()
 
-	if user, err := models.Users(qm.Where("email = ?", p.Email)).One(ctx, db); err != nil {
-		if err == sql.ErrNoRows {
-			// OK
+	err = sql.BeginTx(ctx, db, func(ctx context.Context, tx *sql.Tx) error {
+		if user, err := models.Users(qm.Where("email = ?", p.Email)).One(ctx, db); err != nil {
+			if err == sql.ErrNoRows {
+				// OK
+			} else {
+				return err
+			}
 		} else {
-			return nil, errors.Wrapf(err, "failed to query user by email: %s", p.Email)
+			res = s.ModelToResult(user)
+			return nil
 		}
-	} else {
-		return s.ModelToResult(user), nil
-	}
 
-	m := &models.User{
-		Name:  p.Name,
-		Email: p.Email,
-	}
-	if err := m.Insert(ctx, db, boil.Infer()); err != nil {
-		return nil, err
-	}
+		fbInput := &auth.UserToCreate{}
+		fbInput.Email(p.Email)
+		fbInput.EmailVerified(false)
+		fbInput.DisplayName(p.Name)
 
-	res = s.ModelToResult(m)
+		fbOutput, err := fbauth.CreateUser(ctx, fbInput)
+		if err != nil {
+			return err
+		}
+
+		m := &models.User{
+			Name:      p.Name,
+			Email:     p.Email,
+			FbauthUID: fbOutput.UID,
+		}
+		if err := m.Insert(ctx, db, boil.Infer()); err != nil {
+			return err
+		}
+
+		res = s.ModelToResult(m)
+		return nil
+	})
+
 	return
 }
 
