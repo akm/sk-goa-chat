@@ -37,7 +37,7 @@ func TestUsers(t *testing.T) {
 		})
 	})
 
-	userFoo := &models.User{Email: "foo@example.com", Name: "Foo", FbauthUID: "foo-uid"}
+	userFoo := &models.User{Email: "foo@example.com", Name: "Foo", FbauthUID: "foo-uid"} // "user on Firebase got lost" テストで使用されます
 	userBar := &models.User{Email: "bar@example.com", Name: "Bar", FbauthUID: "bar-uid"}
 	testsqlboiler.Insert(t, ctx, conn, boil.Infer(), userFoo, userBar)
 
@@ -90,6 +90,16 @@ func TestUsers(t *testing.T) {
 		assert.NotEqual(t, bazID, res.ID)
 		assert.Equal(t, "Baz3", res.Name) // Baz3 になる
 		user := checkFooOnDB(t, res.ID, "baz@example.com", "Baz3")
+		assert.Equal(t, conv.ModelToResult(user), res)
+	})
+
+	t.Run("user on Firebase got lost", func(t *testing.T) {
+		res, err := srvc.Create(ctx, &users.UserCreatePayload{Email: "foo@example.com", Name: "Foo2"})
+		assert.NoError(t, err)
+		assert.NotEmpty(t, res.ID)
+		assert.Equal(t, "Foo2", res.Name) // Foo2 になる
+		user := checkFooOnDB(t, res.ID, "foo@example.com", "Foo2")
+		assert.NotEqual(t, "foo-uid", user.FbauthUID) // 更新される
 		assert.Equal(t, conv.ModelToResult(user), res)
 	})
 }
