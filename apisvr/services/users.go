@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"time"
 
+	"firebase.google.com/go/v4/errorutils"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 )
@@ -100,21 +101,30 @@ func (s *userssrvc) Create(ctx context.Context, p *users.UserCreatePayload) (res
 			return nil
 		}
 
-		fbInput := &auth.UserToCreate{}
-		fbInput.Email(p.Email)
-		fbInput.EmailVerified(false)
-		fbInput.DisplayName(p.Name)
-
-		fbOutput, err := fbauth.CreateUser(ctx, fbInput)
-		if err != nil {
-			return err
-		}
-
 		m := &models.User{
-			Name:      p.Name,
-			Email:     p.Email,
-			FbauthUID: fbOutput.UID,
+			Name:  p.Name,
+			Email: p.Email,
 		}
+
+		fbUser, err := fbauth.GetUserByEmail(ctx, p.Email)
+		if err != nil {
+			if !errorutils.IsNotFound(err) {
+				return err
+			}
+			fbInput := &auth.UserToCreate{}
+			fbInput.Email(p.Email)
+			fbInput.EmailVerified(false)
+			fbInput.DisplayName(p.Name)
+			fbOutput, err := fbauth.CreateUser(ctx, fbInput)
+			if err != nil {
+				return errors.Wrapf(err, "something wrong. user canntt find by email and cannt create user")
+			}
+			m.FbauthUID = fbOutput.UID
+
+		} else {
+			m.FbauthUID = fbUser.UID
+		}
+
 		if err := m.Insert(ctx, db, boil.Infer()); err != nil {
 			return err
 		}
