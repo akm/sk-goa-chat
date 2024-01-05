@@ -10,6 +10,7 @@ import (
 	users "apisvr/services/gen/users"
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"firebase.google.com/go/v4/errorutils"
@@ -90,14 +91,34 @@ func (s *userssrvc) Create(ctx context.Context, p *users.UserCreatePayload) (res
 	defer db.Close()
 
 	err = sql.BeginTx(ctx, db, func(ctx context.Context, tx *sql.Tx) error {
-		if user, err := models.Users(qm.Where("email = ?", p.Email)).One(ctx, db); err != nil {
+		if m, err := models.Users(qm.Where("email = ?", p.Email)).One(ctx, db); err != nil {
 			if err == sql.ErrNoRows {
 				// OK
 			} else {
 				return err
 			}
 		} else {
-			res = s.ModelToResult(user)
+			_, err := fbauth.GetUserByEmail(ctx, p.Email)
+			s.logger.Debug().Msgf("fbauth.GetUserByEmail: %+v", err)
+			if err != nil {
+				if !strings.Contains(err.Error(), "no user exists with the email") {
+					return err
+				}
+				fbInput := &auth.UserToCreate{}
+				fbInput.Email(p.Email)
+				fbInput.EmailVerified(false)
+				fbInput.DisplayName(p.Name)
+				fbOutput, err := fbauth.CreateUser(ctx, fbInput)
+				if err != nil {
+					return errors.Wrapf(err, "something wrong. user was not find by email and cannot create user")
+				}
+				m.Name = fbOutput.DisplayName
+				m.FbauthUID = fbOutput.UID
+				if _, err := m.Update(ctx, db, boil.Infer()); err != nil {
+					return err
+				}
+			}
+			res = s.ModelToResult(m)
 			return nil
 		}
 
@@ -117,7 +138,7 @@ func (s *userssrvc) Create(ctx context.Context, p *users.UserCreatePayload) (res
 			fbInput.DisplayName(p.Name)
 			fbOutput, err := fbauth.CreateUser(ctx, fbInput)
 			if err != nil {
-				return errors.Wrapf(err, "something wrong. user canntt find by email and cannt create user")
+				return errors.Wrapf(err, "something wrong. user was not find by email and cannot create user")
 			}
 			m.FbauthUID = fbOutput.UID
 
