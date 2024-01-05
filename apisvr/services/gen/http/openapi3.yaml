@@ -43,7 +43,7 @@ paths:
                         schema:
                             $ref: '#/components/schemas/CreateRequestBody'
                         example:
-                            name: Enim iste odio.
+                            name: Est nesciunt perspiciatis optio.
             responses:
                 "201":
                     description: Created response.
@@ -53,8 +53,8 @@ paths:
                                 $ref: '#/components/schemas/Channel'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 14548217990829156610
-                                name: Voluptatem sint nihil a.
+                                id: 12732113688530886158
+                                name: Est voluptate et numquam quia perferendis.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "400":
                     description: 'invalid_payload: Bad Request response.'
@@ -76,8 +76,8 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 7402200033726829684
-                  example: 10093194320594121456
+                    example: 272633443790595229
+                  example: 14927020557994522875
             responses:
                 "200":
                     description: OK response.
@@ -87,8 +87,8 @@ paths:
                                 $ref: '#/components/schemas/Channel'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 10873243760436954841
-                                name: Beatae voluptas commodi ut.
+                                id: 16634798007957750782
+                                name: Velit quo.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "404":
                     description: 'not_found: Not Found response.'
@@ -109,8 +109,8 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 9291001832476366602
-                  example: 3668806251888473344
+                    example: 7170536663965397222
+                  example: 14184977178470727349
             responses:
                 "200":
                     description: OK response.
@@ -120,8 +120,8 @@ paths:
                                 $ref: '#/components/schemas/Channel'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 11976032182583842327
-                                name: Ut est ducimus.
+                                id: 6470953216617523288
+                                name: Debitis et repudiandae.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "404":
                     description: 'not_found: Not Found response.'
@@ -142,8 +142,8 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 14096741058994480104
-                  example: 200596950086918472
+                    example: 4558954126519403017
+                  example: 1828379198469784053
             requestBody:
                 required: true
                 content:
@@ -151,7 +151,7 @@ paths:
                         schema:
                             $ref: '#/components/schemas/CreateRequestBody'
                         example:
-                            name: Consequatur officia dolores corporis.
+                            name: Ut veritatis in odit vero.
             responses:
                 "200":
                     description: OK response.
@@ -161,8 +161,8 @@ paths:
                                 $ref: '#/components/schemas/Channel'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 12140895905432867371
-                                name: Est nesciunt perspiciatis optio.
+                                id: 14979010136150885117
+                                name: Veniam blanditiis necessitatibus cumque distinctio.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "400":
                     description: 'invalid_payload: Bad Request response.'
@@ -172,6 +172,63 @@ paths:
                                 $ref: '#/components/schemas/Error'
                 "404":
                     description: 'not_found: Not Found response.'
+                    content:
+                        application/vnd.goa.error:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /api/users:
+        get:
+            tags:
+                - users
+            summary: list users
+            operationId: users#list
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UserList'
+                            example:
+                                items:
+                                    - id: 6978203180985993855
+                                      name: Culpa aliquid.
+                                    - id: 6978203180985993855
+                                      name: Culpa aliquid.
+                                    - id: 6978203180985993855
+                                      name: Culpa aliquid.
+                                    - id: 6978203180985993855
+                                      name: Culpa aliquid.
+                                offset: 0
+                                total: 160
+        post:
+            tags:
+                - users
+            summary: create users
+            operationId: users#create
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequestBody2'
+                        example:
+                            email: Omnis dolorem.
+                            name: Incidunt sint similique numquam nihil.
+            responses:
+                "201":
+                    description: Created response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+                            example:
+                                created_at: 2006-01-02T15:04:05Z07:00
+                                id: 1436963588651385446
+                                name: Similique ut.
+                                updated_at: 2006-01-02T15:04:05Z07:00
+                "400":
+                    description: 'invalid_payload: Bad Request response.'
                     content:
                         application/vnd.goa.error:
                             schema:
@@ -189,11 +246,11 @@ components:
                 id:
                     type: integer
                     description: ID
-                    example: 8903441740943770683
+                    example: 4391472896458759808
                 name:
                     type: string
                     description: Name
-                    example: Dolor adipisci.
+                    example: Voluptas voluptatem quam.
                 updated_at:
                     type: string
                     description: UpdatedAt
@@ -201,8 +258,8 @@ components:
                     format: date-time
             example:
                 created_at: 2006-01-02T15:04:05Z07:00
-                id: 12776821912030001770
-                name: Voluptates ut autem.
+                id: 1863588588855467784
+                name: Odit libero sint odio quod.
                 updated_at: 2006-01-02T15:04:05Z07:00
             required:
                 - id
@@ -249,11 +306,11 @@ components:
                 id:
                     type: integer
                     description: ID
-                    example: 14996003200144550810
+                    example: 18190238456327847765
                 name:
                     type: string
                     description: Name
-                    example: Ab quia quaerat.
+                    example: Labore temporibus sed explicabo et.
                 updated_at:
                     type: string
                     description: UpdatedAt
@@ -261,8 +318,8 @@ components:
                     format: date-time
             example:
                 created_at: 2006-01-02T15:04:05Z07:00
-                id: 9825264898259498513
-                name: Rerum quo alias saepe.
+                id: 8678752748511384800
+                name: Animi ab.
                 updated_at: 2006-01-02T15:04:05Z07:00
             required:
                 - id
@@ -282,25 +339,34 @@ components:
                   id: 14308298621592036455
                   name: Voluptas error.
                   updated_at: 2006-01-02T15:04:05Z07:00
-                - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 14308298621592036455
-                  name: Voluptas error.
-                  updated_at: 2006-01-02T15:04:05Z07:00
-                - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 14308298621592036455
-                  name: Voluptas error.
-                  updated_at: 2006-01-02T15:04:05Z07:00
         CreateRequestBody:
             type: object
             properties:
                 name:
                     type: string
                     description: Name
-                    example: Voluptatum veritatis non.
+                    example: Quo nesciunt necessitatibus hic.
             example:
-                name: Dignissimos repellat at nostrum.
+                name: Voluptas consectetur suscipit quia est.
             required:
                 - name
+        CreateRequestBody2:
+            type: object
+            properties:
+                email:
+                    type: string
+                    description: Email
+                    example: Eligendi non.
+                name:
+                    type: string
+                    description: Name
+                    example: Laboriosam enim est eos atque.
+            example:
+                email: Autem eum ducimus beatae.
+                name: Sit perferendis temporibus praesentium.
+            required:
+                - name
+                - email
         Error:
             type: object
             properties:
@@ -323,18 +389,18 @@ components:
                 temporary:
                     type: boolean
                     description: Is the error temporary?
-                    example: false
+                    example: true
                 timeout:
                     type: boolean
                     description: Is the error a timeout?
-                    example: false
+                    example: true
             example:
-                fault: false
+                fault: true
                 id: 123abc
                 message: parameter 'p' must be an integer
                 name: bad_request
-                temporary: false
-                timeout: false
+                temporary: true
+                timeout: true
             required:
                 - name
                 - id
@@ -342,5 +408,92 @@ components:
                 - temporary
                 - timeout
                 - fault
+        User:
+            type: object
+            properties:
+                created_at:
+                    type: string
+                    description: CreatedAt
+                    example: 2006-01-02T15:04:05Z07:00
+                    format: date-time
+                id:
+                    type: integer
+                    description: ID
+                    example: 13856351111770297532
+                name:
+                    type: string
+                    description: Name
+                    example: Aperiam voluptatem.
+                updated_at:
+                    type: string
+                    description: UpdatedAt
+                    example: 2006-01-02T15:04:05Z07:00
+                    format: date-time
+            example:
+                created_at: 2006-01-02T15:04:05Z07:00
+                id: 16121517043926034447
+                name: Libero consequatur ut.
+                updated_at: 2006-01-02T15:04:05Z07:00
+            required:
+                - id
+                - created_at
+                - updated_at
+                - name
+        UserList:
+            type: object
+            properties:
+                items:
+                    $ref: '#/components/schemas/UserListItemCollection'
+                offset:
+                    type: integer
+                    description: Offset
+                    example: 0
+                total:
+                    type: integer
+                    description: Total number of items
+                    example: 160
+            example:
+                items:
+                    - id: 6978203180985993855
+                      name: Culpa aliquid.
+                    - id: 6978203180985993855
+                      name: Culpa aliquid.
+                    - id: 6978203180985993855
+                      name: Culpa aliquid.
+                    - id: 6978203180985993855
+                      name: Culpa aliquid.
+                offset: 0
+                total: 160
+            required:
+                - items
+                - total
+                - offset
+        UserListItem:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: ID
+                    example: 3838731247721578831
+                name:
+                    type: string
+                    description: Name
+                    example: Quo dicta laborum veritatis voluptate deserunt qui.
+            example:
+                id: 5658535273821362356
+                name: Architecto unde ipsa et minima quaerat.
+            required:
+                - id
+                - name
+        UserListItemCollection:
+            type: array
+            items:
+                $ref: '#/components/schemas/UserListItem'
+            example:
+                - id: 6978203180985993855
+                  name: Culpa aliquid.
+                - id: 6978203180985993855
+                  name: Culpa aliquid.
 tags:
     - name: channels
+    - name: users

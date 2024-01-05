@@ -4,7 +4,10 @@ import (
 	channels "apisvr/services/gen/channels"
 	channelspb "apisvr/services/gen/grpc/channels/pb"
 	channelssvr "apisvr/services/gen/grpc/channels/server"
+	userspb "apisvr/services/gen/grpc/users/pb"
+	userssvr "apisvr/services/gen/grpc/users/server"
 	log "apisvr/services/gen/log"
+	users "apisvr/services/gen/users"
 	"context"
 	"net"
 	"net/url"
@@ -18,7 +21,7 @@ import (
 
 // handleGRPCServer starts configures and starts a gRPC server on the given
 // URL. It shuts down the server if any error is received in the error channel.
-func handleGRPCServer(ctx context.Context, u *url.URL, channelsEndpoints *channels.Endpoints, wg *sync.WaitGroup, errc chan error, logger *log.Logger, debug bool) {
+func handleGRPCServer(ctx context.Context, u *url.URL, channelsEndpoints *channels.Endpoints, usersEndpoints *users.Endpoints, wg *sync.WaitGroup, errc chan error, logger *log.Logger, debug bool) {
 
 	// Setup goa log adapter.
 	var (
@@ -34,9 +37,11 @@ func handleGRPCServer(ctx context.Context, u *url.URL, channelsEndpoints *channe
 	// responses.
 	var (
 		channelsServer *channelssvr.Server
+		usersServer    *userssvr.Server
 	)
 	{
 		channelsServer = channelssvr.New(channelsEndpoints, nil)
+		usersServer = userssvr.New(usersEndpoints, nil)
 	}
 
 	// Initialize gRPC server with the middleware.
@@ -49,6 +54,7 @@ func handleGRPCServer(ctx context.Context, u *url.URL, channelsEndpoints *channe
 
 	// Register the servers.
 	channelspb.RegisterChannelsServer(srv, channelsServer)
+	userspb.RegisterUsersServer(srv, usersServer)
 
 	for svc, info := range srv.GetServiceInfo() {
 		for _, m := range info.Methods {

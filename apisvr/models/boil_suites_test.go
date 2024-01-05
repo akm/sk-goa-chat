@@ -14,56 +14,67 @@ import "testing"
 func TestParent(t *testing.T) {
 	t.Run("Channels", testChannels)
 	t.Run("GooseDBVersions", testGooseDBVersions)
+	t.Run("Users", testUsers)
 }
 
 func TestDelete(t *testing.T) {
 	t.Run("Channels", testChannelsDelete)
 	t.Run("GooseDBVersions", testGooseDBVersionsDelete)
+	t.Run("Users", testUsersDelete)
 }
 
 func TestQueryDeleteAll(t *testing.T) {
 	t.Run("Channels", testChannelsQueryDeleteAll)
 	t.Run("GooseDBVersions", testGooseDBVersionsQueryDeleteAll)
+	t.Run("Users", testUsersQueryDeleteAll)
 }
 
 func TestSliceDeleteAll(t *testing.T) {
 	t.Run("Channels", testChannelsSliceDeleteAll)
 	t.Run("GooseDBVersions", testGooseDBVersionsSliceDeleteAll)
+	t.Run("Users", testUsersSliceDeleteAll)
 }
 
 func TestExists(t *testing.T) {
 	t.Run("Channels", testChannelsExists)
 	t.Run("GooseDBVersions", testGooseDBVersionsExists)
+	t.Run("Users", testUsersExists)
 }
 
 func TestFind(t *testing.T) {
 	t.Run("Channels", testChannelsFind)
 	t.Run("GooseDBVersions", testGooseDBVersionsFind)
+	t.Run("Users", testUsersFind)
 }
 
 func TestBind(t *testing.T) {
 	t.Run("Channels", testChannelsBind)
 	t.Run("GooseDBVersions", testGooseDBVersionsBind)
+	t.Run("Users", testUsersBind)
 }
 
 func TestOne(t *testing.T) {
 	t.Run("Channels", testChannelsOne)
 	t.Run("GooseDBVersions", testGooseDBVersionsOne)
+	t.Run("Users", testUsersOne)
 }
 
 func TestAll(t *testing.T) {
 	t.Run("Channels", testChannelsAll)
 	t.Run("GooseDBVersions", testGooseDBVersionsAll)
+	t.Run("Users", testUsersAll)
 }
 
 func TestCount(t *testing.T) {
 	t.Run("Channels", testChannelsCount)
 	t.Run("GooseDBVersions", testGooseDBVersionsCount)
+	t.Run("Users", testUsersCount)
 }
 
 func TestHooks(t *testing.T) {
 	t.Run("Channels", testChannelsHooks)
 	t.Run("GooseDBVersions", testGooseDBVersionsHooks)
+	t.Run("Users", testUsersHooks)
 }
 
 func TestInsert(t *testing.T) {
@@ -71,6 +82,8 @@ func TestInsert(t *testing.T) {
 	t.Run("Channels", testChannelsInsertWhitelist)
 	t.Run("GooseDBVersions", testGooseDBVersionsInsert)
 	t.Run("GooseDBVersions", testGooseDBVersionsInsertWhitelist)
+	t.Run("Users", testUsersInsert)
+	t.Run("Users", testUsersInsertWhitelist)
 }
 
 // TestToOne tests cannot be run in parallel
@@ -116,24 +129,29 @@ func TestToManyRemove(t *testing.T) {}
 func TestReload(t *testing.T) {
 	t.Run("Channels", testChannelsReload)
 	t.Run("GooseDBVersions", testGooseDBVersionsReload)
+	t.Run("Users", testUsersReload)
 }
 
 func TestReloadAll(t *testing.T) {
 	t.Run("Channels", testChannelsReloadAll)
 	t.Run("GooseDBVersions", testGooseDBVersionsReloadAll)
+	t.Run("Users", testUsersReloadAll)
 }
 
 func TestSelect(t *testing.T) {
 	t.Run("Channels", testChannelsSelect)
 	t.Run("GooseDBVersions", testGooseDBVersionsSelect)
+	t.Run("Users", testUsersSelect)
 }
 
 func TestUpdate(t *testing.T) {
 	t.Run("Channels", testChannelsUpdate)
 	t.Run("GooseDBVersions", testGooseDBVersionsUpdate)
+	t.Run("Users", testUsersUpdate)
 }
 
 func TestSliceUpdateAll(t *testing.T) {
 	t.Run("Channels", testChannelsSliceUpdateAll)
 	t.Run("GooseDBVersions", testGooseDBVersionsSliceUpdateAll)
+	t.Run("Users", testUsersSliceUpdateAll)
 }

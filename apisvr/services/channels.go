@@ -43,20 +43,7 @@ func (s *channelssrvc) List(ctx context.Context) (res *channels.ChannelList, err
 		return nil, err
 	}
 
-	items := make(channels.ChannelListItemCollection, len(results))
-	for i, result := range results {
-		items[i] = &channels.ChannelListItem{
-			ID:        result.ID,
-			CreatedAt: result.CreatedAt.Format(time.RFC3339),
-			UpdatedAt: result.UpdatedAt.Format(time.RFC3339),
-			Name:      result.Name,
-		}
-	}
-	res = &channels.ChannelList{
-		Items:  items,
-		Total:  uint64(len(items)),
-		Offset: 0,
-	}
+	res = s.ModelsToList(results)
 	return
 }
 

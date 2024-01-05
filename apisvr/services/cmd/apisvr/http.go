@@ -3,7 +3,9 @@ package main
 import (
 	channels "apisvr/services/gen/channels"
 	channelssvr "apisvr/services/gen/http/channels/server"
+	userssvr "apisvr/services/gen/http/users/server"
 	log "apisvr/services/gen/log"
+	users "apisvr/services/gen/users"
 	"context"
 	"net/http"
 	"net/url"
@@ -18,7 +20,7 @@ import (
 
 // handleHTTPServer starts configures and starts a HTTP server on the given
 // URL. It shuts down the server if any error is received in the error channel.
-func handleHTTPServer(ctx context.Context, u *url.URL, channelsEndpoints *channels.Endpoints, wg *sync.WaitGroup, errc chan error, logger *log.Logger, debug bool) {
+func handleHTTPServer(ctx context.Context, u *url.URL, channelsEndpoints *channels.Endpoints, usersEndpoints *users.Endpoints, wg *sync.WaitGroup, errc chan error, logger *log.Logger, debug bool) {
 
 	// Setup goa log adapter.
 	var (
@@ -50,19 +52,23 @@ func handleHTTPServer(ctx context.Context, u *url.URL, channelsEndpoints *channe
 	// responses.
 	var (
 		channelsServer *channelssvr.Server
+		usersServer    *userssvr.Server
 	)
 	{
 		eh := errorHandler(logger)
 		channelsServer = channelssvr.New(channelsEndpoints, mux, dec, enc, eh, nil)
+		usersServer = userssvr.New(usersEndpoints, mux, dec, enc, eh, nil)
 		if debug {
 			servers := goahttp.Servers{
 				channelsServer,
+				usersServer,
 			}
 			servers.Use(httpmdlwr.Debug(mux, os.Stdout))
 		}
 	}
 	// Configure the mux.
 	channelssvr.Mount(mux, channelsServer)
+	userssvr.Mount(mux, usersServer)
 
 	// Wrap the multiplexer with additional middlewares. Middlewares mounted
 	// here apply to all the service endpoints.
@@ -76,6 +82,9 @@ func handleHTTPServer(ctx context.Context, u *url.URL, channelsEndpoints *channe
 	// configure the server as required by your service.
 	srv := &http.Server{Addr: u.Host, Handler: handler, ReadHeaderTimeout: time.Second * 60}
 	for _, m := range channelsServer.Mounts {
+		logger.Info().Msgf("HTTP %q mounted on %s %s", m.Method, m.Verb, m.Pattern)
+	}
+	for _, m := range usersServer.Mounts {
 		logger.Info().Msgf("HTTP %q mounted on %s %s", m.Method, m.Verb, m.Pattern)
 	}
 
