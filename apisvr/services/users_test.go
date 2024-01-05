@@ -53,15 +53,15 @@ func TestUsers(t *testing.T) {
 	checkFooOnDB := func(t *testing.T, id uint64) *models.User {
 		user1, err := models.FindUser(ctx, conn, id)
 		assert.NoError(t, err)
-		assert.Equal(t, "foo@example.com", user1.Email)
-		assert.Equal(t, "Foo", user1.Name)
+		assert.Equal(t, "baz@example.com", user1.Email)
+		assert.Equal(t, "Baz", user1.Name)
 		assert.NotEmpty(t, user1.FbauthUID)
 		return user1
 	}
 
 	var fooID uint64
 	t.Run("create foo first time", func(t *testing.T) {
-		res, err := srvc.Create(ctx, &users.UserCreatePayload{Email: "foo@example.com", Name: "Foo"})
+		res, err := srvc.Create(ctx, &users.UserCreatePayload{Email: "baz@example.com", Name: "Baz"})
 		assert.NoError(t, err)
 		assert.NotEmpty(t, res.ID)
 		fooID = res.ID
@@ -70,10 +70,10 @@ func TestUsers(t *testing.T) {
 	})
 
 	t.Run("create foo again", func(t *testing.T) {
-		res, err := srvc.Create(ctx, &users.UserCreatePayload{Email: "foo@example.com", Name: "Foo2"})
+		res, err := srvc.Create(ctx, &users.UserCreatePayload{Email: "baz@example.com", Name: "Baz2"})
 		assert.NoError(t, err)
 		assert.Equal(t, fooID, res.ID)
-		assert.Equal(t, "Foo", res.Name) // Foo2 にはならない
+		assert.Equal(t, "Baz", res.Name) // Baz2 にはならない
 		user := checkFooOnDB(t, fooID)
 		assert.Equal(t, conv.ModelToResult(user), res)
 	})
