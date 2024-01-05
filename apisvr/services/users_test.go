@@ -50,31 +50,46 @@ func TestUsers(t *testing.T) {
 		assert.Equal(t, conv.ModelsToList([]*models.User{userFoo, userBar}), res)
 	})
 
-	checkFooOnDB := func(t *testing.T, id uint64) *models.User {
+	checkFooOnDB := func(t *testing.T, id uint64, expectedEmail, expectedName string) *models.User {
 		user1, err := models.FindUser(ctx, conn, id)
 		assert.NoError(t, err)
-		assert.Equal(t, "baz@example.com", user1.Email)
-		assert.Equal(t, "Baz", user1.Name)
+		assert.Equal(t, expectedEmail, user1.Email)
+		assert.Equal(t, expectedName, user1.Name)
 		assert.NotEmpty(t, user1.FbauthUID)
 		return user1
 	}
 
-	var fooID uint64
+	var bazID uint64
 	t.Run("create foo first time", func(t *testing.T) {
 		res, err := srvc.Create(ctx, &users.UserCreatePayload{Email: "baz@example.com", Name: "Baz"})
 		assert.NoError(t, err)
 		assert.NotEmpty(t, res.ID)
-		fooID = res.ID
-		user := checkFooOnDB(t, fooID)
+		bazID = res.ID
+		user := checkFooOnDB(t, bazID, "baz@example.com", "Baz")
 		assert.Equal(t, conv.ModelToResult(user), res)
 	})
 
 	t.Run("create foo again", func(t *testing.T) {
 		res, err := srvc.Create(ctx, &users.UserCreatePayload{Email: "baz@example.com", Name: "Baz2"})
 		assert.NoError(t, err)
-		assert.Equal(t, fooID, res.ID)
+		assert.Equal(t, bazID, res.ID)
 		assert.Equal(t, "Baz", res.Name) // Baz2 にはならない
-		user := checkFooOnDB(t, fooID)
+		user := checkFooOnDB(t, bazID, "baz@example.com", "Baz")
+		assert.Equal(t, conv.ModelToResult(user), res)
+	})
+
+	t.Run("user on DB got lost", func(t *testing.T) {
+		user1, err := models.FindUser(ctx, conn, bazID)
+		assert.NoError(t, err)
+		affected, err := user1.Delete(ctx, conn)
+		assert.NoError(t, err)
+		assert.Equal(t, int64(1), affected)
+
+		res, err := srvc.Create(ctx, &users.UserCreatePayload{Email: "baz@example.com", Name: "Baz3"})
+		assert.NoError(t, err)
+		assert.NotEqual(t, bazID, res.ID)
+		assert.Equal(t, "Baz3", res.Name) // Baz3 になる
+		user := checkFooOnDB(t, res.ID, "baz@example.com", "Baz3")
 		assert.Equal(t, conv.ModelToResult(user), res)
 	})
 }
