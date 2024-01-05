@@ -37,7 +37,7 @@ func TestUsers(t *testing.T) {
 		})
 	})
 
-	userFoo := &models.User{Email: "foo@example.com", Name: "Foo", FbauthUID: "foo-uid"} // "user on Firebase got lost" テストで使用されます
+	userFoo := &models.User{Email: "foo@example.com", Name: "Foo", FbauthUID: "foo-uid"}
 	userBar := &models.User{Email: "bar@example.com", Name: "Bar", FbauthUID: "bar-uid"}
 	testsqlboiler.Insert(t, ctx, conn, boil.Infer(), userFoo, userBar)
 
@@ -60,7 +60,7 @@ func TestUsers(t *testing.T) {
 	}
 
 	var bazID uint64
-	t.Run("create foo first time", func(t *testing.T) {
+	t.Run("create baz first time", func(t *testing.T) {
 		res, err := srvc.Create(ctx, &users.UserCreatePayload{Email: "baz@example.com", Name: "Baz"})
 		assert.NoError(t, err)
 		assert.NotEmpty(t, res.ID)
@@ -69,7 +69,7 @@ func TestUsers(t *testing.T) {
 		assert.Equal(t, conv.ModelToResult(user), res)
 	})
 
-	t.Run("create foo again", func(t *testing.T) {
+	t.Run("create baz again", func(t *testing.T) {
 		res, err := srvc.Create(ctx, &users.UserCreatePayload{Email: "baz@example.com", Name: "Baz2"})
 		assert.NoError(t, err)
 		assert.Equal(t, bazID, res.ID)
@@ -94,12 +94,19 @@ func TestUsers(t *testing.T) {
 	})
 
 	t.Run("user on Firebase got lost", func(t *testing.T) {
-		res, err := srvc.Create(ctx, &users.UserCreatePayload{Email: "foo@example.com", Name: "Foo2"})
+		email := "qux@example.com"
+		name := "Qux"
+		newName := "Qux2"
+		oldUID := "qux-uid"
+		userQux := &models.User{Email: email, Name: name, FbauthUID: oldUID} // "user on Firebase got lost" テストで使用されます
+		testsqlboiler.Insert(t, ctx, conn, boil.Infer(), userQux)
+
+		res, err := srvc.Create(ctx, &users.UserCreatePayload{Email: email, Name: newName})
 		assert.NoError(t, err)
 		assert.NotEmpty(t, res.ID)
-		assert.Equal(t, "Foo2", res.Name) // Foo2 になる
-		user := checkFooOnDB(t, res.ID, "foo@example.com", "Foo2")
-		assert.NotEqual(t, "foo-uid", user.FbauthUID) // 更新される
+		assert.Equal(t, newName, res.Name) // Foo2 になる
+		user := checkFooOnDB(t, res.ID, email, newName)
+		assert.NotEqual(t, oldUID, user.FbauthUID) // 更新される
 		assert.Equal(t, conv.ModelToResult(user), res)
 	})
 }
