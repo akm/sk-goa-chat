@@ -1,13 +1,18 @@
 package auth
 
 import (
+	"apisvr/lib/errors"
 	"apisvr/lib/firebase"
 	"apisvr/lib/log"
 	"context"
 )
 
 func NewClientRaw(ctx context.Context, app *firebase.App) (*OrigClient, error) {
-	return app.Auth(ctx)
+	client, err := app.Auth(ctx)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to app.Auth")
+	}
+	return client, nil
 }
 
 func NewClientWithLogger(ctx context.Context, app *firebase.App, logger *log.Logger) (*ClientLogger, error) {
