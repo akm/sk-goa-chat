@@ -78,7 +78,7 @@ func TestUsers(t *testing.T) {
 		assert.Equal(t, conv.ModelToResult(user), res)
 	})
 
-	t.Run("user on DB got lost", func(t *testing.T) {
+	t.Run("user on DB got gone", func(t *testing.T) {
 		user1, err := models.FindUser(ctx, conn, bazID)
 		assert.NoError(t, err)
 		affected, err := user1.Delete(ctx, conn)
@@ -93,7 +93,7 @@ func TestUsers(t *testing.T) {
 		assert.Equal(t, conv.ModelToResult(user), res)
 	})
 
-	t.Run("user on Firebase got lost", func(t *testing.T) {
+	t.Run("user on Firebase got gone", func(t *testing.T) {
 		email := "qux@example.com"
 		name := "Qux"
 		newName := "Qux2"
