@@ -6,6 +6,7 @@ import (
 
 type (
 	DB = orig.DB
+	Tx = orig.Tx
 )
 
 var (
