@@ -20,7 +20,7 @@ func (c *ClientLogger) CreateUser(ctx context.Context, user *UserToCreate) (*Use
 	c.logger.Info().Msgf("CreateUser calling: %+v", user)
 	res, err := c.impl.CreateUser(ctx, user)
 	if err != nil {
-		c.logger.Error().Err(err).Msgf("CreateUser: %+v", user)
+		// c.logger.Error().Err(err).Msgf("CreateUser: %+v", user)
 		return nil, err
 	} else {
 		c.logger.Info().Msgf("CreateUser result: %+v", res)
@@ -32,7 +32,7 @@ func (c *ClientLogger) GetUserByEmail(ctx context.Context, email string) (*UserR
 	c.logger.Info().Msgf("GetUserByEmail calling %s", email)
 	res, err := c.impl.GetUserByEmail(ctx, email)
 	if err != nil {
-		c.logger.Error().Err(err).Msgf("GetUserByEmail %s", email)
+		// c.logger.Error().Err(err).Msgf("GetUserByEmail %s", email)
 		return nil, err
 	} else {
 		c.logger.Info().Msgf("GetUserByEmail result %s: %+v", email, res)
