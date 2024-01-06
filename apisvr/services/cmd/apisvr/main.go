@@ -5,6 +5,7 @@ import (
 	chatapi "apisvr/services"
 	channels "apisvr/services/gen/channels"
 	log "apisvr/services/gen/log"
+	sessions "apisvr/services/gen/sessions"
 	users "apisvr/services/gen/users"
 	"context"
 	"flag"
@@ -41,10 +42,12 @@ func main() {
 	// Initialize the services.
 	var (
 		channelsSvc channels.Service
+		sessionsSvc sessions.Service
 		usersSvc    users.Service
 	)
 	{
 		channelsSvc = chatapi.NewChannels(logger)
+		sessionsSvc = chatapi.NewSessions(logger)
 		usersSvc = chatapi.NewUsers(logger)
 	}
 
@@ -52,6 +55,7 @@ func main() {
 	// potentially running in different processes.
 	var (
 		channelsEndpoints *channels.Endpoints
+		sessionsEndpoints *sessions.Endpoints
 		usersEndpoints    *users.Endpoints
 	)
 	{
@@ -62,6 +66,7 @@ func main() {
 			eh = goaext.StderrErrorHandler
 		}
 		channelsEndpoints = goaext.ErrorHandledEndpoints[*channels.Endpoints](channels.NewEndpoints(channelsSvc), eh)
+		sessionsEndpoints = goaext.ErrorHandledEndpoints[*sessions.Endpoints](sessions.NewEndpoints(sessionsSvc), eh)
 		usersEndpoints = goaext.ErrorHandledEndpoints[*users.Endpoints](users.NewEndpoints(usersSvc), eh)
 	}
 
@@ -104,7 +109,7 @@ func main() {
 			} else if u.Port() == "" {
 				u.Host = net.JoinHostPort(u.Host, "80")
 			}
-			handleHTTPServer(ctx, u, channelsEndpoints, usersEndpoints, &wg, errc, logger, *dbgF)
+			handleHTTPServer(ctx, u, channelsEndpoints, sessionsEndpoints, usersEndpoints, &wg, errc, logger, *dbgF)
 		}
 
 		{
@@ -128,7 +133,7 @@ func main() {
 			} else if u.Port() == "" {
 				u.Host = net.JoinHostPort(u.Host, "8080")
 			}
-			handleGRPCServer(ctx, u, channelsEndpoints, usersEndpoints, &wg, errc, logger, *dbgF)
+			handleGRPCServer(ctx, u, channelsEndpoints, sessionsEndpoints, usersEndpoints, &wg, errc, logger, *dbgF)
 		}
 
 	default:
