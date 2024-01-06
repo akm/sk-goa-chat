@@ -9,6 +9,7 @@ package cli
 
 import (
 	channelsc "apisvr/services/gen/http/channels/client"
+	sessionsc "apisvr/services/gen/http/sessions/client"
 	usersc "apisvr/services/gen/http/users/client"
 	"flag"
 	"fmt"
@@ -24,6 +25,7 @@ import (
 //	command (subcommand1|subcommand2|...)
 func UsageCommands() string {
 	return `channels (list|show|create|update|delete)
+sessions (create|delete)
 users (list|create)
 `
 }
@@ -31,6 +33,9 @@ users (list|create)
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
 	return os.Args[0] + ` channels list` + "\n" +
+		os.Args[0] + ` sessions create --body '{
+      "id_token": "Consequatur est eligendi ut."
+   }'` + "\n" +
 		os.Args[0] + ` users list` + "\n" +
 		""
 }
@@ -62,6 +67,14 @@ func ParseEndpoint(
 		channelsDeleteFlags  = flag.NewFlagSet("delete", flag.ExitOnError)
 		channelsDeleteIDFlag = channelsDeleteFlags.String("id", "REQUIRED", "ID")
 
+		sessionsFlags = flag.NewFlagSet("sessions", flag.ContinueOnError)
+
+		sessionsCreateFlags    = flag.NewFlagSet("create", flag.ExitOnError)
+		sessionsCreateBodyFlag = sessionsCreateFlags.String("body", "REQUIRED", "")
+
+		sessionsDeleteFlags         = flag.NewFlagSet("delete", flag.ExitOnError)
+		sessionsDeleteSessionIDFlag = sessionsDeleteFlags.String("session-id", "REQUIRED", "")
+
 		usersFlags = flag.NewFlagSet("users", flag.ContinueOnError)
 
 		usersListFlags = flag.NewFlagSet("list", flag.ExitOnError)
@@ -75,6 +88,10 @@ func ParseEndpoint(
 	channelsCreateFlags.Usage = channelsCreateUsage
 	channelsUpdateFlags.Usage = channelsUpdateUsage
 	channelsDeleteFlags.Usage = channelsDeleteUsage
+
+	sessionsFlags.Usage = sessionsUsage
+	sessionsCreateFlags.Usage = sessionsCreateUsage
+	sessionsDeleteFlags.Usage = sessionsDeleteUsage
 
 	usersFlags.Usage = usersUsage
 	usersListFlags.Usage = usersListUsage
@@ -97,6 +114,8 @@ func ParseEndpoint(
 		switch svcn {
 		case "channels":
 			svcf = channelsFlags
+		case "sessions":
+			svcf = sessionsFlags
 		case "users":
 			svcf = usersFlags
 		default:
@@ -130,6 +149,16 @@ func ParseEndpoint(
 
 			case "delete":
 				epf = channelsDeleteFlags
+
+			}
+
+		case "sessions":
+			switch epn {
+			case "create":
+				epf = sessionsCreateFlags
+
+			case "delete":
+				epf = sessionsDeleteFlags
 
 			}
 
@@ -181,6 +210,16 @@ func ParseEndpoint(
 			case "delete":
 				endpoint = c.Delete()
 				data, err = channelsc.BuildDeletePayload(*channelsDeleteIDFlag)
+			}
+		case "sessions":
+			c := sessionsc.NewClient(scheme, host, doer, enc, dec, restore)
+			switch epn {
+			case "create":
+				endpoint = c.Create()
+				data, err = sessionsc.BuildCreatePayload(*sessionsCreateBodyFlag)
+			case "delete":
+				endpoint = c.Delete()
+				data, err = sessionsc.BuildDeletePayload(*sessionsDeleteSessionIDFlag)
 			}
 		case "users":
 			c := usersc.NewClient(scheme, host, doer, enc, dec, restore)
@@ -235,7 +274,7 @@ Show implements show.
     -id UINT64: ID
 
 Example:
-    %[1]s channels show --id 4238415144844304710
+    %[1]s channels show --id 10770895715350257430
 `, os.Args[0])
 }
 
@@ -247,7 +286,7 @@ Create implements create.
 
 Example:
     %[1]s channels create --body '{
-      "name": "Est nesciunt perspiciatis optio."
+      "name": "In odit vero et tempora."
    }'
 `, os.Args[0])
 }
@@ -261,8 +300,8 @@ Update implements update.
 
 Example:
     %[1]s channels update --body '{
-      "name": "Ut veritatis in odit vero."
-   }' --id 158218705981460379
+      "name": "Sunt qui."
+   }' --id 13592370813533189247
 `, os.Args[0])
 }
 
@@ -273,7 +312,45 @@ Delete implements delete.
     -id UINT64: ID
 
 Example:
-    %[1]s channels delete --id 4399751439308725398
+    %[1]s channels delete --id 10530213553840498172
+`, os.Args[0])
+}
+
+// sessionsUsage displays the usage of the sessions command and its subcommands.
+func sessionsUsage() {
+	fmt.Fprintf(os.Stderr, `Service is the sessions service interface.
+Usage:
+    %[1]s [globalflags] sessions COMMAND [flags]
+
+COMMAND:
+    create: Create implements create.
+    delete: Delete implements delete.
+
+Additional help:
+    %[1]s sessions COMMAND --help
+`, os.Args[0])
+}
+func sessionsCreateUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] sessions create -body JSON
+
+Create implements create.
+    -body JSON: 
+
+Example:
+    %[1]s sessions create --body '{
+      "id_token": "Consequatur est eligendi ut."
+   }'
+`, os.Args[0])
+}
+
+func sessionsDeleteUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] sessions delete -session-id STRING
+
+Delete implements delete.
+    -session-id STRING: 
+
+Example:
+    %[1]s sessions delete --session-id "Molestias incidunt rerum officia animi ut."
 `, os.Args[0])
 }
 
@@ -309,8 +386,8 @@ Create implements create.
 
 Example:
     %[1]s users create --body '{
-      "email": "Omnis dolorem.",
-      "name": "Incidunt sint similique numquam nihil."
+      "email": "Officiis consequatur.",
+      "name": "Voluptatum quia provident tempora dolor."
    }'
 `, os.Args[0])
 }
