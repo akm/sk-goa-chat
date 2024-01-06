@@ -5,6 +5,8 @@ import (
 )
 
 type (
+	OrigClient = orig.Client
+
 	UserRecord = orig.UserRecord
 
 	UserToCreate = orig.UserToCreate
@@ -13,5 +15,5 @@ type (
 	UserIterator       = orig.UserIterator
 	ExportedUserRecord = orig.ExportedUserRecord
 
-	OrigClient = orig.Client
+	Token = orig.Token
 )
