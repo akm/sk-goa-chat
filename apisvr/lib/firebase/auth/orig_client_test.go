@@ -1,7 +1,8 @@
-package auth
+package auth_test
 
 import (
 	"apisvr/lib/firebase"
+	"apisvr/lib/firebase/auth"
 	"apisvr/lib/firebase/errorutils"
 	"apisvr/testlib/testfirebase/testauth"
 	"context"
@@ -17,7 +18,7 @@ func TestOrigClient(t *testing.T) {
 	ctx := context.Background()
 	fbapp, err := firebase.NewApp(ctx, nil)
 	require.NoError(t, err)
-	fbauth, err := NewClientRaw(ctx, fbapp)
+	fbauth, err := auth.NewClientRaw(ctx, fbapp)
 	require.NoError(t, err)
 
 	t.Run("delete all of users before test", func(t *testing.T) {
@@ -27,7 +28,7 @@ func TestOrigClient(t *testing.T) {
 	var fooUID string
 
 	t.Run("create foo", func(t *testing.T) {
-		args := &UserToCreate{}
+		args := &auth.UserToCreate{}
 		args.Email("foo@example.com")
 		args.DisplayName("Foo")
 		args.Password("Passw0rd!")
@@ -75,7 +76,7 @@ func TestOrigClient(t *testing.T) {
 
 	t.Run("update user", func(t *testing.T) {
 		t.Run("registered uid", func(t *testing.T) {
-			args := &UserToUpdate{}
+			args := &auth.UserToUpdate{}
 			args.DisplayName("Foo Bar")
 			res, err := fbauth.UpdateUser(ctx, fooUID, args)
 			require.NoError(t, err)
@@ -83,7 +84,7 @@ func TestOrigClient(t *testing.T) {
 			assert.NotEmpty(t, res.UID)
 		})
 		t.Run("not registered uid", func(t *testing.T) {
-			args := &UserToUpdate{}
+			args := &auth.UserToUpdate{}
 			args.DisplayName("Foo Bar")
 			res, err := fbauth.UpdateUser(ctx, "baz", args)
 			require.Nil(t, res)
@@ -95,7 +96,7 @@ func TestOrigClient(t *testing.T) {
 	})
 
 	t.Run("create bar", func(t *testing.T) {
-		args := &UserToCreate{}
+		args := &auth.UserToCreate{}
 		args.Email("bar@example.com")
 		args.DisplayName("Bar")
 		args.Password("Passw0rd!")
@@ -107,7 +108,7 @@ func TestOrigClient(t *testing.T) {
 	})
 
 	t.Run("list users", func(t *testing.T) {
-		users := []*ExportedUserRecord{}
+		users := []*auth.ExportedUserRecord{}
 
 		iter := fbauth.Users(ctx, "")
 		for {
