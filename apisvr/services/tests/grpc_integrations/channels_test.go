@@ -1,6 +1,8 @@
 package grpcintegrations
 
 import (
+	"apisvr/lib/firebase"
+	"apisvr/lib/firebase/auth"
 	"apisvr/lib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
@@ -8,6 +10,7 @@ import (
 	channelspb "apisvr/services/gen/grpc/channels/pb"
 	channelssvr "apisvr/services/gen/grpc/channels/server"
 	"apisvr/services/gen/log"
+	"apisvr/testlib/testfirebase/testauth"
 	"apisvr/testlib/testjson"
 	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
@@ -43,9 +46,40 @@ func TestChannels(t *testing.T) {
 
 	conv := NewChannelsConvertor()
 
+	fbapp, err := firebase.NewApp(ctx, nil)
+	require.NoError(t, err)
+	fbauth, err := auth.NewClientRaw(ctx, fbapp)
+	require.NoError(t, err)
+
+	t.Run("delete all of users before test", func(t *testing.T) {
+		testauth.DeleteUsers(t, ctx, fbauth)
+	})
+
+	fooEmail := "foo@example.com"
+	fooName := "Foo"
+	fooPassword := "Passw0rd!"
+
+	t.Run("create foo", func(t *testing.T) {
+		args := &auth.UserToCreate{}
+		args.Email(fooEmail)
+		args.DisplayName(fooName)
+		args.Password(fooPassword)
+		res, err := fbauth.CreateUser(ctx, args)
+		require.NoError(t, err)
+		// t.Logf("result: %+v", res)
+		require.NotEmpty(t, res.UID)
+
+		t.Run("insert user to db", func(t *testing.T) {
+			user := &models.User{FbauthUID: res.UID, Email: fooEmail, Name: fooName}
+			testsqlboiler.Insert(t, ctx, conn, boil.Infer(), user)
+		})
+	})
+
+	sessionID := testauth.GetSessionCookie(t, ctx, fbauth, fooEmail, fooPassword)
+
 	t.Run("no data", func(t *testing.T) {
 		t.Run("list", func(t *testing.T) {
-			out, err := client.List(ctx, &channelspb.ListRequest{})
+			out, err := client.List(ctx, &channelspb.ListRequest{SessionId: sessionID})
 			assert.NoError(t, err)
 			assert.Equal(t, &channelspb.ListResponse{
 				Total:  uint64(0),
@@ -61,7 +95,7 @@ func TestChannels(t *testing.T) {
 	assert.Equal(t, now, ch1.CreatedAt)
 
 	t.Run("list", func(t *testing.T) {
-		out, err := client.List(ctx, &channelspb.ListRequest{})
+		out, err := client.List(ctx, &channelspb.ListRequest{SessionId: sessionID})
 		assert.NoError(t, err)
 		assert.Equal(t, conv.ModelsToListResponse([]*models.Channel{ch1, ch2}), testjson.Reassign(t, out))
 	})
@@ -69,13 +103,13 @@ func TestChannels(t *testing.T) {
 	t.Run("show", func(t *testing.T) {
 		for _, ch := range []*models.Channel{ch1, ch2} {
 			t.Run(ch.Name, func(t *testing.T) {
-				out, err := client.Show(ctx, &channelspb.ShowRequest{Id: ch.ID})
+				out, err := client.Show(ctx, &channelspb.ShowRequest{SessionId: sessionID, Id: ch.ID})
 				assert.NoError(t, err)
 				assert.Equal(t, conv.ModelToShowResponse(ch), testjson.Reassign(t, out))
 			})
 		}
 		t.Run("not found", func(t *testing.T) {
-			out, err := client.Show(ctx, &channelspb.ShowRequest{Id: 999})
+			out, err := client.Show(ctx, &channelspb.ShowRequest{SessionId: sessionID, Id: 999})
 			assert.Nil(t, out)
 			assert.Error(t, err)
 			assert.Equal(t, status.Error(codes.NotFound, "channel not found").Error(), err.Error())
@@ -85,20 +119,20 @@ func TestChannels(t *testing.T) {
 	t.Run("create", func(t *testing.T) {
 		t.Run("valid name", func(t *testing.T) {
 			name := "test1"
-			out, err := client.Create(ctx, &channelspb.CreateRequest{Name: name})
+			out, err := client.Create(ctx, &channelspb.CreateRequest{SessionId: sessionID, Name: name})
 			assert.NoError(t, err)
 			require.NotNil(t, out)
 			ch := &models.Channel{ID: out.Id, Name: name, CreatedAt: now, UpdatedAt: now}
 			assert.Equal(t, conv.ModelToCreateResponse(t, ch), testjson.Reassign(t, out))
 		})
 		t.Run("empty name", func(t *testing.T) {
-			out, err := client.Create(ctx, &channelspb.CreateRequest{Name: ""})
+			out, err := client.Create(ctx, &channelspb.CreateRequest{SessionId: sessionID, Name: ""})
 			assert.Nil(t, out)
 			assert.Error(t, err)
 			assert.Equal(t, status.Error(codes.InvalidArgument, "name is required").Error(), err.Error())
 		})
 		t.Run("too long name", func(t *testing.T) {
-			out, err := client.Create(ctx, &channelspb.CreateRequest{Name: strings.Repeat("a", 256)})
+			out, err := client.Create(ctx, &channelspb.CreateRequest{SessionId: sessionID, Name: strings.Repeat("a", 256)})
 			assert.Nil(t, out)
 			assert.Error(t, err)
 			assert.Equal(t, status.Error(codes.InvalidArgument, "name is too long").Error(), err.Error())
@@ -107,14 +141,14 @@ func TestChannels(t *testing.T) {
 
 	t.Run("update", func(t *testing.T) {
 		t.Run("invalid id", func(t *testing.T) {
-			out, err := client.Update(ctx, &channelspb.UpdateRequest{Id: 999, Name: "test"})
+			out, err := client.Update(ctx, &channelspb.UpdateRequest{SessionId: sessionID, Id: 999, Name: "test"})
 			assert.Nil(t, out)
 			assert.Error(t, err)
 			assert.Equal(t, status.Error(codes.NotFound, "channel not found").Error(), err.Error())
 		})
 		t.Run("valid name", func(t *testing.T) {
 			newName := ch1.Name + "-dash"
-			out, err := client.Update(ctx, &channelspb.UpdateRequest{Id: ch1.ID, Name: newName})
+			out, err := client.Update(ctx, &channelspb.UpdateRequest{SessionId: sessionID, Id: ch1.ID, Name: newName})
 			assert.NoError(t, err)
 			require.NotNil(t, out)
 			ch := &models.Channel{ID: ch1.ID, Name: newName, CreatedAt: now, UpdatedAt: now}
@@ -122,13 +156,13 @@ func TestChannels(t *testing.T) {
 
 		})
 		t.Run("empty name", func(t *testing.T) {
-			out, err := client.Update(ctx, &channelspb.UpdateRequest{Id: ch1.ID, Name: ""})
+			out, err := client.Update(ctx, &channelspb.UpdateRequest{SessionId: sessionID, Id: ch1.ID, Name: ""})
 			assert.Nil(t, out)
 			assert.Error(t, err)
 			assert.Equal(t, status.Error(codes.InvalidArgument, "name is required").Error(), err.Error())
 		})
 		t.Run("too long name", func(t *testing.T) {
-			out, err := client.Update(ctx, &channelspb.UpdateRequest{Id: ch1.ID, Name: strings.Repeat("a", 256)})
+			out, err := client.Update(ctx, &channelspb.UpdateRequest{SessionId: sessionID, Id: ch1.ID, Name: strings.Repeat("a", 256)})
 			assert.Nil(t, out)
 			assert.Error(t, err)
 			assert.Equal(t, status.Error(codes.InvalidArgument, "name is too long").Error(), err.Error())
@@ -137,13 +171,13 @@ func TestChannels(t *testing.T) {
 
 	t.Run("delete", func(t *testing.T) {
 		t.Run("invalid id", func(t *testing.T) {
-			out, err := client.Delete(ctx, &channelspb.DeleteRequest{Id: 999})
+			out, err := client.Delete(ctx, &channelspb.DeleteRequest{SessionId: sessionID, Id: 999})
 			assert.Nil(t, out)
 			assert.Error(t, err)
 			assert.Equal(t, status.Error(codes.NotFound, "channel not found").Error(), err.Error())
 		})
 		t.Run("valid id", func(t *testing.T) {
-			out, err := client.Delete(ctx, &channelspb.DeleteRequest{Id: ch2.ID})
+			out, err := client.Delete(ctx, &channelspb.DeleteRequest{SessionId: sessionID, Id: ch2.ID})
 			assert.NoError(t, err)
 			require.NotNil(t, out)
 			assert.Equal(t, conv.ModelToDeleteResponse(t, ch2), testjson.Reassign(t, out))
