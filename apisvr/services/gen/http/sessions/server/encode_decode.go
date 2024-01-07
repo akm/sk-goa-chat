@@ -25,9 +25,11 @@ func EncodeCreateResponse(encoder func(context.Context, http.ResponseWriter) goa
 		res, _ := v.(*sessions.CreateResult)
 		sessionID := res.SessionID
 		http.SetCookie(w, &http.Cookie{
-			Name:   "session_id",
-			Value:  sessionID,
-			MaxAge: 3600,
+			Name:     "session_id",
+			Value:    sessionID,
+			MaxAge:   3600,
+			Path:     "/",
+			HttpOnly: true,
 		})
 		w.WriteHeader(http.StatusCreated)
 		return nil
