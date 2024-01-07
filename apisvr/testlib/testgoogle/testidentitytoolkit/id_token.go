@@ -15,8 +15,12 @@ import (
 // https://pkg.go.dev/google.golang.org/api@v0.155.0/identitytoolkit/v1#AccountsService.SignInWithPassword
 func GetIdToken(t testing.TB, ctx context.Context, email, password string, opts ...option.ClientOption) string {
 	if len(opts) == 0 {
-		opts = []option.ClientOption{
-			option.WithEndpoint(fmt.Sprintf("http://localhost:%s/identitytoolkit.googleapis.com/v1", os.Getenv("FIREBASE_AUTH_EMULATOR_HOST"))),
+		opts = []option.ClientOption{}
+		if host := os.Getenv("FIREBASE_AUTH_EMULATOR_HOST"); host != "" {
+			opts = append(opts, option.WithEndpoint(fmt.Sprintf("http://%s/identitytoolkit.googleapis.com/v1", host)))
+		}
+		if apiKey := os.Getenv("FIREBASE_API_KEY"); apiKey != "" {
+			opts = append(opts, option.WithAPIKey(apiKey))
 		}
 	}
 	// option.WithEndpoint("http://localhost:9099/identitytoolkit.googleapis.com/v1"),
