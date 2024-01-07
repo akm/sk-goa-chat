@@ -129,6 +129,7 @@ func (s *userssrvc) Create(ctx context.Context, p *users.UserCreatePayload) (res
 
 		fbUser, err := fbauth.GetUserByEmail(ctx, p.Email)
 		if err != nil {
+			err := errors.Cause(err)
 			if !errorutils.IsNotFound(err) {
 				return err
 			}
