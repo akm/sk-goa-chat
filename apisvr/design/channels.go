@@ -70,6 +70,7 @@ var _ = Service("channels", func() {
 		Result(ChannelListRT)
 		HTTP(func() {
 			GET("")
+			Cookie(sessionIdKey)
 			Response(StatusOK)
 		})
 		GRPC(func() {
@@ -89,6 +90,7 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			GET("/{id}")
+			Cookie(sessionIdKey)
 			Response(StatusOK)
 			httpNotFound()
 		})
@@ -105,6 +107,7 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			POST("")
+			Cookie(sessionIdKey)
 			Response(StatusCreated)
 			httpInvalidPayload()
 		})
@@ -122,6 +125,7 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			PUT("/{id}")
+			Cookie(sessionIdKey)
 			Response(StatusOK)
 			httpNotFound()
 			httpInvalidPayload()
@@ -145,6 +149,7 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			DELETE("/{id}")
+			Cookie(sessionIdKey)
 			Response(StatusOK)
 			httpNotFound()
 		})
