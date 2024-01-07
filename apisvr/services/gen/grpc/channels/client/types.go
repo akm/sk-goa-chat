@@ -17,8 +17,10 @@ import (
 
 // NewProtoListRequest builds the gRPC request type from the payload of the
 // "list" endpoint of the "channels" service.
-func NewProtoListRequest() *channelspb.ListRequest {
-	message := &channelspb.ListRequest{}
+func NewProtoListRequest(payload *channels.ListPayload) *channelspb.ListRequest {
+	message := &channelspb.ListRequest{
+		SessionId: payload.SessionID,
+	}
 	return message
 }
 
@@ -48,7 +50,8 @@ func NewListResult(message *channelspb.ListResponse) *channelsviews.ChannelListV
 // "show" endpoint of the "channels" service.
 func NewProtoShowRequest(payload *channels.ShowPayload) *channelspb.ShowRequest {
 	message := &channelspb.ShowRequest{
-		Id: payload.ID,
+		SessionId: payload.SessionID,
+		Id:        payload.ID,
 	}
 	return message
 }
@@ -70,7 +73,8 @@ func NewShowResult(message *channelspb.ShowResponse) *channelsviews.ChannelView 
 // "create" endpoint of the "channels" service.
 func NewProtoCreateRequest(payload *channels.ChannelCreatePayload) *channelspb.CreateRequest {
 	message := &channelspb.CreateRequest{
-		Name: payload.Name,
+		SessionId: payload.SessionID,
+		Name:      payload.Name,
 	}
 	return message
 }
@@ -92,8 +96,9 @@ func NewCreateResult(message *channelspb.CreateResponse) *channelsviews.ChannelV
 // "update" endpoint of the "channels" service.
 func NewProtoUpdateRequest(payload *channels.ChannelUpdatePayload) *channelspb.UpdateRequest {
 	message := &channelspb.UpdateRequest{
-		Id:   payload.ID,
-		Name: payload.Name,
+		SessionId: payload.SessionID,
+		Id:        payload.ID,
+		Name:      payload.Name,
 	}
 	return message
 }
@@ -115,7 +120,8 @@ func NewUpdateResult(message *channelspb.UpdateResponse) *channelsviews.ChannelV
 // "delete" endpoint of the "channels" service.
 func NewProtoDeleteRequest(payload *channels.DeletePayload) *channelspb.DeleteRequest {
 	message := &channelspb.DeleteRequest{
-		Id: payload.ID,
+		SessionId: payload.SessionID,
+		Id:        payload.ID,
 	}
 	return message
 }

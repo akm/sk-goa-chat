@@ -15,9 +15,10 @@ import (
 
 // NewListPayload builds the payload of the "list" endpoint of the "channels"
 // service from the gRPC request type.
-func NewListPayload(sessionID string) *channels.ListPayload {
-	v := &channels.ListPayload{}
-	v.SessionID = sessionID
+func NewListPayload(message *channelspb.ListRequest) *channels.ListPayload {
+	v := &channels.ListPayload{
+		SessionID: message.SessionId,
+	}
 	return v
 }
 
@@ -46,11 +47,11 @@ func NewProtoListResponse(result *channelsviews.ChannelListView) *channelspb.Lis
 
 // NewShowPayload builds the payload of the "show" endpoint of the "channels"
 // service from the gRPC request type.
-func NewShowPayload(message *channelspb.ShowRequest, sessionID string) *channels.ShowPayload {
+func NewShowPayload(message *channelspb.ShowRequest) *channels.ShowPayload {
 	v := &channels.ShowPayload{
-		ID: message.Id,
+		SessionID: message.SessionId,
+		ID:        message.Id,
 	}
-	v.SessionID = sessionID
 	return v
 }
 
@@ -69,11 +70,11 @@ func NewProtoShowResponse(result *channelsviews.ChannelView) *channelspb.ShowRes
 
 // NewCreatePayload builds the payload of the "create" endpoint of the
 // "channels" service from the gRPC request type.
-func NewCreatePayload(message *channelspb.CreateRequest, sessionID string) *channels.ChannelCreatePayload {
+func NewCreatePayload(message *channelspb.CreateRequest) *channels.ChannelCreatePayload {
 	v := &channels.ChannelCreatePayload{
-		Name: message.Name,
+		SessionID: message.SessionId,
+		Name:      message.Name,
 	}
-	v.SessionID = sessionID
 	return v
 }
 
@@ -92,12 +93,12 @@ func NewProtoCreateResponse(result *channelsviews.ChannelView) *channelspb.Creat
 
 // NewUpdatePayload builds the payload of the "update" endpoint of the
 // "channels" service from the gRPC request type.
-func NewUpdatePayload(message *channelspb.UpdateRequest, sessionID string) *channels.ChannelUpdatePayload {
+func NewUpdatePayload(message *channelspb.UpdateRequest) *channels.ChannelUpdatePayload {
 	v := &channels.ChannelUpdatePayload{
-		ID:   message.Id,
-		Name: message.Name,
+		SessionID: message.SessionId,
+		ID:        message.Id,
+		Name:      message.Name,
 	}
-	v.SessionID = sessionID
 	return v
 }
 
@@ -116,11 +117,11 @@ func NewProtoUpdateResponse(result *channelsviews.ChannelView) *channelspb.Updat
 
 // NewDeletePayload builds the payload of the "delete" endpoint of the
 // "channels" service from the gRPC request type.
-func NewDeletePayload(message *channelspb.DeleteRequest, sessionID string) *channels.DeletePayload {
+func NewDeletePayload(message *channelspb.DeleteRequest) *channels.DeletePayload {
 	v := &channels.DeletePayload{
-		ID: message.Id,
+		SessionID: message.SessionId,
+		ID:        message.Id,
 	}
-	v.SessionID = sessionID
 	return v
 }
 

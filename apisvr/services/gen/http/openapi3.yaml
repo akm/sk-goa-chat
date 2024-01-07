@@ -12,6 +12,17 @@ paths:
                 - channels
             summary: list channels
             operationId: channels#list
+            parameters:
+                - name: session_id
+                  in: cookie
+                  description: Session ID
+                  allowEmptyValue: true
+                  required: true
+                  schema:
+                    type: string
+                    description: Session ID
+                    example: Nisi voluptas similique.
+                  example: Iusto et cum vel non possimus.
             responses:
                 "200":
                     description: OK response.
@@ -49,13 +60,22 @@ paths:
                         application/vnd.goa.error:
                             schema:
                                 $ref: '#/components/schemas/Error'
-            security:
-                - api_key_header_Authorization: []
         post:
             tags:
                 - channels
             summary: create channels
             operationId: channels#create
+            parameters:
+                - name: session_id
+                  in: cookie
+                  description: Session ID
+                  allowEmptyValue: true
+                  required: true
+                  schema:
+                    type: string
+                    description: Session ID
+                    example: Quo quia magnam eos itaque.
+                  example: Corrupti quo.
             requestBody:
                 required: true
                 content:
@@ -89,8 +109,6 @@ paths:
                         application/vnd.goa.error:
                             schema:
                                 $ref: '#/components/schemas/Error'
-            security:
-                - api_key_header_Authorization: []
     /api/channels/{id}:
         delete:
             tags:
@@ -105,8 +123,18 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 16196544506610125437
-                  example: 8080917375146212899
+                    example: 258350064492933360
+                  example: 255230243946806722
+                - name: session_id
+                  in: cookie
+                  description: Session ID
+                  allowEmptyValue: true
+                  required: true
+                  schema:
+                    type: string
+                    description: Session ID
+                    example: Non quia sapiente vel et est.
+                  example: Corrupti qui sint facilis ullam est.
             responses:
                 "200":
                     description: OK response.
@@ -132,8 +160,6 @@ paths:
                         application/vnd.goa.error:
                             schema:
                                 $ref: '#/components/schemas/Error'
-            security:
-                - api_key_header_Authorization: []
         get:
             tags:
                 - channels
@@ -147,8 +173,18 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 12273961678280689482
-                  example: 9174492993490482223
+                    example: 3954324103720837403
+                  example: 7535419842506816612
+                - name: session_id
+                  in: cookie
+                  description: Session ID
+                  allowEmptyValue: true
+                  required: true
+                  schema:
+                    type: string
+                    description: Session ID
+                    example: Eos quisquam.
+                  example: Quo eum at dicta veritatis voluptas unde.
             responses:
                 "200":
                     description: OK response.
@@ -174,8 +210,6 @@ paths:
                         application/vnd.goa.error:
                             schema:
                                 $ref: '#/components/schemas/Error'
-            security:
-                - api_key_header_Authorization: []
         put:
             tags:
                 - channels
@@ -189,8 +223,18 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 2117018009641290407
-                  example: 5634482968561785390
+                    example: 13477675777053602563
+                  example: 3441525513082446672
+                - name: session_id
+                  in: cookie
+                  description: Session ID
+                  allowEmptyValue: true
+                  required: true
+                  schema:
+                    type: string
+                    description: Session ID
+                    example: Ex esse.
+                  example: Eveniet adipisci voluptatem.
             requestBody:
                 required: true
                 content:
@@ -230,8 +274,6 @@ paths:
                         application/vnd.goa.error:
                             schema:
                                 $ref: '#/components/schemas/Error'
-            security:
-                - api_key_header_Authorization: []
     /api/session:
         delete:
             tags:
@@ -247,8 +289,8 @@ paths:
                   schema:
                     type: string
                     description: Session ID
-                    example: Quo eum at dicta veritatis voluptas unde.
-                  example: Quo quia magnam eos itaque.
+                    example: Reiciendis voluptatibus aut molestias repudiandae et officiis.
+                  example: Voluptatem doloremque rerum reprehenderit aliquam eligendi.
             responses:
                 "200":
                     description: OK response.
@@ -280,8 +322,8 @@ paths:
                             schema:
                                 type: string
                                 description: Session ID
-                                example: Cum vel.
-                            example: Eos quisquam.
+                                example: Cum mollitia.
+                            example: Consequatur et.
                 "400":
                     description: 'invalid_payload: Bad Request response.'
                     content:
@@ -648,11 +690,6 @@ components:
                   name: Rerum voluptatem est voluptate et numquam quia.
                 - id: 11938851116854073466
                   name: Rerum voluptatem est voluptate et numquam quia.
-    securitySchemes:
-        api_key_header_Authorization:
-            type: apiKey
-            name: Authorization
-            in: header
 tags:
     - name: channels
     - name: sessions

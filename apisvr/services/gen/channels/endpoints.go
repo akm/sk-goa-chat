@@ -11,7 +11,6 @@ import (
 	"context"
 
 	goa "goa.design/goa/v3/pkg"
-	"goa.design/goa/v3/security"
 )
 
 // Endpoints wraps the "channels" service endpoints.
@@ -25,14 +24,12 @@ type Endpoints struct {
 
 // NewEndpoints wraps the methods of the "channels" service with endpoints.
 func NewEndpoints(s Service) *Endpoints {
-	// Casting service to Auther interface
-	a := s.(Auther)
 	return &Endpoints{
-		List:   NewListEndpoint(s, a.APIKeyAuth),
-		Show:   NewShowEndpoint(s, a.APIKeyAuth),
-		Create: NewCreateEndpoint(s, a.APIKeyAuth),
-		Update: NewUpdateEndpoint(s, a.APIKeyAuth),
-		Delete: NewDeleteEndpoint(s, a.APIKeyAuth),
+		List:   NewListEndpoint(s),
+		Show:   NewShowEndpoint(s),
+		Create: NewCreateEndpoint(s),
+		Update: NewUpdateEndpoint(s),
+		Delete: NewDeleteEndpoint(s),
 	}
 }
 
@@ -47,19 +44,9 @@ func (e *Endpoints) Use(m func(goa.Endpoint) goa.Endpoint) {
 
 // NewListEndpoint returns an endpoint function that calls the method "list" of
 // service "channels".
-func NewListEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endpoint {
+func NewListEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
 		p := req.(*ListPayload)
-		var err error
-		sc := security.APIKeyScheme{
-			Name:           "api_key",
-			Scopes:         []string{},
-			RequiredScopes: []string{},
-		}
-		ctx, err = authAPIKeyFn(ctx, p.SessionID, &sc)
-		if err != nil {
-			return nil, err
-		}
 		res, err := s.List(ctx, p)
 		if err != nil {
 			return nil, err
@@ -71,19 +58,9 @@ func NewListEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endpoi
 
 // NewShowEndpoint returns an endpoint function that calls the method "show" of
 // service "channels".
-func NewShowEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endpoint {
+func NewShowEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
 		p := req.(*ShowPayload)
-		var err error
-		sc := security.APIKeyScheme{
-			Name:           "api_key",
-			Scopes:         []string{},
-			RequiredScopes: []string{},
-		}
-		ctx, err = authAPIKeyFn(ctx, p.SessionID, &sc)
-		if err != nil {
-			return nil, err
-		}
 		res, err := s.Show(ctx, p)
 		if err != nil {
 			return nil, err
@@ -95,19 +72,9 @@ func NewShowEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endpoi
 
 // NewCreateEndpoint returns an endpoint function that calls the method
 // "create" of service "channels".
-func NewCreateEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endpoint {
+func NewCreateEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
 		p := req.(*ChannelCreatePayload)
-		var err error
-		sc := security.APIKeyScheme{
-			Name:           "api_key",
-			Scopes:         []string{},
-			RequiredScopes: []string{},
-		}
-		ctx, err = authAPIKeyFn(ctx, p.SessionID, &sc)
-		if err != nil {
-			return nil, err
-		}
 		res, err := s.Create(ctx, p)
 		if err != nil {
 			return nil, err
@@ -119,19 +86,9 @@ func NewCreateEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endp
 
 // NewUpdateEndpoint returns an endpoint function that calls the method
 // "update" of service "channels".
-func NewUpdateEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endpoint {
+func NewUpdateEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
 		p := req.(*ChannelUpdatePayload)
-		var err error
-		sc := security.APIKeyScheme{
-			Name:           "api_key",
-			Scopes:         []string{},
-			RequiredScopes: []string{},
-		}
-		ctx, err = authAPIKeyFn(ctx, p.SessionID, &sc)
-		if err != nil {
-			return nil, err
-		}
 		res, err := s.Update(ctx, p)
 		if err != nil {
 			return nil, err
@@ -143,19 +100,9 @@ func NewUpdateEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endp
 
 // NewDeleteEndpoint returns an endpoint function that calls the method
 // "delete" of service "channels".
-func NewDeleteEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endpoint {
+func NewDeleteEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
 		p := req.(*DeletePayload)
-		var err error
-		sc := security.APIKeyScheme{
-			Name:           "api_key",
-			Scopes:         []string{},
-			RequiredScopes: []string{},
-		}
-		ctx, err = authAPIKeyFn(ctx, p.SessionID, &sc)
-		if err != nil {
-			return nil, err
-		}
 		res, err := s.Delete(ctx, p)
 		if err != nil {
 			return nil, err

@@ -20,12 +20,6 @@ paths:
                 - channels
             summary: list channels
             operationId: channels#list
-            parameters:
-                - name: Authorization
-                  in: header
-                  description: Session ID
-                  required: true
-                  type: string
             responses:
                 "200":
                     description: OK response.
@@ -37,19 +31,12 @@ paths:
                         $ref: '#/definitions/ChannelsListUnauthenticatedResponseBody'
             schemes:
                 - http
-            security:
-                - api_key_header_Authorization: []
         post:
             tags:
                 - channels
             summary: create channels
             operationId: channels#create
             parameters:
-                - name: Authorization
-                  in: header
-                  description: Session ID
-                  required: true
-                  type: string
                 - name: CreateRequestBody
                   in: body
                   required: true
@@ -72,8 +59,6 @@ paths:
                         $ref: '#/definitions/ChannelsCreateUnauthenticatedResponseBody'
             schemes:
                 - http
-            security:
-                - api_key_header_Authorization: []
     /api/channels/{id}:
         get:
             tags:
@@ -86,11 +71,6 @@ paths:
                   description: ID
                   required: true
                   type: integer
-                - name: Authorization
-                  in: header
-                  description: Session ID
-                  required: true
-                  type: string
             responses:
                 "200":
                     description: OK response.
@@ -106,8 +86,6 @@ paths:
                         $ref: '#/definitions/ChannelsShowNotFoundResponseBody'
             schemes:
                 - http
-            security:
-                - api_key_header_Authorization: []
         put:
             tags:
                 - channels
@@ -119,11 +97,6 @@ paths:
                   description: ID
                   required: true
                   type: integer
-                - name: Authorization
-                  in: header
-                  description: Session ID
-                  required: true
-                  type: string
                 - name: UpdateRequestBody
                   in: body
                   required: true
@@ -150,8 +123,6 @@ paths:
                         $ref: '#/definitions/ChannelsUpdateNotFoundResponseBody'
             schemes:
                 - http
-            security:
-                - api_key_header_Authorization: []
         delete:
             tags:
                 - channels
@@ -163,11 +134,6 @@ paths:
                   description: ID
                   required: true
                   type: integer
-                - name: Authorization
-                  in: header
-                  description: Session ID
-                  required: true
-                  type: string
             responses:
                 "200":
                     description: OK response.
@@ -183,8 +149,6 @@ paths:
                         $ref: '#/definitions/ChannelsDeleteNotFoundResponseBody'
             schemes:
                 - http
-            security:
-                - api_key_header_Authorization: []
     /api/session:
         post:
             tags:
@@ -1235,8 +1199,3 @@ definitions:
             - items
             - total
             - offset
-securityDefinitions:
-    api_key_header_Authorization:
-        type: apiKey
-        name: Authorization
-        in: header

@@ -14,7 +14,6 @@ import (
 	"io"
 	"net/http"
 	"strconv"
-	"strings"
 
 	goahttp "goa.design/goa/v3/http"
 	goa "goa.design/goa/v3/pkg"
@@ -39,20 +38,18 @@ func DecodeListRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.De
 		var (
 			sessionID string
 			err       error
+			c         *http.Cookie
 		)
-		sessionID = r.Header.Get("Authorization")
-		if sessionID == "" {
-			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "header"))
+		c, err = r.Cookie("session_id")
+		if err == http.ErrNoCookie {
+			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "cookie"))
+		} else {
+			sessionID = c.Value
 		}
 		if err != nil {
 			return nil, err
 		}
 		payload := NewListPayload(sessionID)
-		if strings.Contains(payload.SessionID, " ") {
-			// Remove authorization scheme prefix (e.g. "Bearer")
-			cred := strings.SplitN(payload.SessionID, " ", 2)[1]
-			payload.SessionID = cred
-		}
 
 		return payload, nil
 	}
@@ -107,6 +104,7 @@ func DecodeShowRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.De
 			id        uint64
 			sessionID string
 			err       error
+			c         *http.Cookie
 
 			params = mux.Vars(r)
 		)
@@ -118,19 +116,16 @@ func DecodeShowRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.De
 			}
 			id = v
 		}
-		sessionID = r.Header.Get("Authorization")
-		if sessionID == "" {
-			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "header"))
+		c, err = r.Cookie("session_id")
+		if err == http.ErrNoCookie {
+			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "cookie"))
+		} else {
+			sessionID = c.Value
 		}
 		if err != nil {
 			return nil, err
 		}
 		payload := NewShowPayload(id, sessionID)
-		if strings.Contains(payload.SessionID, " ") {
-			// Remove authorization scheme prefix (e.g. "Bearer")
-			cred := strings.SplitN(payload.SessionID, " ", 2)[1]
-			payload.SessionID = cred
-		}
 
 		return payload, nil
 	}
@@ -212,20 +207,18 @@ func DecodeCreateRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.
 
 		var (
 			sessionID string
+			c         *http.Cookie
 		)
-		sessionID = r.Header.Get("Authorization")
-		if sessionID == "" {
-			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "header"))
+		c, err = r.Cookie("session_id")
+		if err == http.ErrNoCookie {
+			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "cookie"))
+		} else {
+			sessionID = c.Value
 		}
 		if err != nil {
 			return nil, err
 		}
 		payload := NewCreateChannelCreatePayload(&body, sessionID)
-		if strings.Contains(payload.SessionID, " ") {
-			// Remove authorization scheme prefix (e.g. "Bearer")
-			cred := strings.SplitN(payload.SessionID, " ", 2)[1]
-			payload.SessionID = cred
-		}
 
 		return payload, nil
 	}
@@ -308,6 +301,7 @@ func DecodeUpdateRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.
 		var (
 			id        uint64
 			sessionID string
+			c         *http.Cookie
 
 			params = mux.Vars(r)
 		)
@@ -319,19 +313,16 @@ func DecodeUpdateRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.
 			}
 			id = v
 		}
-		sessionID = r.Header.Get("Authorization")
-		if sessionID == "" {
-			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "header"))
+		c, err = r.Cookie("session_id")
+		if err == http.ErrNoCookie {
+			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "cookie"))
+		} else {
+			sessionID = c.Value
 		}
 		if err != nil {
 			return nil, err
 		}
 		payload := NewUpdateChannelUpdatePayload(&body, id, sessionID)
-		if strings.Contains(payload.SessionID, " ") {
-			// Remove authorization scheme prefix (e.g. "Bearer")
-			cred := strings.SplitN(payload.SessionID, " ", 2)[1]
-			payload.SessionID = cred
-		}
 
 		return payload, nil
 	}
@@ -412,6 +403,7 @@ func DecodeDeleteRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.
 			id        uint64
 			sessionID string
 			err       error
+			c         *http.Cookie
 
 			params = mux.Vars(r)
 		)
@@ -423,19 +415,16 @@ func DecodeDeleteRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.
 			}
 			id = v
 		}
-		sessionID = r.Header.Get("Authorization")
-		if sessionID == "" {
-			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "header"))
+		c, err = r.Cookie("session_id")
+		if err == http.ErrNoCookie {
+			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "cookie"))
+		} else {
+			sessionID = c.Value
 		}
 		if err != nil {
 			return nil, err
 		}
 		payload := NewDeletePayload(id, sessionID)
-		if strings.Contains(payload.SessionID, " ") {
-			// Remove authorization scheme prefix (e.g. "Bearer")
-			cred := strings.SplitN(payload.SessionID, " ", 2)[1]
-			payload.SessionID = cred
-		}
 
 		return payload, nil
 	}

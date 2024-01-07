@@ -12,7 +12,6 @@ import (
 	"context"
 
 	goa "goa.design/goa/v3/pkg"
-	"goa.design/goa/v3/security"
 )
 
 // Service is the channels service interface.
@@ -27,12 +26,6 @@ type Service interface {
 	Update(context.Context, *ChannelUpdatePayload) (res *Channel, err error)
 	// Delete implements delete.
 	Delete(context.Context, *DeletePayload) (res *Channel, err error)
-}
-
-// Auther defines the authorization functions to be implemented by the service.
-type Auther interface {
-	// APIKeyAuth implements the authorization logic for the APIKey security scheme.
-	APIKeyAuth(ctx context.Context, key string, schema *security.APIKeyScheme) (context.Context, error)
 }
 
 // ServiceName is the name of the service as defined in the design. This is the
