@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/volatiletech/sqlboiler/v4/boil"
+	"goa.design/goa/v3/security"
 )
 
 // channels service example implementation.
@@ -28,8 +29,28 @@ func (s *channelssrvc) sqlOpen() (*sql.DB, error) {
 	return sql.Open(s.logger.Logger)
 }
 
+// APIKeyAuth implements the authorization logic for service "channels" for the
+// "api_key" security scheme.
+func (s *channelssrvc) APIKeyAuth(ctx context.Context, key string, scheme *security.APIKeyScheme) (context.Context, error) {
+	//
+	// TBD: add authorization logic.
+	//
+	// In case of authorization failure this function should return
+	// one of the generated error structs, e.g.:
+	//
+	//    return ctx, myservice.MakeUnauthorizedError("invalid token")
+	//
+	// Alternatively this function may return an instance of
+	// goa.ServiceError with a Name field value that matches one of
+	// the design error names, e.g:
+	//
+	//    return ctx, goa.PermanentError("unauthorized", "invalid token")
+	//
+	return ctx, fmt.Errorf("not implemented")
+}
+
 // List implements list.
-func (s *channelssrvc) List(ctx context.Context) (res *channels.ChannelList, err error) {
+func (s *channelssrvc) List(ctx context.Context, p *channels.ListPayload) (res *channels.ChannelList, err error) {
 	s.logger.Info().Msg("channels.list")
 	ctx = SetupContext(ctx)
 	db, err := s.sqlOpen()
