@@ -3,6 +3,7 @@ package auth
 import (
 	"apisvr/lib/firebase"
 	"apisvr/lib/firebase/errorutils"
+	"apisvr/testlib/testfirebase/testauth"
 	"context"
 	"fmt"
 	"testing"
@@ -20,25 +21,7 @@ func TestOrigClient(t *testing.T) {
 	require.NoError(t, err)
 
 	t.Run("delete all of users before test", func(t *testing.T) {
-		uids := []string{}
-		iter := fbauth.Users(ctx, "")
-		for {
-			user, err := iter.Next()
-			if err != nil {
-				if err == iterator.Done {
-					break
-				}
-				require.NoError(t, err)
-			}
-			t.Logf("user: %+v", user)
-			uids = append(uids, user.UID)
-		}
-
-		if len(uids) > 0 {
-			result, err := fbauth.DeleteUsers(ctx, uids)
-			require.NoError(t, err)
-			t.Logf("result: %+v", result)
-		}
+		testauth.DeleteUsers(t, ctx, fbauth)
 	})
 
 	var fooUID string
