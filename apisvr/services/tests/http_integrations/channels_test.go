@@ -35,12 +35,13 @@ func TestChannels(t *testing.T) {
 	srvc := chatapi.NewChannels(&log.Logger{Logger: logger})
 	conv := chatapi.NewChannelsConvertor()
 
+	channelsAuthFunc := (srvc.(channels.Auther)).APIKeyAuth
 	checker := goahttpcheck.New()
-	checker.Mount(server.NewListHandler, server.MountListHandler, channels.NewListEndpoint(srvc))
-	checker.Mount(server.NewShowHandler, server.MountShowHandler, channels.NewShowEndpoint(srvc))
-	checker.Mount(server.NewCreateHandler, server.MountCreateHandler, channels.NewCreateEndpoint(srvc))
-	checker.Mount(server.NewUpdateHandler, server.MountUpdateHandler, channels.NewUpdateEndpoint(srvc))
-	checker.Mount(server.NewDeleteHandler, server.MountDeleteHandler, channels.NewDeleteEndpoint(srvc))
+	checker.Mount(server.NewListHandler, server.MountListHandler, channels.NewListEndpoint(srvc, channelsAuthFunc))
+	checker.Mount(server.NewShowHandler, server.MountShowHandler, channels.NewShowEndpoint(srvc, channelsAuthFunc))
+	checker.Mount(server.NewCreateHandler, server.MountCreateHandler, channels.NewCreateEndpoint(srvc, channelsAuthFunc))
+	checker.Mount(server.NewUpdateHandler, server.MountUpdateHandler, channels.NewUpdateEndpoint(srvc, channelsAuthFunc))
+	checker.Mount(server.NewDeleteHandler, server.MountDeleteHandler, channels.NewDeleteEndpoint(srvc, channelsAuthFunc))
 
 	t.Run("no data", func(t *testing.T) {
 		t.Run("list", func(t *testing.T) {

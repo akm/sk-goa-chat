@@ -32,7 +32,7 @@ func TestChannels(t *testing.T) {
 
 	t.Run("no data", func(t *testing.T) {
 		t.Run("list", func(t *testing.T) {
-			res, err := srvc.List(ctx)
+			res, err := srvc.List(ctx, &channels.ListPayload{})
 			assert.NoError(t, err)
 			assert.Zero(t, res.Total)
 			assert.Zero(t, res.Offset)
@@ -46,7 +46,7 @@ func TestChannels(t *testing.T) {
 	assert.Equal(t, now, ch1.CreatedAt)
 
 	t.Run("list", func(t *testing.T) {
-		res, err := srvc.List(ctx)
+		res, err := srvc.List(ctx, &channels.ListPayload{})
 		assert.NoError(t, err)
 		assert.Equal(t, uint64(2), res.Total)
 		assert.Zero(t, res.Offset)
