@@ -1,6 +1,9 @@
 package chatapi
 
 import (
+	"apisvr/lib/errors"
+	"apisvr/lib/firebase"
+	"apisvr/lib/firebase/auth"
 	"apisvr/lib/sql"
 	"apisvr/models"
 	channels "apisvr/services/gen/channels"
@@ -10,6 +13,7 @@ import (
 	"time"
 
 	"github.com/volatiletech/sqlboiler/v4/boil"
+	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	"goa.design/goa/v3/security"
 )
 
@@ -32,21 +36,37 @@ func (s *channelssrvc) sqlOpen() (*sql.DB, error) {
 // APIKeyAuth implements the authorization logic for service "channels" for the
 // "api_key" security scheme.
 func (s *channelssrvc) APIKeyAuth(ctx context.Context, key string, scheme *security.APIKeyScheme) (context.Context, error) {
-	//
-	// TBD: add authorization logic.
-	//
-	// In case of authorization failure this function should return
-	// one of the generated error structs, e.g.:
-	//
-	//    return ctx, myservice.MakeUnauthorizedError("invalid token")
-	//
-	// Alternatively this function may return an instance of
-	// goa.ServiceError with a Name field value that matches one of
-	// the design error names, e.g:
-	//
-	//    return ctx, goa.PermanentError("unauthorized", "invalid token")
-	//
-	return ctx, fmt.Errorf("not implemented")
+	fbapp, err := firebase.NewApp(ctx, nil)
+	if err != nil {
+		return nil, errors.Wrapf(err, "firebase.NewApp")
+	}
+	fbauth, err := auth.NewClientWithLogger(ctx, fbapp, s.logger.Logger)
+	if err != nil {
+		return nil, errors.Wrapf(err, "auth.NewClientWithLogger")
+	}
+
+	token, err := fbauth.VerifySessionCookie(ctx, key)
+	if err != nil {
+		return nil, err
+	}
+
+	db, err := s.sqlOpen()
+	if err != nil {
+		return nil, err
+	}
+	defer db.Close()
+
+	if m, err := models.Users(qm.Where("fbauth_uid = ?", token.UID)).One(ctx, db); err != nil {
+		if err == sql.ErrNoRows {
+			return nil, channels.MakeUnauthenticated(fmt.Errorf("user not found"))
+		} else {
+			return nil, errors.Wrapf(err, "failed to query user")
+		}
+	} else {
+		ctx = context.WithValue(ctx, "user", m)
+	}
+
+	return ctx, nil
 }
 
 // List implements list.
