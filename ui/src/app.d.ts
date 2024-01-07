@@ -8,6 +8,7 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			user: User;
+			sessionID: string | undefined;
 		}
 		// interface PageData {}
 		// interface Platform {}

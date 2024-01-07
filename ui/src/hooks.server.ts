@@ -14,6 +14,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		// if there is no session load page as normal
 		return await resolve(event);
 	}
+	event.locals.sessionID = sessionID;
 
 	let decoded: DecodedIdToken;
 	try {
