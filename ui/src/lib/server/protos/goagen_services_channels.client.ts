@@ -2,7 +2,7 @@
 // @generated from protobuf file "goagen_services_channels.proto" (package "channels", syntax proto3)
 // tslint:disable
 //
-// Code generated with goa v3.14.0, DO NOT EDIT.
+// Code generated with goa v3.14.1, DO NOT EDIT.
 //
 // channels protocol buffer definition
 //

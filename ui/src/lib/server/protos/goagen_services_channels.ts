@@ -2,7 +2,7 @@
 // @generated from protobuf file "goagen_services_channels.proto" (package "channels", syntax proto3)
 // tslint:disable
 //
-// Code generated with goa v3.14.0, DO NOT EDIT.
+// Code generated with goa v3.14.1, DO NOT EDIT.
 //
 // channels protocol buffer definition
 //
@@ -10,12 +10,12 @@
 // $ goa gen apisvr/design -o ./services
 //
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
-import { WireType } from "@protobuf-ts/runtime";
 import type { BinaryWriteOptions } from "@protobuf-ts/runtime";
 import type { IBinaryWriter } from "@protobuf-ts/runtime";
-import { UnknownFieldHandler } from "@protobuf-ts/runtime";
+import { WireType } from "@protobuf-ts/runtime";
 import type { BinaryReadOptions } from "@protobuf-ts/runtime";
 import type { IBinaryReader } from "@protobuf-ts/runtime";
+import { UnknownFieldHandler } from "@protobuf-ts/runtime";
 import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
@@ -23,6 +23,12 @@ import { MessageType } from "@protobuf-ts/runtime";
  * @generated from protobuf message channels.ListRequest
  */
 export interface ListRequest {
+    /**
+     * Session ID
+     *
+     * @generated from protobuf field: string session_id = 1;
+     */
+    sessionId: string;
 }
 /**
  * @generated from protobuf message channels.ListResponse
@@ -61,27 +67,33 @@ export interface ChannelListItemCollection {
  */
 export interface ChannelListItem {
     /**
+     * Session ID
+     *
+     * @generated from protobuf field: string session_id = 1;
+     */
+    sessionId: string;
+    /**
      * ID
      *
-     * @generated from protobuf field: uint64 id = 1;
+     * @generated from protobuf field: uint64 id = 2;
      */
     id: bigint;
     /**
      * CreatedAt
      *
-     * @generated from protobuf field: string created_at = 2;
+     * @generated from protobuf field: string created_at = 3;
      */
     createdAt: string;
     /**
      * UpdatedAt
      *
-     * @generated from protobuf field: string updated_at = 3;
+     * @generated from protobuf field: string updated_at = 4;
      */
     updatedAt: string;
     /**
      * Name
      *
-     * @generated from protobuf field: string name = 4;
+     * @generated from protobuf field: string name = 5;
      */
     name: string;
 }
@@ -90,9 +102,15 @@ export interface ChannelListItem {
  */
 export interface ShowRequest {
     /**
+     * Session ID
+     *
+     * @generated from protobuf field: string session_id = 1;
+     */
+    sessionId: string;
+    /**
      * ID
      *
-     * @generated from protobuf field: uint64 id = 1;
+     * @generated from protobuf field: uint64 id = 2;
      */
     id: bigint;
 }
@@ -101,27 +119,33 @@ export interface ShowRequest {
  */
 export interface ShowResponse {
     /**
+     * Session ID
+     *
+     * @generated from protobuf field: string session_id = 1;
+     */
+    sessionId: string;
+    /**
      * ID
      *
-     * @generated from protobuf field: uint64 id = 1;
+     * @generated from protobuf field: uint64 id = 2;
      */
     id: bigint;
     /**
      * CreatedAt
      *
-     * @generated from protobuf field: string created_at = 2;
+     * @generated from protobuf field: string created_at = 3;
      */
     createdAt: string;
     /**
      * UpdatedAt
      *
-     * @generated from protobuf field: string updated_at = 3;
+     * @generated from protobuf field: string updated_at = 4;
      */
     updatedAt: string;
     /**
      * Name
      *
-     * @generated from protobuf field: string name = 4;
+     * @generated from protobuf field: string name = 5;
      */
     name: string;
 }
@@ -130,9 +154,15 @@ export interface ShowResponse {
  */
 export interface CreateRequest {
     /**
+     * Session ID
+     *
+     * @generated from protobuf field: string session_id = 1;
+     */
+    sessionId: string;
+    /**
      * Name
      *
-     * @generated from protobuf field: string name = 4;
+     * @generated from protobuf field: string name = 5;
      */
     name: string;
 }
@@ -141,27 +171,33 @@ export interface CreateRequest {
  */
 export interface CreateResponse {
     /**
+     * Session ID
+     *
+     * @generated from protobuf field: string session_id = 1;
+     */
+    sessionId: string;
+    /**
      * ID
      *
-     * @generated from protobuf field: uint64 id = 1;
+     * @generated from protobuf field: uint64 id = 2;
      */
     id: bigint;
     /**
      * CreatedAt
      *
-     * @generated from protobuf field: string created_at = 2;
+     * @generated from protobuf field: string created_at = 3;
      */
     createdAt: string;
     /**
      * UpdatedAt
      *
-     * @generated from protobuf field: string updated_at = 3;
+     * @generated from protobuf field: string updated_at = 4;
      */
     updatedAt: string;
     /**
      * Name
      *
-     * @generated from protobuf field: string name = 4;
+     * @generated from protobuf field: string name = 5;
      */
     name: string;
 }
@@ -170,15 +206,21 @@ export interface CreateResponse {
  */
 export interface UpdateRequest {
     /**
+     * Session ID
+     *
+     * @generated from protobuf field: string session_id = 1;
+     */
+    sessionId: string;
+    /**
      * ID
      *
-     * @generated from protobuf field: uint64 id = 1;
+     * @generated from protobuf field: uint64 id = 2;
      */
     id: bigint;
     /**
      * Name
      *
-     * @generated from protobuf field: string name = 4;
+     * @generated from protobuf field: string name = 5;
      */
     name: string;
 }
@@ -187,27 +229,33 @@ export interface UpdateRequest {
  */
 export interface UpdateResponse {
     /**
+     * Session ID
+     *
+     * @generated from protobuf field: string session_id = 1;
+     */
+    sessionId: string;
+    /**
      * ID
      *
-     * @generated from protobuf field: uint64 id = 1;
+     * @generated from protobuf field: uint64 id = 2;
      */
     id: bigint;
     /**
      * CreatedAt
      *
-     * @generated from protobuf field: string created_at = 2;
+     * @generated from protobuf field: string created_at = 3;
      */
     createdAt: string;
     /**
      * UpdatedAt
      *
-     * @generated from protobuf field: string updated_at = 3;
+     * @generated from protobuf field: string updated_at = 4;
      */
     updatedAt: string;
     /**
      * Name
      *
-     * @generated from protobuf field: string name = 4;
+     * @generated from protobuf field: string name = 5;
      */
     name: string;
 }
@@ -216,9 +264,15 @@ export interface UpdateResponse {
  */
 export interface DeleteRequest {
     /**
+     * Session ID
+     *
+     * @generated from protobuf field: string session_id = 1;
+     */
+    sessionId: string;
+    /**
      * ID
      *
-     * @generated from protobuf field: uint64 id = 1;
+     * @generated from protobuf field: uint64 id = 2;
      */
     id: bigint;
 }
@@ -227,45 +281,73 @@ export interface DeleteRequest {
  */
 export interface DeleteResponse {
     /**
+     * Session ID
+     *
+     * @generated from protobuf field: string session_id = 1;
+     */
+    sessionId: string;
+    /**
      * ID
      *
-     * @generated from protobuf field: uint64 id = 1;
+     * @generated from protobuf field: uint64 id = 2;
      */
     id: bigint;
     /**
      * CreatedAt
      *
-     * @generated from protobuf field: string created_at = 2;
+     * @generated from protobuf field: string created_at = 3;
      */
     createdAt: string;
     /**
      * UpdatedAt
      *
-     * @generated from protobuf field: string updated_at = 3;
+     * @generated from protobuf field: string updated_at = 4;
      */
     updatedAt: string;
     /**
      * Name
      *
-     * @generated from protobuf field: string name = 4;
+     * @generated from protobuf field: string name = 5;
      */
     name: string;
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class ListRequest$Type extends MessageType<ListRequest> {
     constructor() {
-        super("channels.ListRequest", []);
+        super("channels.ListRequest", [
+            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
     }
     create(value?: PartialMessage<ListRequest>): ListRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.sessionId = "";
         if (value !== undefined)
             reflectionMergePartial<ListRequest>(this, message, value);
         return message;
     }
     internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListRequest): ListRequest {
-        return target ?? this.create();
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string session_id */ 1:
+                    message.sessionId = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
     }
     internalBinaryWrite(message: ListRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string session_id = 1; */
+        if (message.sessionId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.sessionId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -389,14 +471,16 @@ export const ChannelListItemCollection = new ChannelListItemCollection$Type();
 class ChannelListItem$Type extends MessageType<ChannelListItem> {
     constructor() {
         super("channels.ChannelListItem", [
-            { no: 1, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
-            { no: 2, name: "created_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "updated_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 3, name: "created_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "updated_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<ChannelListItem>): ChannelListItem {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.sessionId = "";
         message.id = 0n;
         message.createdAt = "";
         message.updatedAt = "";
@@ -410,16 +494,19 @@ class ChannelListItem$Type extends MessageType<ChannelListItem> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* uint64 id */ 1:
+                case /* string session_id */ 1:
+                    message.sessionId = reader.string();
+                    break;
+                case /* uint64 id */ 2:
                     message.id = reader.uint64().toBigInt();
                     break;
-                case /* string created_at */ 2:
+                case /* string created_at */ 3:
                     message.createdAt = reader.string();
                     break;
-                case /* string updated_at */ 3:
+                case /* string updated_at */ 4:
                     message.updatedAt = reader.string();
                     break;
-                case /* string name */ 4:
+                case /* string name */ 5:
                     message.name = reader.string();
                     break;
                 default:
@@ -434,18 +521,21 @@ class ChannelListItem$Type extends MessageType<ChannelListItem> {
         return message;
     }
     internalBinaryWrite(message: ChannelListItem, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* uint64 id = 1; */
+        /* string session_id = 1; */
+        if (message.sessionId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.sessionId);
+        /* uint64 id = 2; */
         if (message.id !== 0n)
-            writer.tag(1, WireType.Varint).uint64(message.id);
-        /* string created_at = 2; */
+            writer.tag(2, WireType.Varint).uint64(message.id);
+        /* string created_at = 3; */
         if (message.createdAt !== "")
-            writer.tag(2, WireType.LengthDelimited).string(message.createdAt);
-        /* string updated_at = 3; */
+            writer.tag(3, WireType.LengthDelimited).string(message.createdAt);
+        /* string updated_at = 4; */
         if (message.updatedAt !== "")
-            writer.tag(3, WireType.LengthDelimited).string(message.updatedAt);
-        /* string name = 4; */
+            writer.tag(4, WireType.LengthDelimited).string(message.updatedAt);
+        /* string name = 5; */
         if (message.name !== "")
-            writer.tag(4, WireType.LengthDelimited).string(message.name);
+            writer.tag(5, WireType.LengthDelimited).string(message.name);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -460,11 +550,13 @@ export const ChannelListItem = new ChannelListItem$Type();
 class ShowRequest$Type extends MessageType<ShowRequest> {
     constructor() {
         super("channels.ShowRequest", [
-            { no: 1, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ }
+            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ }
         ]);
     }
     create(value?: PartialMessage<ShowRequest>): ShowRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.sessionId = "";
         message.id = 0n;
         if (value !== undefined)
             reflectionMergePartial<ShowRequest>(this, message, value);
@@ -475,7 +567,10 @@ class ShowRequest$Type extends MessageType<ShowRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* uint64 id */ 1:
+                case /* string session_id */ 1:
+                    message.sessionId = reader.string();
+                    break;
+                case /* uint64 id */ 2:
                     message.id = reader.uint64().toBigInt();
                     break;
                 default:
@@ -490,9 +585,12 @@ class ShowRequest$Type extends MessageType<ShowRequest> {
         return message;
     }
     internalBinaryWrite(message: ShowRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* uint64 id = 1; */
+        /* string session_id = 1; */
+        if (message.sessionId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.sessionId);
+        /* uint64 id = 2; */
         if (message.id !== 0n)
-            writer.tag(1, WireType.Varint).uint64(message.id);
+            writer.tag(2, WireType.Varint).uint64(message.id);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -507,14 +605,16 @@ export const ShowRequest = new ShowRequest$Type();
 class ShowResponse$Type extends MessageType<ShowResponse> {
     constructor() {
         super("channels.ShowResponse", [
-            { no: 1, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
-            { no: 2, name: "created_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "updated_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 3, name: "created_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "updated_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<ShowResponse>): ShowResponse {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.sessionId = "";
         message.id = 0n;
         message.createdAt = "";
         message.updatedAt = "";
@@ -528,16 +628,19 @@ class ShowResponse$Type extends MessageType<ShowResponse> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* uint64 id */ 1:
+                case /* string session_id */ 1:
+                    message.sessionId = reader.string();
+                    break;
+                case /* uint64 id */ 2:
                     message.id = reader.uint64().toBigInt();
                     break;
-                case /* string created_at */ 2:
+                case /* string created_at */ 3:
                     message.createdAt = reader.string();
                     break;
-                case /* string updated_at */ 3:
+                case /* string updated_at */ 4:
                     message.updatedAt = reader.string();
                     break;
-                case /* string name */ 4:
+                case /* string name */ 5:
                     message.name = reader.string();
                     break;
                 default:
@@ -552,18 +655,21 @@ class ShowResponse$Type extends MessageType<ShowResponse> {
         return message;
     }
     internalBinaryWrite(message: ShowResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* uint64 id = 1; */
+        /* string session_id = 1; */
+        if (message.sessionId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.sessionId);
+        /* uint64 id = 2; */
         if (message.id !== 0n)
-            writer.tag(1, WireType.Varint).uint64(message.id);
-        /* string created_at = 2; */
+            writer.tag(2, WireType.Varint).uint64(message.id);
+        /* string created_at = 3; */
         if (message.createdAt !== "")
-            writer.tag(2, WireType.LengthDelimited).string(message.createdAt);
-        /* string updated_at = 3; */
+            writer.tag(3, WireType.LengthDelimited).string(message.createdAt);
+        /* string updated_at = 4; */
         if (message.updatedAt !== "")
-            writer.tag(3, WireType.LengthDelimited).string(message.updatedAt);
-        /* string name = 4; */
+            writer.tag(4, WireType.LengthDelimited).string(message.updatedAt);
+        /* string name = 5; */
         if (message.name !== "")
-            writer.tag(4, WireType.LengthDelimited).string(message.name);
+            writer.tag(5, WireType.LengthDelimited).string(message.name);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -578,11 +684,13 @@ export const ShowResponse = new ShowResponse$Type();
 class CreateRequest$Type extends MessageType<CreateRequest> {
     constructor() {
         super("channels.CreateRequest", [
-            { no: 4, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<CreateRequest>): CreateRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.sessionId = "";
         message.name = "";
         if (value !== undefined)
             reflectionMergePartial<CreateRequest>(this, message, value);
@@ -593,7 +701,10 @@ class CreateRequest$Type extends MessageType<CreateRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string name */ 4:
+                case /* string session_id */ 1:
+                    message.sessionId = reader.string();
+                    break;
+                case /* string name */ 5:
                     message.name = reader.string();
                     break;
                 default:
@@ -608,9 +719,12 @@ class CreateRequest$Type extends MessageType<CreateRequest> {
         return message;
     }
     internalBinaryWrite(message: CreateRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string name = 4; */
+        /* string session_id = 1; */
+        if (message.sessionId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.sessionId);
+        /* string name = 5; */
         if (message.name !== "")
-            writer.tag(4, WireType.LengthDelimited).string(message.name);
+            writer.tag(5, WireType.LengthDelimited).string(message.name);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -625,14 +739,16 @@ export const CreateRequest = new CreateRequest$Type();
 class CreateResponse$Type extends MessageType<CreateResponse> {
     constructor() {
         super("channels.CreateResponse", [
-            { no: 1, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
-            { no: 2, name: "created_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "updated_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 3, name: "created_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "updated_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<CreateResponse>): CreateResponse {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.sessionId = "";
         message.id = 0n;
         message.createdAt = "";
         message.updatedAt = "";
@@ -646,16 +762,19 @@ class CreateResponse$Type extends MessageType<CreateResponse> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* uint64 id */ 1:
+                case /* string session_id */ 1:
+                    message.sessionId = reader.string();
+                    break;
+                case /* uint64 id */ 2:
                     message.id = reader.uint64().toBigInt();
                     break;
-                case /* string created_at */ 2:
+                case /* string created_at */ 3:
                     message.createdAt = reader.string();
                     break;
-                case /* string updated_at */ 3:
+                case /* string updated_at */ 4:
                     message.updatedAt = reader.string();
                     break;
-                case /* string name */ 4:
+                case /* string name */ 5:
                     message.name = reader.string();
                     break;
                 default:
@@ -670,18 +789,21 @@ class CreateResponse$Type extends MessageType<CreateResponse> {
         return message;
     }
     internalBinaryWrite(message: CreateResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* uint64 id = 1; */
+        /* string session_id = 1; */
+        if (message.sessionId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.sessionId);
+        /* uint64 id = 2; */
         if (message.id !== 0n)
-            writer.tag(1, WireType.Varint).uint64(message.id);
-        /* string created_at = 2; */
+            writer.tag(2, WireType.Varint).uint64(message.id);
+        /* string created_at = 3; */
         if (message.createdAt !== "")
-            writer.tag(2, WireType.LengthDelimited).string(message.createdAt);
-        /* string updated_at = 3; */
+            writer.tag(3, WireType.LengthDelimited).string(message.createdAt);
+        /* string updated_at = 4; */
         if (message.updatedAt !== "")
-            writer.tag(3, WireType.LengthDelimited).string(message.updatedAt);
-        /* string name = 4; */
+            writer.tag(4, WireType.LengthDelimited).string(message.updatedAt);
+        /* string name = 5; */
         if (message.name !== "")
-            writer.tag(4, WireType.LengthDelimited).string(message.name);
+            writer.tag(5, WireType.LengthDelimited).string(message.name);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -696,12 +818,14 @@ export const CreateResponse = new CreateResponse$Type();
 class UpdateRequest$Type extends MessageType<UpdateRequest> {
     constructor() {
         super("channels.UpdateRequest", [
-            { no: 1, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
-            { no: 4, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 5, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<UpdateRequest>): UpdateRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.sessionId = "";
         message.id = 0n;
         message.name = "";
         if (value !== undefined)
@@ -713,10 +837,13 @@ class UpdateRequest$Type extends MessageType<UpdateRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* uint64 id */ 1:
+                case /* string session_id */ 1:
+                    message.sessionId = reader.string();
+                    break;
+                case /* uint64 id */ 2:
                     message.id = reader.uint64().toBigInt();
                     break;
-                case /* string name */ 4:
+                case /* string name */ 5:
                     message.name = reader.string();
                     break;
                 default:
@@ -731,12 +858,15 @@ class UpdateRequest$Type extends MessageType<UpdateRequest> {
         return message;
     }
     internalBinaryWrite(message: UpdateRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* uint64 id = 1; */
+        /* string session_id = 1; */
+        if (message.sessionId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.sessionId);
+        /* uint64 id = 2; */
         if (message.id !== 0n)
-            writer.tag(1, WireType.Varint).uint64(message.id);
-        /* string name = 4; */
+            writer.tag(2, WireType.Varint).uint64(message.id);
+        /* string name = 5; */
         if (message.name !== "")
-            writer.tag(4, WireType.LengthDelimited).string(message.name);
+            writer.tag(5, WireType.LengthDelimited).string(message.name);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -751,14 +881,16 @@ export const UpdateRequest = new UpdateRequest$Type();
 class UpdateResponse$Type extends MessageType<UpdateResponse> {
     constructor() {
         super("channels.UpdateResponse", [
-            { no: 1, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
-            { no: 2, name: "created_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "updated_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 3, name: "created_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "updated_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<UpdateResponse>): UpdateResponse {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.sessionId = "";
         message.id = 0n;
         message.createdAt = "";
         message.updatedAt = "";
@@ -772,16 +904,19 @@ class UpdateResponse$Type extends MessageType<UpdateResponse> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* uint64 id */ 1:
+                case /* string session_id */ 1:
+                    message.sessionId = reader.string();
+                    break;
+                case /* uint64 id */ 2:
                     message.id = reader.uint64().toBigInt();
                     break;
-                case /* string created_at */ 2:
+                case /* string created_at */ 3:
                     message.createdAt = reader.string();
                     break;
-                case /* string updated_at */ 3:
+                case /* string updated_at */ 4:
                     message.updatedAt = reader.string();
                     break;
-                case /* string name */ 4:
+                case /* string name */ 5:
                     message.name = reader.string();
                     break;
                 default:
@@ -796,18 +931,21 @@ class UpdateResponse$Type extends MessageType<UpdateResponse> {
         return message;
     }
     internalBinaryWrite(message: UpdateResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* uint64 id = 1; */
+        /* string session_id = 1; */
+        if (message.sessionId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.sessionId);
+        /* uint64 id = 2; */
         if (message.id !== 0n)
-            writer.tag(1, WireType.Varint).uint64(message.id);
-        /* string created_at = 2; */
+            writer.tag(2, WireType.Varint).uint64(message.id);
+        /* string created_at = 3; */
         if (message.createdAt !== "")
-            writer.tag(2, WireType.LengthDelimited).string(message.createdAt);
-        /* string updated_at = 3; */
+            writer.tag(3, WireType.LengthDelimited).string(message.createdAt);
+        /* string updated_at = 4; */
         if (message.updatedAt !== "")
-            writer.tag(3, WireType.LengthDelimited).string(message.updatedAt);
-        /* string name = 4; */
+            writer.tag(4, WireType.LengthDelimited).string(message.updatedAt);
+        /* string name = 5; */
         if (message.name !== "")
-            writer.tag(4, WireType.LengthDelimited).string(message.name);
+            writer.tag(5, WireType.LengthDelimited).string(message.name);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -822,11 +960,13 @@ export const UpdateResponse = new UpdateResponse$Type();
 class DeleteRequest$Type extends MessageType<DeleteRequest> {
     constructor() {
         super("channels.DeleteRequest", [
-            { no: 1, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ }
+            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ }
         ]);
     }
     create(value?: PartialMessage<DeleteRequest>): DeleteRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.sessionId = "";
         message.id = 0n;
         if (value !== undefined)
             reflectionMergePartial<DeleteRequest>(this, message, value);
@@ -837,7 +977,10 @@ class DeleteRequest$Type extends MessageType<DeleteRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* uint64 id */ 1:
+                case /* string session_id */ 1:
+                    message.sessionId = reader.string();
+                    break;
+                case /* uint64 id */ 2:
                     message.id = reader.uint64().toBigInt();
                     break;
                 default:
@@ -852,9 +995,12 @@ class DeleteRequest$Type extends MessageType<DeleteRequest> {
         return message;
     }
     internalBinaryWrite(message: DeleteRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* uint64 id = 1; */
+        /* string session_id = 1; */
+        if (message.sessionId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.sessionId);
+        /* uint64 id = 2; */
         if (message.id !== 0n)
-            writer.tag(1, WireType.Varint).uint64(message.id);
+            writer.tag(2, WireType.Varint).uint64(message.id);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -869,14 +1015,16 @@ export const DeleteRequest = new DeleteRequest$Type();
 class DeleteResponse$Type extends MessageType<DeleteResponse> {
     constructor() {
         super("channels.DeleteResponse", [
-            { no: 1, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
-            { no: 2, name: "created_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "updated_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
+            { no: 3, name: "created_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "updated_at", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<DeleteResponse>): DeleteResponse {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.sessionId = "";
         message.id = 0n;
         message.createdAt = "";
         message.updatedAt = "";
@@ -890,16 +1038,19 @@ class DeleteResponse$Type extends MessageType<DeleteResponse> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* uint64 id */ 1:
+                case /* string session_id */ 1:
+                    message.sessionId = reader.string();
+                    break;
+                case /* uint64 id */ 2:
                     message.id = reader.uint64().toBigInt();
                     break;
-                case /* string created_at */ 2:
+                case /* string created_at */ 3:
                     message.createdAt = reader.string();
                     break;
-                case /* string updated_at */ 3:
+                case /* string updated_at */ 4:
                     message.updatedAt = reader.string();
                     break;
-                case /* string name */ 4:
+                case /* string name */ 5:
                     message.name = reader.string();
                     break;
                 default:
@@ -914,18 +1065,21 @@ class DeleteResponse$Type extends MessageType<DeleteResponse> {
         return message;
     }
     internalBinaryWrite(message: DeleteResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* uint64 id = 1; */
+        /* string session_id = 1; */
+        if (message.sessionId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.sessionId);
+        /* uint64 id = 2; */
         if (message.id !== 0n)
-            writer.tag(1, WireType.Varint).uint64(message.id);
-        /* string created_at = 2; */
+            writer.tag(2, WireType.Varint).uint64(message.id);
+        /* string created_at = 3; */
         if (message.createdAt !== "")
-            writer.tag(2, WireType.LengthDelimited).string(message.createdAt);
-        /* string updated_at = 3; */
+            writer.tag(3, WireType.LengthDelimited).string(message.createdAt);
+        /* string updated_at = 4; */
         if (message.updatedAt !== "")
-            writer.tag(3, WireType.LengthDelimited).string(message.updatedAt);
-        /* string name = 4; */
+            writer.tag(4, WireType.LengthDelimited).string(message.updatedAt);
+        /* string name = 5; */
         if (message.name !== "")
-            writer.tag(4, WireType.LengthDelimited).string(message.name);
+            writer.tag(5, WireType.LengthDelimited).string(message.name);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
