@@ -12,12 +12,13 @@ import (
 	"context"
 
 	goa "goa.design/goa/v3/pkg"
+	"goa.design/goa/v3/security"
 )
 
 // Service is the channels service interface.
 type Service interface {
 	// List implements list.
-	List(context.Context) (res *ChannelList, err error)
+	List(context.Context, *ListPayload) (res *ChannelList, err error)
 	// Show implements show.
 	Show(context.Context, *ShowPayload) (res *Channel, err error)
 	// Create implements create.
@@ -26,6 +27,12 @@ type Service interface {
 	Update(context.Context, *ChannelUpdatePayload) (res *Channel, err error)
 	// Delete implements delete.
 	Delete(context.Context, *DeletePayload) (res *Channel, err error)
+}
+
+// Auther defines the authorization functions to be implemented by the service.
+type Auther interface {
+	// APIKeyAuth implements the authorization logic for the APIKey security scheme.
+	APIKeyAuth(ctx context.Context, key string, schema *security.APIKeyScheme) (context.Context, error)
 }
 
 // ServiceName is the name of the service as defined in the design. This is the
@@ -40,6 +47,8 @@ var MethodNames = [5]string{"list", "show", "create", "update", "delete"}
 
 // Channel is the result type of the channels service show method.
 type Channel struct {
+	// Session ID
+	SessionID string
 	// ID
 	ID uint64
 	// CreatedAt
@@ -53,6 +62,8 @@ type Channel struct {
 // ChannelCreatePayload is the payload type of the channels service create
 // method.
 type ChannelCreatePayload struct {
+	// Session ID
+	SessionID string
 	// Name
 	Name string
 }
@@ -68,6 +79,8 @@ type ChannelList struct {
 }
 
 type ChannelListItem struct {
+	// Session ID
+	SessionID string
 	// ID
 	ID uint64
 	// CreatedAt
@@ -83,6 +96,8 @@ type ChannelListItemCollection []*ChannelListItem
 // ChannelUpdatePayload is the payload type of the channels service update
 // method.
 type ChannelUpdatePayload struct {
+	// Session ID
+	SessionID string
 	// ID
 	ID uint64
 	// Name
@@ -91,14 +106,29 @@ type ChannelUpdatePayload struct {
 
 // DeletePayload is the payload type of the channels service delete method.
 type DeletePayload struct {
+	// Session ID
+	SessionID string
 	// ID
 	ID uint64
 }
 
+// ListPayload is the payload type of the channels service list method.
+type ListPayload struct {
+	// Session ID
+	SessionID string
+}
+
 // ShowPayload is the payload type of the channels service show method.
 type ShowPayload struct {
+	// Session ID
+	SessionID string
 	// ID
 	ID uint64
+}
+
+// MakeUnauthenticated builds a goa.ServiceError from an error.
+func MakeUnauthenticated(err error) *goa.ServiceError {
+	return goa.NewServiceError(err, "unauthenticated", false, false, false)
 }
 
 // MakeNotFound builds a goa.ServiceError from an error.
@@ -190,6 +220,9 @@ func newChannelListItemCollectionView(res ChannelListItemCollection) channelsvie
 // ChannelListItem.
 func newChannelListItem(vres *channelsviews.ChannelListItemView) *ChannelListItem {
 	res := &ChannelListItem{}
+	if vres.SessionID != nil {
+		res.SessionID = *vres.SessionID
+	}
 	if vres.ID != nil {
 		res.ID = *vres.ID
 	}
@@ -209,6 +242,7 @@ func newChannelListItem(vres *channelsviews.ChannelListItemView) *ChannelListIte
 // type ChannelListItemView using the "default" view.
 func newChannelListItemView(res *ChannelListItem) *channelsviews.ChannelListItemView {
 	vres := &channelsviews.ChannelListItemView{
+		SessionID: &res.SessionID,
 		ID:        &res.ID,
 		CreatedAt: &res.CreatedAt,
 		UpdatedAt: &res.UpdatedAt,
@@ -220,6 +254,9 @@ func newChannelListItemView(res *ChannelListItem) *channelsviews.ChannelListItem
 // newChannel converts projected type Channel to service type Channel.
 func newChannel(vres *channelsviews.ChannelView) *Channel {
 	res := &Channel{}
+	if vres.SessionID != nil {
+		res.SessionID = *vres.SessionID
+	}
 	if vres.ID != nil {
 		res.ID = *vres.ID
 	}
@@ -239,6 +276,7 @@ func newChannel(vres *channelsviews.ChannelView) *Channel {
 // using the "default" view.
 func newChannelView(res *Channel) *channelsviews.ChannelView {
 	vres := &channelsviews.ChannelView{
+		SessionID: &res.SessionID,
 		ID:        &res.ID,
 		CreatedAt: &res.CreatedAt,
 		UpdatedAt: &res.UpdatedAt,

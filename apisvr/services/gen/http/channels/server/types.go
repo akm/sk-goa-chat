@@ -42,6 +42,8 @@ type ListResponseBody struct {
 // ShowResponseBody is the type of the "channels" service "show" endpoint HTTP
 // response body.
 type ShowResponseBody struct {
+	// Session ID
+	SessionID string `form:"session_id" json:"session_id" xml:"session_id"`
 	// ID
 	ID uint64 `form:"id" json:"id" xml:"id"`
 	// CreatedAt
@@ -55,6 +57,8 @@ type ShowResponseBody struct {
 // CreateResponseBody is the type of the "channels" service "create" endpoint
 // HTTP response body.
 type CreateResponseBody struct {
+	// Session ID
+	SessionID string `form:"session_id" json:"session_id" xml:"session_id"`
 	// ID
 	ID uint64 `form:"id" json:"id" xml:"id"`
 	// CreatedAt
@@ -68,6 +72,8 @@ type CreateResponseBody struct {
 // UpdateResponseBody is the type of the "channels" service "update" endpoint
 // HTTP response body.
 type UpdateResponseBody struct {
+	// Session ID
+	SessionID string `form:"session_id" json:"session_id" xml:"session_id"`
 	// ID
 	ID uint64 `form:"id" json:"id" xml:"id"`
 	// CreatedAt
@@ -81,6 +87,8 @@ type UpdateResponseBody struct {
 // DeleteResponseBody is the type of the "channels" service "delete" endpoint
 // HTTP response body.
 type DeleteResponseBody struct {
+	// Session ID
+	SessionID string `form:"session_id" json:"session_id" xml:"session_id"`
 	// ID
 	ID uint64 `form:"id" json:"id" xml:"id"`
 	// CreatedAt
@@ -89,6 +97,24 @@ type DeleteResponseBody struct {
 	UpdatedAt string `form:"updated_at" json:"updated_at" xml:"updated_at"`
 	// Name
 	Name string `form:"name" json:"name" xml:"name"`
+}
+
+// ListUnauthenticatedResponseBody is the type of the "channels" service "list"
+// endpoint HTTP response body for the "unauthenticated" error.
+type ListUnauthenticatedResponseBody struct {
+	// Name is the name of this class of errors.
+	Name string `form:"name" json:"name" xml:"name"`
+	// ID is a unique identifier for this particular occurrence of the problem.
+	ID string `form:"id" json:"id" xml:"id"`
+	// Message is a human-readable explanation specific to this occurrence of the
+	// problem.
+	Message string `form:"message" json:"message" xml:"message"`
+	// Is the error temporary?
+	Temporary bool `form:"temporary" json:"temporary" xml:"temporary"`
+	// Is the error a timeout?
+	Timeout bool `form:"timeout" json:"timeout" xml:"timeout"`
+	// Is the error a server-side fault?
+	Fault bool `form:"fault" json:"fault" xml:"fault"`
 }
 
 // ShowNotFoundResponseBody is the type of the "channels" service "show"
@@ -109,9 +135,45 @@ type ShowNotFoundResponseBody struct {
 	Fault bool `form:"fault" json:"fault" xml:"fault"`
 }
 
+// ShowUnauthenticatedResponseBody is the type of the "channels" service "show"
+// endpoint HTTP response body for the "unauthenticated" error.
+type ShowUnauthenticatedResponseBody struct {
+	// Name is the name of this class of errors.
+	Name string `form:"name" json:"name" xml:"name"`
+	// ID is a unique identifier for this particular occurrence of the problem.
+	ID string `form:"id" json:"id" xml:"id"`
+	// Message is a human-readable explanation specific to this occurrence of the
+	// problem.
+	Message string `form:"message" json:"message" xml:"message"`
+	// Is the error temporary?
+	Temporary bool `form:"temporary" json:"temporary" xml:"temporary"`
+	// Is the error a timeout?
+	Timeout bool `form:"timeout" json:"timeout" xml:"timeout"`
+	// Is the error a server-side fault?
+	Fault bool `form:"fault" json:"fault" xml:"fault"`
+}
+
 // CreateInvalidPayloadResponseBody is the type of the "channels" service
 // "create" endpoint HTTP response body for the "invalid_payload" error.
 type CreateInvalidPayloadResponseBody struct {
+	// Name is the name of this class of errors.
+	Name string `form:"name" json:"name" xml:"name"`
+	// ID is a unique identifier for this particular occurrence of the problem.
+	ID string `form:"id" json:"id" xml:"id"`
+	// Message is a human-readable explanation specific to this occurrence of the
+	// problem.
+	Message string `form:"message" json:"message" xml:"message"`
+	// Is the error temporary?
+	Temporary bool `form:"temporary" json:"temporary" xml:"temporary"`
+	// Is the error a timeout?
+	Timeout bool `form:"timeout" json:"timeout" xml:"timeout"`
+	// Is the error a server-side fault?
+	Fault bool `form:"fault" json:"fault" xml:"fault"`
+}
+
+// CreateUnauthenticatedResponseBody is the type of the "channels" service
+// "create" endpoint HTTP response body for the "unauthenticated" error.
+type CreateUnauthenticatedResponseBody struct {
 	// Name is the name of this class of errors.
 	Name string `form:"name" json:"name" xml:"name"`
 	// ID is a unique identifier for this particular occurrence of the problem.
@@ -163,9 +225,45 @@ type UpdateInvalidPayloadResponseBody struct {
 	Fault bool `form:"fault" json:"fault" xml:"fault"`
 }
 
+// UpdateUnauthenticatedResponseBody is the type of the "channels" service
+// "update" endpoint HTTP response body for the "unauthenticated" error.
+type UpdateUnauthenticatedResponseBody struct {
+	// Name is the name of this class of errors.
+	Name string `form:"name" json:"name" xml:"name"`
+	// ID is a unique identifier for this particular occurrence of the problem.
+	ID string `form:"id" json:"id" xml:"id"`
+	// Message is a human-readable explanation specific to this occurrence of the
+	// problem.
+	Message string `form:"message" json:"message" xml:"message"`
+	// Is the error temporary?
+	Temporary bool `form:"temporary" json:"temporary" xml:"temporary"`
+	// Is the error a timeout?
+	Timeout bool `form:"timeout" json:"timeout" xml:"timeout"`
+	// Is the error a server-side fault?
+	Fault bool `form:"fault" json:"fault" xml:"fault"`
+}
+
 // DeleteNotFoundResponseBody is the type of the "channels" service "delete"
 // endpoint HTTP response body for the "not_found" error.
 type DeleteNotFoundResponseBody struct {
+	// Name is the name of this class of errors.
+	Name string `form:"name" json:"name" xml:"name"`
+	// ID is a unique identifier for this particular occurrence of the problem.
+	ID string `form:"id" json:"id" xml:"id"`
+	// Message is a human-readable explanation specific to this occurrence of the
+	// problem.
+	Message string `form:"message" json:"message" xml:"message"`
+	// Is the error temporary?
+	Temporary bool `form:"temporary" json:"temporary" xml:"temporary"`
+	// Is the error a timeout?
+	Timeout bool `form:"timeout" json:"timeout" xml:"timeout"`
+	// Is the error a server-side fault?
+	Fault bool `form:"fault" json:"fault" xml:"fault"`
+}
+
+// DeleteUnauthenticatedResponseBody is the type of the "channels" service
+// "delete" endpoint HTTP response body for the "unauthenticated" error.
+type DeleteUnauthenticatedResponseBody struct {
 	// Name is the name of this class of errors.
 	Name string `form:"name" json:"name" xml:"name"`
 	// ID is a unique identifier for this particular occurrence of the problem.
@@ -187,6 +285,8 @@ type ChannelListItemResponseBodyCollection []*ChannelListItemResponseBody
 
 // ChannelListItemResponseBody is used to define fields on response body types.
 type ChannelListItemResponseBody struct {
+	// Session ID
+	SessionID string `form:"session_id" json:"session_id" xml:"session_id"`
 	// ID
 	ID uint64 `form:"id" json:"id" xml:"id"`
 	// CreatedAt
@@ -219,6 +319,7 @@ func NewListResponseBody(res *channelsviews.ChannelListView) *ListResponseBody {
 // "show" endpoint of the "channels" service.
 func NewShowResponseBody(res *channelsviews.ChannelView) *ShowResponseBody {
 	body := &ShowResponseBody{
+		SessionID: *res.SessionID,
 		ID:        *res.ID,
 		CreatedAt: *res.CreatedAt,
 		UpdatedAt: *res.UpdatedAt,
@@ -231,6 +332,7 @@ func NewShowResponseBody(res *channelsviews.ChannelView) *ShowResponseBody {
 // "create" endpoint of the "channels" service.
 func NewCreateResponseBody(res *channelsviews.ChannelView) *CreateResponseBody {
 	body := &CreateResponseBody{
+		SessionID: *res.SessionID,
 		ID:        *res.ID,
 		CreatedAt: *res.CreatedAt,
 		UpdatedAt: *res.UpdatedAt,
@@ -243,6 +345,7 @@ func NewCreateResponseBody(res *channelsviews.ChannelView) *CreateResponseBody {
 // "update" endpoint of the "channels" service.
 func NewUpdateResponseBody(res *channelsviews.ChannelView) *UpdateResponseBody {
 	body := &UpdateResponseBody{
+		SessionID: *res.SessionID,
 		ID:        *res.ID,
 		CreatedAt: *res.CreatedAt,
 		UpdatedAt: *res.UpdatedAt,
@@ -255,10 +358,25 @@ func NewUpdateResponseBody(res *channelsviews.ChannelView) *UpdateResponseBody {
 // "delete" endpoint of the "channels" service.
 func NewDeleteResponseBody(res *channelsviews.ChannelView) *DeleteResponseBody {
 	body := &DeleteResponseBody{
+		SessionID: *res.SessionID,
 		ID:        *res.ID,
 		CreatedAt: *res.CreatedAt,
 		UpdatedAt: *res.UpdatedAt,
 		Name:      *res.Name,
+	}
+	return body
+}
+
+// NewListUnauthenticatedResponseBody builds the HTTP response body from the
+// result of the "list" endpoint of the "channels" service.
+func NewListUnauthenticatedResponseBody(res *goa.ServiceError) *ListUnauthenticatedResponseBody {
+	body := &ListUnauthenticatedResponseBody{
+		Name:      res.Name,
+		ID:        res.ID,
+		Message:   res.Message,
+		Temporary: res.Temporary,
+		Timeout:   res.Timeout,
+		Fault:     res.Fault,
 	}
 	return body
 }
@@ -277,10 +395,38 @@ func NewShowNotFoundResponseBody(res *goa.ServiceError) *ShowNotFoundResponseBod
 	return body
 }
 
+// NewShowUnauthenticatedResponseBody builds the HTTP response body from the
+// result of the "show" endpoint of the "channels" service.
+func NewShowUnauthenticatedResponseBody(res *goa.ServiceError) *ShowUnauthenticatedResponseBody {
+	body := &ShowUnauthenticatedResponseBody{
+		Name:      res.Name,
+		ID:        res.ID,
+		Message:   res.Message,
+		Temporary: res.Temporary,
+		Timeout:   res.Timeout,
+		Fault:     res.Fault,
+	}
+	return body
+}
+
 // NewCreateInvalidPayloadResponseBody builds the HTTP response body from the
 // result of the "create" endpoint of the "channels" service.
 func NewCreateInvalidPayloadResponseBody(res *goa.ServiceError) *CreateInvalidPayloadResponseBody {
 	body := &CreateInvalidPayloadResponseBody{
+		Name:      res.Name,
+		ID:        res.ID,
+		Message:   res.Message,
+		Temporary: res.Temporary,
+		Timeout:   res.Timeout,
+		Fault:     res.Fault,
+	}
+	return body
+}
+
+// NewCreateUnauthenticatedResponseBody builds the HTTP response body from the
+// result of the "create" endpoint of the "channels" service.
+func NewCreateUnauthenticatedResponseBody(res *goa.ServiceError) *CreateUnauthenticatedResponseBody {
+	body := &CreateUnauthenticatedResponseBody{
 		Name:      res.Name,
 		ID:        res.ID,
 		Message:   res.Message,
@@ -319,6 +465,20 @@ func NewUpdateInvalidPayloadResponseBody(res *goa.ServiceError) *UpdateInvalidPa
 	return body
 }
 
+// NewUpdateUnauthenticatedResponseBody builds the HTTP response body from the
+// result of the "update" endpoint of the "channels" service.
+func NewUpdateUnauthenticatedResponseBody(res *goa.ServiceError) *UpdateUnauthenticatedResponseBody {
+	body := &UpdateUnauthenticatedResponseBody{
+		Name:      res.Name,
+		ID:        res.ID,
+		Message:   res.Message,
+		Temporary: res.Temporary,
+		Timeout:   res.Timeout,
+		Fault:     res.Fault,
+	}
+	return body
+}
+
 // NewDeleteNotFoundResponseBody builds the HTTP response body from the result
 // of the "delete" endpoint of the "channels" service.
 func NewDeleteNotFoundResponseBody(res *goa.ServiceError) *DeleteNotFoundResponseBody {
@@ -333,39 +493,65 @@ func NewDeleteNotFoundResponseBody(res *goa.ServiceError) *DeleteNotFoundRespons
 	return body
 }
 
+// NewDeleteUnauthenticatedResponseBody builds the HTTP response body from the
+// result of the "delete" endpoint of the "channels" service.
+func NewDeleteUnauthenticatedResponseBody(res *goa.ServiceError) *DeleteUnauthenticatedResponseBody {
+	body := &DeleteUnauthenticatedResponseBody{
+		Name:      res.Name,
+		ID:        res.ID,
+		Message:   res.Message,
+		Temporary: res.Temporary,
+		Timeout:   res.Timeout,
+		Fault:     res.Fault,
+	}
+	return body
+}
+
+// NewListPayload builds a channels service list endpoint payload.
+func NewListPayload(sessionID string) *channels.ListPayload {
+	v := &channels.ListPayload{}
+	v.SessionID = sessionID
+
+	return v
+}
+
 // NewShowPayload builds a channels service show endpoint payload.
-func NewShowPayload(id uint64) *channels.ShowPayload {
+func NewShowPayload(id uint64, sessionID string) *channels.ShowPayload {
 	v := &channels.ShowPayload{}
 	v.ID = id
+	v.SessionID = sessionID
 
 	return v
 }
 
 // NewCreateChannelCreatePayload builds a channels service create endpoint
 // payload.
-func NewCreateChannelCreatePayload(body *CreateRequestBody) *channels.ChannelCreatePayload {
+func NewCreateChannelCreatePayload(body *CreateRequestBody, sessionID string) *channels.ChannelCreatePayload {
 	v := &channels.ChannelCreatePayload{
 		Name: *body.Name,
 	}
+	v.SessionID = sessionID
 
 	return v
 }
 
 // NewUpdateChannelUpdatePayload builds a channels service update endpoint
 // payload.
-func NewUpdateChannelUpdatePayload(body *UpdateRequestBody, id uint64) *channels.ChannelUpdatePayload {
+func NewUpdateChannelUpdatePayload(body *UpdateRequestBody, id uint64, sessionID string) *channels.ChannelUpdatePayload {
 	v := &channels.ChannelUpdatePayload{
 		Name: *body.Name,
 	}
 	v.ID = id
+	v.SessionID = sessionID
 
 	return v
 }
 
 // NewDeletePayload builds a channels service delete endpoint payload.
-func NewDeletePayload(id uint64) *channels.DeletePayload {
+func NewDeletePayload(id uint64, sessionID string) *channels.DeletePayload {
 	v := &channels.DeletePayload{}
 	v.ID = id
+	v.SessionID = sessionID
 
 	return v
 }

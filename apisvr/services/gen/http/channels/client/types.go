@@ -42,6 +42,8 @@ type ListResponseBody struct {
 // ShowResponseBody is the type of the "channels" service "show" endpoint HTTP
 // response body.
 type ShowResponseBody struct {
+	// Session ID
+	SessionID *string `form:"session_id,omitempty" json:"session_id,omitempty" xml:"session_id,omitempty"`
 	// ID
 	ID *uint64 `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// CreatedAt
@@ -55,6 +57,8 @@ type ShowResponseBody struct {
 // CreateResponseBody is the type of the "channels" service "create" endpoint
 // HTTP response body.
 type CreateResponseBody struct {
+	// Session ID
+	SessionID *string `form:"session_id,omitempty" json:"session_id,omitempty" xml:"session_id,omitempty"`
 	// ID
 	ID *uint64 `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// CreatedAt
@@ -68,6 +72,8 @@ type CreateResponseBody struct {
 // UpdateResponseBody is the type of the "channels" service "update" endpoint
 // HTTP response body.
 type UpdateResponseBody struct {
+	// Session ID
+	SessionID *string `form:"session_id,omitempty" json:"session_id,omitempty" xml:"session_id,omitempty"`
 	// ID
 	ID *uint64 `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// CreatedAt
@@ -81,6 +87,8 @@ type UpdateResponseBody struct {
 // DeleteResponseBody is the type of the "channels" service "delete" endpoint
 // HTTP response body.
 type DeleteResponseBody struct {
+	// Session ID
+	SessionID *string `form:"session_id,omitempty" json:"session_id,omitempty" xml:"session_id,omitempty"`
 	// ID
 	ID *uint64 `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// CreatedAt
@@ -89,6 +97,24 @@ type DeleteResponseBody struct {
 	UpdatedAt *string `form:"updated_at,omitempty" json:"updated_at,omitempty" xml:"updated_at,omitempty"`
 	// Name
 	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
+}
+
+// ListUnauthenticatedResponseBody is the type of the "channels" service "list"
+// endpoint HTTP response body for the "unauthenticated" error.
+type ListUnauthenticatedResponseBody struct {
+	// Name is the name of this class of errors.
+	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
+	// ID is a unique identifier for this particular occurrence of the problem.
+	ID *string `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
+	// Message is a human-readable explanation specific to this occurrence of the
+	// problem.
+	Message *string `form:"message,omitempty" json:"message,omitempty" xml:"message,omitempty"`
+	// Is the error temporary?
+	Temporary *bool `form:"temporary,omitempty" json:"temporary,omitempty" xml:"temporary,omitempty"`
+	// Is the error a timeout?
+	Timeout *bool `form:"timeout,omitempty" json:"timeout,omitempty" xml:"timeout,omitempty"`
+	// Is the error a server-side fault?
+	Fault *bool `form:"fault,omitempty" json:"fault,omitempty" xml:"fault,omitempty"`
 }
 
 // ShowNotFoundResponseBody is the type of the "channels" service "show"
@@ -109,9 +135,45 @@ type ShowNotFoundResponseBody struct {
 	Fault *bool `form:"fault,omitempty" json:"fault,omitempty" xml:"fault,omitempty"`
 }
 
+// ShowUnauthenticatedResponseBody is the type of the "channels" service "show"
+// endpoint HTTP response body for the "unauthenticated" error.
+type ShowUnauthenticatedResponseBody struct {
+	// Name is the name of this class of errors.
+	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
+	// ID is a unique identifier for this particular occurrence of the problem.
+	ID *string `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
+	// Message is a human-readable explanation specific to this occurrence of the
+	// problem.
+	Message *string `form:"message,omitempty" json:"message,omitempty" xml:"message,omitempty"`
+	// Is the error temporary?
+	Temporary *bool `form:"temporary,omitempty" json:"temporary,omitempty" xml:"temporary,omitempty"`
+	// Is the error a timeout?
+	Timeout *bool `form:"timeout,omitempty" json:"timeout,omitempty" xml:"timeout,omitempty"`
+	// Is the error a server-side fault?
+	Fault *bool `form:"fault,omitempty" json:"fault,omitempty" xml:"fault,omitempty"`
+}
+
 // CreateInvalidPayloadResponseBody is the type of the "channels" service
 // "create" endpoint HTTP response body for the "invalid_payload" error.
 type CreateInvalidPayloadResponseBody struct {
+	// Name is the name of this class of errors.
+	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
+	// ID is a unique identifier for this particular occurrence of the problem.
+	ID *string `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
+	// Message is a human-readable explanation specific to this occurrence of the
+	// problem.
+	Message *string `form:"message,omitempty" json:"message,omitempty" xml:"message,omitempty"`
+	// Is the error temporary?
+	Temporary *bool `form:"temporary,omitempty" json:"temporary,omitempty" xml:"temporary,omitempty"`
+	// Is the error a timeout?
+	Timeout *bool `form:"timeout,omitempty" json:"timeout,omitempty" xml:"timeout,omitempty"`
+	// Is the error a server-side fault?
+	Fault *bool `form:"fault,omitempty" json:"fault,omitempty" xml:"fault,omitempty"`
+}
+
+// CreateUnauthenticatedResponseBody is the type of the "channels" service
+// "create" endpoint HTTP response body for the "unauthenticated" error.
+type CreateUnauthenticatedResponseBody struct {
 	// Name is the name of this class of errors.
 	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
 	// ID is a unique identifier for this particular occurrence of the problem.
@@ -163,9 +225,45 @@ type UpdateInvalidPayloadResponseBody struct {
 	Fault *bool `form:"fault,omitempty" json:"fault,omitempty" xml:"fault,omitempty"`
 }
 
+// UpdateUnauthenticatedResponseBody is the type of the "channels" service
+// "update" endpoint HTTP response body for the "unauthenticated" error.
+type UpdateUnauthenticatedResponseBody struct {
+	// Name is the name of this class of errors.
+	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
+	// ID is a unique identifier for this particular occurrence of the problem.
+	ID *string `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
+	// Message is a human-readable explanation specific to this occurrence of the
+	// problem.
+	Message *string `form:"message,omitempty" json:"message,omitempty" xml:"message,omitempty"`
+	// Is the error temporary?
+	Temporary *bool `form:"temporary,omitempty" json:"temporary,omitempty" xml:"temporary,omitempty"`
+	// Is the error a timeout?
+	Timeout *bool `form:"timeout,omitempty" json:"timeout,omitempty" xml:"timeout,omitempty"`
+	// Is the error a server-side fault?
+	Fault *bool `form:"fault,omitempty" json:"fault,omitempty" xml:"fault,omitempty"`
+}
+
 // DeleteNotFoundResponseBody is the type of the "channels" service "delete"
 // endpoint HTTP response body for the "not_found" error.
 type DeleteNotFoundResponseBody struct {
+	// Name is the name of this class of errors.
+	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
+	// ID is a unique identifier for this particular occurrence of the problem.
+	ID *string `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
+	// Message is a human-readable explanation specific to this occurrence of the
+	// problem.
+	Message *string `form:"message,omitempty" json:"message,omitempty" xml:"message,omitempty"`
+	// Is the error temporary?
+	Temporary *bool `form:"temporary,omitempty" json:"temporary,omitempty" xml:"temporary,omitempty"`
+	// Is the error a timeout?
+	Timeout *bool `form:"timeout,omitempty" json:"timeout,omitempty" xml:"timeout,omitempty"`
+	// Is the error a server-side fault?
+	Fault *bool `form:"fault,omitempty" json:"fault,omitempty" xml:"fault,omitempty"`
+}
+
+// DeleteUnauthenticatedResponseBody is the type of the "channels" service
+// "delete" endpoint HTTP response body for the "unauthenticated" error.
+type DeleteUnauthenticatedResponseBody struct {
 	// Name is the name of this class of errors.
 	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
 	// ID is a unique identifier for this particular occurrence of the problem.
@@ -187,6 +285,8 @@ type ChannelListItemCollectionResponseBody []*ChannelListItemResponseBody
 
 // ChannelListItemResponseBody is used to define fields on response body types.
 type ChannelListItemResponseBody struct {
+	// Session ID
+	SessionID *string `form:"session_id,omitempty" json:"session_id,omitempty" xml:"session_id,omitempty"`
 	// ID
 	ID *uint64 `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// CreatedAt
@@ -230,10 +330,26 @@ func NewListChannelListOK(body *ListResponseBody) *channelsviews.ChannelListView
 	return v
 }
 
+// NewListUnauthenticated builds a channels service list endpoint
+// unauthenticated error.
+func NewListUnauthenticated(body *ListUnauthenticatedResponseBody) *goa.ServiceError {
+	v := &goa.ServiceError{
+		Name:      *body.Name,
+		ID:        *body.ID,
+		Message:   *body.Message,
+		Temporary: *body.Temporary,
+		Timeout:   *body.Timeout,
+		Fault:     *body.Fault,
+	}
+
+	return v
+}
+
 // NewShowChannelOK builds a "channels" service "show" endpoint result from a
 // HTTP "OK" response.
 func NewShowChannelOK(body *ShowResponseBody) *channelsviews.ChannelView {
 	v := &channelsviews.ChannelView{
+		SessionID: body.SessionID,
 		ID:        body.ID,
 		CreatedAt: body.CreatedAt,
 		UpdatedAt: body.UpdatedAt,
@@ -257,10 +373,26 @@ func NewShowNotFound(body *ShowNotFoundResponseBody) *goa.ServiceError {
 	return v
 }
 
+// NewShowUnauthenticated builds a channels service show endpoint
+// unauthenticated error.
+func NewShowUnauthenticated(body *ShowUnauthenticatedResponseBody) *goa.ServiceError {
+	v := &goa.ServiceError{
+		Name:      *body.Name,
+		ID:        *body.ID,
+		Message:   *body.Message,
+		Temporary: *body.Temporary,
+		Timeout:   *body.Timeout,
+		Fault:     *body.Fault,
+	}
+
+	return v
+}
+
 // NewCreateChannelCreated builds a "channels" service "create" endpoint result
 // from a HTTP "Created" response.
 func NewCreateChannelCreated(body *CreateResponseBody) *channelsviews.ChannelView {
 	v := &channelsviews.ChannelView{
+		SessionID: body.SessionID,
 		ID:        body.ID,
 		CreatedAt: body.CreatedAt,
 		UpdatedAt: body.UpdatedAt,
@@ -285,10 +417,26 @@ func NewCreateInvalidPayload(body *CreateInvalidPayloadResponseBody) *goa.Servic
 	return v
 }
 
+// NewCreateUnauthenticated builds a channels service create endpoint
+// unauthenticated error.
+func NewCreateUnauthenticated(body *CreateUnauthenticatedResponseBody) *goa.ServiceError {
+	v := &goa.ServiceError{
+		Name:      *body.Name,
+		ID:        *body.ID,
+		Message:   *body.Message,
+		Temporary: *body.Temporary,
+		Timeout:   *body.Timeout,
+		Fault:     *body.Fault,
+	}
+
+	return v
+}
+
 // NewUpdateChannelOK builds a "channels" service "update" endpoint result from
 // a HTTP "OK" response.
 func NewUpdateChannelOK(body *UpdateResponseBody) *channelsviews.ChannelView {
 	v := &channelsviews.ChannelView{
+		SessionID: body.SessionID,
 		ID:        body.ID,
 		CreatedAt: body.CreatedAt,
 		UpdatedAt: body.UpdatedAt,
@@ -327,10 +475,26 @@ func NewUpdateInvalidPayload(body *UpdateInvalidPayloadResponseBody) *goa.Servic
 	return v
 }
 
+// NewUpdateUnauthenticated builds a channels service update endpoint
+// unauthenticated error.
+func NewUpdateUnauthenticated(body *UpdateUnauthenticatedResponseBody) *goa.ServiceError {
+	v := &goa.ServiceError{
+		Name:      *body.Name,
+		ID:        *body.ID,
+		Message:   *body.Message,
+		Temporary: *body.Temporary,
+		Timeout:   *body.Timeout,
+		Fault:     *body.Fault,
+	}
+
+	return v
+}
+
 // NewDeleteChannelOK builds a "channels" service "delete" endpoint result from
 // a HTTP "OK" response.
 func NewDeleteChannelOK(body *DeleteResponseBody) *channelsviews.ChannelView {
 	v := &channelsviews.ChannelView{
+		SessionID: body.SessionID,
 		ID:        body.ID,
 		CreatedAt: body.CreatedAt,
 		UpdatedAt: body.UpdatedAt,
@@ -352,6 +516,45 @@ func NewDeleteNotFound(body *DeleteNotFoundResponseBody) *goa.ServiceError {
 	}
 
 	return v
+}
+
+// NewDeleteUnauthenticated builds a channels service delete endpoint
+// unauthenticated error.
+func NewDeleteUnauthenticated(body *DeleteUnauthenticatedResponseBody) *goa.ServiceError {
+	v := &goa.ServiceError{
+		Name:      *body.Name,
+		ID:        *body.ID,
+		Message:   *body.Message,
+		Temporary: *body.Temporary,
+		Timeout:   *body.Timeout,
+		Fault:     *body.Fault,
+	}
+
+	return v
+}
+
+// ValidateListUnauthenticatedResponseBody runs the validations defined on
+// list_unauthenticated_response_body
+func ValidateListUnauthenticatedResponseBody(body *ListUnauthenticatedResponseBody) (err error) {
+	if body.Name == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("name", "body"))
+	}
+	if body.ID == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("id", "body"))
+	}
+	if body.Message == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("message", "body"))
+	}
+	if body.Temporary == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("temporary", "body"))
+	}
+	if body.Timeout == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("timeout", "body"))
+	}
+	if body.Fault == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("fault", "body"))
+	}
+	return
 }
 
 // ValidateShowNotFoundResponseBody runs the validations defined on
@@ -378,9 +581,57 @@ func ValidateShowNotFoundResponseBody(body *ShowNotFoundResponseBody) (err error
 	return
 }
 
+// ValidateShowUnauthenticatedResponseBody runs the validations defined on
+// show_unauthenticated_response_body
+func ValidateShowUnauthenticatedResponseBody(body *ShowUnauthenticatedResponseBody) (err error) {
+	if body.Name == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("name", "body"))
+	}
+	if body.ID == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("id", "body"))
+	}
+	if body.Message == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("message", "body"))
+	}
+	if body.Temporary == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("temporary", "body"))
+	}
+	if body.Timeout == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("timeout", "body"))
+	}
+	if body.Fault == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("fault", "body"))
+	}
+	return
+}
+
 // ValidateCreateInvalidPayloadResponseBody runs the validations defined on
 // create_invalid_payload_response_body
 func ValidateCreateInvalidPayloadResponseBody(body *CreateInvalidPayloadResponseBody) (err error) {
+	if body.Name == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("name", "body"))
+	}
+	if body.ID == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("id", "body"))
+	}
+	if body.Message == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("message", "body"))
+	}
+	if body.Temporary == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("temporary", "body"))
+	}
+	if body.Timeout == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("timeout", "body"))
+	}
+	if body.Fault == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("fault", "body"))
+	}
+	return
+}
+
+// ValidateCreateUnauthenticatedResponseBody runs the validations defined on
+// create_unauthenticated_response_body
+func ValidateCreateUnauthenticatedResponseBody(body *CreateUnauthenticatedResponseBody) (err error) {
 	if body.Name == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("name", "body"))
 	}
@@ -450,9 +701,57 @@ func ValidateUpdateInvalidPayloadResponseBody(body *UpdateInvalidPayloadResponse
 	return
 }
 
+// ValidateUpdateUnauthenticatedResponseBody runs the validations defined on
+// update_unauthenticated_response_body
+func ValidateUpdateUnauthenticatedResponseBody(body *UpdateUnauthenticatedResponseBody) (err error) {
+	if body.Name == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("name", "body"))
+	}
+	if body.ID == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("id", "body"))
+	}
+	if body.Message == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("message", "body"))
+	}
+	if body.Temporary == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("temporary", "body"))
+	}
+	if body.Timeout == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("timeout", "body"))
+	}
+	if body.Fault == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("fault", "body"))
+	}
+	return
+}
+
 // ValidateDeleteNotFoundResponseBody runs the validations defined on
 // delete_not_found_response_body
 func ValidateDeleteNotFoundResponseBody(body *DeleteNotFoundResponseBody) (err error) {
+	if body.Name == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("name", "body"))
+	}
+	if body.ID == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("id", "body"))
+	}
+	if body.Message == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("message", "body"))
+	}
+	if body.Temporary == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("temporary", "body"))
+	}
+	if body.Timeout == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("timeout", "body"))
+	}
+	if body.Fault == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("fault", "body"))
+	}
+	return
+}
+
+// ValidateDeleteUnauthenticatedResponseBody runs the validations defined on
+// delete_unauthenticated_response_body
+func ValidateDeleteUnauthenticatedResponseBody(body *DeleteUnauthenticatedResponseBody) (err error) {
 	if body.Name == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("name", "body"))
 	}
@@ -490,6 +789,9 @@ func ValidateChannelListItemCollectionResponseBody(body ChannelListItemCollectio
 // ValidateChannelListItemResponseBody runs the validations defined on
 // Channel-List-ItemResponseBody
 func ValidateChannelListItemResponseBody(body *ChannelListItemResponseBody) (err error) {
+	if body.SessionID == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "body"))
+	}
 	if body.ID == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("id", "body"))
 	}

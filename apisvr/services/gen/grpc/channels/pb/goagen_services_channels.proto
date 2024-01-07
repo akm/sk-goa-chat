@@ -42,78 +42,88 @@ message ChannelListItemCollection {
 }
 
 message ChannelListItem {
+	// Session ID
+	string session_id = 1;
 	// ID
-	uint64 id = 1;
+	uint64 id = 2;
 	// CreatedAt
-	string created_at = 2;
+	string created_at = 3;
 	// UpdatedAt
-	string updated_at = 3;
+	string updated_at = 4;
 	// Name
-	string name = 4;
+	string name = 5;
 }
 
 message ShowRequest {
 	// ID
-	uint64 id = 1;
+	uint64 id = 2;
 }
 
 message ShowResponse {
+	// Session ID
+	string session_id = 1;
 	// ID
-	uint64 id = 1;
+	uint64 id = 2;
 	// CreatedAt
-	string created_at = 2;
+	string created_at = 3;
 	// UpdatedAt
-	string updated_at = 3;
+	string updated_at = 4;
 	// Name
-	string name = 4;
+	string name = 5;
 }
 
 message CreateRequest {
 	// Name
-	string name = 4;
+	string name = 5;
 }
 
 message CreateResponse {
+	// Session ID
+	string session_id = 1;
 	// ID
-	uint64 id = 1;
+	uint64 id = 2;
 	// CreatedAt
-	string created_at = 2;
+	string created_at = 3;
 	// UpdatedAt
-	string updated_at = 3;
+	string updated_at = 4;
 	// Name
-	string name = 4;
+	string name = 5;
 }
 
 message UpdateRequest {
 	// ID
-	uint64 id = 1;
+	uint64 id = 2;
 	// Name
-	string name = 4;
+	string name = 5;
 }
 
 message UpdateResponse {
+	// Session ID
+	string session_id = 1;
 	// ID
-	uint64 id = 1;
+	uint64 id = 2;
 	// CreatedAt
-	string created_at = 2;
+	string created_at = 3;
 	// UpdatedAt
-	string updated_at = 3;
+	string updated_at = 4;
 	// Name
-	string name = 4;
+	string name = 5;
 }
 
 message DeleteRequest {
 	// ID
-	uint64 id = 1;
+	uint64 id = 2;
 }
 
 message DeleteResponse {
+	// Session ID
+	string session_id = 1;
 	// ID
-	uint64 id = 1;
+	uint64 id = 2;
 	// CreatedAt
-	string created_at = 2;
+	string created_at = 3;
 	// UpdatedAt
-	string updated_at = 3;
+	string updated_at = 4;
 	// Name
-	string name = 4;
+	string name = 5;
 }

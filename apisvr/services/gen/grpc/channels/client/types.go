@@ -33,6 +33,7 @@ func NewListResult(message *channelspb.ListResponse) *channelsviews.ChannelListV
 		result.Items = make([]*channelsviews.ChannelListItemView, len(message.Items.Field))
 		for i, val := range message.Items.Field {
 			result.Items[i] = &channelsviews.ChannelListItemView{
+				SessionID: &val.SessionId,
 				ID:        &val.Id,
 				CreatedAt: &val.CreatedAt,
 				UpdatedAt: &val.UpdatedAt,
@@ -56,6 +57,7 @@ func NewProtoShowRequest(payload *channels.ShowPayload) *channelspb.ShowRequest 
 // "channels" service from the gRPC response type.
 func NewShowResult(message *channelspb.ShowResponse) *channelsviews.ChannelView {
 	result := &channelsviews.ChannelView{
+		SessionID: &message.SessionId,
 		ID:        &message.Id,
 		CreatedAt: &message.CreatedAt,
 		UpdatedAt: &message.UpdatedAt,
@@ -77,6 +79,7 @@ func NewProtoCreateRequest(payload *channels.ChannelCreatePayload) *channelspb.C
 // "channels" service from the gRPC response type.
 func NewCreateResult(message *channelspb.CreateResponse) *channelsviews.ChannelView {
 	result := &channelsviews.ChannelView{
+		SessionID: &message.SessionId,
 		ID:        &message.Id,
 		CreatedAt: &message.CreatedAt,
 		UpdatedAt: &message.UpdatedAt,
@@ -99,6 +102,7 @@ func NewProtoUpdateRequest(payload *channels.ChannelUpdatePayload) *channelspb.U
 // "channels" service from the gRPC response type.
 func NewUpdateResult(message *channelspb.UpdateResponse) *channelsviews.ChannelView {
 	result := &channelsviews.ChannelView{
+		SessionID: &message.SessionId,
 		ID:        &message.Id,
 		CreatedAt: &message.CreatedAt,
 		UpdatedAt: &message.UpdatedAt,
@@ -120,6 +124,7 @@ func NewProtoDeleteRequest(payload *channels.DeletePayload) *channelspb.DeleteRe
 // "channels" service from the gRPC response type.
 func NewDeleteResult(message *channelspb.DeleteResponse) *channelsviews.ChannelView {
 	result := &channelsviews.ChannelView{
+		SessionID: &message.SessionId,
 		ID:        &message.Id,
 		CreatedAt: &message.CreatedAt,
 		UpdatedAt: &message.UpdatedAt,

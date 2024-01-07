@@ -34,9 +34,28 @@ func (c *Client) BuildListRequest(ctx context.Context, v any) (*http.Request, er
 	return req, nil
 }
 
+// EncodeListRequest returns an encoder for requests sent to the channels list
+// server.
+func EncodeListRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.Request, any) error {
+	return func(req *http.Request, v any) error {
+		p, ok := v.(*channels.ListPayload)
+		if !ok {
+			return goahttp.ErrInvalidType("channels", "list", "*channels.ListPayload", v)
+		}
+		{
+			head := p.SessionID
+			req.Header.Set("Authorization", head)
+		}
+		return nil
+	}
+}
+
 // DecodeListResponse returns a decoder for responses returned by the channels
 // list endpoint. restoreBody controls whether the response body should be
 // restored after having been read.
+// DecodeListResponse may return the following errors:
+//   - "unauthenticated" (type *goa.ServiceError): http.StatusUnauthorized
+//   - error: internal error
 func DecodeListResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
 		if restoreBody {
@@ -69,6 +88,20 @@ func DecodeListResponse(decoder func(*http.Response) goahttp.Decoder, restoreBod
 			}
 			res := channels.NewChannelList(vres)
 			return res, nil
+		case http.StatusUnauthorized:
+			var (
+				body ListUnauthenticatedResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("channels", "list", err)
+			}
+			err = ValidateListUnauthenticatedResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("channels", "list", err)
+			}
+			return nil, NewListUnauthenticated(&body)
 		default:
 			body, _ := io.ReadAll(resp.Body)
 			return nil, goahttp.ErrInvalidResponse("channels", "list", resp.StatusCode, string(body))
@@ -101,11 +134,28 @@ func (c *Client) BuildShowRequest(ctx context.Context, v any) (*http.Request, er
 	return req, nil
 }
 
+// EncodeShowRequest returns an encoder for requests sent to the channels show
+// server.
+func EncodeShowRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.Request, any) error {
+	return func(req *http.Request, v any) error {
+		p, ok := v.(*channels.ShowPayload)
+		if !ok {
+			return goahttp.ErrInvalidType("channels", "show", "*channels.ShowPayload", v)
+		}
+		{
+			head := p.SessionID
+			req.Header.Set("Authorization", head)
+		}
+		return nil
+	}
+}
+
 // DecodeShowResponse returns a decoder for responses returned by the channels
 // show endpoint. restoreBody controls whether the response body should be
 // restored after having been read.
 // DecodeShowResponse may return the following errors:
 //   - "not_found" (type *goa.ServiceError): http.StatusNotFound
+//   - "unauthenticated" (type *goa.ServiceError): http.StatusUnauthorized
 //   - error: internal error
 func DecodeShowResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
@@ -153,6 +203,20 @@ func DecodeShowResponse(decoder func(*http.Response) goahttp.Decoder, restoreBod
 				return nil, goahttp.ErrValidationError("channels", "show", err)
 			}
 			return nil, NewShowNotFound(&body)
+		case http.StatusUnauthorized:
+			var (
+				body ShowUnauthenticatedResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("channels", "show", err)
+			}
+			err = ValidateShowUnauthenticatedResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("channels", "show", err)
+			}
+			return nil, NewShowUnauthenticated(&body)
 		default:
 			body, _ := io.ReadAll(resp.Body)
 			return nil, goahttp.ErrInvalidResponse("channels", "show", resp.StatusCode, string(body))
@@ -183,6 +247,10 @@ func EncodeCreateRequest(encoder func(*http.Request) goahttp.Encoder) func(*http
 		if !ok {
 			return goahttp.ErrInvalidType("channels", "create", "*channels.ChannelCreatePayload", v)
 		}
+		{
+			head := p.SessionID
+			req.Header.Set("Authorization", head)
+		}
 		body := NewCreateRequestBody(p)
 		if err := encoder(req).Encode(&body); err != nil {
 			return goahttp.ErrEncodingError("channels", "create", err)
@@ -196,6 +264,7 @@ func EncodeCreateRequest(encoder func(*http.Request) goahttp.Encoder) func(*http
 // should be restored after having been read.
 // DecodeCreateResponse may return the following errors:
 //   - "invalid_payload" (type *goa.ServiceError): http.StatusBadRequest
+//   - "unauthenticated" (type *goa.ServiceError): http.StatusUnauthorized
 //   - error: internal error
 func DecodeCreateResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
@@ -243,6 +312,20 @@ func DecodeCreateResponse(decoder func(*http.Response) goahttp.Decoder, restoreB
 				return nil, goahttp.ErrValidationError("channels", "create", err)
 			}
 			return nil, NewCreateInvalidPayload(&body)
+		case http.StatusUnauthorized:
+			var (
+				body CreateUnauthenticatedResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("channels", "create", err)
+			}
+			err = ValidateCreateUnauthenticatedResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("channels", "create", err)
+			}
+			return nil, NewCreateUnauthenticated(&body)
 		default:
 			body, _ := io.ReadAll(resp.Body)
 			return nil, goahttp.ErrInvalidResponse("channels", "create", resp.StatusCode, string(body))
@@ -283,6 +366,10 @@ func EncodeUpdateRequest(encoder func(*http.Request) goahttp.Encoder) func(*http
 		if !ok {
 			return goahttp.ErrInvalidType("channels", "update", "*channels.ChannelUpdatePayload", v)
 		}
+		{
+			head := p.SessionID
+			req.Header.Set("Authorization", head)
+		}
 		body := NewUpdateRequestBody(p)
 		if err := encoder(req).Encode(&body); err != nil {
 			return goahttp.ErrEncodingError("channels", "update", err)
@@ -297,6 +384,7 @@ func EncodeUpdateRequest(encoder func(*http.Request) goahttp.Encoder) func(*http
 // DecodeUpdateResponse may return the following errors:
 //   - "not_found" (type *goa.ServiceError): http.StatusNotFound
 //   - "invalid_payload" (type *goa.ServiceError): http.StatusBadRequest
+//   - "unauthenticated" (type *goa.ServiceError): http.StatusUnauthorized
 //   - error: internal error
 func DecodeUpdateResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
@@ -358,6 +446,20 @@ func DecodeUpdateResponse(decoder func(*http.Response) goahttp.Decoder, restoreB
 				return nil, goahttp.ErrValidationError("channels", "update", err)
 			}
 			return nil, NewUpdateInvalidPayload(&body)
+		case http.StatusUnauthorized:
+			var (
+				body UpdateUnauthenticatedResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("channels", "update", err)
+			}
+			err = ValidateUpdateUnauthenticatedResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("channels", "update", err)
+			}
+			return nil, NewUpdateUnauthenticated(&body)
 		default:
 			body, _ := io.ReadAll(resp.Body)
 			return nil, goahttp.ErrInvalidResponse("channels", "update", resp.StatusCode, string(body))
@@ -390,11 +492,28 @@ func (c *Client) BuildDeleteRequest(ctx context.Context, v any) (*http.Request, 
 	return req, nil
 }
 
+// EncodeDeleteRequest returns an encoder for requests sent to the channels
+// delete server.
+func EncodeDeleteRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.Request, any) error {
+	return func(req *http.Request, v any) error {
+		p, ok := v.(*channels.DeletePayload)
+		if !ok {
+			return goahttp.ErrInvalidType("channels", "delete", "*channels.DeletePayload", v)
+		}
+		{
+			head := p.SessionID
+			req.Header.Set("Authorization", head)
+		}
+		return nil
+	}
+}
+
 // DecodeDeleteResponse returns a decoder for responses returned by the
 // channels delete endpoint. restoreBody controls whether the response body
 // should be restored after having been read.
 // DecodeDeleteResponse may return the following errors:
 //   - "not_found" (type *goa.ServiceError): http.StatusNotFound
+//   - "unauthenticated" (type *goa.ServiceError): http.StatusUnauthorized
 //   - error: internal error
 func DecodeDeleteResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
@@ -442,6 +561,20 @@ func DecodeDeleteResponse(decoder func(*http.Response) goahttp.Decoder, restoreB
 				return nil, goahttp.ErrValidationError("channels", "delete", err)
 			}
 			return nil, NewDeleteNotFound(&body)
+		case http.StatusUnauthorized:
+			var (
+				body DeleteUnauthenticatedResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("channels", "delete", err)
+			}
+			err = ValidateDeleteUnauthenticatedResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("channels", "delete", err)
+			}
+			return nil, NewDeleteUnauthenticated(&body)
 		default:
 			body, _ := io.ReadAll(resp.Body)
 			return nil, goahttp.ErrInvalidResponse("channels", "delete", resp.StatusCode, string(body))
@@ -454,6 +587,7 @@ func DecodeDeleteResponse(decoder func(*http.Response) goahttp.Decoder, restoreB
 // type *ChannelListItemResponseBody.
 func unmarshalChannelListItemResponseBodyToChannelsviewsChannelListItemView(v *ChannelListItemResponseBody) *channelsviews.ChannelListItemView {
 	res := &channelsviews.ChannelListItemView{
+		SessionID: v.SessionID,
 		ID:        v.ID,
 		CreatedAt: v.CreatedAt,
 		UpdatedAt: v.UpdatedAt,

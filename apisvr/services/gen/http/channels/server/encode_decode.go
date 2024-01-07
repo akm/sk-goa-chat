@@ -14,6 +14,7 @@ import (
 	"io"
 	"net/http"
 	"strconv"
+	"strings"
 
 	goahttp "goa.design/goa/v3/http"
 	goa "goa.design/goa/v3/pkg"
@@ -28,6 +29,61 @@ func EncodeListResponse(encoder func(context.Context, http.ResponseWriter) goaht
 		body := NewListResponseBody(res.Projected)
 		w.WriteHeader(http.StatusOK)
 		return enc.Encode(body)
+	}
+}
+
+// DecodeListRequest returns a decoder for requests sent to the channels list
+// endpoint.
+func DecodeListRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (any, error) {
+	return func(r *http.Request) (any, error) {
+		var (
+			sessionID string
+			err       error
+		)
+		sessionID = r.Header.Get("Authorization")
+		if sessionID == "" {
+			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "header"))
+		}
+		if err != nil {
+			return nil, err
+		}
+		payload := NewListPayload(sessionID)
+		if strings.Contains(payload.SessionID, " ") {
+			// Remove authorization scheme prefix (e.g. "Bearer")
+			cred := strings.SplitN(payload.SessionID, " ", 2)[1]
+			payload.SessionID = cred
+		}
+
+		return payload, nil
+	}
+}
+
+// EncodeListError returns an encoder for errors returned by the list channels
+// endpoint.
+func EncodeListError(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder, formatter func(ctx context.Context, err error) goahttp.Statuser) func(context.Context, http.ResponseWriter, error) error {
+	encodeError := goahttp.ErrorEncoder(encoder, formatter)
+	return func(ctx context.Context, w http.ResponseWriter, v error) error {
+		var en goa.GoaErrorNamer
+		if !errors.As(v, &en) {
+			return encodeError(ctx, w, v)
+		}
+		switch en.GoaErrorName() {
+		case "unauthenticated":
+			var res *goa.ServiceError
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			var body any
+			if formatter != nil {
+				body = formatter(ctx, res)
+			} else {
+				body = NewListUnauthenticatedResponseBody(res)
+			}
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusUnauthorized)
+			return enc.Encode(body)
+		default:
+			return encodeError(ctx, w, v)
+		}
 	}
 }
 
@@ -48,8 +104,9 @@ func EncodeShowResponse(encoder func(context.Context, http.ResponseWriter) goaht
 func DecodeShowRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (any, error) {
 	return func(r *http.Request) (any, error) {
 		var (
-			id  uint64
-			err error
+			id        uint64
+			sessionID string
+			err       error
 
 			params = mux.Vars(r)
 		)
@@ -61,10 +118,19 @@ func DecodeShowRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.De
 			}
 			id = v
 		}
+		sessionID = r.Header.Get("Authorization")
+		if sessionID == "" {
+			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "header"))
+		}
 		if err != nil {
 			return nil, err
 		}
-		payload := NewShowPayload(id)
+		payload := NewShowPayload(id, sessionID)
+		if strings.Contains(payload.SessionID, " ") {
+			// Remove authorization scheme prefix (e.g. "Bearer")
+			cred := strings.SplitN(payload.SessionID, " ", 2)[1]
+			payload.SessionID = cred
+		}
 
 		return payload, nil
 	}
@@ -92,6 +158,19 @@ func EncodeShowError(encoder func(context.Context, http.ResponseWriter) goahttp.
 			}
 			w.Header().Set("goa-error", res.GoaErrorName())
 			w.WriteHeader(http.StatusNotFound)
+			return enc.Encode(body)
+		case "unauthenticated":
+			var res *goa.ServiceError
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			var body any
+			if formatter != nil {
+				body = formatter(ctx, res)
+			} else {
+				body = NewShowUnauthenticatedResponseBody(res)
+			}
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusUnauthorized)
 			return enc.Encode(body)
 		default:
 			return encodeError(ctx, w, v)
@@ -130,7 +209,23 @@ func DecodeCreateRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.
 		if err != nil {
 			return nil, err
 		}
-		payload := NewCreateChannelCreatePayload(&body)
+
+		var (
+			sessionID string
+		)
+		sessionID = r.Header.Get("Authorization")
+		if sessionID == "" {
+			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "header"))
+		}
+		if err != nil {
+			return nil, err
+		}
+		payload := NewCreateChannelCreatePayload(&body, sessionID)
+		if strings.Contains(payload.SessionID, " ") {
+			// Remove authorization scheme prefix (e.g. "Bearer")
+			cred := strings.SplitN(payload.SessionID, " ", 2)[1]
+			payload.SessionID = cred
+		}
 
 		return payload, nil
 	}
@@ -158,6 +253,19 @@ func EncodeCreateError(encoder func(context.Context, http.ResponseWriter) goahtt
 			}
 			w.Header().Set("goa-error", res.GoaErrorName())
 			w.WriteHeader(http.StatusBadRequest)
+			return enc.Encode(body)
+		case "unauthenticated":
+			var res *goa.ServiceError
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			var body any
+			if formatter != nil {
+				body = formatter(ctx, res)
+			} else {
+				body = NewCreateUnauthenticatedResponseBody(res)
+			}
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusUnauthorized)
 			return enc.Encode(body)
 		default:
 			return encodeError(ctx, w, v)
@@ -198,7 +306,8 @@ func DecodeUpdateRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.
 		}
 
 		var (
-			id uint64
+			id        uint64
+			sessionID string
 
 			params = mux.Vars(r)
 		)
@@ -210,10 +319,19 @@ func DecodeUpdateRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.
 			}
 			id = v
 		}
+		sessionID = r.Header.Get("Authorization")
+		if sessionID == "" {
+			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "header"))
+		}
 		if err != nil {
 			return nil, err
 		}
-		payload := NewUpdateChannelUpdatePayload(&body, id)
+		payload := NewUpdateChannelUpdatePayload(&body, id, sessionID)
+		if strings.Contains(payload.SessionID, " ") {
+			// Remove authorization scheme prefix (e.g. "Bearer")
+			cred := strings.SplitN(payload.SessionID, " ", 2)[1]
+			payload.SessionID = cred
+		}
 
 		return payload, nil
 	}
@@ -255,6 +373,19 @@ func EncodeUpdateError(encoder func(context.Context, http.ResponseWriter) goahtt
 			w.Header().Set("goa-error", res.GoaErrorName())
 			w.WriteHeader(http.StatusBadRequest)
 			return enc.Encode(body)
+		case "unauthenticated":
+			var res *goa.ServiceError
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			var body any
+			if formatter != nil {
+				body = formatter(ctx, res)
+			} else {
+				body = NewUpdateUnauthenticatedResponseBody(res)
+			}
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusUnauthorized)
+			return enc.Encode(body)
 		default:
 			return encodeError(ctx, w, v)
 		}
@@ -278,8 +409,9 @@ func EncodeDeleteResponse(encoder func(context.Context, http.ResponseWriter) goa
 func DecodeDeleteRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (any, error) {
 	return func(r *http.Request) (any, error) {
 		var (
-			id  uint64
-			err error
+			id        uint64
+			sessionID string
+			err       error
 
 			params = mux.Vars(r)
 		)
@@ -291,10 +423,19 @@ func DecodeDeleteRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.
 			}
 			id = v
 		}
+		sessionID = r.Header.Get("Authorization")
+		if sessionID == "" {
+			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "header"))
+		}
 		if err != nil {
 			return nil, err
 		}
-		payload := NewDeletePayload(id)
+		payload := NewDeletePayload(id, sessionID)
+		if strings.Contains(payload.SessionID, " ") {
+			// Remove authorization scheme prefix (e.g. "Bearer")
+			cred := strings.SplitN(payload.SessionID, " ", 2)[1]
+			payload.SessionID = cred
+		}
 
 		return payload, nil
 	}
@@ -323,6 +464,19 @@ func EncodeDeleteError(encoder func(context.Context, http.ResponseWriter) goahtt
 			w.Header().Set("goa-error", res.GoaErrorName())
 			w.WriteHeader(http.StatusNotFound)
 			return enc.Encode(body)
+		case "unauthenticated":
+			var res *goa.ServiceError
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			var body any
+			if formatter != nil {
+				body = formatter(ctx, res)
+			} else {
+				body = NewDeleteUnauthenticatedResponseBody(res)
+			}
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusUnauthorized)
+			return enc.Encode(body)
 		default:
 			return encodeError(ctx, w, v)
 		}
@@ -334,6 +488,7 @@ func EncodeDeleteError(encoder func(context.Context, http.ResponseWriter) goahtt
 // *channelsviews.ChannelListItemView.
 func marshalChannelsviewsChannelListItemViewToChannelListItemResponseBody(v *channelsviews.ChannelListItemView) *ChannelListItemResponseBody {
 	res := &ChannelListItemResponseBody{
+		SessionID: *v.SessionID,
 		ID:        *v.ID,
 		CreatedAt: *v.CreatedAt,
 		UpdatedAt: *v.UpdatedAt,

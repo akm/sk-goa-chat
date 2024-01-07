@@ -31,9 +31,9 @@ users (list|create)
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
-	return os.Args[0] + ` channels list` + "\n" +
+	return os.Args[0] + ` channels list --session-id "Nesciunt architecto."` + "\n" +
 		os.Args[0] + ` sessions create --message '{
-      "id_token": "Quo ratione et."
+      "id_token": "Pariatur laborum sequi necessitatibus cum voluptatum nihil."
    }'` + "\n" +
 		os.Args[0] + ` users list` + "\n" +
 		""
@@ -45,19 +45,24 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 	var (
 		channelsFlags = flag.NewFlagSet("channels", flag.ContinueOnError)
 
-		channelsListFlags = flag.NewFlagSet("list", flag.ExitOnError)
+		channelsListFlags         = flag.NewFlagSet("list", flag.ExitOnError)
+		channelsListSessionIDFlag = channelsListFlags.String("session-id", "REQUIRED", "")
 
-		channelsShowFlags       = flag.NewFlagSet("show", flag.ExitOnError)
-		channelsShowMessageFlag = channelsShowFlags.String("message", "", "")
+		channelsShowFlags         = flag.NewFlagSet("show", flag.ExitOnError)
+		channelsShowMessageFlag   = channelsShowFlags.String("message", "", "")
+		channelsShowSessionIDFlag = channelsShowFlags.String("session-id", "REQUIRED", "")
 
-		channelsCreateFlags       = flag.NewFlagSet("create", flag.ExitOnError)
-		channelsCreateMessageFlag = channelsCreateFlags.String("message", "", "")
+		channelsCreateFlags         = flag.NewFlagSet("create", flag.ExitOnError)
+		channelsCreateMessageFlag   = channelsCreateFlags.String("message", "", "")
+		channelsCreateSessionIDFlag = channelsCreateFlags.String("session-id", "REQUIRED", "")
 
-		channelsUpdateFlags       = flag.NewFlagSet("update", flag.ExitOnError)
-		channelsUpdateMessageFlag = channelsUpdateFlags.String("message", "", "")
+		channelsUpdateFlags         = flag.NewFlagSet("update", flag.ExitOnError)
+		channelsUpdateMessageFlag   = channelsUpdateFlags.String("message", "", "")
+		channelsUpdateSessionIDFlag = channelsUpdateFlags.String("session-id", "REQUIRED", "")
 
-		channelsDeleteFlags       = flag.NewFlagSet("delete", flag.ExitOnError)
-		channelsDeleteMessageFlag = channelsDeleteFlags.String("message", "", "")
+		channelsDeleteFlags         = flag.NewFlagSet("delete", flag.ExitOnError)
+		channelsDeleteMessageFlag   = channelsDeleteFlags.String("message", "", "")
+		channelsDeleteSessionIDFlag = channelsDeleteFlags.String("session-id", "REQUIRED", "")
 
 		sessionsFlags = flag.NewFlagSet("sessions", flag.ContinueOnError)
 
@@ -189,19 +194,19 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 			switch epn {
 			case "list":
 				endpoint = c.List()
-				data = nil
+				data, err = channelsc.BuildListPayload(*channelsListSessionIDFlag)
 			case "show":
 				endpoint = c.Show()
-				data, err = channelsc.BuildShowPayload(*channelsShowMessageFlag)
+				data, err = channelsc.BuildShowPayload(*channelsShowMessageFlag, *channelsShowSessionIDFlag)
 			case "create":
 				endpoint = c.Create()
-				data, err = channelsc.BuildCreatePayload(*channelsCreateMessageFlag)
+				data, err = channelsc.BuildCreatePayload(*channelsCreateMessageFlag, *channelsCreateSessionIDFlag)
 			case "update":
 				endpoint = c.Update()
-				data, err = channelsc.BuildUpdatePayload(*channelsUpdateMessageFlag)
+				data, err = channelsc.BuildUpdatePayload(*channelsUpdateMessageFlag, *channelsUpdateSessionIDFlag)
 			case "delete":
 				endpoint = c.Delete()
-				data, err = channelsc.BuildDeletePayload(*channelsDeleteMessageFlag)
+				data, err = channelsc.BuildDeletePayload(*channelsDeleteMessageFlag, *channelsDeleteSessionIDFlag)
 			}
 		case "sessions":
 			c := sessionsc.NewClient(cc, opts...)
@@ -250,65 +255,70 @@ Additional help:
 `, os.Args[0])
 }
 func channelsListUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels list
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels list -session-id STRING
 
 List implements list.
+    -session-id STRING: 
 
 Example:
-    %[1]s channels list
+    %[1]s channels list --session-id "Nesciunt architecto."
 `, os.Args[0])
 }
 
 func channelsShowUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels show -message JSON
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels show -message JSON -session-id STRING
 
 Show implements show.
     -message JSON: 
+    -session-id STRING: 
 
 Example:
     %[1]s channels show --message '{
-      "id": 2302886256275366680
-   }'
+      "id": 16310117872771126644
+   }' --session-id "Voluptatum veritatis non."
 `, os.Args[0])
 }
 
 func channelsCreateUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels create -message JSON
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels create -message JSON -session-id STRING
 
 Create implements create.
     -message JSON: 
+    -session-id STRING: 
 
 Example:
     %[1]s channels create --message '{
-      "name": "Est qui maxime alias quia et."
-   }'
+      "name": "Similique non impedit omnis doloremque fuga pariatur."
+   }' --session-id "Doloribus in."
 `, os.Args[0])
 }
 
 func channelsUpdateUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels update -message JSON
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels update -message JSON -session-id STRING
 
 Update implements update.
     -message JSON: 
+    -session-id STRING: 
 
 Example:
     %[1]s channels update --message '{
-      "id": 9267441921255015593,
-      "name": "Quaerat voluptatibus beatae corrupti aliquam."
-   }'
+      "id": 7865977164997637254,
+      "name": "Quas voluptatibus consequatur nemo earum vero in."
+   }' --session-id "Porro recusandae velit consequatur dolores eos."
 `, os.Args[0])
 }
 
 func channelsDeleteUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels delete -message JSON
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels delete -message JSON -session-id STRING
 
 Delete implements delete.
     -message JSON: 
+    -session-id STRING: 
 
 Example:
     %[1]s channels delete --message '{
-      "id": 14815760921662384107
-   }'
+      "id": 8606349444812321035
+   }' --session-id "Illo nemo iusto eum quam in."
 `, os.Args[0])
 }
 
@@ -334,7 +344,7 @@ Create implements create.
 
 Example:
     %[1]s sessions create --message '{
-      "id_token": "Quo ratione et."
+      "id_token": "Pariatur laborum sequi necessitatibus cum voluptatum nihil."
    }'
 `, os.Args[0])
 }
@@ -347,7 +357,7 @@ Delete implements delete.
 
 Example:
     %[1]s sessions delete --message '{
-      "session_id": "Earum in omnis quasi."
+      "session_id": "Id labore temporibus sed."
    }'
 `, os.Args[0])
 }
@@ -384,8 +394,8 @@ Create implements create.
 
 Example:
     %[1]s users create --message '{
-      "email": "Amet exercitationem unde.",
-      "name": "Non accusantium."
+      "email": "Qui inventore.",
+      "name": "Et quasi in animi."
    }'
 `, os.Args[0])
 }

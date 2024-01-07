@@ -21,7 +21,7 @@ func BuildCreatePayload(sessionsCreateBody string) (*sessions.CreatePayload, err
 	{
 		err = json.Unmarshal([]byte(sessionsCreateBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id_token\": \"Consequatur est eligendi ut.\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id_token\": \"Earum in omnis quasi.\"\n   }'")
 		}
 	}
 	v := &sessions.CreatePayload{
