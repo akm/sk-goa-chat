@@ -23,6 +23,8 @@ var _ = Service("sessions", func() {
 			Response(StatusCreated, func() {
 				Cookie(sessionIdKey) // Return session ID in "SID" cookie
 				CookieMaxAge(3600)   // Sessions last one hour
+				CookiePath("/")
+				CookieHTTPOnly()
 			})
 			httpInvalidPayload()
 		})
