@@ -9,15 +9,17 @@ import (
 func channelFields(dt string, action string) []string {
 	r := []string{}
 
+	r = append(r, fieldSessionID(1))
+
 	if dt == "RT" || action == "update" {
-		r = append(r, field(1, "id", UInt64, "ID"))
+		r = append(r, field(2, "id", UInt64, "ID"))
 	}
 	if dt == "RT" {
-		r = append(r, field(2, "created_at", String, "CreatedAt", func() { Format(FormatDateTime); Example(time.RFC3339) }))
-		r = append(r, field(3, "updated_at", String, "UpdatedAt", func() { Format(FormatDateTime); Example(time.RFC3339) }))
+		r = append(r, field(3, "created_at", String, "CreatedAt", func() { Format(FormatDateTime); Example(time.RFC3339) }))
+		r = append(r, field(4, "updated_at", String, "UpdatedAt", func() { Format(FormatDateTime); Example(time.RFC3339) }))
 	}
 
-	r = append(r, field(4, "name", String, "Name"))
+	r = append(r, field(5, "name", String, "Name"))
 
 	return r
 }
@@ -50,23 +52,40 @@ var ChannelUpdatePayload = Type("ChannelUpdatePayload", func() {
 })
 
 var _ = Service("channels", func() {
+	Security(sessionAuth)
+
+	httpUnautheticated, grpcUnauthenticated := unauthenticated()
+
 	HTTP(func() {
 		Path("/api/channels")
+		httpUnautheticated()
+	})
+
+	GRPC(func() {
+		grpcUnauthenticated()
 	})
 
 	Method("list", func() {
+		Payload(func() { Required(fieldSessionID(1)) })
 		Result(ChannelListRT)
 		HTTP(func() {
 			GET("")
 			Response(StatusOK)
 		})
-		gRPC()
+		GRPC(func() {
+			Response(CodeOK)
+		})
 	})
 
 	Method("show", func() {
-		Result(ChannelRT)
-		Payload(func() { Required(field(1, "id", UInt64, "ID")) })
+		Payload(func() {
+			Required(
+				fieldSessionID(1),
+				field(2, "id", UInt64, "ID"),
+			)
+		})
 		httpNotFound, grpcNotFound := notFound()
+		Result(ChannelRT)
 
 		HTTP(func() {
 			GET("/{id}")
@@ -80,9 +99,9 @@ var _ = Service("channels", func() {
 	})
 
 	Method("create", func() {
-		Result(ChannelRT)
 		Payload(ChannelCreatePayload)
 		httpInvalidPayload, grpcInvalidPayload := invalidPayload()
+		Result(ChannelRT)
 
 		HTTP(func() {
 			POST("")
@@ -96,10 +115,10 @@ var _ = Service("channels", func() {
 	})
 
 	Method("update", func() {
-		Result(ChannelRT)
 		Payload(ChannelUpdatePayload)
 		httpNotFound, grpcNotFound := notFound()
 		httpInvalidPayload, grpcInvalidPayload := invalidPayload()
+		Result(ChannelRT)
 
 		HTTP(func() {
 			PUT("/{id}")
@@ -115,9 +134,14 @@ var _ = Service("channels", func() {
 	})
 
 	Method("delete", func() {
-		Result(ChannelRT)
-		Payload(func() { Required(field(1, "id", UInt64, "ID")) })
+		Payload(func() {
+			Required(
+				fieldSessionID(1),
+				field(2, "id", UInt64, "ID"),
+			)
+		})
 		httpNotFound, grpcNotFound := notFound()
+		Result(ChannelRT)
 
 		HTTP(func() {
 			DELETE("/{id}")
