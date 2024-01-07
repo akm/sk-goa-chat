@@ -14,7 +14,6 @@ import (
 
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
-	"goa.design/goa/v3/security"
 )
 
 // channels service example implementation.
@@ -33,9 +32,7 @@ func (s *channelssrvc) sqlOpen() (*sql.DB, error) {
 	return sql.Open(s.logger.Logger)
 }
 
-// APIKeyAuth implements the authorization logic for service "channels" for the
-// "api_key" security scheme.
-func (s *channelssrvc) APIKeyAuth(ctx context.Context, key string, scheme *security.APIKeyScheme) (context.Context, error) {
+func (s *channelssrvc) authenticate(ctx context.Context, db *sql.DB, sessionID string) (*models.User, error) {
 	fbapp, err := firebase.NewApp(ctx, nil)
 	if err != nil {
 		return nil, errors.Wrapf(err, "firebase.NewApp")
@@ -45,28 +42,21 @@ func (s *channelssrvc) APIKeyAuth(ctx context.Context, key string, scheme *secur
 		return nil, errors.Wrapf(err, "auth.NewClientWithLogger")
 	}
 
-	token, err := fbauth.VerifySessionCookie(ctx, key)
+	token, err := fbauth.VerifySessionCookie(ctx, sessionID)
 	if err != nil {
 		return nil, err
 	}
 
-	db, err := s.sqlOpen()
+	user, err := models.Users(qm.Where("fbauth_uid = ?", token.UID)).One(ctx, db)
 	if err != nil {
-		return nil, err
-	}
-	defer db.Close()
-
-	if m, err := models.Users(qm.Where("fbauth_uid = ?", token.UID)).One(ctx, db); err != nil {
 		if err == sql.ErrNoRows {
 			return nil, channels.MakeUnauthenticated(fmt.Errorf("user not found"))
 		} else {
 			return nil, errors.Wrapf(err, "failed to query user")
 		}
-	} else {
-		ctx = context.WithValue(ctx, "user", m)
 	}
 
-	return ctx, nil
+	return user, nil
 }
 
 // List implements list.
@@ -78,6 +68,10 @@ func (s *channelssrvc) List(ctx context.Context, p *channels.ListPayload) (res *
 		return nil, err
 	}
 	defer db.Close()
+
+	if _, err := s.authenticate(ctx, db, p.SessionID); err != nil {
+		return nil, err
+	}
 
 	results, err := models.Channels().All(ctx, db)
 	if err != nil {
@@ -97,6 +91,10 @@ func (s *channelssrvc) Show(ctx context.Context, p *channels.ShowPayload) (res *
 		return nil, err
 	}
 	defer db.Close()
+
+	if _, err := s.authenticate(ctx, db, p.SessionID); err != nil {
+		return nil, err
+	}
 
 	m, err := models.FindChannel(ctx, db, p.ID)
 	if err != nil {
@@ -130,6 +128,10 @@ func (s *channelssrvc) Create(ctx context.Context, p *channels.ChannelCreatePayl
 	}
 	defer db.Close()
 
+	if _, err := s.authenticate(ctx, db, p.SessionID); err != nil {
+		return nil, err
+	}
+
 	m := &models.Channel{
 		Name:       p.Name,
 		Visibility: models.ChannelsVisibilityPublic,
@@ -162,6 +164,10 @@ func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayl
 	}
 	defer db.Close()
 
+	if _, err := s.authenticate(ctx, db, p.SessionID); err != nil {
+		return nil, err
+	}
+
 	m, err := models.FindChannel(ctx, db, p.ID)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -188,6 +194,10 @@ func (s *channelssrvc) Delete(ctx context.Context, p *channels.DeletePayload) (r
 		return nil, err
 	}
 	defer db.Close()
+
+	if _, err := s.authenticate(ctx, db, p.SessionID); err != nil {
+		return nil, err
+	}
 
 	m, err := models.FindChannel(ctx, db, p.ID)
 	if err != nil {
