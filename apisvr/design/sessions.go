@@ -15,13 +15,13 @@ var _ = Service("sessions", func() {
 		})
 		httpInvalidPayload, grpcInvalidPayload := invalidPayload()
 		Result(func() {
-			Required(field(1, "session_id", String, "Session ID"))
+			Required(field(1, sessionIdKey, String, "Session ID"))
 		})
 
 		HTTP(func() {
 			POST("")
 			Response(StatusCreated, func() {
-				Cookie("session_id") // Return session ID in "SID" cookie
+				Cookie(sessionIdKey) // Return session ID in "SID" cookie
 				CookieMaxAge(3600)   // Sessions last one hour
 			})
 			httpInvalidPayload()
@@ -34,16 +34,15 @@ var _ = Service("sessions", func() {
 
 	Method("delete", func() {
 		Payload(func() {
-			Field(1, "session_id", String, "Session ID")
-			Required("session_id")
+			Field(1, sessionIdKey, String, "Session ID")
+			Required(sessionIdKey)
 		})
-
-		Result(func() {})
 		httpInvalidPayload, grpcInvalidPayload := invalidPayload()
+		Result(func() {})
 
 		HTTP(func() {
 			DELETE("")
-			Cookie("session_id")
+			Cookie(sessionIdKey)
 			Response(StatusOK)
 			httpInvalidPayload()
 		})
@@ -53,5 +52,4 @@ var _ = Service("sessions", func() {
 			grpcInvalidPayload()
 		})
 	})
-
 })
