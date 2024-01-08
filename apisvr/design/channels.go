@@ -22,7 +22,9 @@ func channelFields(action string) []string {
 
 	r := []string{}
 
-	r = append(r, fieldSessionID(1))
+	if InPayload() {
+		r = append(r, fieldSessionID(1))
+	}
 
 	if InRT() || action == "update" {
 		r = append(r, field(2, "id", UInt64, "ID"))
