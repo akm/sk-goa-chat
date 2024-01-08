@@ -149,6 +149,164 @@ paths:
                         $ref: '#/definitions/ChannelsDeleteNotFoundResponseBody'
             schemes:
                 - http
+    /api/chat_messages:
+        get:
+            tags:
+                - chat_messages
+            summary: list chat_messages
+            operationId: chat_messages#list
+            parameters:
+                - name: limit
+                  in: query
+                  description: Limit
+                  required: true
+                  type: integer
+                  default: 50
+                - name: channel_id
+                  in: query
+                  description: Channel ID
+                  required: false
+                  type: integer
+                - name: after
+                  in: query
+                  description: ChatMessage ID for query to get messages after this
+                  required: false
+                  type: integer
+                - name: before
+                  in: query
+                  description: ChatMessage ID for query to get messages before this
+                  required: false
+                  type: integer
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/ChatMessagesListResponseBody'
+                "401":
+                    description: Unauthorized response.
+                    schema:
+                        $ref: '#/definitions/ChatMessagesListUnauthenticatedResponseBody'
+            schemes:
+                - http
+        post:
+            tags:
+                - chat_messages
+            summary: create chat_messages
+            operationId: chat_messages#create
+            parameters:
+                - name: CreateRequestBody
+                  in: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/ChatMessagesCreateRequestBody'
+                    required:
+                        - channel_id
+                        - content
+            responses:
+                "201":
+                    description: Created response.
+                    schema:
+                        $ref: '#/definitions/ChatMessagesCreateResponseBody'
+                "400":
+                    description: Bad Request response.
+                    schema:
+                        $ref: '#/definitions/ChatMessagesCreateInvalidPayloadResponseBody'
+                "401":
+                    description: Unauthorized response.
+                    schema:
+                        $ref: '#/definitions/ChatMessagesCreateUnauthenticatedResponseBody'
+            schemes:
+                - http
+    /api/chat_messages/{id}:
+        get:
+            tags:
+                - chat_messages
+            summary: show chat_messages
+            operationId: chat_messages#show
+            parameters:
+                - name: id
+                  in: path
+                  description: ID
+                  required: true
+                  type: integer
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/ChatMessagesShowResponseBody'
+                "401":
+                    description: Unauthorized response.
+                    schema:
+                        $ref: '#/definitions/ChatMessagesShowUnauthenticatedResponseBody'
+                "404":
+                    description: Not Found response.
+                    schema:
+                        $ref: '#/definitions/ChatMessagesShowNotFoundResponseBody'
+            schemes:
+                - http
+        put:
+            tags:
+                - chat_messages
+            summary: update chat_messages
+            operationId: chat_messages#update
+            parameters:
+                - name: id
+                  in: path
+                  description: ID
+                  required: true
+                  type: integer
+                - name: UpdateRequestBody
+                  in: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/ChatMessagesUpdateRequestBody'
+                    required:
+                        - content
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/ChatMessagesUpdateResponseBody'
+                "400":
+                    description: Bad Request response.
+                    schema:
+                        $ref: '#/definitions/ChatMessagesUpdateInvalidPayloadResponseBody'
+                "401":
+                    description: Unauthorized response.
+                    schema:
+                        $ref: '#/definitions/ChatMessagesUpdateUnauthenticatedResponseBody'
+                "404":
+                    description: Not Found response.
+                    schema:
+                        $ref: '#/definitions/ChatMessagesUpdateNotFoundResponseBody'
+            schemes:
+                - http
+        delete:
+            tags:
+                - chat_messages
+            summary: delete chat_messages
+            operationId: chat_messages#delete
+            parameters:
+                - name: id
+                  in: path
+                  description: ID
+                  required: true
+                  type: integer
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/ChatMessagesDeleteResponseBody'
+                "401":
+                    description: Unauthorized response.
+                    schema:
+                        $ref: '#/definitions/ChatMessagesDeleteUnauthenticatedResponseBody'
+                "404":
+                    description: Not Found response.
+                    schema:
+                        $ref: '#/definitions/ChatMessagesDeleteNotFoundResponseBody'
+            schemes:
+                - http
     /api/session:
         post:
             tags:
@@ -237,12 +395,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 8606349444812321035
+                example: 13852683817499442838
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Nam impedit suscipit.
+                example: Expedita sed unde ipsum eaque ea.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -251,8 +409,8 @@ definitions:
         description: Channel-List-ItemResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 13350404635426511953
-            name: Quos enim praesentium provident et.
+            id: 5108329853334200685
+            name: Iste praesentium nulla et.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id
@@ -267,16 +425,16 @@ definitions:
         description: Channel-List-ItemCollectionResponseBody is the result type for an array of Channel-List-ItemResponseBody (default view)
         example:
             - created_at: 2006-01-02T15:04:05Z07:00
-              id: 9924386427070710859
-              name: Adipisci sunt qui nisi perferendis.
+              id: 13307650605973589655
+              name: Similique voluptatum quia provident tempora dolor ratione.
               updated_at: 2006-01-02T15:04:05Z07:00
             - created_at: 2006-01-02T15:04:05Z07:00
-              id: 9924386427070710859
-              name: Adipisci sunt qui nisi perferendis.
+              id: 13307650605973589655
+              name: Similique voluptatum quia provident tempora dolor ratione.
               updated_at: 2006-01-02T15:04:05Z07:00
             - created_at: 2006-01-02T15:04:05Z07:00
-              id: 9924386427070710859
-              name: Adipisci sunt qui nisi perferendis.
+              id: 13307650605973589655
+              name: Similique voluptatum quia provident tempora dolor ratione.
               updated_at: 2006-01-02T15:04:05Z07:00
     ChannelsCreateInvalidPayloadResponseBody:
         title: 'Mediatype identifier: application/vnd.goa.error; view=default'
@@ -301,19 +459,19 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: true
+                example: false
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: true
+                example: false
         description: create_invalid_payload_response_body result type (default view)
         example:
             fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: false
-            timeout: true
+            temporary: true
+            timeout: false
         required:
             - name
             - id
@@ -328,9 +486,9 @@ definitions:
             name:
                 type: string
                 description: Name
-                example: Necessitatibus eum quo dicta laborum veritatis voluptate.
+                example: Magni vel deserunt.
         example:
-            name: Qui voluptatibus.
+            name: Ea hic enim aut.
         required:
             - name
     ChannelsCreateResponseBody:
@@ -345,12 +503,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 16858148982093877654
+                example: 1310017848228381691
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Sint odio quod.
+                example: Voluptatem et neque et facilis quia.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -359,8 +517,8 @@ definitions:
         description: CreateResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 12235050867845573362
-            name: Ipsa et.
+            id: 1702637005289603409
+            name: Sint sed nihil id.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id
@@ -390,14 +548,14 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: false
+                example: true
             timeout:
                 type: boolean
                 description: Is the error a timeout?
                 example: false
         description: create_unauthenticated_response_body result type (default view)
         example:
-            fault: false
+            fault: true
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
@@ -433,19 +591,19 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: false
+                example: true
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: false
+                example: true
         description: delete_not_found_response_body result type (default view)
         example:
             fault: true
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: false
-            timeout: false
+            temporary: true
+            timeout: true
         required:
             - name
             - id
@@ -465,12 +623,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 4558954126519403017
+                example: 6974988755538084839
                 format: int64
             name:
                 type: string
                 description: Name
-                example: In nihil quod error perspiciatis neque ipsa.
+                example: Expedita omnis.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -479,8 +637,8 @@ definitions:
         description: DeleteResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 14785773386673925330
-            name: Et id ratione quia aut voluptatum expedita.
+            id: 13398794400500869903
+            name: Ea quae ad pariatur.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id
@@ -510,7 +668,7 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: true
+                example: false
             timeout:
                 type: boolean
                 description: Is the error a timeout?
@@ -521,8 +679,8 @@ definitions:
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: false
-            timeout: true
+            temporary: true
+            timeout: false
         required:
             - name
             - id
@@ -550,20 +708,20 @@ definitions:
         example:
             items:
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 9924386427070710859
-                  name: Adipisci sunt qui nisi perferendis.
+                  id: 13307650605973589655
+                  name: Similique voluptatum quia provident tempora dolor ratione.
                   updated_at: 2006-01-02T15:04:05Z07:00
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 9924386427070710859
-                  name: Adipisci sunt qui nisi perferendis.
+                  id: 13307650605973589655
+                  name: Similique voluptatum quia provident tempora dolor ratione.
                   updated_at: 2006-01-02T15:04:05Z07:00
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 9924386427070710859
-                  name: Adipisci sunt qui nisi perferendis.
+                  id: 13307650605973589655
+                  name: Similique voluptatum quia provident tempora dolor ratione.
                   updated_at: 2006-01-02T15:04:05Z07:00
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 9924386427070710859
-                  name: Adipisci sunt qui nisi perferendis.
+                  id: 13307650605973589655
+                  name: Similique voluptatum quia provident tempora dolor ratione.
                   updated_at: 2006-01-02T15:04:05Z07:00
             offset: 0
             total: 160
@@ -594,18 +752,18 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: true
+                example: false
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: false
+                example: true
         description: list_unauthenticated_response_body result type (default view)
         example:
             fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: false
+            temporary: true
             timeout: false
         required:
             - name
@@ -637,19 +795,19 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: true
+                example: false
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: false
+                example: true
         description: show_not_found_response_body result type (default view)
         example:
             fault: true
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: false
-            timeout: false
+            temporary: true
+            timeout: true
         required:
             - name
             - id
@@ -669,12 +827,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 4723834145395715149
+                example: 15410053961622677392
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Dicta rerum.
+                example: Quae eaque.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -683,8 +841,8 @@ definitions:
         description: ShowResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 18190238456327847765
-            name: Labore temporibus sed explicabo et.
+            id: 15816762201350114912
+            name: Tenetur exercitationem quisquam.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id
@@ -698,7 +856,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: false
+                example: true
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -718,7 +876,7 @@ definitions:
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: true
+                example: false
         description: show_unauthenticated_response_body result type (default view)
         example:
             fault: true
@@ -757,18 +915,18 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: false
+                example: true
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: true
+                example: false
         description: update_invalid_payload_response_body result type (default view)
         example:
             fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: true
+            temporary: false
             timeout: false
         required:
             - name
@@ -784,7 +942,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: true
+                example: false
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -807,12 +965,12 @@ definitions:
                 example: false
         description: update_not_found_response_body result type (default view)
         example:
-            fault: false
+            fault: true
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
             temporary: false
-            timeout: true
+            timeout: false
         required:
             - name
             - id
@@ -827,9 +985,9 @@ definitions:
             name:
                 type: string
                 description: Name
-                example: Molestias est aperiam.
+                example: Autem accusantium.
         example:
-            name: Delectus natus libero consequatur ut ad cupiditate.
+            name: Tenetur consequuntur qui aut laborum quasi totam.
         required:
             - name
     ChannelsUpdateResponseBody:
@@ -844,12 +1002,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 14365085068222495259
+                example: 13504142079358775446
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Unde ipsa.
+                example: Quia voluptatibus repellat ipsum quas.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -858,8 +1016,8 @@ definitions:
         description: UpdateResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 16829747425762954312
-            name: Quaerat omnis.
+            id: 834762580858596647
+            name: Eius omnis.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id
@@ -867,6 +1025,613 @@ definitions:
             - updated_at
             - name
     ChannelsUpdateUnauthenticatedResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: false
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: false
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: true
+        description: update_unauthenticated_response_body result type (default view)
+        example:
+            fault: true
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: false
+            timeout: false
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
+    ChatMessageListItemResponseBody:
+        title: 'Mediatype identifier: application/vnd.chat-message-list-item; view=default'
+        type: object
+        properties:
+            channel_id:
+                type: integer
+                description: Channel ID
+                example: 6883875354459021043
+                format: int64
+            content:
+                type: string
+                description: Content
+                example: Accusamus inventore perspiciatis optio voluptas reiciendis.
+            created_at:
+                type: string
+                description: CreatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+            id:
+                type: integer
+                description: ID
+                example: 9687952177938907322
+                format: int64
+            updated_at:
+                type: string
+                description: UpdatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+            user_id:
+                type: integer
+                description: User ID
+                example: 17836549574618758140
+                format: int64
+            user_name:
+                type: integer
+                description: User Name
+                example: 6120918097187545825
+                format: int64
+        description: Chat-Message-List-ItemResponseBody result type (default view)
+        example:
+            channel_id: 232261763947646232
+            content: Consectetur natus ut nisi.
+            created_at: 2006-01-02T15:04:05Z07:00
+            id: 649909262423554852
+            updated_at: 2006-01-02T15:04:05Z07:00
+            user_id: 16695161282920289695
+            user_name: 123078126889067774
+        required:
+            - id
+            - created_at
+            - updated_at
+            - channel_id
+            - user_id
+            - user_name
+            - content
+    ChatMessageListItemResponseBodyCollection:
+        title: 'Mediatype identifier: application/vnd.chat-message-list-item; type=collection; view=default'
+        type: array
+        items:
+            $ref: '#/definitions/ChatMessageListItemResponseBody'
+        description: Chat-Message-List-ItemCollectionResponseBody is the result type for an array of Chat-Message-List-ItemResponseBody (default view)
+        example:
+            - channel_id: 7030701981840580142
+              content: Repellat at nostrum odit nisi non facere.
+              created_at: 2006-01-02T15:04:05Z07:00
+              id: 10066336226929949440
+              updated_at: 2006-01-02T15:04:05Z07:00
+              user_id: 9660484067061758624
+              user_name: 16310117872771126644
+            - channel_id: 7030701981840580142
+              content: Repellat at nostrum odit nisi non facere.
+              created_at: 2006-01-02T15:04:05Z07:00
+              id: 10066336226929949440
+              updated_at: 2006-01-02T15:04:05Z07:00
+              user_id: 9660484067061758624
+              user_name: 16310117872771126644
+            - channel_id: 7030701981840580142
+              content: Repellat at nostrum odit nisi non facere.
+              created_at: 2006-01-02T15:04:05Z07:00
+              id: 10066336226929949440
+              updated_at: 2006-01-02T15:04:05Z07:00
+              user_id: 9660484067061758624
+              user_name: 16310117872771126644
+            - channel_id: 7030701981840580142
+              content: Repellat at nostrum odit nisi non facere.
+              created_at: 2006-01-02T15:04:05Z07:00
+              id: 10066336226929949440
+              updated_at: 2006-01-02T15:04:05Z07:00
+              user_id: 9660484067061758624
+              user_name: 16310117872771126644
+    ChatMessagesCreateInvalidPayloadResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: true
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: true
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: true
+        description: create_invalid_payload_response_body result type (default view)
+        example:
+            fault: true
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: true
+            timeout: false
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
+    ChatMessagesCreateRequestBody:
+        title: ChatMessagesCreateRequestBody
+        type: object
+        properties:
+            channel_id:
+                type: integer
+                description: Channel ID
+                example: 11689011503506975496
+                format: int64
+            content:
+                type: string
+                description: Content
+                example: Et magnam reiciendis voluptatibus aut.
+        example:
+            channel_id: 14501050039151010965
+            content: Et officiis quaerat voluptatem.
+        required:
+            - channel_id
+            - content
+    ChatMessagesCreateResponseBody:
+        title: 'Mediatype identifier: application/vnd.chat-message; view=default'
+        type: object
+        properties:
+            channel_id:
+                type: integer
+                description: Channel ID
+                example: 10370340269391936247
+                format: int64
+            content:
+                type: string
+                description: Content
+                example: Adipisci voluptatem ut.
+            created_at:
+                type: string
+                description: CreatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+            id:
+                type: integer
+                description: ID
+                example: 495707687997300007
+                format: int64
+            updated_at:
+                type: string
+                description: UpdatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+            user_id:
+                type: integer
+                description: User ID
+                example: 1061581518135844198
+                format: int64
+            user_name:
+                type: integer
+                description: User Name
+                example: 16567952742968767539
+                format: int64
+        description: CreateResponseBody result type (default view)
+        example:
+            channel_id: 2056796961886961099
+            content: Vel et est libero corrupti qui sint.
+            created_at: 2006-01-02T15:04:05Z07:00
+            id: 255230243946806722
+            updated_at: 2006-01-02T15:04:05Z07:00
+            user_id: 15731350711462847716
+            user_name: 12799042281749947147
+        required:
+            - id
+            - created_at
+            - updated_at
+            - channel_id
+            - user_id
+            - user_name
+            - content
+    ChatMessagesCreateUnauthenticatedResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: true
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: false
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: false
+        description: create_unauthenticated_response_body result type (default view)
+        example:
+            fault: false
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: true
+            timeout: false
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
+    ChatMessagesDeleteNotFoundResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: false
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: false
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: true
+        description: delete_not_found_response_body result type (default view)
+        example:
+            fault: false
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: false
+            timeout: true
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
+    ChatMessagesDeleteResponseBody:
+        title: 'Mediatype identifier: application/vnd.chat-message; view=default'
+        type: object
+        properties:
+            channel_id:
+                type: integer
+                description: Channel ID
+                example: 4070052018780334675
+                format: int64
+            content:
+                type: string
+                description: Content
+                example: Voluptates similique vel fugiat et.
+            created_at:
+                type: string
+                description: CreatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+            id:
+                type: integer
+                description: ID
+                example: 14427122262650948421
+                format: int64
+            updated_at:
+                type: string
+                description: UpdatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+            user_id:
+                type: integer
+                description: User ID
+                example: 17165330382076461655
+                format: int64
+            user_name:
+                type: integer
+                description: User Name
+                example: 2425185173518162220
+                format: int64
+        description: DeleteResponseBody result type (default view)
+        example:
+            channel_id: 6407669682596143794
+            content: Alias rerum eum consequatur.
+            created_at: 2006-01-02T15:04:05Z07:00
+            id: 9799356608116579791
+            updated_at: 2006-01-02T15:04:05Z07:00
+            user_id: 16741794626663270905
+            user_name: 11428454441599067090
+        required:
+            - id
+            - created_at
+            - updated_at
+            - channel_id
+            - user_id
+            - user_name
+            - content
+    ChatMessagesDeleteUnauthenticatedResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: false
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: true
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: true
+        description: delete_unauthenticated_response_body result type (default view)
+        example:
+            fault: false
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: true
+            timeout: false
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
+    ChatMessagesListResponseBody:
+        title: 'Mediatype identifier: application/vnd.chat-message-list; view=default'
+        type: object
+        properties:
+            items:
+                $ref: '#/definitions/ChatMessageListItemResponseBodyCollection'
+        description: ListResponseBody result type (default view)
+        example:
+            items:
+                - channel_id: 7030701981840580142
+                  content: Repellat at nostrum odit nisi non facere.
+                  created_at: 2006-01-02T15:04:05Z07:00
+                  id: 10066336226929949440
+                  updated_at: 2006-01-02T15:04:05Z07:00
+                  user_id: 9660484067061758624
+                  user_name: 16310117872771126644
+                - channel_id: 7030701981840580142
+                  content: Repellat at nostrum odit nisi non facere.
+                  created_at: 2006-01-02T15:04:05Z07:00
+                  id: 10066336226929949440
+                  updated_at: 2006-01-02T15:04:05Z07:00
+                  user_id: 9660484067061758624
+                  user_name: 16310117872771126644
+                - channel_id: 7030701981840580142
+                  content: Repellat at nostrum odit nisi non facere.
+                  created_at: 2006-01-02T15:04:05Z07:00
+                  id: 10066336226929949440
+                  updated_at: 2006-01-02T15:04:05Z07:00
+                  user_id: 9660484067061758624
+                  user_name: 16310117872771126644
+        required:
+            - items
+    ChatMessagesListUnauthenticatedResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: false
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: true
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: false
+        description: list_unauthenticated_response_body result type (default view)
+        example:
+            fault: true
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: true
+            timeout: true
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
+    ChatMessagesShowNotFoundResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: true
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: true
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: true
+        description: show_not_found_response_body result type (default view)
+        example:
+            fault: true
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: false
+            timeout: false
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
+    ChatMessagesShowResponseBody:
+        title: 'Mediatype identifier: application/vnd.chat-message; view=default'
+        type: object
+        properties:
+            channel_id:
+                type: integer
+                description: Channel ID
+                example: 1589757088760857855
+                format: int64
+            content:
+                type: string
+                description: Content
+                example: Eos quisquam.
+            created_at:
+                type: string
+                description: CreatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+            id:
+                type: integer
+                description: ID
+                example: 1834340069797595635
+                format: int64
+            updated_at:
+                type: string
+                description: UpdatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+            user_id:
+                type: integer
+                description: User ID
+                example: 3954324103720837403
+                format: int64
+            user_name:
+                type: integer
+                description: User Name
+                example: 7535419842506816612
+                format: int64
+        description: ShowResponseBody result type (default view)
+        example:
+            channel_id: 17156314623785200987
+            content: Veritatis voluptas.
+            created_at: 2006-01-02T15:04:05Z07:00
+            id: 5179707749698986164
+            updated_at: 2006-01-02T15:04:05Z07:00
+            user_id: 12554038964600019766
+            user_name: 12876036605004852777
+        required:
+            - id
+            - created_at
+            - updated_at
+            - channel_id
+            - user_id
+            - user_name
+            - content
+    ChatMessagesShowUnauthenticatedResponseBody:
         title: 'Mediatype identifier: application/vnd.goa.error; view=default'
         type: object
         properties:
@@ -894,14 +1659,210 @@ definitions:
                 type: boolean
                 description: Is the error a timeout?
                 example: false
-        description: update_unauthenticated_response_body result type (default view)
+        description: show_unauthenticated_response_body result type (default view)
         example:
             fault: true
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: true
+            temporary: false
+            timeout: false
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
+    ChatMessagesUpdateInvalidPayloadResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: true
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: true
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: true
+        description: update_invalid_payload_response_body result type (default view)
+        example:
+            fault: true
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: false
             timeout: true
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
+    ChatMessagesUpdateNotFoundResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: true
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: true
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: false
+        description: update_not_found_response_body result type (default view)
+        example:
+            fault: true
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: false
+            timeout: false
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
+    ChatMessagesUpdateRequestBody:
+        title: ChatMessagesUpdateRequestBody
+        type: object
+        properties:
+            content:
+                type: string
+                description: Content
+                example: Dicta est ducimus qui aut.
+        example:
+            content: Ut in nihil maiores voluptas fugiat eaque.
+        required:
+            - content
+    ChatMessagesUpdateResponseBody:
+        title: 'Mediatype identifier: application/vnd.chat-message; view=default'
+        type: object
+        properties:
+            channel_id:
+                type: integer
+                description: Channel ID
+                example: 14404570361954433677
+                format: int64
+            content:
+                type: string
+                description: Content
+                example: Dicta sint odit dolorem et ad.
+            created_at:
+                type: string
+                description: CreatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+            id:
+                type: integer
+                description: ID
+                example: 15040514886151624583
+                format: int64
+            updated_at:
+                type: string
+                description: UpdatedAt
+                example: 2006-01-02T15:04:05Z07:00
+                format: date-time
+            user_id:
+                type: integer
+                description: User ID
+                example: 16230851330423113400
+                format: int64
+            user_name:
+                type: integer
+                description: User Name
+                example: 3214505134777642462
+                format: int64
+        description: UpdateResponseBody result type (default view)
+        example:
+            channel_id: 9878021745603689247
+            content: Possimus consectetur et vel qui.
+            created_at: 2006-01-02T15:04:05Z07:00
+            id: 15052371506240014440
+            updated_at: 2006-01-02T15:04:05Z07:00
+            user_id: 5467250188245314375
+            user_name: 17003895284921538547
+        required:
+            - id
+            - created_at
+            - updated_at
+            - channel_id
+            - user_id
+            - user_name
+            - content
+    ChatMessagesUpdateUnauthenticatedResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: false
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: false
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: true
+        description: update_unauthenticated_response_body result type (default view)
+        example:
+            fault: false
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: false
+            timeout: false
         required:
             - name
             - id
@@ -943,8 +1904,8 @@ definitions:
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: true
-            timeout: true
+            temporary: false
+            timeout: false
         required:
             - name
             - id
@@ -959,9 +1920,9 @@ definitions:
             id_token:
                 type: string
                 description: ID Token
-                example: Ut eum.
+                example: Maiores impedit officiis omnis.
         example:
-            id_token: Libero esse qui inventore culpa.
+            id_token: Animi odit provident maiores atque quo enim.
         required:
             - id_token
     SessionsDeleteInvalidPayloadResponseBody:
@@ -971,7 +1932,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: true
+                example: false
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -991,15 +1952,15 @@ definitions:
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: true
+                example: false
         description: delete_invalid_payload_response_body result type (default view)
         example:
-            fault: false
+            fault: true
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: false
-            timeout: false
+            temporary: true
+            timeout: true
         required:
             - name
             - id
@@ -1014,16 +1975,16 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 16463224225515038024
+                example: 2905262754717257082
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Recusandae consequatur totam.
+                example: Voluptate sint tempora.
         description: User-List-ItemResponseBody result type (default view)
         example:
-            id: 7805666439332720034
-            name: Qui vel hic quo vero distinctio expedita.
+            id: 3546149649294485914
+            name: Eveniet fugit repudiandae aut.
         required:
             - id
             - name
@@ -1034,12 +1995,10 @@ definitions:
             $ref: '#/definitions/UserListItemResponseBody'
         description: User-List-ItemCollectionResponseBody is the result type for an array of User-List-ItemResponseBody (default view)
         example:
-            - id: 13322691396419903010
-              name: Aliquam reiciendis.
-            - id: 13322691396419903010
-              name: Aliquam reiciendis.
-            - id: 13322691396419903010
-              name: Aliquam reiciendis.
+            - id: 11905621199632397429
+              name: Eligendi non.
+            - id: 11905621199632397429
+              name: Eligendi non.
     UsersCreateInvalidPayloadResponseBody:
         title: 'Mediatype identifier: application/vnd.goa.error; view=default'
         type: object
@@ -1074,8 +2033,8 @@ definitions:
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: false
-            timeout: true
+            temporary: true
+            timeout: false
         required:
             - name
             - id
@@ -1090,14 +2049,14 @@ definitions:
             email:
                 type: string
                 description: Email
-                example: Molestias animi consequatur consequatur doloremque assumenda sint.
+                example: Libero velit rerum.
             name:
                 type: string
                 description: Name
-                example: Quia praesentium.
+                example: Deserunt veritatis iusto.
         example:
-            email: Qui quisquam officia ab sequi.
-            name: Corrupti est quos.
+            email: Dolorum tempore facere occaecati sunt.
+            name: Nesciunt ut voluptate.
         required:
             - name
             - email
@@ -1113,12 +2072,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 7982126113119067007
+                example: 12776621331354046034
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Rem sequi.
+                example: Dolores harum quae.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -1127,8 +2086,8 @@ definitions:
         description: CreateResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 11340274363531008859
-            name: Minus molestias.
+            id: 8714677327768377264
+            name: Et fuga omnis maxime dolorem similique molestias.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id
@@ -1154,12 +2113,14 @@ definitions:
         description: ListResponseBody result type (default view)
         example:
             items:
-                - id: 13322691396419903010
-                  name: Aliquam reiciendis.
-                - id: 13322691396419903010
-                  name: Aliquam reiciendis.
-                - id: 13322691396419903010
-                  name: Aliquam reiciendis.
+                - id: 11905621199632397429
+                  name: Eligendi non.
+                - id: 11905621199632397429
+                  name: Eligendi non.
+                - id: 11905621199632397429
+                  name: Eligendi non.
+                - id: 11905621199632397429
+                  name: Eligendi non.
             offset: 0
             total: 160
         required:

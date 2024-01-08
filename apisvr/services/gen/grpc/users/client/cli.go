@@ -23,7 +23,7 @@ func BuildCreatePayload(usersCreateMessage string) (*users.UserCreatePayload, er
 		if usersCreateMessage != "" {
 			err = json.Unmarshal([]byte(usersCreateMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"email\": \"Exercitationem occaecati est fugit assumenda magni.\",\n      \"name\": \"Odio quasi quos magni consequatur unde.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"email\": \"Animi similique quia nesciunt amet.\",\n      \"name\": \"Neque velit.\"\n   }'")
 			}
 		}
 	}

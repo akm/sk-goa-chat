@@ -1,0 +1,165 @@
+// Code generated with goa v3.14.1, DO NOT EDIT.
+//
+// chat_messages protocol buffer definition
+//
+// Command:
+// $ goa gen apisvr/design -o ./services
+
+syntax = "proto3";
+
+package chat_messages;
+
+option go_package = "/chat_messagespb";
+
+// Service is the chat_messages service interface.
+service ChatMessages {
+	// List implements list.
+	rpc List (ListRequest) returns (ListResponse);
+	// Show implements show.
+	rpc Show (ShowRequest) returns (ShowResponse);
+	// Create implements create.
+	rpc Create (CreateRequest) returns (CreateResponse);
+	// Update implements update.
+	rpc Update (UpdateRequest) returns (UpdateResponse);
+	// Delete implements delete.
+	rpc Delete (DeleteRequest) returns (DeleteResponse);
+}
+
+message ListRequest {
+	// Session ID
+	string session_id = 1;
+	// Limit
+	sint32 limit = 2;
+	// Channel ID
+	optional uint64 channel_id = 3;
+	// ChatMessage ID for query to get messages after this
+	optional uint64 after = 4;
+	// ChatMessage ID for query to get messages before this
+	optional uint64 before = 5;
+}
+
+message ListResponse {
+	// Items
+	ChatMessageListItemCollection items = 2;
+}
+
+message ChatMessageListItemCollection {
+	repeated ChatMessageListItem field = 1;
+}
+
+message ChatMessageListItem {
+	// ID
+	uint64 id = 2;
+	// CreatedAt
+	string created_at = 3;
+	// UpdatedAt
+	string updated_at = 4;
+	// Channel ID
+	uint64 channel_id = 5;
+	// User ID
+	uint64 user_id = 6;
+	// User Name
+	uint64 user_name = 7;
+	// Content
+	string content = 8;
+}
+
+message ShowRequest {
+	// Session ID
+	string session_id = 1;
+	// ID
+	uint64 id = 2;
+}
+
+message ShowResponse {
+	// ID
+	uint64 id = 2;
+	// CreatedAt
+	string created_at = 3;
+	// UpdatedAt
+	string updated_at = 4;
+	// Channel ID
+	uint64 channel_id = 5;
+	// User ID
+	uint64 user_id = 6;
+	// User Name
+	uint64 user_name = 7;
+	// Content
+	string content = 8;
+}
+
+message CreateRequest {
+	// Session ID
+	string session_id = 1;
+	// Channel ID
+	uint64 channel_id = 5;
+	// Content
+	string content = 8;
+}
+
+message CreateResponse {
+	// ID
+	uint64 id = 2;
+	// CreatedAt
+	string created_at = 3;
+	// UpdatedAt
+	string updated_at = 4;
+	// Channel ID
+	uint64 channel_id = 5;
+	// User ID
+	uint64 user_id = 6;
+	// User Name
+	uint64 user_name = 7;
+	// Content
+	string content = 8;
+}
+
+message UpdateRequest {
+	// Session ID
+	string session_id = 1;
+	// ID
+	uint64 id = 2;
+	// Content
+	string content = 8;
+}
+
+message UpdateResponse {
+	// ID
+	uint64 id = 2;
+	// CreatedAt
+	string created_at = 3;
+	// UpdatedAt
+	string updated_at = 4;
+	// Channel ID
+	uint64 channel_id = 5;
+	// User ID
+	uint64 user_id = 6;
+	// User Name
+	uint64 user_name = 7;
+	// Content
+	string content = 8;
+}
+
+message DeleteRequest {
+	// Session ID
+	string session_id = 1;
+	// ID
+	uint64 id = 2;
+}
+
+message DeleteResponse {
+	// ID
+	uint64 id = 2;
+	// CreatedAt
+	string created_at = 3;
+	// UpdatedAt
+	string updated_at = 4;
+	// Channel ID
+	uint64 channel_id = 5;
+	// User ID
+	uint64 user_id = 6;
+	// User Name
+	uint64 user_name = 7;
+	// Content
+	string content = 8;
+}
