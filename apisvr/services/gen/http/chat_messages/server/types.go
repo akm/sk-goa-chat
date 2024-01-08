@@ -51,7 +51,7 @@ type ShowResponseBody struct {
 	// User ID
 	UserID *uint64 `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 	// User Name
-	UserName uint64 `form:"user_name" json:"user_name" xml:"user_name"`
+	UserName string `form:"user_name" json:"user_name" xml:"user_name"`
 	// Content
 	Content string `form:"content" json:"content" xml:"content"`
 }
@@ -70,7 +70,7 @@ type CreateResponseBody struct {
 	// User ID
 	UserID *uint64 `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 	// User Name
-	UserName uint64 `form:"user_name" json:"user_name" xml:"user_name"`
+	UserName string `form:"user_name" json:"user_name" xml:"user_name"`
 	// Content
 	Content string `form:"content" json:"content" xml:"content"`
 }
@@ -89,7 +89,7 @@ type UpdateResponseBody struct {
 	// User ID
 	UserID *uint64 `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 	// User Name
-	UserName uint64 `form:"user_name" json:"user_name" xml:"user_name"`
+	UserName string `form:"user_name" json:"user_name" xml:"user_name"`
 	// Content
 	Content string `form:"content" json:"content" xml:"content"`
 }
@@ -108,7 +108,7 @@ type DeleteResponseBody struct {
 	// User ID
 	UserID *uint64 `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 	// User Name
-	UserName uint64 `form:"user_name" json:"user_name" xml:"user_name"`
+	UserName string `form:"user_name" json:"user_name" xml:"user_name"`
 	// Content
 	Content string `form:"content" json:"content" xml:"content"`
 }
@@ -311,7 +311,7 @@ type ChatMessageListItemResponseBody struct {
 	// User ID
 	UserID *uint64 `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 	// User Name
-	UserName uint64 `form:"user_name" json:"user_name" xml:"user_name"`
+	UserName string `form:"user_name" json:"user_name" xml:"user_name"`
 	// Content
 	Content string `form:"content" json:"content" xml:"content"`
 }

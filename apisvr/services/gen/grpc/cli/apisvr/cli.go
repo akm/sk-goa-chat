@@ -34,17 +34,17 @@ users (list|create)
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
 	return os.Args[0] + ` channels list --message '{
-      "session_id": "In nihil quod error perspiciatis neque ipsa."
+      "session_id": "Sit numquam unde voluptatem sit."
    }'` + "\n" +
 		os.Args[0] + ` chat-messages list --message '{
-      "after": 3870792547747997156,
-      "before": 124024319974376705,
-      "channel_id": 2750120153917334106,
-      "limit": 4092113472913834289,
-      "session_id": "Molestias aspernatur blanditiis neque."
+      "after": 4635728304845688011,
+      "before": 13066561246146553339,
+      "channel_id": 5096907298334997690,
+      "limit": 6306927104806872566,
+      "session_id": "Sequi voluptatibus eveniet cumque magni."
    }'` + "\n" +
 		os.Args[0] + ` sessions create --message '{
-      "id_token": "Quisquam reiciendis in eius esse atque autem."
+      "id_token": "Ea ut voluptatem iste praesentium."
    }'` + "\n" +
 		os.Args[0] + ` users list` + "\n" +
 		""
@@ -333,7 +333,7 @@ List implements list.
 
 Example:
     %[1]s channels list --message '{
-      "session_id": "In nihil quod error perspiciatis neque ipsa."
+      "session_id": "Sit numquam unde voluptatem sit."
    }'
 `, os.Args[0])
 }
@@ -346,8 +346,8 @@ Show implements show.
 
 Example:
     %[1]s channels show --message '{
-      "id": 9528363954422044748,
-      "session_id": "Repudiandae et."
+      "id": 16262807817521615134,
+      "session_id": "Sed labore repudiandae animi odit."
    }'
 `, os.Args[0])
 }
@@ -360,8 +360,8 @@ Create implements create.
 
 Example:
     %[1]s channels create --message '{
-      "name": "Sit numquam unde voluptatem sit.",
-      "session_id": "Fuga aut et."
+      "name": "Id eius est est recusandae consequatur totam.",
+      "session_id": "Culpa dolor quam ut."
    }'
 `, os.Args[0])
 }
@@ -374,9 +374,9 @@ Update implements update.
 
 Example:
     %[1]s channels update --message '{
-      "id": 9590982276422697405,
-      "name": "Qui inventore culpa dolor quam ut.",
-      "session_id": "Quo quo voluptatem minima ut eum placeat."
+      "id": 11296320162095826430,
+      "name": "Aspernatur blanditiis neque amet quia.",
+      "session_id": "In alias rem sequi tempore et."
    }'
 `, os.Args[0])
 }
@@ -389,8 +389,8 @@ Delete implements delete.
 
 Example:
     %[1]s channels delete --message '{
-      "id": 11748296131146946804,
-      "session_id": "Occaecati magnam qui vel hic quo vero."
+      "id": 1450937935697684406,
+      "session_id": "Molestias animi consequatur consequatur doloremque assumenda sint."
    }'
 `, os.Args[0])
 }
@@ -421,11 +421,11 @@ List implements list.
 
 Example:
     %[1]s chat-messages list --message '{
-      "after": 3870792547747997156,
-      "before": 124024319974376705,
-      "channel_id": 2750120153917334106,
-      "limit": 4092113472913834289,
-      "session_id": "Molestias aspernatur blanditiis neque."
+      "after": 4635728304845688011,
+      "before": 13066561246146553339,
+      "channel_id": 5096907298334997690,
+      "limit": 6306927104806872566,
+      "session_id": "Sequi voluptatibus eveniet cumque magni."
    }'
 `, os.Args[0])
 }
@@ -438,8 +438,8 @@ Show implements show.
 
 Example:
     %[1]s chat-messages show --message '{
-      "id": 12860788162859315319,
-      "session_id": "Praesentium blanditiis molestias."
+      "id": 10044309726672495385,
+      "session_id": "Voluptas vero."
    }'
 `, os.Args[0])
 }
@@ -452,9 +452,9 @@ Create implements create.
 
 Example:
     %[1]s chat-messages create --message '{
-      "channel_id": 1023519516562172368,
-      "content": "Voluptatibus eveniet cumque magni vitae ut non.",
-      "session_id": "Quos praesentium qui quisquam officia."
+      "channel_id": 14185251234153705068,
+      "content": "Et nemo quo et animi voluptas.",
+      "session_id": "Velit quaerat neque."
    }'
 `, os.Args[0])
 }
@@ -467,9 +467,9 @@ Update implements update.
 
 Example:
     %[1]s chat-messages update --message '{
-      "content": "Minima consequatur velit quaerat neque.",
-      "id": 10482655633392866197,
-      "session_id": "Fugiat laborum expedita et veritatis itaque."
+      "content": "In eius.",
+      "id": 13208488990939666410,
+      "session_id": "Dolorem reprehenderit quisquam."
    }'
 `, os.Args[0])
 }
@@ -482,8 +482,8 @@ Delete implements delete.
 
 Example:
     %[1]s chat-messages delete --message '{
-      "id": 17673947327266176618,
-      "session_id": "Modi voluptas quos."
+      "id": 12703000236813531731,
+      "session_id": "Neque velit."
    }'
 `, os.Args[0])
 }
@@ -510,7 +510,7 @@ Create implements create.
 
 Example:
     %[1]s sessions create --message '{
-      "id_token": "Quisquam reiciendis in eius esse atque autem."
+      "id_token": "Ea ut voluptatem iste praesentium."
    }'
 `, os.Args[0])
 }
@@ -523,7 +523,7 @@ Delete implements delete.
 
 Example:
     %[1]s sessions delete --message '{
-      "session_id": "Molestiae dolorum eligendi molestiae eius quidem."
+      "session_id": "Quis eveniet."
    }'
 `, os.Args[0])
 }
@@ -560,8 +560,8 @@ Create implements create.
 
 Example:
     %[1]s users create --message '{
-      "email": "Animi similique quia nesciunt amet.",
-      "name": "Neque velit."
+      "email": "Eos tenetur exercitationem quisquam at.",
+      "name": "Sed ad veniam et quae eaque."
    }'
 `, os.Args[0])
 }

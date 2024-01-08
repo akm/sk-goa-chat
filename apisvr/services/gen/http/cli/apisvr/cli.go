@@ -34,10 +34,10 @@ users (list|create)
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
-	return os.Args[0] + ` channels list --session-id "Inventore expedita dolores quia est."` + "\n" +
+	return os.Args[0] + ` channels list --session-id "Veritatis in similique."` + "\n" +
 		os.Args[0] + ` chat-messages list --limit 2953569855248504038 --channel-id 11643325753069024245 --after 11634181251069557909 --before 6950694595491085628 --session-id "Nesciunt architecto."` + "\n" +
 		os.Args[0] + ` sessions create --body '{
-      "id_token": "Consectetur suscipit quia est necessitatibus eum quo."
+      "id_token": "Ipsa et minima quaerat omnis adipisci."
    }'` + "\n" +
 		os.Args[0] + ` users list` + "\n" +
 		""
@@ -345,7 +345,7 @@ List implements list.
     -session-id STRING: 
 
 Example:
-    %[1]s channels list --session-id "Inventore expedita dolores quia est."
+    %[1]s channels list --session-id "Veritatis in similique."
 `, os.Args[0])
 }
 
@@ -357,7 +357,7 @@ Show implements show.
     -session-id STRING: 
 
 Example:
-    %[1]s channels show --id 928142019106042876 --session-id "Aut soluta molestiae corrupti nihil."
+    %[1]s channels show --id 12033162323102379719 --session-id "Qui aut soluta molestiae corrupti."
 `, os.Args[0])
 }
 
@@ -370,8 +370,8 @@ Create implements create.
 
 Example:
     %[1]s channels create --body '{
-      "name": "Et ipsa."
-   }' --session-id "Ullam qui aut veritatis."
+      "name": "Ex cumque et ipsa voluptate ullam."
+   }' --session-id "Aut veritatis quaerat voluptatibus beatae corrupti."
 `, os.Args[0])
 }
 
@@ -385,8 +385,8 @@ Update implements update.
 
 Example:
     %[1]s channels update --body '{
-      "name": "Ut quibusdam ea quos."
-   }' --id 12008964473146260585 --session-id "Ratione et aliquam reiciendis at officiis."
+      "name": "Quo ratione et."
+   }' --id 1560761711101387564 --session-id "At officiis."
 `, os.Args[0])
 }
 
@@ -443,7 +443,7 @@ Show implements show.
     -session-id STRING: 
 
 Example:
-    %[1]s chat-messages show --id 735355215373132696 --session-id "In est similique non impedit."
+    %[1]s chat-messages show --id 5459485553558124579 --session-id "Est similique."
 `, os.Args[0])
 }
 
@@ -456,9 +456,9 @@ Create implements create.
 
 Example:
     %[1]s chat-messages create --body '{
-      "channel_id": 3926127571255298770,
-      "content": "In dolore odio quasi quos."
-   }' --session-id "Consequatur unde est exercitationem occaecati est fugit."
+      "channel_id": 3874821448833755012,
+      "content": "Consequatur unde est exercitationem occaecati est fugit."
+   }' --session-id "Magni nihil facere illo."
 `, os.Args[0])
 }
 
@@ -472,8 +472,8 @@ Update implements update.
 
 Example:
     %[1]s chat-messages update --body '{
-      "content": "Sit quos enim praesentium provident et."
-   }' --id 7805942058009010906 --session-id "Laborum sequi necessitatibus."
+      "content": "Nihil aliquam dicta."
+   }' --id 2859200271161070869 --session-id "Id labore temporibus sed."
 `, os.Args[0])
 }
 
@@ -485,7 +485,7 @@ Delete implements delete.
     -session-id STRING: 
 
 Example:
-    %[1]s chat-messages delete --id 178502275960762926 --session-id "Quam velit et."
+    %[1]s chat-messages delete --id 3702135229637078762 --session-id "Quo nesciunt necessitatibus hic."
 `, os.Args[0])
 }
 
@@ -511,7 +511,7 @@ Create implements create.
 
 Example:
     %[1]s sessions create --body '{
-      "id_token": "Consectetur suscipit quia est necessitatibus eum quo."
+      "id_token": "Ipsa et minima quaerat omnis adipisci."
    }'
 `, os.Args[0])
 }
@@ -523,7 +523,7 @@ Delete implements delete.
     -session-id STRING: 
 
 Example:
-    %[1]s sessions delete --session-id "Ipsa et minima quaerat omnis adipisci."
+    %[1]s sessions delete --session-id "Non quis sit."
 `, os.Args[0])
 }
 
@@ -559,8 +559,8 @@ Create implements create.
 
 Example:
     %[1]s users create --body '{
-      "email": "Autem eum ducimus beatae.",
-      "name": "Sit perferendis temporibus praesentium."
+      "email": "Ut ad cupiditate non quam.",
+      "name": "Voluptatem delectus natus libero."
    }'
 `, os.Args[0])
 }

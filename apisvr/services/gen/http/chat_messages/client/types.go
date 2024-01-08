@@ -51,7 +51,7 @@ type ShowResponseBody struct {
 	// User ID
 	UserID *uint64 `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 	// User Name
-	UserName *uint64 `form:"user_name,omitempty" json:"user_name,omitempty" xml:"user_name,omitempty"`
+	UserName *string `form:"user_name,omitempty" json:"user_name,omitempty" xml:"user_name,omitempty"`
 	// Content
 	Content *string `form:"content,omitempty" json:"content,omitempty" xml:"content,omitempty"`
 }
@@ -70,7 +70,7 @@ type CreateResponseBody struct {
 	// User ID
 	UserID *uint64 `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 	// User Name
-	UserName *uint64 `form:"user_name,omitempty" json:"user_name,omitempty" xml:"user_name,omitempty"`
+	UserName *string `form:"user_name,omitempty" json:"user_name,omitempty" xml:"user_name,omitempty"`
 	// Content
 	Content *string `form:"content,omitempty" json:"content,omitempty" xml:"content,omitempty"`
 }
@@ -89,7 +89,7 @@ type UpdateResponseBody struct {
 	// User ID
 	UserID *uint64 `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 	// User Name
-	UserName *uint64 `form:"user_name,omitempty" json:"user_name,omitempty" xml:"user_name,omitempty"`
+	UserName *string `form:"user_name,omitempty" json:"user_name,omitempty" xml:"user_name,omitempty"`
 	// Content
 	Content *string `form:"content,omitempty" json:"content,omitempty" xml:"content,omitempty"`
 }
@@ -108,7 +108,7 @@ type DeleteResponseBody struct {
 	// User ID
 	UserID *uint64 `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 	// User Name
-	UserName *uint64 `form:"user_name,omitempty" json:"user_name,omitempty" xml:"user_name,omitempty"`
+	UserName *string `form:"user_name,omitempty" json:"user_name,omitempty" xml:"user_name,omitempty"`
 	// Content
 	Content *string `form:"content,omitempty" json:"content,omitempty" xml:"content,omitempty"`
 }
@@ -311,7 +311,7 @@ type ChatMessageListItemResponseBody struct {
 	// User ID
 	UserID *uint64 `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 	// User Name
-	UserName *uint64 `form:"user_name,omitempty" json:"user_name,omitempty" xml:"user_name,omitempty"`
+	UserName *string `form:"user_name,omitempty" json:"user_name,omitempty" xml:"user_name,omitempty"`
 	// Content
 	Content *string `form:"content,omitempty" json:"content,omitempty" xml:"content,omitempty"`
 }

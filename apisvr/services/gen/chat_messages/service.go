@@ -51,7 +51,7 @@ type ChatMessage struct {
 	// User ID
 	UserID *uint64
 	// User Name
-	UserName uint64
+	UserName string
 	// Content
 	Content string
 }
@@ -85,7 +85,7 @@ type ChatMessageListItem struct {
 	// User ID
 	UserID *uint64
 	// User Name
-	UserName uint64
+	UserName string
 	// Content
 	Content string
 }

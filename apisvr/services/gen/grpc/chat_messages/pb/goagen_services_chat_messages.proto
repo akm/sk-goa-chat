@@ -59,7 +59,7 @@ message ChatMessageListItem {
 	// User ID
 	optional uint64 user_id = 6;
 	// User Name
-	uint64 user_name = 7;
+	string user_name = 7;
 	// Content
 	string content = 8;
 }
@@ -83,7 +83,7 @@ message ShowResponse {
 	// User ID
 	optional uint64 user_id = 6;
 	// User Name
-	uint64 user_name = 7;
+	string user_name = 7;
 	// Content
 	string content = 8;
 }
@@ -109,7 +109,7 @@ message CreateResponse {
 	// User ID
 	optional uint64 user_id = 6;
 	// User Name
-	uint64 user_name = 7;
+	string user_name = 7;
 	// Content
 	string content = 8;
 }
@@ -135,7 +135,7 @@ message UpdateResponse {
 	// User ID
 	optional uint64 user_id = 6;
 	// User Name
-	uint64 user_name = 7;
+	string user_name = 7;
 	// Content
 	string content = 8;
 }
@@ -159,7 +159,7 @@ message DeleteResponse {
 	// User ID
 	optional uint64 user_id = 6;
 	// User Name
-	uint64 user_name = 7;
+	string user_name = 7;
 	// Content
 	string content = 8;
 }
