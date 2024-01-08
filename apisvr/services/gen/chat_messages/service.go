@@ -49,7 +49,7 @@ type ChatMessage struct {
 	// Channel ID
 	ChannelID uint64
 	// User ID
-	UserID uint64
+	UserID *uint64
 	// User Name
 	UserName uint64
 	// Content
@@ -83,7 +83,7 @@ type ChatMessageListItem struct {
 	// Channel ID
 	ChannelID uint64
 	// User ID
-	UserID uint64
+	UserID *uint64
 	// User Name
 	UserName uint64
 	// Content
@@ -218,7 +218,9 @@ func newChatMessageListItemCollectionView(res ChatMessageListItemCollection) cha
 // newChatMessageListItem converts projected type ChatMessageListItem to
 // service type ChatMessageListItem.
 func newChatMessageListItem(vres *chatmessagesviews.ChatMessageListItemView) *ChatMessageListItem {
-	res := &ChatMessageListItem{}
+	res := &ChatMessageListItem{
+		UserID: vres.UserID,
+	}
 	if vres.ID != nil {
 		res.ID = *vres.ID
 	}
@@ -230,9 +232,6 @@ func newChatMessageListItem(vres *chatmessagesviews.ChatMessageListItemView) *Ch
 	}
 	if vres.ChannelID != nil {
 		res.ChannelID = *vres.ChannelID
-	}
-	if vres.UserID != nil {
-		res.UserID = *vres.UserID
 	}
 	if vres.UserName != nil {
 		res.UserName = *vres.UserName
@@ -251,7 +250,7 @@ func newChatMessageListItemView(res *ChatMessageListItem) *chatmessagesviews.Cha
 		CreatedAt: &res.CreatedAt,
 		UpdatedAt: &res.UpdatedAt,
 		ChannelID: &res.ChannelID,
-		UserID:    &res.UserID,
+		UserID:    res.UserID,
 		UserName:  &res.UserName,
 		Content:   &res.Content,
 	}
@@ -261,7 +260,9 @@ func newChatMessageListItemView(res *ChatMessageListItem) *chatmessagesviews.Cha
 // newChatMessage converts projected type ChatMessage to service type
 // ChatMessage.
 func newChatMessage(vres *chatmessagesviews.ChatMessageView) *ChatMessage {
-	res := &ChatMessage{}
+	res := &ChatMessage{
+		UserID: vres.UserID,
+	}
 	if vres.ID != nil {
 		res.ID = *vres.ID
 	}
@@ -273,9 +274,6 @@ func newChatMessage(vres *chatmessagesviews.ChatMessageView) *ChatMessage {
 	}
 	if vres.ChannelID != nil {
 		res.ChannelID = *vres.ChannelID
-	}
-	if vres.UserID != nil {
-		res.UserID = *vres.UserID
 	}
 	if vres.UserName != nil {
 		res.UserName = *vres.UserName
@@ -294,7 +292,7 @@ func newChatMessageView(res *ChatMessage) *chatmessagesviews.ChatMessageView {
 		CreatedAt: &res.CreatedAt,
 		UpdatedAt: &res.UpdatedAt,
 		ChannelID: &res.ChannelID,
-		UserID:    &res.UserID,
+		UserID:    res.UserID,
 		UserName:  &res.UserName,
 		Content:   &res.Content,
 	}

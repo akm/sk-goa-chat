@@ -40,7 +40,7 @@ func NewListResult(message *chat_messagespb.ListResponse) *chatmessagesviews.Cha
 				CreatedAt: &val.CreatedAt,
 				UpdatedAt: &val.UpdatedAt,
 				ChannelID: &val.ChannelId,
-				UserID:    &val.UserId,
+				UserID:    val.UserId,
 				UserName:  &val.UserName,
 				Content:   &val.Content,
 			}
@@ -67,7 +67,7 @@ func NewShowResult(message *chat_messagespb.ShowResponse) *chatmessagesviews.Cha
 		CreatedAt: &message.CreatedAt,
 		UpdatedAt: &message.UpdatedAt,
 		ChannelID: &message.ChannelId,
-		UserID:    &message.UserId,
+		UserID:    message.UserId,
 		UserName:  &message.UserName,
 		Content:   &message.Content,
 	}
@@ -93,7 +93,7 @@ func NewCreateResult(message *chat_messagespb.CreateResponse) *chatmessagesviews
 		CreatedAt: &message.CreatedAt,
 		UpdatedAt: &message.UpdatedAt,
 		ChannelID: &message.ChannelId,
-		UserID:    &message.UserId,
+		UserID:    message.UserId,
 		UserName:  &message.UserName,
 		Content:   &message.Content,
 	}
@@ -119,7 +119,7 @@ func NewUpdateResult(message *chat_messagespb.UpdateResponse) *chatmessagesviews
 		CreatedAt: &message.CreatedAt,
 		UpdatedAt: &message.UpdatedAt,
 		ChannelID: &message.ChannelId,
-		UserID:    &message.UserId,
+		UserID:    message.UserId,
 		UserName:  &message.UserName,
 		Content:   &message.Content,
 	}
@@ -144,7 +144,7 @@ func NewDeleteResult(message *chat_messagespb.DeleteResponse) *chatmessagesviews
 		CreatedAt: &message.CreatedAt,
 		UpdatedAt: &message.UpdatedAt,
 		ChannelID: &message.ChannelId,
-		UserID:    &message.UserId,
+		UserID:    message.UserId,
 		UserName:  &message.UserName,
 		Content:   &message.Content,
 	}

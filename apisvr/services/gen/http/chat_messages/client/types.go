@@ -828,9 +828,6 @@ func ValidateChatMessageListItemResponseBody(body *ChatMessageListItemResponseBo
 	if body.ChannelID == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("channel_id", "body"))
 	}
-	if body.UserID == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("user_id", "body"))
-	}
 	if body.UserName == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("user_name", "body"))
 	}

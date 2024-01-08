@@ -184,9 +184,6 @@ func ValidateChatMessageListItemView(result *ChatMessageListItemView) (err error
 	if result.ChannelID == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("channel_id", "result"))
 	}
-	if result.UserID == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("user_id", "result"))
-	}
 	if result.UserName == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("user_name", "result"))
 	}
@@ -216,9 +213,6 @@ func ValidateChatMessageView(result *ChatMessageView) (err error) {
 	}
 	if result.ChannelID == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("channel_id", "result"))
-	}
-	if result.UserID == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("user_id", "result"))
 	}
 	if result.UserName == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("user_name", "result"))

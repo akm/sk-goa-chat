@@ -49,7 +49,7 @@ type ShowResponseBody struct {
 	// Channel ID
 	ChannelID uint64 `form:"channel_id" json:"channel_id" xml:"channel_id"`
 	// User ID
-	UserID uint64 `form:"user_id" json:"user_id" xml:"user_id"`
+	UserID *uint64 `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 	// User Name
 	UserName uint64 `form:"user_name" json:"user_name" xml:"user_name"`
 	// Content
@@ -68,7 +68,7 @@ type CreateResponseBody struct {
 	// Channel ID
 	ChannelID uint64 `form:"channel_id" json:"channel_id" xml:"channel_id"`
 	// User ID
-	UserID uint64 `form:"user_id" json:"user_id" xml:"user_id"`
+	UserID *uint64 `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 	// User Name
 	UserName uint64 `form:"user_name" json:"user_name" xml:"user_name"`
 	// Content
@@ -87,7 +87,7 @@ type UpdateResponseBody struct {
 	// Channel ID
 	ChannelID uint64 `form:"channel_id" json:"channel_id" xml:"channel_id"`
 	// User ID
-	UserID uint64 `form:"user_id" json:"user_id" xml:"user_id"`
+	UserID *uint64 `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 	// User Name
 	UserName uint64 `form:"user_name" json:"user_name" xml:"user_name"`
 	// Content
@@ -106,7 +106,7 @@ type DeleteResponseBody struct {
 	// Channel ID
 	ChannelID uint64 `form:"channel_id" json:"channel_id" xml:"channel_id"`
 	// User ID
-	UserID uint64 `form:"user_id" json:"user_id" xml:"user_id"`
+	UserID *uint64 `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 	// User Name
 	UserName uint64 `form:"user_name" json:"user_name" xml:"user_name"`
 	// Content
@@ -309,7 +309,7 @@ type ChatMessageListItemResponseBody struct {
 	// Channel ID
 	ChannelID uint64 `form:"channel_id" json:"channel_id" xml:"channel_id"`
 	// User ID
-	UserID uint64 `form:"user_id" json:"user_id" xml:"user_id"`
+	UserID *uint64 `form:"user_id,omitempty" json:"user_id,omitempty" xml:"user_id,omitempty"`
 	// User Name
 	UserName uint64 `form:"user_name" json:"user_name" xml:"user_name"`
 	// Content
@@ -339,7 +339,7 @@ func NewShowResponseBody(res *chatmessagesviews.ChatMessageView) *ShowResponseBo
 		CreatedAt: *res.CreatedAt,
 		UpdatedAt: *res.UpdatedAt,
 		ChannelID: *res.ChannelID,
-		UserID:    *res.UserID,
+		UserID:    res.UserID,
 		UserName:  *res.UserName,
 		Content:   *res.Content,
 	}
@@ -354,7 +354,7 @@ func NewCreateResponseBody(res *chatmessagesviews.ChatMessageView) *CreateRespon
 		CreatedAt: *res.CreatedAt,
 		UpdatedAt: *res.UpdatedAt,
 		ChannelID: *res.ChannelID,
-		UserID:    *res.UserID,
+		UserID:    res.UserID,
 		UserName:  *res.UserName,
 		Content:   *res.Content,
 	}
@@ -369,7 +369,7 @@ func NewUpdateResponseBody(res *chatmessagesviews.ChatMessageView) *UpdateRespon
 		CreatedAt: *res.CreatedAt,
 		UpdatedAt: *res.UpdatedAt,
 		ChannelID: *res.ChannelID,
-		UserID:    *res.UserID,
+		UserID:    res.UserID,
 		UserName:  *res.UserName,
 		Content:   *res.Content,
 	}
@@ -384,7 +384,7 @@ func NewDeleteResponseBody(res *chatmessagesviews.ChatMessageView) *DeleteRespon
 		CreatedAt: *res.CreatedAt,
 		UpdatedAt: *res.UpdatedAt,
 		ChannelID: *res.ChannelID,
-		UserID:    *res.UserID,
+		UserID:    res.UserID,
 		UserName:  *res.UserName,
 		Content:   *res.Content,
 	}

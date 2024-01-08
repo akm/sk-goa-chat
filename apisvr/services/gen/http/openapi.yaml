@@ -1119,7 +1119,6 @@ definitions:
             - created_at
             - updated_at
             - channel_id
-            - user_id
             - user_name
             - content
     ChatMessageListItemResponseBodyCollection:
@@ -1271,7 +1270,6 @@ definitions:
             - created_at
             - updated_at
             - channel_id
-            - user_id
             - user_name
             - content
     ChatMessagesCreateUnauthenticatedResponseBody:
@@ -1412,7 +1410,6 @@ definitions:
             - created_at
             - updated_at
             - channel_id
-            - user_id
             - user_name
             - content
     ChatMessagesDeleteUnauthenticatedResponseBody:
@@ -1628,7 +1625,6 @@ definitions:
             - created_at
             - updated_at
             - channel_id
-            - user_id
             - user_name
             - content
     ChatMessagesShowUnauthenticatedResponseBody:
@@ -1824,7 +1820,6 @@ definitions:
             - created_at
             - updated_at
             - channel_id
-            - user_id
             - user_name
             - content
     ChatMessagesUpdateUnauthenticatedResponseBody:

@@ -39,7 +39,7 @@ func NewProtoListResponse(result *chatmessagesviews.ChatMessageListView) *chat_m
 				CreatedAt: *val.CreatedAt,
 				UpdatedAt: *val.UpdatedAt,
 				ChannelId: *val.ChannelID,
-				UserId:    *val.UserID,
+				UserId:    val.UserID,
 				UserName:  *val.UserName,
 				Content:   *val.Content,
 			}
@@ -66,7 +66,7 @@ func NewProtoShowResponse(result *chatmessagesviews.ChatMessageView) *chat_messa
 		CreatedAt: *result.CreatedAt,
 		UpdatedAt: *result.UpdatedAt,
 		ChannelId: *result.ChannelID,
-		UserId:    *result.UserID,
+		UserId:    result.UserID,
 		UserName:  *result.UserName,
 		Content:   *result.Content,
 	}
@@ -92,7 +92,7 @@ func NewProtoCreateResponse(result *chatmessagesviews.ChatMessageView) *chat_mes
 		CreatedAt: *result.CreatedAt,
 		UpdatedAt: *result.UpdatedAt,
 		ChannelId: *result.ChannelID,
-		UserId:    *result.UserID,
+		UserId:    result.UserID,
 		UserName:  *result.UserName,
 		Content:   *result.Content,
 	}
@@ -118,7 +118,7 @@ func NewProtoUpdateResponse(result *chatmessagesviews.ChatMessageView) *chat_mes
 		CreatedAt: *result.CreatedAt,
 		UpdatedAt: *result.UpdatedAt,
 		ChannelId: *result.ChannelID,
-		UserId:    *result.UserID,
+		UserId:    result.UserID,
 		UserName:  *result.UserName,
 		Content:   *result.Content,
 	}
@@ -143,7 +143,7 @@ func NewProtoDeleteResponse(result *chatmessagesviews.ChatMessageView) *chat_mes
 		CreatedAt: *result.CreatedAt,
 		UpdatedAt: *result.UpdatedAt,
 		ChannelId: *result.ChannelID,
-		UserId:    *result.UserID,
+		UserId:    result.UserID,
 		UserName:  *result.UserName,
 		Content:   *result.Content,
 	}

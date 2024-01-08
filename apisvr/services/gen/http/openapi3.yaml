@@ -850,7 +850,6 @@ components:
                 - created_at
                 - updated_at
                 - channel_id
-                - user_id
                 - user_name
                 - content
         ChatMessageList:
@@ -929,7 +928,6 @@ components:
                 - created_at
                 - updated_at
                 - channel_id
-                - user_id
                 - user_name
                 - content
         ChatMessageListItemCollection:

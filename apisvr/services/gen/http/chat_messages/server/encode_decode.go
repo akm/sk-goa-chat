@@ -527,7 +527,7 @@ func marshalChatmessagesviewsChatMessageListItemViewToChatMessageListItemRespons
 		CreatedAt: *v.CreatedAt,
 		UpdatedAt: *v.UpdatedAt,
 		ChannelID: *v.ChannelID,
-		UserID:    *v.UserID,
+		UserID:    v.UserID,
 		UserName:  *v.UserName,
 		Content:   *v.Content,
 	}
