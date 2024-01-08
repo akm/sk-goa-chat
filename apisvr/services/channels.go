@@ -1,9 +1,6 @@
 package chatapi
 
 import (
-	"apisvr/lib/errors"
-	"apisvr/lib/firebase"
-	"apisvr/lib/firebase/auth"
 	"apisvr/lib/sql"
 	"apisvr/models"
 	channels "apisvr/services/gen/channels"
@@ -13,205 +10,118 @@ import (
 	"time"
 
 	"github.com/volatiletech/sqlboiler/v4/boil"
-	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 )
 
 // channels service example implementation.
 // The example methods log the requests and return zero values.
 type channelssrvc struct {
-	logger *log.Logger
+	baseAuthService
 	*ChannelsConvertor
 }
 
 // NewChannels returns the channels service implementation.
 func NewChannels(logger *log.Logger) channels.Service {
-	return &channelssrvc{logger: logger, ChannelsConvertor: NewChannelsConvertor()}
-}
-
-func (s *channelssrvc) sqlOpen() (*sql.DB, error) {
-	return sql.Open(s.logger.Logger)
-}
-
-func (s *channelssrvc) authenticate(ctx context.Context, db *sql.DB, sessionID string) (*models.User, error) {
-	fbapp, err := firebase.NewApp(ctx, nil)
-	if err != nil {
-		return nil, errors.Wrapf(err, "firebase.NewApp")
-	}
-	fbauth, err := auth.NewClientWithLogger(ctx, fbapp, s.logger.Logger)
-	if err != nil {
-		return nil, errors.Wrapf(err, "auth.NewClientWithLogger")
-	}
-
-	token, err := fbauth.VerifySessionCookie(ctx, sessionID)
-	if err != nil {
-		return nil, err
-	}
-
-	user, err := models.Users(qm.Where("fbauth_uid = ?", token.UID)).One(ctx, db)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, channels.MakeUnauthenticated(fmt.Errorf("user not found"))
-		} else {
-			return nil, errors.Wrapf(err, "failed to query user")
-		}
-	}
-
-	return user, nil
+	return &channelssrvc{baseAuthService: newBaseAuthService(logger), ChannelsConvertor: NewChannelsConvertor()}
 }
 
 // List implements list.
 func (s *channelssrvc) List(ctx context.Context, p *channels.ListPayload) (res *channels.ChannelList, err error) {
-	s.logger.Info().Msg("channels.list")
-	ctx = SetupContext(ctx)
-	db, err := s.sqlOpen()
-	if err != nil {
-		return nil, err
-	}
-	defer db.Close()
-
-	if _, err := s.authenticate(ctx, db, p.SessionID); err != nil {
-		return nil, err
-	}
-
-	results, err := models.Channels().All(ctx, db)
-	if err != nil {
-		return nil, err
-	}
-
-	res = s.ModelsToList(results)
+	err = s.actionWithAuth(ctx, "channels.list", p.SessionID, func(ctx context.Context, db *sql.DB, user *models.User) error {
+		results, err := models.Channels().All(ctx, db)
+		if err != nil {
+			return err
+		}
+		res = s.ModelsToList(results)
+		return nil
+	})
 	return
 }
 
 // Show implements show.
 func (s *channelssrvc) Show(ctx context.Context, p *channels.ShowPayload) (res *channels.Channel, err error) {
-	s.logger.Info().Msg("channels.show")
-	ctx = SetupContext(ctx)
-	db, err := s.sqlOpen()
-	if err != nil {
-		return nil, err
-	}
-	defer db.Close()
-
-	if _, err := s.authenticate(ctx, db, p.SessionID); err != nil {
-		return nil, err
-	}
-
-	m, err := models.FindChannel(ctx, db, p.ID)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, channels.MakeNotFound(fmt.Errorf("channel not found"))
+	err = s.actionWithAuth(ctx, "channels.show", p.SessionID, func(ctx context.Context, db *sql.DB, user *models.User) error {
+		m, err := models.FindChannel(ctx, db, p.ID)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				return channels.MakeNotFound(fmt.Errorf("channel not found"))
+			}
+			return err
 		}
-		return nil, err
-	}
 
-	res = s.ModelToResult(m)
+		res = s.ModelToResult(m)
+		return nil
+	})
 	return
 }
 
 // Create implements create.
 func (s *channelssrvc) Create(ctx context.Context, p *channels.ChannelCreatePayload) (res *channels.Channel, err error) {
-	s.logger.Info().Msg("channels.create")
-
-	if p.Name == "" {
-		return nil, channels.MakeInvalidPayload(fmt.Errorf("name is required"))
-	} else {
-		runes := []rune(p.Name)
-		if len(runes) > 255 {
-			return nil, channels.MakeInvalidPayload(fmt.Errorf("name is too long"))
+	err = s.actionWithAuth(ctx, "channels.create", p.SessionID, func(ctx context.Context, db *sql.DB, user *models.User) error {
+		if p.Name == "" {
+			return channels.MakeInvalidPayload(fmt.Errorf("name is required"))
+		} else {
+			runes := []rune(p.Name)
+			if len(runes) > 255 {
+				return channels.MakeInvalidPayload(fmt.Errorf("name is too long"))
+			}
 		}
-	}
-
-	ctx = SetupContext(ctx)
-	db, err := s.sqlOpen()
-	if err != nil {
-		return nil, err
-	}
-	defer db.Close()
-
-	if _, err := s.authenticate(ctx, db, p.SessionID); err != nil {
-		return nil, err
-	}
-
-	m := &models.Channel{
-		Name:       p.Name,
-		Visibility: models.ChannelsVisibilityPublic,
-	}
-	if err := m.Insert(ctx, db, boil.Infer()); err != nil {
-		return nil, err
-	}
-
-	res = s.ModelToResult(m)
+		m := &models.Channel{
+			Name:       p.Name,
+			Visibility: models.ChannelsVisibilityPublic,
+		}
+		if err := m.Insert(ctx, db, boil.Infer()); err != nil {
+			return err
+		}
+		res = s.ModelToResult(m)
+		return nil
+	})
 	return
 }
 
 // Update implements update.
 func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayload) (res *channels.Channel, err error) {
-	s.logger.Info().Msg("channels.update")
-
-	if p.Name == "" {
-		return nil, channels.MakeInvalidPayload(fmt.Errorf("name is required"))
-	} else {
-		runes := []rune(p.Name)
-		if len(runes) > 255 {
-			return nil, channels.MakeInvalidPayload(fmt.Errorf("name is too long"))
+	err = s.actionWithAuth(ctx, "channels.update", p.SessionID, func(ctx context.Context, db *sql.DB, user *models.User) error {
+		if p.Name == "" {
+			return channels.MakeInvalidPayload(fmt.Errorf("name is required"))
+		} else {
+			runes := []rune(p.Name)
+			if len(runes) > 255 {
+				return channels.MakeInvalidPayload(fmt.Errorf("name is too long"))
+			}
 		}
-	}
-
-	ctx = SetupContext(ctx)
-	db, err := s.sqlOpen()
-	if err != nil {
-		return nil, err
-	}
-	defer db.Close()
-
-	if _, err := s.authenticate(ctx, db, p.SessionID); err != nil {
-		return nil, err
-	}
-
-	m, err := models.FindChannel(ctx, db, p.ID)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, channels.MakeNotFound(fmt.Errorf("channel not found"))
+		m, err := models.FindChannel(ctx, db, p.ID)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				return channels.MakeNotFound(fmt.Errorf("channel not found"))
+			}
+			return err
 		}
-		return nil, err
-	}
-
-	m.Name = p.Name
-	if _, err := m.Update(ctx, db, boil.Infer()); err != nil {
-		return nil, err
-	}
-
-	res = s.ModelToResult(m)
+		m.Name = p.Name
+		if _, err := m.Update(ctx, db, boil.Infer()); err != nil {
+			return err
+		}
+		res = s.ModelToResult(m)
+		return nil
+	})
 	return
 }
 
 // Delete implements delete.
 func (s *channelssrvc) Delete(ctx context.Context, p *channels.DeletePayload) (res *channels.Channel, err error) {
-	s.logger.Info().Msg("channels.delete")
-	ctx = SetupContext(ctx)
-	db, err := s.sqlOpen()
-	if err != nil {
-		return nil, err
-	}
-	defer db.Close()
-
-	if _, err := s.authenticate(ctx, db, p.SessionID); err != nil {
-		return nil, err
-	}
-
-	m, err := models.FindChannel(ctx, db, p.ID)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, channels.MakeNotFound(fmt.Errorf("channel not found"))
+	err = s.actionWithAuth(ctx, "channels.delete", p.SessionID, func(ctx context.Context, db *sql.DB, user *models.User) error {
+		m, err := models.FindChannel(ctx, db, p.ID)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				return channels.MakeNotFound(fmt.Errorf("channel not found"))
+			}
+			return err
 		}
-		return nil, err
-	}
-
-	if _, err := m.Delete(ctx, db); err != nil {
-		return nil, err
-	}
-
-	res = s.ModelToResult(m)
+		if _, err := m.Delete(ctx, db); err != nil {
+			return err
+		}
+		res = s.ModelToResult(m)
+		return nil
+	})
 	return
 }
 
