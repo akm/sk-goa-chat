@@ -6,21 +6,21 @@ import (
 	. "goa.design/goa/v3/dsl"
 )
 
-func userFields(dt string, action string) []string {
+func userFields(dt DataType, action string) []string {
 	r := []string{}
 
-	if dt == "RT" || action == "update" {
+	if dt.IsRT() || action == "update" {
 		r = append(r, field(1, "id", UInt64, "ID"))
 	}
 
-	if dt == "RT" && action != "list" {
+	if dt.IsRT() && action != "list" {
 		r = append(r, field(2, "created_at", String, "CreatedAt", func() { Format(FormatDateTime); Example(time.RFC3339) }))
 		r = append(r, field(3, "updated_at", String, "UpdatedAt", func() { Format(FormatDateTime); Example(time.RFC3339) }))
 	}
 
 	r = append(r, field(4, "name", String, "Name"))
 
-	if dt == "Payload" && action == "create" {
+	if dt.IsPayload() && action == "create" {
 		r = append(r, field(5, "email", String, "Email"))
 	}
 
@@ -29,13 +29,13 @@ func userFields(dt string, action string) []string {
 
 var UserRT = ResultType("application/vnd.user", func() {
 	Attributes(func() {
-		Required(userFields("RT", "show")...)
+		Required(userFields(DataTypeResultType, "show")...)
 	})
 })
 
 var UserListItemRT = ResultType("application/vnd.user-list-item", func() {
 	Attributes(func() {
-		Required(userFields("RT", "list")...)
+		Required(userFields(DataTypeResultType, "list")...)
 	})
 })
 var UserListRT = ResultType("application/vnd.user-list", func() {
@@ -49,7 +49,7 @@ var UserListRT = ResultType("application/vnd.user-list", func() {
 })
 
 var UserCreatePayload = Type("UserCreatePayload", func() {
-	Required(userFields("Payload", "create")...)
+	Required(userFields(DataTypePayload, "create")...)
 })
 
 var _ = Service("users", func() {

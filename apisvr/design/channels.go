@@ -6,15 +6,15 @@ import (
 	. "goa.design/goa/v3/dsl"
 )
 
-func channelFields(dt string, action string) []string {
+func channelFields(dt DataType, action string) []string {
 	r := []string{}
 
 	r = append(r, fieldSessionID(1))
 
-	if dt == "RT" || action == "update" {
+	if dt.IsRT() || action == "update" {
 		r = append(r, field(2, "id", UInt64, "ID"))
 	}
-	if dt == "RT" {
+	if dt.IsRT() {
 		r = append(r, field(3, "created_at", String, "CreatedAt", func() { Format(FormatDateTime); Example(time.RFC3339) }))
 		r = append(r, field(4, "updated_at", String, "UpdatedAt", func() { Format(FormatDateTime); Example(time.RFC3339) }))
 	}
@@ -26,12 +26,12 @@ func channelFields(dt string, action string) []string {
 
 var ChannelRT = ResultType("application/vnd.channel", func() {
 	Attributes(func() {
-		Required(channelFields("RT", "show")...)
+		Required(channelFields(DataTypeResultType, "show")...)
 	})
 })
 var ChannelListItemRT = ResultType("application/vnd.channel-list-item", func() {
 	Attributes(func() {
-		Required(channelFields("RT", "list")...)
+		Required(channelFields(DataTypeResultType, "list")...)
 	})
 })
 var ChannelListRT = ResultType("application/vnd.channel-list", func() {
@@ -45,10 +45,10 @@ var ChannelListRT = ResultType("application/vnd.channel-list", func() {
 })
 
 var ChannelCreatePayload = Type("ChannelCreatePayload", func() {
-	Required(channelFields("Payload", "create")...)
+	Required(channelFields(DataTypePayload, "create")...)
 })
 var ChannelUpdatePayload = Type("ChannelUpdatePayload", func() {
-	Required(channelFields("Payload", "update")...)
+	Required(channelFields(DataTypePayload, "update")...)
 })
 
 var _ = Service("channels", func() {
