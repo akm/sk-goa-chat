@@ -1,7 +1,7 @@
 package time
 
-import "time"
+import orig "time"
 
-func Now() time.Time {
+func Now() orig.Time {
 	return nowFunc()
 }
