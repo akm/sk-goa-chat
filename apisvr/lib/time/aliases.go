@@ -10,6 +10,10 @@ type (
 	Location = orig.Location
 )
 
+var (
+	LoadLocation = orig.LoadLocation
+)
+
 const (
 	Nanosecond  = orig.Nanosecond
 	Microsecond = orig.Microsecond
