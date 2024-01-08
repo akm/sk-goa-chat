@@ -1,12 +1,25 @@
 package design
 
 import (
+	"slices"
 	"time"
 
 	. "goa.design/goa/v3/dsl"
 )
 
+var channelActions = []string{
+	"list",
+	"show",
+	"create",
+	"update",
+	"delete",
+}
+
 func channelFields(action string) []string {
+	if !slices.Contains[[]string, string](channelActions, action) {
+		panic("unknown channel action: " + action)
+	}
+
 	r := []string{}
 
 	r = append(r, fieldSessionID(1))

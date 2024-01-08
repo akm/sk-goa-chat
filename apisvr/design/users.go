@@ -1,12 +1,25 @@
 package design
 
 import (
+	"slices"
 	"time"
 
 	. "goa.design/goa/v3/dsl"
 )
 
+var userActions = []string{
+	"list",
+	"show",
+	"create",
+	// "update",
+	// "delete",
+}
+
 func userFields(action string) []string {
+	if !slices.Contains[[]string, string](userActions, action) {
+		panic("unknown user action: " + action)
+	}
+
 	r := []string{}
 
 	if InRT() || action == "update" {
