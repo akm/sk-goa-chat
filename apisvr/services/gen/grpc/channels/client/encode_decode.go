@@ -32,6 +32,15 @@ func BuildListFunc(grpccli channelspb.ChannelsClient, cliopts ...grpc.CallOption
 	}
 }
 
+// EncodeListRequest encodes requests sent to channels list endpoint.
+func EncodeListRequest(ctx context.Context, v any, md *metadata.MD) (any, error) {
+	payload, ok := v.(*channels.ListPayload)
+	if !ok {
+		return nil, goagrpc.ErrInvalidType("channels", "list", "*channels.ListPayload", v)
+	}
+	return NewProtoListRequest(payload), nil
+}
+
 // DecodeListResponse decodes responses from the channels list endpoint.
 func DecodeListResponse(ctx context.Context, v any, hdr, trlr metadata.MD) (any, error) {
 	var view string

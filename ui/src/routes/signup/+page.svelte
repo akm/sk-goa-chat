@@ -38,6 +38,18 @@
 			throw err;
 		}
 
+		const result = await fetch(`/api/users`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ email: email, name: accountName })
+		});
+		const json = await result.json();
+		console.log('json', json);
+		if (!json.id) {
+			errorMessage = json.message;
+			return;
+		}
+
 		if (accountName != '') {
 			try {
 				await updateProfile(userCredential.user, { displayName: accountName });

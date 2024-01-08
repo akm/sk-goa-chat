@@ -26,6 +26,7 @@ require (
 	cloud.google.com/go/longrunning v0.5.4 // indirect
 	cloud.google.com/go/storage v1.30.1 // indirect
 	dbmigrations v0.0.0-00010101000000-000000000000 // indirect
+	firebase.google.com/go v3.13.0+incompatible // indirect
 	firebase.google.com/go/v4 v4.13.0 // indirect
 	github.com/AnatolyRugalev/goregen v0.1.0 // indirect
 	github.com/Masterminds/goutils v1.1.1 // indirect

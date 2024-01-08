@@ -43,7 +43,7 @@ func New(e *channels.Endpoints, uh goagrpc.UnaryHandler) *Server {
 // "list" endpoint.
 func NewListHandler(endpoint goa.Endpoint, h goagrpc.UnaryHandler) goagrpc.UnaryHandler {
 	if h == nil {
-		h = goagrpc.NewUnaryHandler(endpoint, nil, EncodeListResponse)
+		h = goagrpc.NewUnaryHandler(endpoint, DecodeListRequest, EncodeListResponse)
 	}
 	return h
 }
@@ -54,6 +54,13 @@ func (s *Server) List(ctx context.Context, message *channelspb.ListRequest) (*ch
 	ctx = context.WithValue(ctx, goa.ServiceKey, "channels")
 	resp, err := s.ListH.Handle(ctx, message)
 	if err != nil {
+		var en goa.GoaErrorNamer
+		if errors.As(err, &en) {
+			switch en.GoaErrorName() {
+			case "unauthenticated":
+				return nil, goagrpc.NewStatusError(codes.Unauthenticated, err, goagrpc.NewErrorResponse(err))
+			}
+		}
 		return nil, goagrpc.EncodeError(err)
 	}
 	return resp.(*channelspb.ListResponse), nil
@@ -79,6 +86,8 @@ func (s *Server) Show(ctx context.Context, message *channelspb.ShowRequest) (*ch
 			switch en.GoaErrorName() {
 			case "not_found":
 				return nil, goagrpc.NewStatusError(codes.NotFound, err, goagrpc.NewErrorResponse(err))
+			case "unauthenticated":
+				return nil, goagrpc.NewStatusError(codes.Unauthenticated, err, goagrpc.NewErrorResponse(err))
 			}
 		}
 		return nil, goagrpc.EncodeError(err)
@@ -106,6 +115,8 @@ func (s *Server) Create(ctx context.Context, message *channelspb.CreateRequest) 
 			switch en.GoaErrorName() {
 			case "invalid_payload":
 				return nil, goagrpc.NewStatusError(codes.InvalidArgument, err, goagrpc.NewErrorResponse(err))
+			case "unauthenticated":
+				return nil, goagrpc.NewStatusError(codes.Unauthenticated, err, goagrpc.NewErrorResponse(err))
 			}
 		}
 		return nil, goagrpc.EncodeError(err)
@@ -135,6 +146,8 @@ func (s *Server) Update(ctx context.Context, message *channelspb.UpdateRequest) 
 				return nil, goagrpc.NewStatusError(codes.NotFound, err, goagrpc.NewErrorResponse(err))
 			case "invalid_payload":
 				return nil, goagrpc.NewStatusError(codes.InvalidArgument, err, goagrpc.NewErrorResponse(err))
+			case "unauthenticated":
+				return nil, goagrpc.NewStatusError(codes.Unauthenticated, err, goagrpc.NewErrorResponse(err))
 			}
 		}
 		return nil, goagrpc.EncodeError(err)
@@ -162,6 +175,8 @@ func (s *Server) Delete(ctx context.Context, message *channelspb.DeleteRequest) 
 			switch en.GoaErrorName() {
 			case "not_found":
 				return nil, goagrpc.NewStatusError(codes.NotFound, err, goagrpc.NewErrorResponse(err))
+			case "unauthenticated":
+				return nil, goagrpc.NewStatusError(codes.Unauthenticated, err, goagrpc.NewErrorResponse(err))
 			}
 		}
 		return nil, goagrpc.EncodeError(err)

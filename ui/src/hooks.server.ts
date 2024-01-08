@@ -8,12 +8,13 @@ import { isMessageKey } from '$lib/firebase/auth';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	// get cookies from browser
-	const sessionID = event.cookies.get('__session');
+	const sessionID = event.cookies.get('session_id');
 
 	if (!sessionID) {
 		// if there is no session load page as normal
 		return await resolve(event);
 	}
+	event.locals.sessionID = sessionID;
 
 	let decoded: DecodedIdToken;
 	try {

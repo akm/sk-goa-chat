@@ -30,6 +30,25 @@ func EncodeListResponse(ctx context.Context, v any, hdr, trlr *metadata.MD) (any
 	return resp, nil
 }
 
+// DecodeListRequest decodes requests sent to "channels" service "list"
+// endpoint.
+func DecodeListRequest(ctx context.Context, v any, md metadata.MD) (any, error) {
+	var (
+		message *channelspb.ListRequest
+		ok      bool
+	)
+	{
+		if message, ok = v.(*channelspb.ListRequest); !ok {
+			return nil, goagrpc.ErrInvalidType("channels", "list", "*channelspb.ListRequest", v)
+		}
+	}
+	var payload *channels.ListPayload
+	{
+		payload = NewListPayload(message)
+	}
+	return payload, nil
+}
+
 // EncodeShowResponse encodes responses from the "channels" service "show"
 // endpoint.
 func EncodeShowResponse(ctx context.Context, v any, hdr, trlr *metadata.MD) (any, error) {

@@ -36,11 +36,17 @@ func (c *Client) List() goa.Endpoint {
 	return func(ctx context.Context, v any) (any, error) {
 		inv := goagrpc.NewInvoker(
 			BuildListFunc(c.grpccli, c.opts...),
-			nil,
+			EncodeListRequest,
 			DecodeListResponse)
 		res, err := inv.Invoke(ctx, v)
 		if err != nil {
-			return nil, goa.Fault(err.Error())
+			resp := goagrpc.DecodeError(err)
+			switch message := resp.(type) {
+			case *goapb.ErrorResponse:
+				return nil, goagrpc.NewServiceError(message)
+			default:
+				return nil, goa.Fault(err.Error())
+			}
 		}
 		return res, nil
 	}

@@ -46,7 +46,8 @@ func (e *Endpoints) Use(m func(goa.Endpoint) goa.Endpoint) {
 // service "channels".
 func NewListEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
-		res, err := s.List(ctx)
+		p := req.(*ListPayload)
+		res, err := s.List(ctx, p)
 		if err != nil {
 			return nil, err
 		}

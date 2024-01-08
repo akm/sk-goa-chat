@@ -1,11 +1,11 @@
 import { serialize } from 'cookie';
 
-export const sessionKey = '__session';
+export const sessionKey = 'session_id';
 
 export const setSession = (resp: Response, sessionCookie: string, expiresInMS: number) => {
 	resp.headers.set(
 		'set-cookie',
-		serialize('__session', sessionCookie, {
+		serialize('session_id', sessionCookie, {
 			httpOnly: true,
 			path: '/',
 			secure: true,
@@ -18,7 +18,7 @@ export const setSession = (resp: Response, sessionCookie: string, expiresInMS: n
 export const clearSession = (resp: Response) => {
 	resp.headers.set(
 		'set-cookie',
-		serialize('__session', 'revoked', {
+		serialize('session_id', 'revoked', {
 			maxAge: 0,
 			path: '/'
 		})

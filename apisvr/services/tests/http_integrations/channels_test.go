@@ -1,12 +1,15 @@
 package httpintegrations
 
 import (
+	"apisvr/lib/firebase"
+	"apisvr/lib/firebase/auth"
 	"apisvr/lib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/channels"
 	"apisvr/services/gen/http/channels/server"
 	"apisvr/services/gen/log"
+	"apisvr/testlib/testfirebase/testauth"
 	"apisvr/testlib/testgoa"
 	"apisvr/testlib/testjson"
 	"apisvr/testlib/testlog"
@@ -20,6 +23,7 @@ import (
 
 	"github.com/ikawaha/goahttpcheck"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
@@ -42,9 +46,42 @@ func TestChannels(t *testing.T) {
 	checker.Mount(server.NewUpdateHandler, server.MountUpdateHandler, channels.NewUpdateEndpoint(srvc))
 	checker.Mount(server.NewDeleteHandler, server.MountDeleteHandler, channels.NewDeleteEndpoint(srvc))
 
+	fbapp, err := firebase.NewApp(ctx, nil)
+	require.NoError(t, err)
+	fbauth, err := auth.NewClientRaw(ctx, fbapp)
+	require.NoError(t, err)
+
+	t.Run("delete all of users before test", func(t *testing.T) {
+		testauth.DeleteUsers(t, ctx, fbauth)
+	})
+
+	fooEmail := "foo@example.com"
+	fooName := "Foo"
+	fooPassword := "Passw0rd!"
+
+	t.Run("create foo", func(t *testing.T) {
+		args := &auth.UserToCreate{}
+		args.Email(fooEmail)
+		args.DisplayName(fooName)
+		args.Password(fooPassword)
+		res, err := fbauth.CreateUser(ctx, args)
+		require.NoError(t, err)
+		// t.Logf("result: %+v", res)
+		require.NotEmpty(t, res.UID)
+
+		t.Run("insert user to db", func(t *testing.T) {
+			user := &models.User{FbauthUID: res.UID, Email: fooEmail, Name: fooName}
+			testsqlboiler.Insert(t, ctx, conn, boil.Infer(), user)
+		})
+	})
+
+	sessionID := testauth.GetSessionCookie(t, ctx, fbauth, fooEmail, fooPassword)
+
 	t.Run("no data", func(t *testing.T) {
 		t.Run("list", func(t *testing.T) {
-			checker.Test(t, http.MethodGet, "/api/channels").Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
+			checker.Test(t, http.MethodGet, "/api/channels").
+				WithCookie("session_id", sessionID).
+				Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				res := testjson.UnmarshalFrom[server.ListResponseBody](t, r.Body)
 				assert.Equal(t, &server.ListResponseBody{
@@ -62,7 +99,9 @@ func TestChannels(t *testing.T) {
 	assert.Equal(t, now, ch1.CreatedAt)
 
 	t.Run("list", func(t *testing.T) {
-		checker.Test(t, http.MethodGet, "/api/channels").Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
+		checker.Test(t, http.MethodGet, "/api/channels").
+			WithCookie("session_id", sessionID).
+			Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
 			defer r.Body.Close()
 			res := testjson.CamelizeJsonKeysAndUnmarshalFrom[channels.ChannelList](t, r.Body)
 			assert.Equal(t, conv.ModelsToList([]*models.Channel{ch1, ch2}), res)
@@ -72,7 +111,9 @@ func TestChannels(t *testing.T) {
 	t.Run("show", func(t *testing.T) {
 		for _, ch := range []*models.Channel{ch1, ch2} {
 			t.Run(ch.Name, func(t *testing.T) {
-				checker.Test(t, http.MethodGet, fmt.Sprintf("/api/channels/%d", ch.ID)).Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
+				checker.Test(t, http.MethodGet, fmt.Sprintf("/api/channels/%d", ch.ID)).
+					WithCookie("session_id", sessionID).
+					Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
 					defer r.Body.Close()
 					res := testjson.UnmarshalFrom[server.ShowResponseBody](t, r.Body)
 					expected := testjson.Unmarshal[server.ShowResponseBody](t, testjson.MarshalAndSnakeizeJsonKeys(t, conv.ModelToResult(ch)))
@@ -81,7 +122,9 @@ func TestChannels(t *testing.T) {
 			})
 		}
 		t.Run("not found", func(t *testing.T) {
-			checker.Test(t, http.MethodGet, fmt.Sprintf("/api/channels/%d", 999)).Check().HasStatus(http.StatusNotFound).Cb(func(r *http.Response) {
+			checker.Test(t, http.MethodGet, fmt.Sprintf("/api/channels/%d", 999)).
+				WithCookie("session_id", sessionID).
+				Check().HasStatus(http.StatusNotFound).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
 					Name:    "not_found",
@@ -94,7 +137,9 @@ func TestChannels(t *testing.T) {
 	t.Run("create", func(t *testing.T) {
 		t.Run("valid name", func(t *testing.T) {
 			name := "test1"
-			checker.Test(t, http.MethodPost, "/api/channels").WithJSON(map[string]any{"name": name}).Check().HasStatus(http.StatusCreated).Cb(func(r *http.Response) {
+			checker.Test(t, http.MethodPost, "/api/channels").
+				WithCookie("session_id", sessionID).
+				WithJSON(map[string]any{"name": name}).Check().HasStatus(http.StatusCreated).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				res := testjson.UnmarshalFrom[server.CreateResponseBody](t, r.Body)
 				expected := testjson.Unmarshal[server.CreateResponseBody](t, testjson.MarshalAndSnakeizeJsonKeys(t, conv.ModelToResult(&models.Channel{ID: res.ID, Name: name, CreatedAt: now, UpdatedAt: now})))
@@ -102,7 +147,9 @@ func TestChannels(t *testing.T) {
 			})
 		})
 		t.Run("empty name", func(t *testing.T) {
-			checker.Test(t, http.MethodPost, "/api/channels").WithJSON(map[string]any{"name": ""}).Check().HasStatus(http.StatusBadRequest).Cb(func(r *http.Response) {
+			checker.Test(t, http.MethodPost, "/api/channels").
+				WithCookie("session_id", sessionID).
+				WithJSON(map[string]any{"name": ""}).Check().HasStatus(http.StatusBadRequest).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
 					Name:    "invalid_payload",
@@ -111,7 +158,9 @@ func TestChannels(t *testing.T) {
 			})
 		})
 		t.Run("too long name", func(t *testing.T) {
-			checker.Test(t, http.MethodPost, "/api/channels").WithJSON(map[string]any{"name": strings.Repeat("a", 256)}).Check().HasStatus(http.StatusBadRequest).Cb(func(r *http.Response) {
+			checker.Test(t, http.MethodPost, "/api/channels").
+				WithCookie("session_id", sessionID).
+				WithJSON(map[string]any{"name": strings.Repeat("a", 256)}).Check().HasStatus(http.StatusBadRequest).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
 					Name:    "invalid_payload",
@@ -123,7 +172,9 @@ func TestChannels(t *testing.T) {
 
 	t.Run("update", func(t *testing.T) {
 		t.Run("invalid id", func(t *testing.T) {
-			checker.Test(t, http.MethodPut, fmt.Sprintf("/api/channels/%d", 999)).WithJSON(map[string]any{"name": "test"}).Check().HasStatus(http.StatusNotFound).Cb(func(r *http.Response) {
+			checker.Test(t, http.MethodPut, fmt.Sprintf("/api/channels/%d", 999)).
+				WithCookie("session_id", sessionID).
+				WithJSON(map[string]any{"name": "test"}).Check().HasStatus(http.StatusNotFound).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
 					Name:    "not_found",
@@ -133,7 +184,9 @@ func TestChannels(t *testing.T) {
 		})
 		t.Run("valid name", func(t *testing.T) {
 			newName := ch1.Name + "-dash"
-			checker.Test(t, http.MethodPut, fmt.Sprintf("/api/channels/%d", ch1.ID)).WithJSON(map[string]any{"name": newName}).Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
+			checker.Test(t, http.MethodPut, fmt.Sprintf("/api/channels/%d", ch1.ID)).
+				WithCookie("session_id", sessionID).
+				WithJSON(map[string]any{"name": newName}).Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				res := testjson.UnmarshalFrom[server.UpdateResponseBody](t, r.Body)
 				expected := testjson.Unmarshal[server.UpdateResponseBody](t, testjson.MarshalAndSnakeizeJsonKeys(t, conv.ModelToResult(&models.Channel{ID: res.ID, Name: newName, CreatedAt: now, UpdatedAt: now})))
@@ -141,7 +194,9 @@ func TestChannels(t *testing.T) {
 			})
 		})
 		t.Run("empty name", func(t *testing.T) {
-			checker.Test(t, http.MethodPut, fmt.Sprintf("/api/channels/%d", ch1.ID)).WithJSON(map[string]any{"name": ""}).Check().HasStatus(http.StatusBadRequest).Cb(func(r *http.Response) {
+			checker.Test(t, http.MethodPut, fmt.Sprintf("/api/channels/%d", ch1.ID)).
+				WithCookie("session_id", sessionID).
+				WithJSON(map[string]any{"name": ""}).Check().HasStatus(http.StatusBadRequest).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
 					Name:    "invalid_payload",
@@ -150,7 +205,9 @@ func TestChannels(t *testing.T) {
 			})
 		})
 		t.Run("too long name", func(t *testing.T) {
-			checker.Test(t, http.MethodPut, fmt.Sprintf("/api/channels/%d", ch1.ID)).WithJSON(map[string]any{"name": strings.Repeat("a", 256)}).Check().HasStatus(http.StatusBadRequest).Cb(func(r *http.Response) {
+			checker.Test(t, http.MethodPut, fmt.Sprintf("/api/channels/%d", ch1.ID)).
+				WithCookie("session_id", sessionID).
+				WithJSON(map[string]any{"name": strings.Repeat("a", 256)}).Check().HasStatus(http.StatusBadRequest).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
 					Name:    "invalid_payload",
@@ -162,7 +219,9 @@ func TestChannels(t *testing.T) {
 
 	t.Run("delete", func(t *testing.T) {
 		t.Run("invalid id", func(t *testing.T) {
-			checker.Test(t, http.MethodDelete, fmt.Sprintf("/api/channels/%d", 999)).Check().HasStatus(http.StatusNotFound).Cb(func(r *http.Response) {
+			checker.Test(t, http.MethodDelete, fmt.Sprintf("/api/channels/%d", 999)).
+				WithCookie("session_id", sessionID).
+				Check().HasStatus(http.StatusNotFound).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
 					Name:    "not_found",
@@ -173,14 +232,18 @@ func TestChannels(t *testing.T) {
 		t.Run("valid id", func(t *testing.T) {
 			ch1Loaded, err := models.FindChannel(ctx, conn, ch1.ID)
 			assert.NoError(t, err)
-			checker.Test(t, http.MethodDelete, fmt.Sprintf("/api/channels/%d", ch1.ID)).Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
+			checker.Test(t, http.MethodDelete, fmt.Sprintf("/api/channels/%d", ch1.ID)).
+				WithCookie("session_id", sessionID).
+				Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				res := testjson.UnmarshalFrom[server.UpdateResponseBody](t, r.Body)
 				expected := testjson.Unmarshal[server.UpdateResponseBody](t, testjson.MarshalAndSnakeizeJsonKeys(t, conv.ModelToResult(ch1Loaded)))
 				assert.Equal(t, expected, res)
 			})
 			//  削除後は 404 Not Found
-			checker.Test(t, http.MethodGet, fmt.Sprintf("/api/channels/%d", ch1.ID)).Check().HasStatus(http.StatusNotFound).Cb(func(r *http.Response) {
+			checker.Test(t, http.MethodGet, fmt.Sprintf("/api/channels/%d", ch1.ID)).
+				WithCookie("session_id", sessionID).
+				Check().HasStatus(http.StatusNotFound).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
 					Name:    "not_found",

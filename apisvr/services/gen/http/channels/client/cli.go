@@ -14,9 +14,22 @@ import (
 	"strconv"
 )
 
+// BuildListPayload builds the payload for the channels list endpoint from CLI
+// flags.
+func BuildListPayload(channelsListSessionID string) (*channels.ListPayload, error) {
+	var sessionID string
+	{
+		sessionID = channelsListSessionID
+	}
+	v := &channels.ListPayload{}
+	v.SessionID = sessionID
+
+	return v, nil
+}
+
 // BuildShowPayload builds the payload for the channels show endpoint from CLI
 // flags.
-func BuildShowPayload(channelsShowID string) (*channels.ShowPayload, error) {
+func BuildShowPayload(channelsShowID string, channelsShowSessionID string) (*channels.ShowPayload, error) {
 	var err error
 	var id uint64
 	{
@@ -25,39 +38,49 @@ func BuildShowPayload(channelsShowID string) (*channels.ShowPayload, error) {
 			return nil, fmt.Errorf("invalid value for id, must be UINT64")
 		}
 	}
+	var sessionID string
+	{
+		sessionID = channelsShowSessionID
+	}
 	v := &channels.ShowPayload{}
 	v.ID = id
+	v.SessionID = sessionID
 
 	return v, nil
 }
 
 // BuildCreatePayload builds the payload for the channels create endpoint from
 // CLI flags.
-func BuildCreatePayload(channelsCreateBody string) (*channels.ChannelCreatePayload, error) {
+func BuildCreatePayload(channelsCreateBody string, channelsCreateSessionID string) (*channels.ChannelCreatePayload, error) {
 	var err error
 	var body CreateRequestBody
 	{
 		err = json.Unmarshal([]byte(channelsCreateBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"name\": \"Est nesciunt perspiciatis optio.\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"name\": \"Animi ut aut totam.\"\n   }'")
 		}
+	}
+	var sessionID string
+	{
+		sessionID = channelsCreateSessionID
 	}
 	v := &channels.ChannelCreatePayload{
 		Name: body.Name,
 	}
+	v.SessionID = sessionID
 
 	return v, nil
 }
 
 // BuildUpdatePayload builds the payload for the channels update endpoint from
 // CLI flags.
-func BuildUpdatePayload(channelsUpdateBody string, channelsUpdateID string) (*channels.ChannelUpdatePayload, error) {
+func BuildUpdatePayload(channelsUpdateBody string, channelsUpdateID string, channelsUpdateSessionID string) (*channels.ChannelUpdatePayload, error) {
 	var err error
 	var body UpdateRequestBody
 	{
 		err = json.Unmarshal([]byte(channelsUpdateBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"name\": \"Ut veritatis in odit vero.\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"name\": \"Soluta molestiae corrupti nihil excepturi eveniet aperiam.\"\n   }'")
 		}
 	}
 	var id uint64
@@ -67,17 +90,22 @@ func BuildUpdatePayload(channelsUpdateBody string, channelsUpdateID string) (*ch
 			return nil, fmt.Errorf("invalid value for id, must be UINT64")
 		}
 	}
+	var sessionID string
+	{
+		sessionID = channelsUpdateSessionID
+	}
 	v := &channels.ChannelUpdatePayload{
 		Name: body.Name,
 	}
 	v.ID = id
+	v.SessionID = sessionID
 
 	return v, nil
 }
 
 // BuildDeletePayload builds the payload for the channels delete endpoint from
 // CLI flags.
-func BuildDeletePayload(channelsDeleteID string) (*channels.DeletePayload, error) {
+func BuildDeletePayload(channelsDeleteID string, channelsDeleteSessionID string) (*channels.DeletePayload, error) {
 	var err error
 	var id uint64
 	{
@@ -86,8 +114,13 @@ func BuildDeletePayload(channelsDeleteID string) (*channels.DeletePayload, error
 			return nil, fmt.Errorf("invalid value for id, must be UINT64")
 		}
 	}
+	var sessionID string
+	{
+		sessionID = channelsDeleteSessionID
+	}
 	v := &channels.DeletePayload{}
 	v.ID = id
+	v.SessionID = sessionID
 
 	return v, nil
 }

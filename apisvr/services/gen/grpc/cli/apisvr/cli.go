@@ -9,6 +9,7 @@ package cli
 
 import (
 	channelsc "apisvr/services/gen/grpc/channels/client"
+	sessionsc "apisvr/services/gen/grpc/sessions/client"
 	usersc "apisvr/services/gen/grpc/users/client"
 	"flag"
 	"fmt"
@@ -23,13 +24,19 @@ import (
 //	command (subcommand1|subcommand2|...)
 func UsageCommands() string {
 	return `channels (list|show|create|update|delete)
+sessions (create|delete)
 users (list|create)
 `
 }
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
-	return os.Args[0] + ` channels list` + "\n" +
+	return os.Args[0] + ` channels list --message '{
+      "session_id": "Nesciunt architecto."
+   }'` + "\n" +
+		os.Args[0] + ` sessions create --message '{
+      "id_token": "Pariatur laborum sequi necessitatibus cum voluptatum nihil."
+   }'` + "\n" +
 		os.Args[0] + ` users list` + "\n" +
 		""
 }
@@ -40,7 +47,8 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 	var (
 		channelsFlags = flag.NewFlagSet("channels", flag.ContinueOnError)
 
-		channelsListFlags = flag.NewFlagSet("list", flag.ExitOnError)
+		channelsListFlags       = flag.NewFlagSet("list", flag.ExitOnError)
+		channelsListMessageFlag = channelsListFlags.String("message", "", "")
 
 		channelsShowFlags       = flag.NewFlagSet("show", flag.ExitOnError)
 		channelsShowMessageFlag = channelsShowFlags.String("message", "", "")
@@ -53,6 +61,14 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 
 		channelsDeleteFlags       = flag.NewFlagSet("delete", flag.ExitOnError)
 		channelsDeleteMessageFlag = channelsDeleteFlags.String("message", "", "")
+
+		sessionsFlags = flag.NewFlagSet("sessions", flag.ContinueOnError)
+
+		sessionsCreateFlags       = flag.NewFlagSet("create", flag.ExitOnError)
+		sessionsCreateMessageFlag = sessionsCreateFlags.String("message", "", "")
+
+		sessionsDeleteFlags       = flag.NewFlagSet("delete", flag.ExitOnError)
+		sessionsDeleteMessageFlag = sessionsDeleteFlags.String("message", "", "")
 
 		usersFlags = flag.NewFlagSet("users", flag.ContinueOnError)
 
@@ -67,6 +83,10 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 	channelsCreateFlags.Usage = channelsCreateUsage
 	channelsUpdateFlags.Usage = channelsUpdateUsage
 	channelsDeleteFlags.Usage = channelsDeleteUsage
+
+	sessionsFlags.Usage = sessionsUsage
+	sessionsCreateFlags.Usage = sessionsCreateUsage
+	sessionsDeleteFlags.Usage = sessionsDeleteUsage
 
 	usersFlags.Usage = usersUsage
 	usersListFlags.Usage = usersListUsage
@@ -89,6 +109,8 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 		switch svcn {
 		case "channels":
 			svcf = channelsFlags
+		case "sessions":
+			svcf = sessionsFlags
 		case "users":
 			svcf = usersFlags
 		default:
@@ -122,6 +144,16 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 
 			case "delete":
 				epf = channelsDeleteFlags
+
+			}
+
+		case "sessions":
+			switch epn {
+			case "create":
+				epf = sessionsCreateFlags
+
+			case "delete":
+				epf = sessionsDeleteFlags
 
 			}
 
@@ -160,7 +192,7 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 			switch epn {
 			case "list":
 				endpoint = c.List()
-				data = nil
+				data, err = channelsc.BuildListPayload(*channelsListMessageFlag)
 			case "show":
 				endpoint = c.Show()
 				data, err = channelsc.BuildShowPayload(*channelsShowMessageFlag)
@@ -173,6 +205,16 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 			case "delete":
 				endpoint = c.Delete()
 				data, err = channelsc.BuildDeletePayload(*channelsDeleteMessageFlag)
+			}
+		case "sessions":
+			c := sessionsc.NewClient(cc, opts...)
+			switch epn {
+			case "create":
+				endpoint = c.Create()
+				data, err = sessionsc.BuildCreatePayload(*sessionsCreateMessageFlag)
+			case "delete":
+				endpoint = c.Delete()
+				data, err = sessionsc.BuildDeletePayload(*sessionsDeleteMessageFlag)
 			}
 		case "users":
 			c := usersc.NewClient(cc, opts...)
@@ -211,12 +253,15 @@ Additional help:
 `, os.Args[0])
 }
 func channelsListUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels list
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels list -message JSON
 
 List implements list.
+    -message JSON: 
 
 Example:
-    %[1]s channels list
+    %[1]s channels list --message '{
+      "session_id": "Nesciunt architecto."
+   }'
 `, os.Args[0])
 }
 
@@ -228,7 +273,8 @@ Show implements show.
 
 Example:
     %[1]s channels show --message '{
-      "id": 4179308011755768829
+      "id": 16310117872771126644,
+      "session_id": "Voluptatum veritatis non."
    }'
 `, os.Args[0])
 }
@@ -241,7 +287,8 @@ Create implements create.
 
 Example:
     %[1]s channels create --message '{
-      "name": "Architecto inventore expedita dolores."
+      "name": "Similique non impedit omnis doloremque fuga pariatur.",
+      "session_id": "Doloribus in."
    }'
 `, os.Args[0])
 }
@@ -254,8 +301,9 @@ Update implements update.
 
 Example:
     %[1]s channels update --message '{
-      "id": 17853287536152313575,
-      "name": "Tempora dolor."
+      "id": 7865977164997637254,
+      "name": "Quas voluptatibus consequatur nemo earum vero in.",
+      "session_id": "Porro recusandae velit consequatur dolores eos."
    }'
 `, os.Args[0])
 }
@@ -268,7 +316,48 @@ Delete implements delete.
 
 Example:
     %[1]s channels delete --message '{
-      "id": 14143474729002507714
+      "id": 8606349444812321035,
+      "session_id": "Illo nemo iusto eum quam in."
+   }'
+`, os.Args[0])
+}
+
+// sessionsUsage displays the usage of the sessions command and its subcommands.
+func sessionsUsage() {
+	fmt.Fprintf(os.Stderr, `Service is the sessions service interface.
+Usage:
+    %[1]s [globalflags] sessions COMMAND [flags]
+
+COMMAND:
+    create: Create implements create.
+    delete: Delete implements delete.
+
+Additional help:
+    %[1]s sessions COMMAND --help
+`, os.Args[0])
+}
+func sessionsCreateUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] sessions create -message JSON
+
+Create implements create.
+    -message JSON: 
+
+Example:
+    %[1]s sessions create --message '{
+      "id_token": "Pariatur laborum sequi necessitatibus cum voluptatum nihil."
+   }'
+`, os.Args[0])
+}
+
+func sessionsDeleteUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] sessions delete -message JSON
+
+Delete implements delete.
+    -message JSON: 
+
+Example:
+    %[1]s sessions delete --message '{
+      "session_id": "Id labore temporibus sed."
    }'
 `, os.Args[0])
 }
@@ -305,8 +394,8 @@ Create implements create.
 
 Example:
     %[1]s users create --message '{
-      "email": "Culpa repellendus voluptatem sit aut quia quas.",
-      "name": "Corrupti nihil excepturi eveniet."
+      "email": "Qui inventore.",
+      "name": "Et quasi in animi."
    }'
 `, os.Args[0])
 }
