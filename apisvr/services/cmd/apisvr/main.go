@@ -4,6 +4,7 @@ import (
 	"apisvr/lib/goa/goaext"
 	chatapi "apisvr/services"
 	channels "apisvr/services/gen/channels"
+	chatmessages "apisvr/services/gen/chat_messages"
 	log "apisvr/services/gen/log"
 	sessions "apisvr/services/gen/sessions"
 	users "apisvr/services/gen/users"
@@ -41,12 +42,14 @@ func main() {
 
 	// Initialize the services.
 	var (
-		channelsSvc channels.Service
-		sessionsSvc sessions.Service
-		usersSvc    users.Service
+		channelsSvc     channels.Service
+		chatMessagesSvc chatmessages.Service
+		sessionsSvc     sessions.Service
+		usersSvc        users.Service
 	)
 	{
 		channelsSvc = chatapi.NewChannels(logger)
+		chatMessagesSvc = chatapi.NewChatMessages(logger)
 		sessionsSvc = chatapi.NewSessions(logger)
 		usersSvc = chatapi.NewUsers(logger)
 	}
@@ -54,9 +57,10 @@ func main() {
 	// Wrap the services in endpoints that can be invoked from other services
 	// potentially running in different processes.
 	var (
-		channelsEndpoints *channels.Endpoints
-		sessionsEndpoints *sessions.Endpoints
-		usersEndpoints    *users.Endpoints
+		channelsEndpoints     *channels.Endpoints
+		chatMessagesEndpoints *chatmessages.Endpoints
+		sessionsEndpoints     *sessions.Endpoints
+		usersEndpoints        *users.Endpoints
 	)
 	{
 		var eh func(err error) error
@@ -66,6 +70,7 @@ func main() {
 			eh = goaext.StderrErrorHandler
 		}
 		channelsEndpoints = goaext.ErrorHandledEndpoints[*channels.Endpoints](channels.NewEndpoints(channelsSvc), eh)
+		chatMessagesEndpoints = goaext.ErrorHandledEndpoints[*chatmessages.Endpoints](chatmessages.NewEndpoints(chatMessagesSvc), eh)
 		sessionsEndpoints = goaext.ErrorHandledEndpoints[*sessions.Endpoints](sessions.NewEndpoints(sessionsSvc), eh)
 		usersEndpoints = goaext.ErrorHandledEndpoints[*users.Endpoints](users.NewEndpoints(usersSvc), eh)
 	}
@@ -109,7 +114,7 @@ func main() {
 			} else if u.Port() == "" {
 				u.Host = net.JoinHostPort(u.Host, "80")
 			}
-			handleHTTPServer(ctx, u, channelsEndpoints, sessionsEndpoints, usersEndpoints, &wg, errc, logger, *dbgF)
+			handleHTTPServer(ctx, u, channelsEndpoints, chatMessagesEndpoints, sessionsEndpoints, usersEndpoints, &wg, errc, logger, *dbgF)
 		}
 
 		{
@@ -133,7 +138,7 @@ func main() {
 			} else if u.Port() == "" {
 				u.Host = net.JoinHostPort(u.Host, "8080")
 			}
-			handleGRPCServer(ctx, u, channelsEndpoints, sessionsEndpoints, usersEndpoints, &wg, errc, logger, *dbgF)
+			handleGRPCServer(ctx, u, channelsEndpoints, chatMessagesEndpoints, sessionsEndpoints, usersEndpoints, &wg, errc, logger, *dbgF)
 		}
 
 	default:
