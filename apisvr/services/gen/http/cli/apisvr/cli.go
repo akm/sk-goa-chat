@@ -32,9 +32,9 @@ users (list|create)
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
-	return os.Args[0] + ` channels list --session-id "Dolores ipsum adipisci sunt."` + "\n" +
+	return os.Args[0] + ` channels list --session-id "Tempora iste veniam blanditiis necessitatibus cumque distinctio."` + "\n" +
 		os.Args[0] + ` sessions create --body '{
-      "id_token": "Earum in omnis quasi."
+      "id_token": "Ullam qui aut veritatis."
    }'` + "\n" +
 		os.Args[0] + ` users list` + "\n" +
 		""
@@ -269,7 +269,7 @@ List implements list.
     -session-id STRING: 
 
 Example:
-    %[1]s channels list --session-id "Dolores ipsum adipisci sunt."
+    %[1]s channels list --session-id "Tempora iste veniam blanditiis necessitatibus cumque distinctio."
 `, os.Args[0])
 }
 
@@ -281,7 +281,7 @@ Show implements show.
     -session-id STRING: 
 
 Example:
-    %[1]s channels show --id 8970954687127386514 --session-id "Et reiciendis qui incidunt."
+    %[1]s channels show --id 10836586653305371770 --session-id "Consectetur qui dolor nam."
 `, os.Args[0])
 }
 
@@ -294,8 +294,8 @@ Create implements create.
 
 Example:
     %[1]s channels create --body '{
-      "name": "Animi ut aut totam."
-   }' --session-id "Inventore expedita dolores quia est."
+      "name": "Ut sit similique ut praesentium atque."
+   }' --session-id "Natus molestias incidunt."
 `, os.Args[0])
 }
 
@@ -309,8 +309,8 @@ Update implements update.
 
 Example:
     %[1]s channels update --body '{
-      "name": "Soluta molestiae corrupti nihil excepturi eveniet aperiam."
-   }' --id 11502104032657031607 --session-id "Voluptatem sit aut quia quas."
+      "name": "In similique."
+   }' --id 4342935428259852073 --session-id "Provident tempora dolor ratione officiis consequatur."
 `, os.Args[0])
 }
 
@@ -322,7 +322,7 @@ Delete implements delete.
     -session-id STRING: 
 
 Example:
-    %[1]s channels delete --id 16410291595759150095 --session-id "Ullam excepturi earum."
+    %[1]s channels delete --id 821952026860172930 --session-id "Sit aut quia quas et dolorum."
 `, os.Args[0])
 }
 
@@ -348,7 +348,7 @@ Create implements create.
 
 Example:
     %[1]s sessions create --body '{
-      "id_token": "Earum in omnis quasi."
+      "id_token": "Ullam qui aut veritatis."
    }'
 `, os.Args[0])
 }
@@ -360,7 +360,7 @@ Delete implements delete.
     -session-id STRING: 
 
 Example:
-    %[1]s sessions delete --session-id "Ea nesciunt odit."
+    %[1]s sessions delete --session-id "Excepturi earum tenetur sed sed ut quibusdam."
 `, os.Args[0])
 }
 
@@ -396,8 +396,8 @@ Create implements create.
 
 Example:
     %[1]s users create --body '{
-      "email": "Alias saepe recusandae.",
-      "name": "Animi rerum."
+      "email": "In omnis quasi dolores non.",
+      "name": "Officiis rerum nihil quas."
    }'
 `, os.Args[0])
 }

@@ -602,7 +602,6 @@ func DecodeDeleteResponse(decoder func(*http.Response) goahttp.Decoder, restoreB
 // type *ChannelListItemResponseBody.
 func unmarshalChannelListItemResponseBodyToChannelsviewsChannelListItemView(v *ChannelListItemResponseBody) *channelsviews.ChannelListItemView {
 	res := &channelsviews.ChannelListItemView{
-		SessionID: v.SessionID,
 		ID:        v.ID,
 		CreatedAt: v.CreatedAt,
 		UpdatedAt: v.UpdatedAt,

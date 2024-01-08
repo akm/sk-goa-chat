@@ -237,16 +237,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 16707847783800322820
+                example: 8606349444812321035
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Illo doloremque vitae quo nesciunt necessitatibus hic.
-            session_id:
-                type: string
-                description: Session ID
-                example: Quod sint atque.
+                example: Nam impedit suscipit.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -255,12 +251,10 @@ definitions:
         description: Channel-List-ItemResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 3838731247721578831
-            name: Quo dicta laborum veritatis voluptate deserunt qui.
-            session_id: Voluptas consectetur suscipit quia est.
+            id: 13350404635426511953
+            name: Quos enim praesentium provident et.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
-            - session_id
             - id
             - created_at
             - updated_at
@@ -273,19 +267,16 @@ definitions:
         description: Channel-List-ItemCollectionResponseBody is the result type for an array of Channel-List-ItemResponseBody (default view)
         example:
             - created_at: 2006-01-02T15:04:05Z07:00
-              id: 13473475975921153164
-              name: Voluptas qui.
-              session_id: Perferendis repudiandae et.
+              id: 9924386427070710859
+              name: Adipisci sunt qui nisi perferendis.
               updated_at: 2006-01-02T15:04:05Z07:00
             - created_at: 2006-01-02T15:04:05Z07:00
-              id: 13473475975921153164
-              name: Voluptas qui.
-              session_id: Perferendis repudiandae et.
+              id: 9924386427070710859
+              name: Adipisci sunt qui nisi perferendis.
               updated_at: 2006-01-02T15:04:05Z07:00
             - created_at: 2006-01-02T15:04:05Z07:00
-              id: 13473475975921153164
-              name: Voluptas qui.
-              session_id: Perferendis repudiandae et.
+              id: 9924386427070710859
+              name: Adipisci sunt qui nisi perferendis.
               updated_at: 2006-01-02T15:04:05Z07:00
     ChannelsCreateInvalidPayloadResponseBody:
         title: 'Mediatype identifier: application/vnd.goa.error; view=default'
@@ -294,7 +285,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: false
+                example: true
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -317,12 +308,12 @@ definitions:
                 example: true
         description: create_invalid_payload_response_body result type (default view)
         example:
-            fault: true
+            fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: true
-            timeout: false
+            temporary: false
+            timeout: true
         required:
             - name
             - id
@@ -337,9 +328,9 @@ definitions:
             name:
                 type: string
                 description: Name
-                example: Quam ut minus id eius est est.
+                example: Necessitatibus eum quo dicta laborum veritatis voluptate.
         example:
-            name: Consequatur totam occaecati magnam qui vel.
+            name: Qui voluptatibus.
         required:
             - name
     ChannelsCreateResponseBody:
@@ -354,16 +345,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 14785773386673925330
+                example: 16858148982093877654
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Et id ratione quia aut voluptatum expedita.
-            session_id:
-                type: string
-                description: Session ID
-                example: In nihil quod error perspiciatis neque ipsa.
+                example: Sint odio quod.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -372,12 +359,10 @@ definitions:
         description: CreateResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 12233612904496748234
-            name: Sed labore repudiandae animi odit.
-            session_id: Aut et aliquam sit numquam unde voluptatem.
+            id: 12235050867845573362
+            name: Ipsa et.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
-            - session_id
             - id
             - created_at
             - updated_at
@@ -405,14 +390,14 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: true
+                example: false
             timeout:
                 type: boolean
                 description: Is the error a timeout?
                 example: false
         description: create_unauthenticated_response_body result type (default view)
         example:
-            fault: true
+            fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
@@ -455,7 +440,7 @@ definitions:
                 example: false
         description: delete_not_found_response_body result type (default view)
         example:
-            fault: false
+            fault: true
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
@@ -480,16 +465,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 15736039820559046905
+                example: 4558954126519403017
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Fugiat laborum expedita et veritatis itaque.
-            session_id:
-                type: string
-                description: Session ID
-                example: Ipsam voluptates.
+                example: In nihil quod error perspiciatis neque ipsa.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -498,12 +479,10 @@ definitions:
         description: DeleteResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 16057636207697760081
-            name: Quaerat neque repellendus voluptatibus et.
-            session_id: Praesentium minima.
+            id: 14785773386673925330
+            name: Et id ratione quia aut voluptatum expedita.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
-            - session_id
             - id
             - created_at
             - updated_at
@@ -535,15 +514,15 @@ definitions:
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: true
+                example: false
         description: delete_unauthenticated_response_body result type (default view)
         example:
-            fault: false
+            fault: true
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: true
-            timeout: false
+            temporary: false
+            timeout: true
         required:
             - name
             - id
@@ -571,24 +550,20 @@ definitions:
         example:
             items:
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 13473475975921153164
-                  name: Voluptas qui.
-                  session_id: Perferendis repudiandae et.
+                  id: 9924386427070710859
+                  name: Adipisci sunt qui nisi perferendis.
                   updated_at: 2006-01-02T15:04:05Z07:00
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 13473475975921153164
-                  name: Voluptas qui.
-                  session_id: Perferendis repudiandae et.
+                  id: 9924386427070710859
+                  name: Adipisci sunt qui nisi perferendis.
                   updated_at: 2006-01-02T15:04:05Z07:00
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 13473475975921153164
-                  name: Voluptas qui.
-                  session_id: Perferendis repudiandae et.
+                  id: 9924386427070710859
+                  name: Adipisci sunt qui nisi perferendis.
                   updated_at: 2006-01-02T15:04:05Z07:00
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 13473475975921153164
-                  name: Voluptas qui.
-                  session_id: Perferendis repudiandae et.
+                  id: 9924386427070710859
+                  name: Adipisci sunt qui nisi perferendis.
                   updated_at: 2006-01-02T15:04:05Z07:00
             offset: 0
             total: 160
@@ -619,19 +594,19 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: false
+                example: true
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: true
+                example: false
         description: list_unauthenticated_response_body result type (default view)
         example:
-            fault: true
+            fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
             temporary: false
-            timeout: true
+            timeout: false
         required:
             - name
             - id
@@ -666,10 +641,10 @@ definitions:
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: true
+                example: false
         description: show_not_found_response_body result type (default view)
         example:
-            fault: false
+            fault: true
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
@@ -694,16 +669,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 6373914294829582548
+                example: 4723834145395715149
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Eos atque repellendus.
-            session_id:
-                type: string
-                description: Session ID
-                example: Omnis adipisci laboriosam.
+                example: Dicta rerum.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -712,12 +683,10 @@ definitions:
         description: ShowResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 7399396941941879605
-            name: Praesentium aut autem eum ducimus beatae.
-            session_id: Non quis sit.
+            id: 18190238456327847765
+            name: Labore temporibus sed explicabo et.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
-            - session_id
             - id
             - created_at
             - updated_at
@@ -729,7 +698,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: true
+                example: false
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -752,12 +721,12 @@ definitions:
                 example: true
         description: show_unauthenticated_response_body result type (default view)
         example:
-            fault: false
+            fault: true
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: true
-            timeout: false
+            temporary: false
+            timeout: true
         required:
             - name
             - id
@@ -795,12 +764,12 @@ definitions:
                 example: true
         description: update_invalid_payload_response_body result type (default view)
         example:
-            fault: true
+            fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
             temporary: true
-            timeout: true
+            timeout: false
         required:
             - name
             - id
@@ -815,7 +784,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: false
+                example: true
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -838,7 +807,7 @@ definitions:
                 example: false
         description: update_not_found_response_body result type (default view)
         example:
-            fault: true
+            fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
@@ -858,9 +827,9 @@ definitions:
             name:
                 type: string
                 description: Name
-                example: Cumque magni vitae.
+                example: Molestias est aperiam.
         example:
-            name: Non commodi et voluptas.
+            name: Delectus natus libero consequatur ut ad cupiditate.
         required:
             - name
     ChannelsUpdateResponseBody:
@@ -875,16 +844,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 17321377990268325036
+                example: 14365085068222495259
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Alias rem.
-            session_id:
-                type: string
-                description: Session ID
-                example: Quo vero distinctio expedita.
+                example: Unde ipsa.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -893,12 +858,10 @@ definitions:
         description: UpdateResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 13315485509768610097
-            name: Eius provident quia praesentium blanditiis.
-            session_id: Tempore et minus molestias aspernatur blanditiis neque.
+            id: 16829747425762954312
+            name: Quaerat omnis.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
-            - session_id
             - id
             - created_at
             - updated_at
@@ -910,7 +873,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: false
+                example: true
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -930,7 +893,7 @@ definitions:
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: true
+                example: false
         description: update_unauthenticated_response_body result type (default view)
         example:
             fault: true
@@ -938,7 +901,7 @@ definitions:
             message: parameter 'p' must be an integer
             name: bad_request
             temporary: true
-            timeout: false
+            timeout: true
         required:
             - name
             - id
@@ -969,14 +932,14 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: true
+                example: false
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: false
+                example: true
         description: create_invalid_payload_response_body result type (default view)
         example:
-            fault: true
+            fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
@@ -996,9 +959,9 @@ definitions:
             id_token:
                 type: string
                 description: ID Token
-                example: Dolorem reprehenderit quisquam.
+                example: Ut eum.
         example:
-            id_token: Reiciendis in eius esse atque autem eligendi.
+            id_token: Libero esse qui inventore culpa.
         required:
             - id_token
     SessionsDeleteInvalidPayloadResponseBody:
@@ -1024,19 +987,19 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: true
+                example: false
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: false
+                example: true
         description: delete_invalid_payload_response_body result type (default view)
         example:
-            fault: true
+            fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
             temporary: false
-            timeout: true
+            timeout: false
         required:
             - name
             - id
@@ -1051,16 +1014,16 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 16171554033865742650
+                example: 16463224225515038024
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Eius quidem reiciendis neque velit reiciendis.
+                example: Recusandae consequatur totam.
         description: User-List-ItemResponseBody result type (default view)
         example:
-            id: 15374828859022159783
-            name: Quia nesciunt.
+            id: 7805666439332720034
+            name: Qui vel hic quo vero distinctio expedita.
         required:
             - id
             - name
@@ -1071,10 +1034,12 @@ definitions:
             $ref: '#/definitions/UserListItemResponseBody'
         description: User-List-ItemCollectionResponseBody is the result type for an array of User-List-ItemResponseBody (default view)
         example:
-            - id: 14567318742210188280
-              name: Quia quaerat.
-            - id: 14567318742210188280
-              name: Quia quaerat.
+            - id: 13322691396419903010
+              name: Aliquam reiciendis.
+            - id: 13322691396419903010
+              name: Aliquam reiciendis.
+            - id: 13322691396419903010
+              name: Aliquam reiciendis.
     UsersCreateInvalidPayloadResponseBody:
         title: 'Mediatype identifier: application/vnd.goa.error; view=default'
         type: object
@@ -1082,7 +1047,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: false
+                example: true
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -1098,7 +1063,7 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: false
+                example: true
             timeout:
                 type: boolean
                 description: Is the error a timeout?
@@ -1110,7 +1075,7 @@ definitions:
             message: parameter 'p' must be an integer
             name: bad_request
             temporary: false
-            timeout: false
+            timeout: true
         required:
             - name
             - id
@@ -1125,14 +1090,14 @@ definitions:
             email:
                 type: string
                 description: Email
-                example: Veniam et quae eaque.
+                example: Molestias animi consequatur consequatur doloremque assumenda sint.
             name:
                 type: string
                 description: Name
-                example: Quo quis eveniet sed sed.
+                example: Quia praesentium.
         example:
-            email: Error sed.
-            name: Eos tenetur exercitationem quisquam at.
+            email: Qui quisquam officia ab sequi.
+            name: Corrupti est quos.
         required:
             - name
             - email
@@ -1148,12 +1113,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 5175189820854934122
+                example: 7982126113119067007
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Qui ea neque.
+                example: Rem sequi.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -1162,8 +1127,8 @@ definitions:
         description: CreateResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 13852683817499442838
-            name: Expedita sed unde ipsum eaque ea.
+            id: 11340274363531008859
+            name: Minus molestias.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id
@@ -1189,10 +1154,12 @@ definitions:
         description: ListResponseBody result type (default view)
         example:
             items:
-                - id: 14567318742210188280
-                  name: Quia quaerat.
-                - id: 14567318742210188280
-                  name: Quia quaerat.
+                - id: 13322691396419903010
+                  name: Aliquam reiciendis.
+                - id: 13322691396419903010
+                  name: Aliquam reiciendis.
+                - id: 13322691396419903010
+                  name: Aliquam reiciendis.
             offset: 0
             total: 160
         required:

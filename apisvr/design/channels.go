@@ -1,20 +1,35 @@
 package design
 
 import (
+	"slices"
 	"time"
 
 	. "goa.design/goa/v3/dsl"
 )
 
-func channelFields(dt string, action string) []string {
+var channelActions = []string{
+	"list",
+	"show",
+	"create",
+	"update",
+	"delete",
+}
+
+func channelFields(action string) []string {
+	if !slices.Contains[[]string, string](channelActions, action) {
+		panic("unknown channel action: " + action)
+	}
+
 	r := []string{}
 
-	r = append(r, fieldSessionID(1))
+	if InPayload() {
+		r = append(r, fieldSessionID(1))
+	}
 
-	if dt == "RT" || action == "update" {
+	if InRT() || action == "update" {
 		r = append(r, field(2, "id", UInt64, "ID"))
 	}
-	if dt == "RT" {
+	if InRT() {
 		r = append(r, field(3, "created_at", String, "CreatedAt", func() { Format(FormatDateTime); Example(time.RFC3339) }))
 		r = append(r, field(4, "updated_at", String, "UpdatedAt", func() { Format(FormatDateTime); Example(time.RFC3339) }))
 	}
@@ -26,12 +41,12 @@ func channelFields(dt string, action string) []string {
 
 var ChannelRT = ResultType("application/vnd.channel", func() {
 	Attributes(func() {
-		Required(channelFields("RT", "show")...)
+		Required(channelFields("show")...)
 	})
 })
 var ChannelListItemRT = ResultType("application/vnd.channel-list-item", func() {
 	Attributes(func() {
-		Required(channelFields("RT", "list")...)
+		Required(channelFields("list")...)
 	})
 })
 var ChannelListRT = ResultType("application/vnd.channel-list", func() {
@@ -45,10 +60,10 @@ var ChannelListRT = ResultType("application/vnd.channel-list", func() {
 })
 
 var ChannelCreatePayload = Type("ChannelCreatePayload", func() {
-	Required(channelFields("Payload", "create")...)
+	Required(channelFields("create")...)
 })
 var ChannelUpdatePayload = Type("ChannelUpdatePayload", func() {
-	Required(channelFields("Payload", "update")...)
+	Required(channelFields("update")...)
 })
 
 var _ = Service("channels", func() {
@@ -58,6 +73,7 @@ var _ = Service("channels", func() {
 
 	HTTP(func() {
 		Path("/api/channels")
+		Cookie(sessionIdKey)
 		httpUnautheticated()
 	})
 
@@ -70,7 +86,6 @@ var _ = Service("channels", func() {
 		Result(ChannelListRT)
 		HTTP(func() {
 			GET("")
-			Cookie(sessionIdKey)
 			Response(StatusOK)
 		})
 		GRPC(func() {
@@ -90,7 +105,6 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			GET("/{id}")
-			Cookie(sessionIdKey)
 			Response(StatusOK)
 			httpNotFound()
 		})
@@ -107,7 +121,6 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			POST("")
-			Cookie(sessionIdKey)
 			Response(StatusCreated)
 			httpInvalidPayload()
 		})
@@ -125,7 +138,6 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			PUT("/{id}")
-			Cookie(sessionIdKey)
 			Response(StatusOK)
 			httpNotFound()
 			httpInvalidPayload()
@@ -149,7 +161,6 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			DELETE("/{id}")
-			Cookie(sessionIdKey)
 			Response(StatusOK)
 			httpNotFound()
 		})

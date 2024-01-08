@@ -34,7 +34,6 @@ func NewProtoListResponse(result *channelsviews.ChannelListView) *channelspb.Lis
 		message.Items.Field = make([]*channelspb.ChannelListItem, len(result.Items))
 		for i, val := range result.Items {
 			message.Items.Field[i] = &channelspb.ChannelListItem{
-				SessionId: *val.SessionID,
 				Id:        *val.ID,
 				CreatedAt: *val.CreatedAt,
 				UpdatedAt: *val.UpdatedAt,
@@ -59,7 +58,6 @@ func NewShowPayload(message *channelspb.ShowRequest) *channels.ShowPayload {
 // "show" endpoint of the "channels" service.
 func NewProtoShowResponse(result *channelsviews.ChannelView) *channelspb.ShowResponse {
 	message := &channelspb.ShowResponse{
-		SessionId: *result.SessionID,
 		Id:        *result.ID,
 		CreatedAt: *result.CreatedAt,
 		UpdatedAt: *result.UpdatedAt,
@@ -82,7 +80,6 @@ func NewCreatePayload(message *channelspb.CreateRequest) *channels.ChannelCreate
 // "create" endpoint of the "channels" service.
 func NewProtoCreateResponse(result *channelsviews.ChannelView) *channelspb.CreateResponse {
 	message := &channelspb.CreateResponse{
-		SessionId: *result.SessionID,
 		Id:        *result.ID,
 		CreatedAt: *result.CreatedAt,
 		UpdatedAt: *result.UpdatedAt,
@@ -106,7 +103,6 @@ func NewUpdatePayload(message *channelspb.UpdateRequest) *channels.ChannelUpdate
 // "update" endpoint of the "channels" service.
 func NewProtoUpdateResponse(result *channelsviews.ChannelView) *channelspb.UpdateResponse {
 	message := &channelspb.UpdateResponse{
-		SessionId: *result.SessionID,
 		Id:        *result.ID,
 		CreatedAt: *result.CreatedAt,
 		UpdatedAt: *result.UpdatedAt,
@@ -129,7 +125,6 @@ func NewDeletePayload(message *channelspb.DeleteRequest) *channels.DeletePayload
 // "delete" endpoint of the "channels" service.
 func NewProtoDeleteResponse(result *channelsviews.ChannelView) *channelspb.DeleteResponse {
 	message := &channelspb.DeleteResponse{
-		SessionId: *result.SessionID,
 		Id:        *result.ID,
 		CreatedAt: *result.CreatedAt,
 		UpdatedAt: *result.UpdatedAt,

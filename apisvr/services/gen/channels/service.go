@@ -40,8 +40,6 @@ var MethodNames = [5]string{"list", "show", "create", "update", "delete"}
 
 // Channel is the result type of the channels service show method.
 type Channel struct {
-	// Session ID
-	SessionID string
 	// ID
 	ID uint64
 	// CreatedAt
@@ -72,8 +70,6 @@ type ChannelList struct {
 }
 
 type ChannelListItem struct {
-	// Session ID
-	SessionID string
 	// ID
 	ID uint64
 	// CreatedAt
@@ -213,9 +209,6 @@ func newChannelListItemCollectionView(res ChannelListItemCollection) channelsvie
 // ChannelListItem.
 func newChannelListItem(vres *channelsviews.ChannelListItemView) *ChannelListItem {
 	res := &ChannelListItem{}
-	if vres.SessionID != nil {
-		res.SessionID = *vres.SessionID
-	}
 	if vres.ID != nil {
 		res.ID = *vres.ID
 	}
@@ -235,7 +228,6 @@ func newChannelListItem(vres *channelsviews.ChannelListItemView) *ChannelListIte
 // type ChannelListItemView using the "default" view.
 func newChannelListItemView(res *ChannelListItem) *channelsviews.ChannelListItemView {
 	vres := &channelsviews.ChannelListItemView{
-		SessionID: &res.SessionID,
 		ID:        &res.ID,
 		CreatedAt: &res.CreatedAt,
 		UpdatedAt: &res.UpdatedAt,
@@ -247,9 +239,6 @@ func newChannelListItemView(res *ChannelListItem) *channelsviews.ChannelListItem
 // newChannel converts projected type Channel to service type Channel.
 func newChannel(vres *channelsviews.ChannelView) *Channel {
 	res := &Channel{}
-	if vres.SessionID != nil {
-		res.SessionID = *vres.SessionID
-	}
 	if vres.ID != nil {
 		res.ID = *vres.ID
 	}
@@ -269,7 +258,6 @@ func newChannel(vres *channelsviews.ChannelView) *Channel {
 // using the "default" view.
 func newChannelView(res *Channel) *channelsviews.ChannelView {
 	vres := &channelsviews.ChannelView{
-		SessionID: &res.SessionID,
 		ID:        &res.ID,
 		CreatedAt: &res.CreatedAt,
 		UpdatedAt: &res.UpdatedAt,

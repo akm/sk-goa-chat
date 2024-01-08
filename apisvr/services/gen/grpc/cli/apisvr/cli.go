@@ -32,10 +32,10 @@ users (list|create)
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
 	return os.Args[0] + ` channels list --message '{
-      "session_id": "Nesciunt architecto."
+      "session_id": "Ab quia quaerat."
    }'` + "\n" +
 		os.Args[0] + ` sessions create --message '{
-      "id_token": "Pariatur laborum sequi necessitatibus cum voluptatum nihil."
+      "id_token": "Aliquid ea nulla fugit porro recusandae velit."
    }'` + "\n" +
 		os.Args[0] + ` users list` + "\n" +
 		""
@@ -260,7 +260,7 @@ List implements list.
 
 Example:
     %[1]s channels list --message '{
-      "session_id": "Nesciunt architecto."
+      "session_id": "Ab quia quaerat."
    }'
 `, os.Args[0])
 }
@@ -273,8 +273,8 @@ Show implements show.
 
 Example:
     %[1]s channels show --message '{
-      "id": 16310117872771126644,
-      "session_id": "Voluptatum veritatis non."
+      "id": 15889514314966169584,
+      "session_id": "Animi rerum."
    }'
 `, os.Args[0])
 }
@@ -287,8 +287,8 @@ Create implements create.
 
 Example:
     %[1]s channels create --message '{
-      "name": "Similique non impedit omnis doloremque fuga pariatur.",
-      "session_id": "Doloribus in."
+      "name": "Magni dolores nesciunt.",
+      "session_id": "Soluta voluptates ut autem omnis."
    }'
 `, os.Args[0])
 }
@@ -301,9 +301,9 @@ Update implements update.
 
 Example:
     %[1]s channels update --message '{
-      "id": 7865977164997637254,
-      "name": "Quas voluptatibus consequatur nemo earum vero in.",
-      "session_id": "Porro recusandae velit consequatur dolores eos."
+      "id": 9291001832476366602,
+      "name": "Non facere vitae.",
+      "session_id": "Dignissimos repellat at nostrum."
    }'
 `, os.Args[0])
 }
@@ -316,8 +316,8 @@ Delete implements delete.
 
 Example:
     %[1]s channels delete --message '{
-      "id": 8606349444812321035,
-      "session_id": "Illo nemo iusto eum quam in."
+      "id": 16745655493437049139,
+      "session_id": "Impedit omnis doloremque."
    }'
 `, os.Args[0])
 }
@@ -344,7 +344,7 @@ Create implements create.
 
 Example:
     %[1]s sessions create --message '{
-      "id_token": "Pariatur laborum sequi necessitatibus cum voluptatum nihil."
+      "id_token": "Aliquid ea nulla fugit porro recusandae velit."
    }'
 `, os.Args[0])
 }
@@ -357,7 +357,7 @@ Delete implements delete.
 
 Example:
     %[1]s sessions delete --message '{
-      "session_id": "Id labore temporibus sed."
+      "session_id": "Quas voluptatibus consequatur nemo earum vero in."
    }'
 `, os.Args[0])
 }
@@ -394,8 +394,8 @@ Create implements create.
 
 Example:
     %[1]s users create --message '{
-      "email": "Qui inventore.",
-      "name": "Et quasi in animi."
+      "email": "Exercitationem occaecati est fugit assumenda magni.",
+      "name": "Odio quasi quos magni consequatur unde."
    }'
 `, os.Args[0])
 }
