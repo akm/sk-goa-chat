@@ -40,7 +40,7 @@ func chatMessageFields(action string) []string {
 
 	if InRT() {
 		field(6, "user_id", UInt64, "User ID") // user_id は必須ではない
-		r = append(r, field(7, "user_name", UInt64, "User Name"))
+		r = append(r, field(7, "user_name", String, "User Name"))
 	}
 
 	r = append(r, field(8, "content", String, "Content"))
