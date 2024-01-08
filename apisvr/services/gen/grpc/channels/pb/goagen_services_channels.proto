@@ -44,8 +44,6 @@ message ChannelListItemCollection {
 }
 
 message ChannelListItem {
-	// Session ID
-	string session_id = 1;
 	// ID
 	uint64 id = 2;
 	// CreatedAt
@@ -64,8 +62,6 @@ message ShowRequest {
 }
 
 message ShowResponse {
-	// Session ID
-	string session_id = 1;
 	// ID
 	uint64 id = 2;
 	// CreatedAt
@@ -84,8 +80,6 @@ message CreateRequest {
 }
 
 message CreateResponse {
-	// Session ID
-	string session_id = 1;
 	// ID
 	uint64 id = 2;
 	// CreatedAt
@@ -106,8 +100,6 @@ message UpdateRequest {
 }
 
 message UpdateResponse {
-	// Session ID
-	string session_id = 1;
 	// ID
 	uint64 id = 2;
 	// CreatedAt
@@ -126,8 +118,6 @@ message DeleteRequest {
 }
 
 message DeleteResponse {
-	// Session ID
-	string session_id = 1;
 	// ID
 	uint64 id = 2;
 	// CreatedAt

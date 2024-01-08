@@ -42,8 +42,6 @@ type ListResponseBody struct {
 // ShowResponseBody is the type of the "channels" service "show" endpoint HTTP
 // response body.
 type ShowResponseBody struct {
-	// Session ID
-	SessionID string `form:"session_id" json:"session_id" xml:"session_id"`
 	// ID
 	ID uint64 `form:"id" json:"id" xml:"id"`
 	// CreatedAt
@@ -57,8 +55,6 @@ type ShowResponseBody struct {
 // CreateResponseBody is the type of the "channels" service "create" endpoint
 // HTTP response body.
 type CreateResponseBody struct {
-	// Session ID
-	SessionID string `form:"session_id" json:"session_id" xml:"session_id"`
 	// ID
 	ID uint64 `form:"id" json:"id" xml:"id"`
 	// CreatedAt
@@ -72,8 +68,6 @@ type CreateResponseBody struct {
 // UpdateResponseBody is the type of the "channels" service "update" endpoint
 // HTTP response body.
 type UpdateResponseBody struct {
-	// Session ID
-	SessionID string `form:"session_id" json:"session_id" xml:"session_id"`
 	// ID
 	ID uint64 `form:"id" json:"id" xml:"id"`
 	// CreatedAt
@@ -87,8 +81,6 @@ type UpdateResponseBody struct {
 // DeleteResponseBody is the type of the "channels" service "delete" endpoint
 // HTTP response body.
 type DeleteResponseBody struct {
-	// Session ID
-	SessionID string `form:"session_id" json:"session_id" xml:"session_id"`
 	// ID
 	ID uint64 `form:"id" json:"id" xml:"id"`
 	// CreatedAt
@@ -285,8 +277,6 @@ type ChannelListItemResponseBodyCollection []*ChannelListItemResponseBody
 
 // ChannelListItemResponseBody is used to define fields on response body types.
 type ChannelListItemResponseBody struct {
-	// Session ID
-	SessionID string `form:"session_id" json:"session_id" xml:"session_id"`
 	// ID
 	ID uint64 `form:"id" json:"id" xml:"id"`
 	// CreatedAt
@@ -319,7 +309,6 @@ func NewListResponseBody(res *channelsviews.ChannelListView) *ListResponseBody {
 // "show" endpoint of the "channels" service.
 func NewShowResponseBody(res *channelsviews.ChannelView) *ShowResponseBody {
 	body := &ShowResponseBody{
-		SessionID: *res.SessionID,
 		ID:        *res.ID,
 		CreatedAt: *res.CreatedAt,
 		UpdatedAt: *res.UpdatedAt,
@@ -332,7 +321,6 @@ func NewShowResponseBody(res *channelsviews.ChannelView) *ShowResponseBody {
 // "create" endpoint of the "channels" service.
 func NewCreateResponseBody(res *channelsviews.ChannelView) *CreateResponseBody {
 	body := &CreateResponseBody{
-		SessionID: *res.SessionID,
 		ID:        *res.ID,
 		CreatedAt: *res.CreatedAt,
 		UpdatedAt: *res.UpdatedAt,
@@ -345,7 +333,6 @@ func NewCreateResponseBody(res *channelsviews.ChannelView) *CreateResponseBody {
 // "update" endpoint of the "channels" service.
 func NewUpdateResponseBody(res *channelsviews.ChannelView) *UpdateResponseBody {
 	body := &UpdateResponseBody{
-		SessionID: *res.SessionID,
 		ID:        *res.ID,
 		CreatedAt: *res.CreatedAt,
 		UpdatedAt: *res.UpdatedAt,
@@ -358,7 +345,6 @@ func NewUpdateResponseBody(res *channelsviews.ChannelView) *UpdateResponseBody {
 // "delete" endpoint of the "channels" service.
 func NewDeleteResponseBody(res *channelsviews.ChannelView) *DeleteResponseBody {
 	body := &DeleteResponseBody{
-		SessionID: *res.SessionID,
 		ID:        *res.ID,
 		CreatedAt: *res.CreatedAt,
 		UpdatedAt: *res.UpdatedAt,

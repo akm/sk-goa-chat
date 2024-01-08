@@ -43,8 +43,6 @@ type ChannelListItemCollectionView []*ChannelListItemView
 
 // ChannelListItemView is a type that runs validations on a projected type.
 type ChannelListItemView struct {
-	// Session ID
-	SessionID *string
 	// ID
 	ID *uint64
 	// CreatedAt
@@ -57,8 +55,6 @@ type ChannelListItemView struct {
 
 // ChannelView is a type that runs validations on a projected type.
 type ChannelView struct {
-	// Session ID
-	SessionID *string
 	// ID
 	ID *uint64
 	// CreatedAt
@@ -82,7 +78,6 @@ var (
 	// ChannelMap is a map indexing the attribute names of Channel by view name.
 	ChannelMap = map[string][]string{
 		"default": {
-			"session_id",
 			"id",
 			"created_at",
 			"updated_at",
@@ -93,7 +88,6 @@ var (
 	// ChannelListItemCollection by view name.
 	ChannelListItemCollectionMap = map[string][]string{
 		"default": {
-			"session_id",
 			"id",
 			"created_at",
 			"updated_at",
@@ -104,7 +98,6 @@ var (
 	// by view name.
 	ChannelListItemMap = map[string][]string{
 		"default": {
-			"session_id",
 			"id",
 			"created_at",
 			"updated_at",
@@ -168,9 +161,6 @@ func ValidateChannelListItemCollectionView(result ChannelListItemCollectionView)
 // ValidateChannelListItemView runs the validations defined on
 // ChannelListItemView using the "default" view.
 func ValidateChannelListItemView(result *ChannelListItemView) (err error) {
-	if result.SessionID == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "result"))
-	}
 	if result.ID == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("id", "result"))
 	}
@@ -195,9 +185,6 @@ func ValidateChannelListItemView(result *ChannelListItemView) (err error) {
 // ValidateChannelView runs the validations defined on ChannelView using the
 // "default" view.
 func ValidateChannelView(result *ChannelView) (err error) {
-	if result.SessionID == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "result"))
-	}
 	if result.ID == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("id", "result"))
 	}

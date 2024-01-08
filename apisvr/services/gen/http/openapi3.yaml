@@ -21,8 +21,8 @@ paths:
                   schema:
                     type: string
                     description: Session ID
-                    example: Nisi voluptas similique.
-                  example: Iusto et cum vel non possimus.
+                    example: Sed ad veniam et quae eaque.
+                  example: Eos tenetur exercitationem quisquam at.
             responses:
                 "200":
                     description: OK response.
@@ -33,24 +33,20 @@ paths:
                             example:
                                 items:
                                     - created_at: 2006-01-02T15:04:05Z07:00
-                                      id: 2981147937310911626
-                                      name: Aut asperiores eaque.
-                                      session_id: Consequatur eos.
+                                      id: 7271062959787804439
+                                      name: Eos et excepturi aut asperiores.
                                       updated_at: 2006-01-02T15:04:05Z07:00
                                     - created_at: 2006-01-02T15:04:05Z07:00
-                                      id: 2981147937310911626
-                                      name: Aut asperiores eaque.
-                                      session_id: Consequatur eos.
+                                      id: 7271062959787804439
+                                      name: Eos et excepturi aut asperiores.
                                       updated_at: 2006-01-02T15:04:05Z07:00
                                     - created_at: 2006-01-02T15:04:05Z07:00
-                                      id: 2981147937310911626
-                                      name: Aut asperiores eaque.
-                                      session_id: Consequatur eos.
+                                      id: 7271062959787804439
+                                      name: Eos et excepturi aut asperiores.
                                       updated_at: 2006-01-02T15:04:05Z07:00
                                     - created_at: 2006-01-02T15:04:05Z07:00
-                                      id: 2981147937310911626
-                                      name: Aut asperiores eaque.
-                                      session_id: Consequatur eos.
+                                      id: 7271062959787804439
+                                      name: Eos et excepturi aut asperiores.
                                       updated_at: 2006-01-02T15:04:05Z07:00
                                 offset: 0
                                 total: 160
@@ -74,8 +70,8 @@ paths:
                   schema:
                     type: string
                     description: Session ID
-                    example: Quo quia magnam eos itaque.
-                  example: Corrupti quo.
+                    example: Doloribus pariatur.
+                  example: Et neque et facilis quia similique quisquam.
             requestBody:
                 required: true
                 content:
@@ -83,7 +79,7 @@ paths:
                         schema:
                             $ref: '#/components/schemas/CreateRequestBody'
                         example:
-                            name: Animi ut aut totam.
+                            name: Ut sit similique ut praesentium atque.
             responses:
                 "201":
                     description: Created response.
@@ -93,9 +89,8 @@ paths:
                                 $ref: '#/components/schemas/Channel'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 4342935428259852073
-                                name: Provident tempora dolor ratione officiis consequatur.
-                                session_id: Veritatis in similique.
+                                id: 1924114179355753844
+                                name: Animi ut aut totam.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "400":
                     description: 'invalid_payload: Bad Request response.'
@@ -123,8 +118,8 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 258350064492933360
-                  example: 255230243946806722
+                    example: 14139461718523329688
+                  example: 17643337320546445853
                 - name: session_id
                   in: cookie
                   description: Session ID
@@ -133,8 +128,8 @@ paths:
                   schema:
                     type: string
                     description: Session ID
-                    example: Non quia sapiente vel et est.
-                  example: Corrupti qui sint facilis ullam est.
+                    example: Ratione voluptatum magni.
+                  example: Deserunt ullam ea.
             responses:
                 "200":
                     description: OK response.
@@ -144,9 +139,8 @@ paths:
                                 $ref: '#/components/schemas/Channel'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 2180437970575776093
-                                name: Quo ratione et.
-                                session_id: Sed sed ut quibusdam ea.
+                                id: 16077192413184064600
+                                name: Maxime alias quia.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "401":
                     description: 'unauthenticated: Unauthorized response.'
@@ -173,8 +167,8 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 3954324103720837403
-                  example: 7535419842506816612
+                    example: 6502519870035504266
+                  example: 608409990298807564
                 - name: session_id
                   in: cookie
                   description: Session ID
@@ -183,8 +177,8 @@ paths:
                   schema:
                     type: string
                     description: Session ID
-                    example: Eos quisquam.
-                  example: Quo eum at dicta veritatis voluptas unde.
+                    example: Quis ut magnam labore.
+                  example: Asperiores et.
             responses:
                 "200":
                     description: OK response.
@@ -194,9 +188,8 @@ paths:
                                 $ref: '#/components/schemas/Channel'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 2824562273123977928
-                                name: Ut praesentium.
-                                session_id: Consequatur est eligendi ut.
+                                id: 15023269934203985894
+                                name: Numquam nihil.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "401":
                     description: 'unauthenticated: Unauthorized response.'
@@ -223,8 +216,8 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 13477675777053602563
-                  example: 3441525513082446672
+                    example: 9730288687662074026
+                  example: 12396518307249657494
                 - name: session_id
                   in: cookie
                   description: Session ID
@@ -233,8 +226,8 @@ paths:
                   schema:
                     type: string
                     description: Session ID
-                    example: Ex esse.
-                  example: Eveniet adipisci voluptatem.
+                    example: Id qui repellendus doloribus consectetur.
+                  example: Et et assumenda.
             requestBody:
                 required: true
                 content:
@@ -242,7 +235,7 @@ paths:
                         schema:
                             $ref: '#/components/schemas/CreateRequestBody'
                         example:
-                            name: Soluta molestiae corrupti nihil excepturi eveniet aperiam.
+                            name: In similique.
             responses:
                 "200":
                     description: OK response.
@@ -252,9 +245,8 @@ paths:
                                 $ref: '#/components/schemas/Channel'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 11150029873124334952
-                                name: Consequatur ex cumque et ipsa.
-                                session_id: Dolorum est qui maxime alias.
+                                id: 4994510221992524539
+                                name: Consequuntur sit dignissimos aspernatur.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "400":
                     description: 'invalid_payload: Bad Request response.'
@@ -289,8 +281,8 @@ paths:
                   schema:
                     type: string
                     description: Session ID
-                    example: Reiciendis voluptatibus aut molestias repudiandae et officiis.
-                  example: Voluptatem doloremque rerum reprehenderit aliquam eligendi.
+                    example: Delectus aut aut est asperiores quisquam tempora.
+                  example: Iste sit quia.
             responses:
                 "200":
                     description: OK response.
@@ -312,7 +304,7 @@ paths:
                         schema:
                             $ref: '#/components/schemas/CreateRequestBody2'
                         example:
-                            id_token: Earum in omnis quasi.
+                            id_token: Ullam qui aut veritatis.
             responses:
                 "201":
                     description: Created response.
@@ -322,8 +314,8 @@ paths:
                             schema:
                                 type: string
                                 description: Session ID
-                                example: Cum mollitia.
-                            example: Consequatur et.
+                                example: Enim aut recusandae non quia voluptatibus repellat.
+                            example: Eius omnis.
                 "400":
                     description: 'invalid_payload: Bad Request response.'
                     content:
@@ -345,12 +337,12 @@ paths:
                                 $ref: '#/components/schemas/UserList'
                             example:
                                 items:
-                                    - id: 11938851116854073466
-                                      name: Rerum voluptatem est voluptate et numquam quia.
-                                    - id: 11938851116854073466
-                                      name: Rerum voluptatem est voluptate et numquam quia.
-                                    - id: 11938851116854073466
-                                      name: Rerum voluptatem est voluptate et numquam quia.
+                                    - id: 2642039907525527441
+                                      name: Fugit et est.
+                                    - id: 2642039907525527441
+                                      name: Fugit et est.
+                                    - id: 2642039907525527441
+                                      name: Fugit et est.
                                 offset: 0
                                 total: 160
         post:
@@ -365,8 +357,8 @@ paths:
                         schema:
                             $ref: '#/components/schemas/CreateRequestBody3'
                         example:
-                            email: Alias saepe recusandae.
-                            name: Animi rerum.
+                            email: In omnis quasi dolores non.
+                            name: Officiis rerum nihil quas.
             responses:
                 "201":
                     description: Created response.
@@ -376,8 +368,8 @@ paths:
                                 $ref: '#/components/schemas/User'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 12776821912030001770
-                                name: Voluptates ut autem.
+                                id: 9423357962293902374
+                                name: Odit corrupti.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "400":
                     description: 'invalid_payload: Bad Request response.'
@@ -398,15 +390,11 @@ components:
                 id:
                     type: integer
                     description: ID
-                    example: 15616768515337038939
+                    example: 13928020251802348792
                 name:
                     type: string
                     description: Name
-                    example: Ullam ea hic enim aut.
-                session_id:
-                    type: string
-                    description: Session ID
-                    example: Voluptatum magni.
+                    example: Veritatis itaque minima praesentium minima consequatur velit.
                 updated_at:
                     type: string
                     description: UpdatedAt
@@ -414,12 +402,10 @@ components:
                     format: date-time
             example:
                 created_at: 2006-01-02T15:04:05Z07:00
-                id: 834762580858596647
-                name: Eius omnis.
-                session_id: Non quia voluptatibus repellat ipsum quas.
+                id: 11984293749654376020
+                name: Repellendus voluptatibus et.
                 updated_at: 2006-01-02T15:04:05Z07:00
             required:
-                - session_id
                 - id
                 - created_at
                 - updated_at
@@ -440,24 +426,20 @@ components:
             example:
                 items:
                     - created_at: 2006-01-02T15:04:05Z07:00
-                      id: 2981147937310911626
-                      name: Aut asperiores eaque.
-                      session_id: Consequatur eos.
+                      id: 7271062959787804439
+                      name: Eos et excepturi aut asperiores.
                       updated_at: 2006-01-02T15:04:05Z07:00
                     - created_at: 2006-01-02T15:04:05Z07:00
-                      id: 2981147937310911626
-                      name: Aut asperiores eaque.
-                      session_id: Consequatur eos.
+                      id: 7271062959787804439
+                      name: Eos et excepturi aut asperiores.
                       updated_at: 2006-01-02T15:04:05Z07:00
                     - created_at: 2006-01-02T15:04:05Z07:00
-                      id: 2981147937310911626
-                      name: Aut asperiores eaque.
-                      session_id: Consequatur eos.
+                      id: 7271062959787804439
+                      name: Eos et excepturi aut asperiores.
                       updated_at: 2006-01-02T15:04:05Z07:00
                     - created_at: 2006-01-02T15:04:05Z07:00
-                      id: 2981147937310911626
-                      name: Aut asperiores eaque.
-                      session_id: Consequatur eos.
+                      id: 7271062959787804439
+                      name: Eos et excepturi aut asperiores.
                       updated_at: 2006-01-02T15:04:05Z07:00
                 offset: 0
                 total: 160
@@ -476,15 +458,11 @@ components:
                 id:
                     type: integer
                     description: ID
-                    example: 13947435353749378699
+                    example: 5041988463879485456
                 name:
                     type: string
                     description: Name
-                    example: Ut doloribus pariatur voluptatem et.
-                session_id:
-                    type: string
-                    description: Session ID
-                    example: Ut magnam labore ab.
+                    example: Cumque magni vitae.
                 updated_at:
                     type: string
                     description: UpdatedAt
@@ -492,12 +470,10 @@ components:
                     format: date-time
             example:
                 created_at: 2006-01-02T15:04:05Z07:00
-                id: 12396518307249657494
-                name: Id qui repellendus doloribus consectetur.
-                session_id: Et facilis quia similique quisquam sint.
+                id: 5096907298334997690
+                name: Commodi et voluptas.
                 updated_at: 2006-01-02T15:04:05Z07:00
             required:
-                - session_id
                 - id
                 - created_at
                 - updated_at
@@ -508,19 +484,20 @@ components:
                 $ref: '#/components/schemas/ChannelListItem'
             example:
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 2981147937310911626
-                  name: Aut asperiores eaque.
-                  session_id: Consequatur eos.
+                  id: 7271062959787804439
+                  name: Eos et excepturi aut asperiores.
                   updated_at: 2006-01-02T15:04:05Z07:00
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 2981147937310911626
-                  name: Aut asperiores eaque.
-                  session_id: Consequatur eos.
+                  id: 7271062959787804439
+                  name: Eos et excepturi aut asperiores.
                   updated_at: 2006-01-02T15:04:05Z07:00
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 2981147937310911626
-                  name: Aut asperiores eaque.
-                  session_id: Consequatur eos.
+                  id: 7271062959787804439
+                  name: Eos et excepturi aut asperiores.
+                  updated_at: 2006-01-02T15:04:05Z07:00
+                - created_at: 2006-01-02T15:04:05Z07:00
+                  id: 7271062959787804439
+                  name: Eos et excepturi aut asperiores.
                   updated_at: 2006-01-02T15:04:05Z07:00
         CreateRequestBody:
             type: object
@@ -528,9 +505,9 @@ components:
                 name:
                     type: string
                     description: Name
-                    example: Delectus aut aut est asperiores quisquam tempora.
+                    example: Quo et animi voluptas modi voluptas.
             example:
-                name: Iste sit quia.
+                name: Vel eveniet pariatur itaque.
             required:
                 - name
         CreateRequestBody2:
@@ -539,9 +516,9 @@ components:
                 id_token:
                     type: string
                     description: ID Token
-                    example: Sit ad incidunt.
+                    example: Voluptas quia in adipisci.
             example:
-                id_token: Sapiente sit autem accusantium magnam tenetur.
+                id_token: Voluptas dolorem reprehenderit quisquam quisquam.
             required:
                 - id_token
         CreateRequestBody3:
@@ -550,14 +527,14 @@ components:
                 email:
                     type: string
                     description: Email
-                    example: Ut dolor voluptatibus quasi.
+                    example: Animi similique quia nesciunt amet.
                 name:
                     type: string
                     description: Name
-                    example: Ea quae ad pariatur.
+                    example: Molestiae eius quidem reiciendis neque velit.
             example:
-                email: Earum magni aut.
-                name: Est consequatur voluptas ipsam alias quibusdam.
+                email: Ex exercitationem expedita sed unde ipsum.
+                name: Veniam qui ea.
             required:
                 - name
                 - email
@@ -589,11 +566,11 @@ components:
                     description: Is the error a timeout?
                     example: true
             example:
-                fault: true
+                fault: false
                 id: 123abc
                 message: parameter 'p' must be an integer
                 name: bad_request
-                temporary: true
+                temporary: false
                 timeout: false
             required:
                 - name
@@ -613,11 +590,11 @@ components:
                 id:
                     type: integer
                     description: ID
-                    example: 5459808351062049283
+                    example: 12526454943994589813
                 name:
                     type: string
                     description: Name
-                    example: Inventore perspiciatis optio voluptas reiciendis.
+                    example: Ut voluptatem iste praesentium nulla et.
                 updated_at:
                     type: string
                     description: UpdatedAt
@@ -625,8 +602,8 @@ components:
                     format: date-time
             example:
                 created_at: 2006-01-02T15:04:05Z07:00
-                id: 649909262423554852
-                name: Consequatur dolor deleniti consectetur natus.
+                id: 932819237990026894
+                name: Quis eveniet.
                 updated_at: 2006-01-02T15:04:05Z07:00
             required:
                 - id
@@ -648,12 +625,12 @@ components:
                     example: 160
             example:
                 items:
-                    - id: 11938851116854073466
-                      name: Rerum voluptatem est voluptate et numquam quia.
-                    - id: 11938851116854073466
-                      name: Rerum voluptatem est voluptate et numquam quia.
-                    - id: 11938851116854073466
-                      name: Rerum voluptatem est voluptate et numquam quia.
+                    - id: 2642039907525527441
+                      name: Fugit et est.
+                    - id: 2642039907525527441
+                      name: Fugit et est.
+                    - id: 2642039907525527441
+                      name: Fugit et est.
                 offset: 0
                 total: 160
             required:
@@ -666,14 +643,14 @@ components:
                 id:
                     type: integer
                     description: ID
-                    example: 12462908506952074318
+                    example: 15529690514392783985
                 name:
                     type: string
                     description: Name
-                    example: Aut laborum quasi totam.
+                    example: Eius esse atque autem.
             example:
-                id: 6974988755538084839
-                name: Expedita omnis.
+                id: 15293947761711924114
+                name: Dicta et nihil molestiae.
             required:
                 - id
                 - name
@@ -682,14 +659,12 @@ components:
             items:
                 $ref: '#/components/schemas/UserListItem'
             example:
-                - id: 11938851116854073466
-                  name: Rerum voluptatem est voluptate et numquam quia.
-                - id: 11938851116854073466
-                  name: Rerum voluptatem est voluptate et numquam quia.
-                - id: 11938851116854073466
-                  name: Rerum voluptatem est voluptate et numquam quia.
-                - id: 11938851116854073466
-                  name: Rerum voluptatem est voluptate et numquam quia.
+                - id: 2642039907525527441
+                  name: Fugit et est.
+                - id: 2642039907525527441
+                  name: Fugit et est.
+                - id: 2642039907525527441
+                  name: Fugit et est.
 tags:
     - name: channels
     - name: sessions

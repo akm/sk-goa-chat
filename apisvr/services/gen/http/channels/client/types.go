@@ -42,8 +42,6 @@ type ListResponseBody struct {
 // ShowResponseBody is the type of the "channels" service "show" endpoint HTTP
 // response body.
 type ShowResponseBody struct {
-	// Session ID
-	SessionID *string `form:"session_id,omitempty" json:"session_id,omitempty" xml:"session_id,omitempty"`
 	// ID
 	ID *uint64 `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// CreatedAt
@@ -57,8 +55,6 @@ type ShowResponseBody struct {
 // CreateResponseBody is the type of the "channels" service "create" endpoint
 // HTTP response body.
 type CreateResponseBody struct {
-	// Session ID
-	SessionID *string `form:"session_id,omitempty" json:"session_id,omitempty" xml:"session_id,omitempty"`
 	// ID
 	ID *uint64 `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// CreatedAt
@@ -72,8 +68,6 @@ type CreateResponseBody struct {
 // UpdateResponseBody is the type of the "channels" service "update" endpoint
 // HTTP response body.
 type UpdateResponseBody struct {
-	// Session ID
-	SessionID *string `form:"session_id,omitempty" json:"session_id,omitempty" xml:"session_id,omitempty"`
 	// ID
 	ID *uint64 `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// CreatedAt
@@ -87,8 +81,6 @@ type UpdateResponseBody struct {
 // DeleteResponseBody is the type of the "channels" service "delete" endpoint
 // HTTP response body.
 type DeleteResponseBody struct {
-	// Session ID
-	SessionID *string `form:"session_id,omitempty" json:"session_id,omitempty" xml:"session_id,omitempty"`
 	// ID
 	ID *uint64 `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// CreatedAt
@@ -285,8 +277,6 @@ type ChannelListItemCollectionResponseBody []*ChannelListItemResponseBody
 
 // ChannelListItemResponseBody is used to define fields on response body types.
 type ChannelListItemResponseBody struct {
-	// Session ID
-	SessionID *string `form:"session_id,omitempty" json:"session_id,omitempty" xml:"session_id,omitempty"`
 	// ID
 	ID *uint64 `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// CreatedAt
@@ -349,7 +339,6 @@ func NewListUnauthenticated(body *ListUnauthenticatedResponseBody) *goa.ServiceE
 // HTTP "OK" response.
 func NewShowChannelOK(body *ShowResponseBody) *channelsviews.ChannelView {
 	v := &channelsviews.ChannelView{
-		SessionID: body.SessionID,
 		ID:        body.ID,
 		CreatedAt: body.CreatedAt,
 		UpdatedAt: body.UpdatedAt,
@@ -392,7 +381,6 @@ func NewShowUnauthenticated(body *ShowUnauthenticatedResponseBody) *goa.ServiceE
 // from a HTTP "Created" response.
 func NewCreateChannelCreated(body *CreateResponseBody) *channelsviews.ChannelView {
 	v := &channelsviews.ChannelView{
-		SessionID: body.SessionID,
 		ID:        body.ID,
 		CreatedAt: body.CreatedAt,
 		UpdatedAt: body.UpdatedAt,
@@ -436,7 +424,6 @@ func NewCreateUnauthenticated(body *CreateUnauthenticatedResponseBody) *goa.Serv
 // a HTTP "OK" response.
 func NewUpdateChannelOK(body *UpdateResponseBody) *channelsviews.ChannelView {
 	v := &channelsviews.ChannelView{
-		SessionID: body.SessionID,
 		ID:        body.ID,
 		CreatedAt: body.CreatedAt,
 		UpdatedAt: body.UpdatedAt,
@@ -494,7 +481,6 @@ func NewUpdateUnauthenticated(body *UpdateUnauthenticatedResponseBody) *goa.Serv
 // a HTTP "OK" response.
 func NewDeleteChannelOK(body *DeleteResponseBody) *channelsviews.ChannelView {
 	v := &channelsviews.ChannelView{
-		SessionID: body.SessionID,
 		ID:        body.ID,
 		CreatedAt: body.CreatedAt,
 		UpdatedAt: body.UpdatedAt,
@@ -789,9 +775,6 @@ func ValidateChannelListItemCollectionResponseBody(body ChannelListItemCollectio
 // ValidateChannelListItemResponseBody runs the validations defined on
 // Channel-List-ItemResponseBody
 func ValidateChannelListItemResponseBody(body *ChannelListItemResponseBody) (err error) {
-	if body.SessionID == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "body"))
-	}
 	if body.ID == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("id", "body"))
 	}

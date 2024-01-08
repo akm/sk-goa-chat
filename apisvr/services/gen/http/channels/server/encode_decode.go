@@ -477,7 +477,6 @@ func EncodeDeleteError(encoder func(context.Context, http.ResponseWriter) goahtt
 // *channelsviews.ChannelListItemView.
 func marshalChannelsviewsChannelListItemViewToChannelListItemResponseBody(v *channelsviews.ChannelListItemView) *ChannelListItemResponseBody {
 	res := &ChannelListItemResponseBody{
-		SessionID: *v.SessionID,
 		ID:        *v.ID,
 		CreatedAt: *v.CreatedAt,
 		UpdatedAt: *v.UpdatedAt,
