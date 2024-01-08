@@ -494,6 +494,160 @@ func testChannelsInsertWhitelist(t *testing.T) {
 	}
 }
 
+func testChannelToManyChatMessages(t *testing.T) {
+	var err error
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Channel
+	var b, c ChatMessage
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, channelDBTypes, true, channelColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Channel struct: %s", err)
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	if err = randomize.Struct(seed, &b, chatMessageDBTypes, false, chatMessageColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+	if err = randomize.Struct(seed, &c, chatMessageDBTypes, false, chatMessageColumnsWithDefault...); err != nil {
+		t.Fatal(err)
+	}
+
+	b.ChannelID = a.ID
+	c.ChannelID = a.ID
+
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	check, err := a.ChatMessages().All(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	bFound, cFound := false, false
+	for _, v := range check {
+		if v.ChannelID == b.ChannelID {
+			bFound = true
+		}
+		if v.ChannelID == c.ChannelID {
+			cFound = true
+		}
+	}
+
+	if !bFound {
+		t.Error("expected to find b")
+	}
+	if !cFound {
+		t.Error("expected to find c")
+	}
+
+	slice := ChannelSlice{&a}
+	if err = a.L.LoadChatMessages(ctx, tx, false, (*[]*Channel)(&slice), nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.ChatMessages); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	a.R.ChatMessages = nil
+	if err = a.L.LoadChatMessages(ctx, tx, true, &a, nil); err != nil {
+		t.Fatal(err)
+	}
+	if got := len(a.R.ChatMessages); got != 2 {
+		t.Error("number of eager loaded records wrong, got:", got)
+	}
+
+	if t.Failed() {
+		t.Logf("%#v", check)
+	}
+}
+
+func testChannelToManyAddOpChatMessages(t *testing.T) {
+	var err error
+
+	ctx := context.Background()
+	tx := MustTx(boil.BeginTx(ctx, nil))
+	defer func() { _ = tx.Rollback() }()
+
+	var a Channel
+	var b, c, d, e ChatMessage
+
+	seed := randomize.NewSeed()
+	if err = randomize.Struct(seed, &a, channelDBTypes, false, strmangle.SetComplement(channelPrimaryKeyColumns, channelColumnsWithoutDefault)...); err != nil {
+		t.Fatal(err)
+	}
+	foreigners := []*ChatMessage{&b, &c, &d, &e}
+	for _, x := range foreigners {
+		if err = randomize.Struct(seed, x, chatMessageDBTypes, false, strmangle.SetComplement(chatMessagePrimaryKeyColumns, chatMessageColumnsWithoutDefault)...); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Insert(ctx, tx, boil.Infer()); err != nil {
+		t.Fatal(err)
+	}
+
+	foreignersSplitByInsertion := [][]*ChatMessage{
+		{&b, &c},
+		{&d, &e},
+	}
+
+	for i, x := range foreignersSplitByInsertion {
+		err = a.AddChatMessages(ctx, tx, i != 0, x...)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		first := x[0]
+		second := x[1]
+
+		if a.ID != first.ChannelID {
+			t.Error("foreign key was wrong value", a.ID, first.ChannelID)
+		}
+		if a.ID != second.ChannelID {
+			t.Error("foreign key was wrong value", a.ID, second.ChannelID)
+		}
+
+		if first.R.Channel != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+		if second.R.Channel != &a {
+			t.Error("relationship was not added properly to the foreign slice")
+		}
+
+		if a.R.ChatMessages[i*2] != first {
+			t.Error("relationship struct slice not set to correct value")
+		}
+		if a.R.ChatMessages[i*2+1] != second {
+			t.Error("relationship struct slice not set to correct value")
+		}
+
+		count, err := a.ChatMessages().Count(ctx, tx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if want := int64((i + 1) * 2); count != want {
+			t.Error("want", want, "got", count)
+		}
+	}
+}
+
 func testChannelsReload(t *testing.T) {
 	t.Parallel()
 
