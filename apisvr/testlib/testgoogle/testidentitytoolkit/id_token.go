@@ -1,6 +1,7 @@
 package testidentitytoolkit
 
 import (
+	"apisvr/lib/errors"
 	"context"
 	"fmt"
 	"os"
@@ -18,9 +19,13 @@ func GetIdToken(t testing.TB, ctx context.Context, email, password string, opts 
 		opts = []option.ClientOption{}
 		if host := os.Getenv("FIREBASE_AUTH_EMULATOR_HOST"); host != "" {
 			opts = append(opts, option.WithEndpoint(fmt.Sprintf("http://%s/identitytoolkit.googleapis.com/v1", host)))
+		} else {
+			t.Fatalf("%+v\n", errors.Errorf("FIREBASE_AUTH_EMULATOR_HOST is not set"))
 		}
 		if apiKey := os.Getenv("FIREBASE_API_KEY"); apiKey != "" {
 			opts = append(opts, option.WithAPIKey(apiKey))
+		} else {
+			t.Fatalf("%+v\n", errors.Errorf("FIREBASE_API_KEY is not set"))
 		}
 	}
 	// option.WithEndpoint("http://localhost:9099/identitytoolkit.googleapis.com/v1"),
