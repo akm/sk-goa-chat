@@ -1,9 +1,11 @@
 package chatapi
 
 import (
+	"apisvr/models"
 	chatmessages "apisvr/services/gen/chat_messages"
 	log "apisvr/services/gen/log"
 	"context"
+	"time"
 )
 
 // chat_messages service example implementation.
@@ -50,4 +52,45 @@ func (s *chatMessagessrvc) Delete(ctx context.Context, p *chatmessages.DeletePay
 	res = &chatmessages.ChatMessage{}
 	s.logger.Info().Msg("chatMessages.delete")
 	return
+}
+
+type ChatMessageConvertor struct{}
+
+func NewChatMessageConvertor() *ChatMessageConvertor {
+	return &ChatMessageConvertor{}
+}
+
+func (s *ChatMessageConvertor) ModelsToList(models []*models.ChatMessage) *chatmessages.ChatMessageList {
+	items := s.ModelsToListItems(models)
+	return &chatmessages.ChatMessageList{
+		Items: items,
+	}
+}
+
+func (*ChatMessageConvertor) ModelsToListItems(models []*models.ChatMessage) chatmessages.ChatMessageListItemCollection {
+	items := make(chatmessages.ChatMessageListItemCollection, len(models))
+	for i, model := range models {
+		items[i] = &chatmessages.ChatMessageListItem{
+			ID:        model.ID,
+			CreatedAt: model.CreatedAt.Format(time.RFC3339),
+			UpdatedAt: model.UpdatedAt.Format(time.RFC3339),
+			ChannelID: model.ChannelID,
+			UserID:    model.UserID.Ptr(),
+			UserName:  model.UserName,
+			Content:   model.Content,
+		}
+	}
+	return items
+}
+
+func (*ChatMessageConvertor) ModelToResult(model *models.ChatMessage) *chatmessages.ChatMessage {
+	return &chatmessages.ChatMessage{
+		ID:        model.ID,
+		CreatedAt: model.CreatedAt.Format(time.RFC3339),
+		UpdatedAt: model.UpdatedAt.Format(time.RFC3339),
+		ChannelID: model.ChannelID,
+		UserID:    model.UserID.Ptr(),
+		UserName:  model.UserName,
+		Content:   model.Content,
+	}
 }
