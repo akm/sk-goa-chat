@@ -1,7 +1,7 @@
 package sqlboiler
 
 import (
-	"time"
+	"apisvr/lib/time"
 
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )

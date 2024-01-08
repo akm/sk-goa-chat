@@ -2,8 +2,8 @@ package testlog
 
 import (
 	"apisvr/lib/log"
+	"apisvr/lib/time"
 	"testing"
-	"time"
 )
 
 func NewServicesLogger(t *testing.T) *log.Logger {
