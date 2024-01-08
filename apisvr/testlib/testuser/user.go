@@ -69,8 +69,9 @@ func (u *User) GetSessionID(t *testing.T, ctx context.Context, fbauth auth.Clien
 	return u.SessionID
 }
 
-func (u *User) Setup(t *testing.T, ctx context.Context, fbauth auth.Client, conn *sql.DB) string {
+func (u *User) Setup(t *testing.T, ctx context.Context, fbauth auth.Client, conn *sql.DB) *User {
 	u.CreateOnFirebaseAuth(t, ctx, fbauth)
 	u.CreateOnDB(t, ctx, conn)
-	return u.GetSessionID(t, ctx, fbauth)
+	u.GetSessionID(t, ctx, fbauth)
+	return u
 }
