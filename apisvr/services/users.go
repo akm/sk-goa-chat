@@ -2,7 +2,6 @@ package chatapi
 
 import (
 	"apisvr/lib/errors"
-	"apisvr/lib/firebase"
 	"apisvr/lib/firebase/auth"
 	"apisvr/lib/sql"
 	"apisvr/models"
@@ -63,13 +62,9 @@ func (s *userssrvc) Create(ctx context.Context, p *users.UserCreatePayload) (res
 			}
 		}
 
-		fbapp, err := firebase.NewApp(ctx, nil)
+		fbauth, err := s.firebaseAuthClient(ctx)
 		if err != nil {
-			return errors.Wrapf(err, "firebase.NewApp")
-		}
-		fbauth, err := auth.NewClientWithLogger(ctx, fbapp, s.logger.Logger)
-		if err != nil {
-			return errors.Wrapf(err, "auth.NewClientWithLogger")
+			return err
 		}
 
 		err = sql.BeginTx(ctx, db, func(ctx context.Context, tx *sql.Tx) error {

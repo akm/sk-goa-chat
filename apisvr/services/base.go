@@ -49,6 +49,18 @@ func (s *baseService) actionWithDB(ctx context.Context, name string, cb func(con
 	return cb(ctx, db)
 }
 
+func (s *baseService) firebaseAuthClient(ctx context.Context) (auth.Client, error) {
+	fbapp, err := firebase.NewApp(ctx, nil)
+	if err != nil {
+		return nil, errors.Wrapf(err, "firebase.NewApp")
+	}
+	fbauth, err := auth.NewClientWithLogger(ctx, fbapp, s.logger.Logger)
+	if err != nil {
+		return nil, errors.Wrapf(err, "auth.NewClientWithLogger")
+	}
+	return fbauth, nil
+}
+
 type baseAuthService struct {
 	baseService
 }
@@ -58,13 +70,9 @@ func newBaseAuthService(logger *log.Logger) baseAuthService {
 }
 
 func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, sessionID string) (*models.User, error) {
-	fbapp, err := firebase.NewApp(ctx, nil)
+	fbauth, err := s.firebaseAuthClient(ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "firebase.NewApp")
-	}
-	fbauth, err := auth.NewClientWithLogger(ctx, fbapp, s.logger.Logger)
-	if err != nil {
-		return nil, errors.Wrapf(err, "auth.NewClientWithLogger")
+		return nil, err
 	}
 
 	token, err := fbauth.VerifySessionCookie(ctx, sessionID)
