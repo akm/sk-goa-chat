@@ -1,16 +1,23 @@
 package design
 
-type DataType string
-
-const (
-	DataTypeResultType DataType = "result_type"
-	DataTypePayload    DataType = "payload"
+import (
+	"goa.design/goa/v3/eval"
+	"goa.design/goa/v3/expr"
 )
 
-func (dt DataType) IsRT() bool {
-	return dt == DataTypeResultType
+func InResultType() bool {
+	for _, exp := range eval.Context.Stack {
+		if _, ok := exp.(*expr.ResultTypeExpr); ok {
+			return true
+		}
+	}
+	return false
 }
 
-func (dt DataType) IsPayload() bool {
-	return dt == DataTypePayload
+var InRT = InResultType
+
+func InPayload() bool {
+	// ResultType と違って Type に渡された関数内から呼ばれているかどうかは eval.Context.Stack には反映されていない
+	// なので、ResultType でなければ Payload だと判断してしまう
+	return !InResultType()
 }
