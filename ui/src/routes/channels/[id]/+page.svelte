@@ -152,10 +152,10 @@
 	<Button on:click={readLaterMessages} class="mt-4" color="alternative">Read More</Button>
 </div>
 
-<div>
-	<textarea bind:value={content} class="w-full h-24 p-2 border border-gray-300 rounded-md" />
-	<div class="flex justify-end">
-		<Button class="mt-4" color="alternative" on:click={postMessage}>Send</Button>
+<div class="flex mt-4">
+	<textarea bind:value={content} class="grow h-24 p-2 border border-gray-300 rounded-md" />
+	<div class="flex-0 h-24">
+		<Button class="m-2 h-20" color="alternative" on:click={postMessage}>Send</Button>
 	</div>
 </div>
 
