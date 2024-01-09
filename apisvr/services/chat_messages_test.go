@@ -1,6 +1,7 @@
 package chatapi
 
 import (
+	"apisvr/lib/collection"
 	"apisvr/lib/time"
 	"apisvr/models"
 	chatmessages "apisvr/services/gen/chat_messages"
@@ -12,6 +13,7 @@ import (
 	"apisvr/testlib/testsqlboiler"
 	"apisvr/testlib/testuser"
 	"context"
+	"fmt"
 	"math"
 	"strings"
 	"testing"
@@ -62,7 +64,7 @@ func TestChaeMessages(t *testing.T) {
 	testsqlboiler.Insert(t, ctx, conn, boil.Infer(), ch1Msg1, ch1Msg2, ch1Msg3)
 
 	t.Run("list", func(t *testing.T) {
-		res, err := srvc.List(ctx, &chatmessages.ListPayload{SessionID: sessionID, ChannelID: &ch1.ID})
+		res, err := srvc.List(ctx, &chatmessages.ListPayload{SessionID: sessionID, ChannelID: &ch1.ID, Limit: 50})
 		assert.NoError(t, err)
 		assert.Len(t, res.Items, 3)
 		assert.Equal(t, conv.ModelsToList([]*models.ChatMessage{ch1Msg1, ch1Msg2, ch1Msg3}), res)
@@ -134,6 +136,100 @@ func TestChaeMessages(t *testing.T) {
 			assert.NoError(t, err)
 			assert.Equal(t, conv.ModelToResult(ch1Msg2), res)
 		})
+	})
+}
+
+func TestChaeMessagesList(t *testing.T) {
+	logger := testlog.New(t)
+	conn := testsql.Setup(t, logger)
+	defer conn.Close()
+
+	now := time.Now()
+	defer time.SetTime(now)
+
+	ctx := context.Background()
+	srvc := NewChatMessages(&log.Logger{Logger: logger})
+	conv := NewChatMessageConvertor()
+
+	fbauth := testauth.Setup(t, ctx)
+
+	userFoo := testuser.Foo().Setup(t, ctx, fbauth, conn)
+	userBar := testuser.Bar().Setup(t, ctx, fbauth, conn)
+	sessionID := userFoo.SessionID
+
+	ch1 := &models.Channel{Name: "general", Visibility: models.ChannelsVisibilityPublic}
+	ch2 := &models.Channel{Name: "random", Visibility: models.ChannelsVisibilityPublic}
+	testsqlboiler.Insert(t, ctx, conn, boil.Infer(), ch1, ch2)
+	assert.Equal(t, now, ch1.CreatedAt)
+
+	newChatMessage := func(ch *models.Channel, user *testuser.User, content string) *models.ChatMessage {
+		return &models.ChatMessage{ChannelID: ch.ID, UserID: null.Uint64From(user.Model.ID), UserName: user.Name, Content: content}
+	}
+
+	messages := []*models.ChatMessage{}
+	for i := 0; i < 50; i++ {
+		msgFooCh1 := newChatMessage(ch1, userFoo, fmt.Sprintf("ch1 msg from foo %02d", i+1))
+		msgBarCh1 := newChatMessage(ch1, userBar, fmt.Sprintf("ch1 msg from bar %02d", i+1))
+		msgFooCh2 := newChatMessage(ch2, userFoo, fmt.Sprintf("ch2 msg from foo %02d", i+1))
+		msgBarCh2 := newChatMessage(ch2, userBar, fmt.Sprintf("ch2 msg from bar %02d", i+1))
+		testsqlboiler.Insert(t, ctx, conn, boil.Infer(), msgFooCh1, msgBarCh1, msgFooCh2, msgBarCh2)
+		messages = append(messages, msgFooCh1, msgBarCh1, msgFooCh2, msgBarCh2)
+	}
+	msgCount := len(messages)
+	ch1Messages := collection.Filter[*models.ChatMessage](messages, func(m *models.ChatMessage) bool { return m.ChannelID == ch1.ID })
+
+	type listPayload = chatmessages.ListPayload
+	payload := func(funcs ...func(*listPayload)) *listPayload {
+		r := &listPayload{SessionID: sessionID, Limit: 50}
+		for _, f := range funcs {
+			f(r)
+		}
+		return r
+	}
+	limit := func(limit int) func(*listPayload) { return func(p *listPayload) { p.Limit = limit } }
+	after := func(after *uint64) func(*listPayload) { return func(p *listPayload) { p.After = after } }
+	before := func(before *uint64) func(*listPayload) { return func(p *listPayload) { p.Before = before } }
+	channelID := func(channelID *uint64) func(*listPayload) { return func(p *listPayload) { p.ChannelID = channelID } }
+
+	t.Run("without options", func(t *testing.T) {
+		res, err := srvc.List(ctx, payload())
+		assert.NoError(t, err)
+		assert.Len(t, res.Items, 50)
+		assert.Equal(t, conv.ModelsToList(messages[msgCount-50:msgCount]), res)
+	})
+
+	t.Run("with limit", func(t *testing.T) {
+		res, err := srvc.List(ctx, payload(limit(10)))
+		assert.NoError(t, err)
+		assert.Len(t, res.Items, 10)
+		assert.Equal(t, conv.ModelsToList(messages[msgCount-10:msgCount]), res)
+	})
+
+	t.Run("with channel id", func(t *testing.T) {
+		res, err := srvc.List(ctx, payload(channelID(&ch1.ID)))
+		assert.NoError(t, err)
+		assert.Len(t, res.Items, 50)
+		assert.Equal(t, conv.ModelsToList(ch1Messages[len(ch1Messages)-50:]), res)
+	})
+
+	t.Run("with channel id and after", func(t *testing.T) {
+		res, err := srvc.List(ctx, payload(channelID(&ch1.ID), after(&ch1Messages[25].ID)))
+		assert.NoError(t, err)
+		assert.Len(t, res.Items, 50)
+		assert.Equal(t, conv.ModelsToList(ch1Messages[len(ch1Messages)-74:len(ch1Messages)-24]), res)
+		assert.False(t, collection.Any[*chatmessages.ChatMessageListItem](res.Items, func(m *chatmessages.ChatMessageListItem) bool { return m.ID == ch1Messages[24].ID }))
+		assert.False(t, collection.Any[*chatmessages.ChatMessageListItem](res.Items, func(m *chatmessages.ChatMessageListItem) bool { return m.ID == ch1Messages[25].ID }))
+		assert.True(t, collection.Any[*chatmessages.ChatMessageListItem](res.Items, func(m *chatmessages.ChatMessageListItem) bool { return m.ID == ch1Messages[26].ID }))
+	})
+	t.Run("with channel id and before", func(t *testing.T) {
+		assert.Len(t, ch1Messages, 100)
+		res, err := srvc.List(ctx, payload(channelID(&ch1.ID), before(&ch1Messages[25].ID)))
+		assert.NoError(t, err)
+		assert.Len(t, res.Items, 25)
+		assert.Equal(t, conv.ModelsToList(ch1Messages[:25]), res)
+		assert.True(t, collection.Any[*chatmessages.ChatMessageListItem](res.Items, func(m *chatmessages.ChatMessageListItem) bool { return m.ID == ch1Messages[24].ID }))
+		assert.False(t, collection.Any[*chatmessages.ChatMessageListItem](res.Items, func(m *chatmessages.ChatMessageListItem) bool { return m.ID == ch1Messages[25].ID }))
+		assert.False(t, collection.Any[*chatmessages.ChatMessageListItem](res.Items, func(m *chatmessages.ChatMessageListItem) bool { return m.ID == ch1Messages[26].ID }))
 	})
 }
 
