@@ -1,6 +1,7 @@
 package chatapi
 
 import (
+	"apisvr/lib/collection"
 	"apisvr/lib/sql"
 	"apisvr/lib/time"
 	"apisvr/models"
@@ -11,6 +12,7 @@ import (
 
 	"github.com/volatiletech/null/v8"
 	"github.com/volatiletech/sqlboiler/v4/boil"
+	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 )
 
 // chat_messages service example implementation.
@@ -28,10 +30,34 @@ func NewChatMessages(logger *log.Logger) chatmessages.Service {
 // List implements list.
 func (s *chatMessagessrvc) List(ctx context.Context, p *chatmessages.ListPayload) (res *chatmessages.ChatMessageList, err error) {
 	err = s.actionWithAuth(ctx, "chatMessages.list", p.SessionID, func(ctx context.Context, db *sql.DB, user *models.User) error {
-		results, err := models.ChatMessages().All(ctx, db)
+		mods := []qm.QueryMod{qm.Limit(p.Limit)}
+
+		if p.ChannelID != nil {
+			mods = append(mods, qm.Where("channel_id = ?", *p.ChannelID))
+		}
+
+		needReverse := false
+
+		// after と before は同時に使用できません
+		if p.After != nil {
+			mods = append(mods, qm.Where("id > ?", *p.After), qm.OrderBy("id ASC"))
+		} else if p.Before != nil {
+			needReverse = true
+			mods = append(mods, qm.Where("id < ?", *p.Before), qm.OrderBy("id DESC"))
+		} else {
+			needReverse = true
+			mods = append(mods, qm.OrderBy("id DESC"))
+		}
+
+		results, err := models.ChatMessages(mods...).All(ctx, db)
 		if err != nil {
 			return err
 		}
+
+		if needReverse {
+			results = collection.Reverse[*models.ChatMessage](results)
+		}
+
 		res = s.ModelsToList(results)
 		return nil
 	})
