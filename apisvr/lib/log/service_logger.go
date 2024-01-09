@@ -1,10 +1,10 @@
 package log
 
 import (
+	"apisvr/lib/time"
 	"io"
 	"os"
 	"regexp"
-	"time"
 
 	"github.com/rs/zerolog"
 )

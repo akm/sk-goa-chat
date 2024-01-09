@@ -183,15 +183,26 @@ var ChannelWhere = struct {
 
 // ChannelRels is where relationship names are stored.
 var ChannelRels = struct {
-}{}
+	ChatMessages string
+}{
+	ChatMessages: "ChatMessages",
+}
 
 // channelR is where relationships are stored.
 type channelR struct {
+	ChatMessages ChatMessageSlice `boil:"ChatMessages" json:"ChatMessages" toml:"ChatMessages" yaml:"ChatMessages"`
 }
 
 // NewStruct creates a new relationship struct
 func (*channelR) NewStruct() *channelR {
 	return &channelR{}
+}
+
+func (r *channelR) GetChatMessages() ChatMessageSlice {
+	if r == nil {
+		return nil
+	}
+	return r.ChatMessages
 }
 
 // channelL is where Load methods for each relationship are stored.
@@ -481,6 +492,187 @@ func (q channelQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bo
 	}
 
 	return count > 0, nil
+}
+
+// ChatMessages retrieves all the chat_message's ChatMessages with an executor.
+func (o *Channel) ChatMessages(mods ...qm.QueryMod) chatMessageQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("`chat_messages`.`channel_id`=?", o.ID),
+	)
+
+	return ChatMessages(queryMods...)
+}
+
+// LoadChatMessages allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (channelL) LoadChatMessages(ctx context.Context, e boil.ContextExecutor, singular bool, maybeChannel interface{}, mods queries.Applicator) error {
+	var slice []*Channel
+	var object *Channel
+
+	if singular {
+		var ok bool
+		object, ok = maybeChannel.(*Channel)
+		if !ok {
+			object = new(Channel)
+			ok = queries.SetFromEmbeddedStruct(&object, &maybeChannel)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", object, maybeChannel))
+			}
+		}
+	} else {
+		s, ok := maybeChannel.(*[]*Channel)
+		if ok {
+			slice = *s
+		} else {
+			ok = queries.SetFromEmbeddedStruct(&slice, maybeChannel)
+			if !ok {
+				return errors.New(fmt.Sprintf("failed to set %T from embedded struct %T", slice, maybeChannel))
+			}
+		}
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &channelR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &channelR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(
+		qm.From(`chat_messages`),
+		qm.WhereIn(`chat_messages.channel_id in ?`, args...),
+	)
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load chat_messages")
+	}
+
+	var resultSlice []*ChatMessage
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice chat_messages")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on chat_messages")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for chat_messages")
+	}
+
+	if len(chatMessageAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.ChatMessages = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &chatMessageR{}
+			}
+			foreign.R.Channel = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.ChannelID {
+				local.R.ChatMessages = append(local.R.ChatMessages, foreign)
+				if foreign.R == nil {
+					foreign.R = &chatMessageR{}
+				}
+				foreign.R.Channel = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// AddChatMessages adds the given related objects to the existing relationships
+// of the channel, optionally inserting them as new records.
+// Appends related to o.R.ChatMessages.
+// Sets related.R.Channel appropriately.
+func (o *Channel) AddChatMessages(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*ChatMessage) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.ChannelID = o.ID
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE `chat_messages` SET %s WHERE %s",
+				strmangle.SetParamNames("`", "`", 0, []string{"channel_id"}),
+				strmangle.WhereClause("`", "`", 0, chatMessagePrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.IsDebug(ctx) {
+				writer := boil.DebugWriterFrom(ctx)
+				fmt.Fprintln(writer, updateQuery)
+				fmt.Fprintln(writer, values)
+			}
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.ChannelID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &channelR{
+			ChatMessages: related,
+		}
+	} else {
+		o.R.ChatMessages = append(o.R.ChatMessages, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &chatMessageR{
+				Channel: o,
+			}
+		} else {
+			rel.R.Channel = o
+		}
+	}
+	return nil
 }
 
 // Channels retrieves all the records using an executor.

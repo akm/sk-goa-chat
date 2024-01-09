@@ -21,6 +21,18 @@ func init() {
 		return nil
 	})
 
+	// ChatMessage
+	models.AddChatMessageHook(boil.BeforeInsertHook, func(ctx context.Context, exec boil.ContextExecutor, p *models.ChatMessage) error {
+		now := time.Now()
+		p.CreatedAt = now
+		p.UpdatedAt = now
+		return nil
+	})
+	models.AddChatMessageHook(boil.BeforeUpdateHook, func(ctx context.Context, exec boil.ContextExecutor, p *models.ChatMessage) error {
+		p.UpdatedAt = time.Now()
+		return nil
+	})
+
 	// User
 	models.AddUserHook(boil.BeforeInsertHook, func(ctx context.Context, exec boil.ContextExecutor, p *models.User) error {
 		now := time.Now()

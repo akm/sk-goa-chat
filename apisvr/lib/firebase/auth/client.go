@@ -1,8 +1,8 @@
 package auth
 
 import (
+	"apisvr/lib/time"
 	"context"
-	"time"
 )
 
 type Client interface {

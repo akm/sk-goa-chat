@@ -1,8 +1,6 @@
 package httpintegrations
 
 import (
-	"apisvr/lib/firebase"
-	"apisvr/lib/firebase/auth"
 	"apisvr/lib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
@@ -15,6 +13,7 @@ import (
 	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
 	"apisvr/testlib/testsqlboiler"
+	"apisvr/testlib/testuser"
 	"context"
 	"fmt"
 	"net/http"
@@ -23,7 +22,6 @@ import (
 
 	"github.com/ikawaha/goahttpcheck"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
@@ -46,36 +44,11 @@ func TestChannels(t *testing.T) {
 	checker.Mount(server.NewUpdateHandler, server.MountUpdateHandler, channels.NewUpdateEndpoint(srvc))
 	checker.Mount(server.NewDeleteHandler, server.MountDeleteHandler, channels.NewDeleteEndpoint(srvc))
 
-	fbapp, err := firebase.NewApp(ctx, nil)
-	require.NoError(t, err)
-	fbauth, err := auth.NewClientRaw(ctx, fbapp)
-	require.NoError(t, err)
+	fbauth := testauth.Setup(t, ctx)
 
-	t.Run("delete all of users before test", func(t *testing.T) {
-		testauth.DeleteUsers(t, ctx, fbauth)
-	})
-
-	fooEmail := "foo@example.com"
-	fooName := "Foo"
-	fooPassword := "Passw0rd!"
-
-	t.Run("create foo", func(t *testing.T) {
-		args := &auth.UserToCreate{}
-		args.Email(fooEmail)
-		args.DisplayName(fooName)
-		args.Password(fooPassword)
-		res, err := fbauth.CreateUser(ctx, args)
-		require.NoError(t, err)
-		// t.Logf("result: %+v", res)
-		require.NotEmpty(t, res.UID)
-
-		t.Run("insert user to db", func(t *testing.T) {
-			user := &models.User{FbauthUID: res.UID, Email: fooEmail, Name: fooName}
-			testsqlboiler.Insert(t, ctx, conn, boil.Infer(), user)
-		})
-	})
-
-	sessionID := testauth.GetSessionCookie(t, ctx, fbauth, fooEmail, fooPassword)
+	userFoo := testuser.Foo()
+	userFoo.Setup(t, ctx, fbauth, conn)
+	sessionID := userFoo.SessionID
 
 	t.Run("no data", func(t *testing.T) {
 		t.Run("list", func(t *testing.T) {

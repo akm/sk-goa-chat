@@ -2,7 +2,9 @@ package main
 
 import (
 	channels "apisvr/services/gen/channels"
+	chatmessages "apisvr/services/gen/chat_messages"
 	channelssvr "apisvr/services/gen/http/channels/server"
+	chatmessagessvr "apisvr/services/gen/http/chat_messages/server"
 	sessionssvr "apisvr/services/gen/http/sessions/server"
 	userssvr "apisvr/services/gen/http/users/server"
 	log "apisvr/services/gen/log"
@@ -22,7 +24,7 @@ import (
 
 // handleHTTPServer starts configures and starts a HTTP server on the given
 // URL. It shuts down the server if any error is received in the error channel.
-func handleHTTPServer(ctx context.Context, u *url.URL, channelsEndpoints *channels.Endpoints, sessionsEndpoints *sessions.Endpoints, usersEndpoints *users.Endpoints, wg *sync.WaitGroup, errc chan error, logger *log.Logger, debug bool) {
+func handleHTTPServer(ctx context.Context, u *url.URL, channelsEndpoints *channels.Endpoints, chatMessagesEndpoints *chatmessages.Endpoints, sessionsEndpoints *sessions.Endpoints, usersEndpoints *users.Endpoints, wg *sync.WaitGroup, errc chan error, logger *log.Logger, debug bool) {
 
 	// Setup goa log adapter.
 	var (
@@ -53,18 +55,21 @@ func handleHTTPServer(ctx context.Context, u *url.URL, channelsEndpoints *channe
 	// the service input and output data structures to HTTP requests and
 	// responses.
 	var (
-		channelsServer *channelssvr.Server
-		sessionsServer *sessionssvr.Server
-		usersServer    *userssvr.Server
+		channelsServer     *channelssvr.Server
+		chatMessagesServer *chatmessagessvr.Server
+		sessionsServer     *sessionssvr.Server
+		usersServer        *userssvr.Server
 	)
 	{
 		eh := errorHandler(logger)
 		channelsServer = channelssvr.New(channelsEndpoints, mux, dec, enc, eh, nil)
+		chatMessagesServer = chatmessagessvr.New(chatMessagesEndpoints, mux, dec, enc, eh, nil)
 		sessionsServer = sessionssvr.New(sessionsEndpoints, mux, dec, enc, eh, nil)
 		usersServer = userssvr.New(usersEndpoints, mux, dec, enc, eh, nil)
 		if debug {
 			servers := goahttp.Servers{
 				channelsServer,
+				chatMessagesServer,
 				sessionsServer,
 				usersServer,
 			}
@@ -73,6 +78,7 @@ func handleHTTPServer(ctx context.Context, u *url.URL, channelsEndpoints *channe
 	}
 	// Configure the mux.
 	channelssvr.Mount(mux, channelsServer)
+	chatmessagessvr.Mount(mux, chatMessagesServer)
 	sessionssvr.Mount(mux, sessionsServer)
 	userssvr.Mount(mux, usersServer)
 
@@ -88,6 +94,9 @@ func handleHTTPServer(ctx context.Context, u *url.URL, channelsEndpoints *channe
 	// configure the server as required by your service.
 	srv := &http.Server{Addr: u.Host, Handler: handler, ReadHeaderTimeout: time.Second * 60}
 	for _, m := range channelsServer.Mounts {
+		logger.Info().Msgf("HTTP %q mounted on %s %s", m.Method, m.Verb, m.Pattern)
+	}
+	for _, m := range chatMessagesServer.Mounts {
 		logger.Info().Msgf("HTTP %q mounted on %s %s", m.Method, m.Verb, m.Pattern)
 	}
 	for _, m := range sessionsServer.Mounts {

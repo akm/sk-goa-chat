@@ -8,6 +8,8 @@ import "testing"
 func TestUpsert(t *testing.T) {
 	t.Run("Channels", testChannelsUpsert)
 
+	t.Run("ChatMessages", testChatMessagesUpsert)
+
 	t.Run("GooseDBVersions", testGooseDBVersionsUpsert)
 
 	t.Run("Users", testUsersUpsert)
