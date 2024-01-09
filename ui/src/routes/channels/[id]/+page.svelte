@@ -75,6 +75,41 @@
 		content = '';
 		// window.location.reload();
 	};
+
+	const readNewMessages = async (reqPath: string): Promise<ChatMessage[]> => {
+		const result = await fetch(reqPath);
+		const json = await result.json();
+		console.log('json', json);
+		if (!json.items) {
+			errorMessage = json.message;
+			throw json.message;
+		}
+		return json.items.map((msg) => ({
+			id: msg.id,
+			createdAt: msg.created_at,
+			updatedAt: msg.updated_at,
+			channelId: msg.channel_id,
+			userId: msg.user_id,
+			userName: msg.user_name,
+			content: msg.content
+		}));
+	};
+
+	const readLaterMessages = async () => {
+		const latestId = data.messages[data.messages.length - 1].id;
+		const newMessages = await readNewMessages(
+			`/api/chat_messages?channel_id=${data.channel.id}&after=${latestId}&limit=50`
+		);
+		data.messages = [...data.messages, ...newMessages];
+	};
+
+	const readEarlierMessages = async () => {
+		const earliestId = data.messages[0].id;
+		const newMessages = await readNewMessages(
+			`/api/chat_messages?channel_id=${data.channel.id}&before=${earliestId}&limit=50`
+		);
+		data.messages = [...newMessages, ...data.messages];
+	};
 </script>
 
 <Heading tag="h3" class="mb-4">
@@ -83,6 +118,10 @@
 		<CogOutline class="w-4 h-4 text-primary-700" />
 	</Button>
 </Heading>
+
+<div class="flex justify-center">
+	<Button on:click={readEarlierMessages} class="mt-4" color="alternative">Read More</Button>
+</div>
 
 {#each data.messages as msg (msg.id)}
 	<div class="flex items-start mb-4">
@@ -108,6 +147,10 @@
 		</div>
 	</div>
 {/each}
+
+<div class="flex justify-center">
+	<Button on:click={readLaterMessages} class="mt-4" color="alternative">Read More</Button>
+</div>
 
 <div>
 	<textarea bind:value={content} class="w-full h-24 p-2 border border-gray-300 rounded-md" />
