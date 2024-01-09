@@ -25,5 +25,6 @@ export async function load(
 		sessionId: event.locals.sessionID,
 		channelId: channelID
 	});
-	return { channel: { id: channel.id, name: channel.name }, messages };
+	const lastMessageId = messages[messages.length - 1].id;
+	return { channel: { id: channel.id, name: channel.name }, messages, lastMessageId };
 }

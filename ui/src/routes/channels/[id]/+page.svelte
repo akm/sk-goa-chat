@@ -10,6 +10,7 @@
 	export let data: {
 		channel: Channel;
 		messages: ChatMessage[];
+		lastMessageId: number;
 	};
 
 	let name = data.channel.name;
@@ -95,12 +96,18 @@
 		}));
 	};
 
+	const uniq = (array: ChatMessage[]) => {
+		return array.filter((item, index) => {
+			return array.findIndex((item2) => item.id === item2.id) === index;
+		});
+	};
+
 	const readLaterMessages = async () => {
-		const latestId = data.messages[data.messages.length - 1].id;
 		const newMessages = await readNewMessages(
-			`/api/chat_messages?channel_id=${data.channel.id}&after=${latestId}&limit=50`
+			`/api/chat_messages?channel_id=${data.channel.id}&after=${data.lastMessageId}&limit=50`
 		);
-		data.messages = [...data.messages, ...newMessages];
+		data.messages = uniq([...data.messages, ...newMessages]);
+		data.lastMessageId = Number(data.messages[data.messages.length - 1].id);
 	};
 
 	const readEarlierMessages = async () => {
@@ -108,7 +115,7 @@
 		const newMessages = await readNewMessages(
 			`/api/chat_messages?channel_id=${data.channel.id}&before=${earliestId}&limit=50`
 		);
-		data.messages = [...newMessages, ...data.messages];
+		data.messages = uniq([...newMessages, ...data.messages]);
 	};
 </script>
 
