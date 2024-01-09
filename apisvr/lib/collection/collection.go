@@ -17,3 +17,21 @@ func Reverse[T any](elems []T) []T {
 	}
 	return outputs
 }
+
+func Any[T any](elems []T, fn func(T) bool) bool {
+	for _, elm := range elems {
+		if fn(elm) {
+			return true
+		}
+	}
+	return false
+}
+
+func All[T any](elems []T, fn func(T) bool) bool {
+	for _, elm := range elems {
+		if !fn(elm) {
+			return false
+		}
+	}
+	return true
+}
