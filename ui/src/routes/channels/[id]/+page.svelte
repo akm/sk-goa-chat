@@ -120,7 +120,9 @@
 </Heading>
 
 <div class="flex justify-center">
-	<Button on:click={readEarlierMessages} class="mt-4" color="alternative">Read More</Button>
+	<Button on:click={readEarlierMessages} class="mt-4" color="alternative"
+		>Read previous messages</Button
+	>
 </div>
 
 {#each data.messages as msg (msg.id)}
@@ -149,13 +151,13 @@
 {/each}
 
 <div class="flex justify-center">
-	<Button on:click={readLaterMessages} class="mt-4" color="alternative">Read More</Button>
+	<Button on:click={readLaterMessages} class="mt-4" color="alternative">Read next messages</Button>
 </div>
 
 <div class="flex mt-4">
 	<textarea bind:value={content} class="grow h-24 p-2 border border-gray-300 rounded-md" />
 	<div class="flex-0 h-24">
-		<Button class="m-2 h-20" color="alternative" on:click={postMessage}>Send</Button>
+		<Button class="m-2 h-20" on:click={postMessage}>Send</Button>
 	</div>
 </div>
 
