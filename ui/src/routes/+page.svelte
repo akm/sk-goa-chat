@@ -3,6 +3,6 @@
 </script>
 
 <div>
-	<TextPlaceholder class="mb-8" />
-	<TextPlaceholder class="mb-8" />
+	<p>Select a channel</p>
+	<p>(TODO Select last channel)</p>
 </div>
