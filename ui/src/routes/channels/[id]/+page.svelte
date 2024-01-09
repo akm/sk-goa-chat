@@ -96,17 +96,27 @@
 		}));
 	};
 
-	const uniq = (array: ChatMessage[]) => {
-		return array.filter((item, index) => {
-			return array.findIndex((item2) => item.id === item2.id) === index;
-		});
+	const uniqSort = (array: ChatMessage[]) => {
+		return array
+			.filter((item, index) => {
+				return array.findIndex((item2) => item.id === item2.id) === index;
+			})
+			.sort((a, b) => {
+				if (a.id < b.id) {
+					return -1;
+				}
+				if (a.id > b.id) {
+					return 1;
+				}
+				return 0;
+			});
 	};
 
 	const readLaterMessages = async () => {
 		const newMessages = await readNewMessages(
 			`/api/chat_messages?channel_id=${data.channel.id}&after=${data.lastMessageId}&limit=50`
 		);
-		data.messages = uniq([...data.messages, ...newMessages]);
+		data.messages = uniqSort([...data.messages, ...newMessages]);
 		data.lastMessageId = Number(data.messages[data.messages.length - 1].id);
 	};
 
@@ -115,7 +125,7 @@
 		const newMessages = await readNewMessages(
 			`/api/chat_messages?channel_id=${data.channel.id}&before=${earliestId}&limit=50`
 		);
-		data.messages = uniq([...newMessages, ...data.messages]);
+		data.messages = uniqSort([...newMessages, ...data.messages]);
 	};
 </script>
 
