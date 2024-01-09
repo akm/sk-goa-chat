@@ -17,6 +17,7 @@
 		"grpc:gen": "run-s grpc:gen:*",
 		"grpc:gen:channels": "mkdir -p src/lib/server/protos && protoc --ts_out $_ --proto_path ../apisvr/services/gen/grpc/channels/pb ../apisvr/services/gen/grpc/channels/pb/goagen_services_channels.proto",
 		"grpc:gen:users": "mkdir -p src/lib/server/protos && protoc --ts_out $_ --proto_path ../apisvr/services/gen/grpc/users/pb ../apisvr/services/gen/grpc/users/pb/goagen_services_users.proto",
+		"grpc:gen:chat_messages": "mkdir -p src/lib/server/protos && protoc --ts_out $_ --proto_path ../apisvr/services/gen/grpc/chat_messages/pb ../apisvr/services/gen/grpc/chat_messages/pb/goagen_services_chat_messages.proto",
 		"test": "run-s test:unit test:integration",
 		"test:integration": "run-s test:integration:setup test:integration:run",
 		"test:integration:containers:up": "make -C tests/integration/containers up",
