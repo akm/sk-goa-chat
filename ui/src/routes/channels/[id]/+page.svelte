@@ -4,9 +4,12 @@
 	import { CogOutline, TrashBinSolid, InfoCircleSolid } from 'flowbite-svelte-icons';
 
 	import type { Channel } from '$lib/models/channel';
+	import type { ChatMessage } from '$lib/models/chat_message';
+	import { channelOptionsEqual } from '@grpc/grpc-js/build/src/channel-options.js';
 
-	export let data = {
-		channel: Channel
+	export let data: {
+		channel: Channel;
+		messages: ChatMessage[];
 	};
 
 	let name = data.channel.name;
@@ -42,6 +45,36 @@
 		}
 		window.location.href = '/';
 	};
+
+	let content = '';
+
+	const postMessage = async () => {
+		const result = await fetch(`/api/chat_messages`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ channel_id: Number(data.channel.id), content })
+		});
+		const json = await result.json();
+		console.log('json', json);
+		if (!json.id) {
+			errorMessage = json.message;
+			return;
+		}
+		data.messages = [
+			...data.messages,
+			{
+				id: json.id,
+				createdAt: json.created_at,
+				updatedAt: json.updated_at,
+				channelId: json.channel_id,
+				userId: json.user_id,
+				userName: json.user_name,
+				content
+			}
+		];
+		content = '';
+		// window.location.reload();
+	};
 </script>
 
 <Heading tag="h3" class="mb-4">
@@ -51,9 +84,37 @@
 	</Button>
 </Heading>
 
-<TextPlaceholder class="mb-8" />
+{#each data.messages as msg (msg.id)}
+	<div class="flex items-start mb-4">
+		<!-- <div class="flex-shrink-0">
+		<img
+			class="w-10 h-10 rounded-full"
+			src={msg.user.avatarUrl}
+			alt={msg.user.name}
+		/>
+	</div> -->
+		<div class="flex flex-col flex-1 w-0 ms-3">
+			<div class="flex items-center justify-between">
+				<h4 class="text-sm font-medium text-gray-900 dark:text-white">
+					{msg.userName}
+				</h4>
+				<p class="text-sm text-gray-500">
+					{msg.createdAt}
+				</p>
+			</div>
+			<p class="mt-1 text-sm text-gray-700 dark:text-white">
+				{msg.content}
+			</p>
+		</div>
+	</div>
+{/each}
 
-<TextPlaceholder class="mb-8" />
+<div>
+	<textarea bind:value={content} class="w-full h-24 p-2 border border-gray-300 rounded-md" />
+	<div class="flex justify-end">
+		<Button class="mt-4" color="alternative" on:click={postMessage}>Send</Button>
+	</div>
+</div>
 
 <Modal bind:open={settingVisible} size="xs" autoclose={false} class="w-full">
 	<h3 class="text-xl font-medium text-gray-900 dark:text-white">Channel Settings</h3>

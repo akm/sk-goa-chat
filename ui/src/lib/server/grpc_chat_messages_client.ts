@@ -19,8 +19,8 @@ const client: IChatMessagesClient = new ChatMessagesClient(transport);
 export const listChatMessages = async (arg: {
 	sessionId: string;
 	channelId: bigint;
-	limit: number | undefined;
-	after: bigint | undefined;
+	limit?: number;
+	after?: bigint;
 }): Promise<ChatMessage[]> => {
 	const { sessionId, channelId, after } = arg;
 	let { limit } = arg;
