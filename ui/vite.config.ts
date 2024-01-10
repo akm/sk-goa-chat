@@ -15,6 +15,11 @@ export default defineConfig({
 				target: apisvrOrigin,
 				changeOrigin: false,
 				ws: false
+			},
+			'/ws': {
+				target: apisvrOrigin,
+				changeOrigin: false,
+				ws: true
 			}
 		}
 	}
