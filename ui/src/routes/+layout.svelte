@@ -1,20 +1,17 @@
 <script lang="ts">
 	import {
-		Button,
 		Navbar,
 		NavBrand,
 		NavHamburger,
 		Avatar,
 		Dropdown,
 		DropdownItem,
-		DropdownHeader,
-		Listgroup
+		DropdownHeader
 	} from 'flowbite-svelte';
 
 	import '../app.pcss';
 	import { page } from '$app/stores';
 	import { deleteSession } from '$lib/session';
-	import type { Channel } from '$lib/models/channel';
 
 	const signout = async () => {
 		await deleteSession();
@@ -24,10 +21,7 @@
 	// user の例: {id: 'nUhxKTpuXq4phNaBp1NF6Vp605wJ', name: 'Foo', email: 'foo@example.com'}
 	const user = $page.data.user;
 
-	const channelLinks = ($page.data.channels as Channel[]).map((channel) => ({
-		name: channel.name,
-		href: `/channels/${channel.id}`
-	}));
+	console.log('user', user);
 </script>
 
 <div class="mx-36 max-w-full my-2">
@@ -56,19 +50,6 @@
 	</Navbar>
 
 	<div class="flex">
-		{#if user}
-			<div class="flex flex-col" data-testid="channel_list_pane">
-				{#if channelLinks.length > 0}
-					<Listgroup active items={channelLinks} let:item class="w-48" data-testid="channel_list">
-						{item.name}
-					</Listgroup>
-				{/if}
-
-				<Button class="mt-4" color="alternative" href="/channels/new">New Channel</Button>
-			</div>
-		{/if}
-		<div class="grow m-4">
-			<slot />
-		</div>
+		<slot />
 	</div>
 </div>
