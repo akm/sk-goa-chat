@@ -23,7 +23,7 @@ func BuildCreatePayload(sessionsCreateMessage string) (*sessions.CreatePayload, 
 		if sessionsCreateMessage != "" {
 			err = json.Unmarshal([]byte(sessionsCreateMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id_token\": \"Ea ut voluptatem iste praesentium.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id_token\": \"Repellendus doloribus consectetur.\"\n   }'")
 			}
 		}
 	}
@@ -43,7 +43,7 @@ func BuildDeletePayload(sessionsDeleteMessage string) (*sessions.DeletePayload, 
 		if sessionsDeleteMessage != "" {
 			err = json.Unmarshal([]byte(sessionsDeleteMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"session_id\": \"Quis eveniet.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"session_id\": \"Provident natus ratione voluptatum.\"\n   }'")
 			}
 		}
 	}

@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gorilla/websocket"
 	goahttp "goa.design/goa/v3/http"
 	goa "goa.design/goa/v3/pkg"
 )
@@ -20,6 +21,13 @@ func doHTTP(scheme, host string, timeout int, debug bool) (goa.Endpoint, any, er
 		}
 	}
 
+	var (
+		dialer *websocket.Dialer
+	)
+	{
+		dialer = websocket.DefaultDialer
+	}
+
 	return cli.ParseEndpoint(
 		scheme,
 		host,
@@ -27,6 +35,8 @@ func doHTTP(scheme, host string, timeout int, debug bool) (goa.Endpoint, any, er
 		goahttp.RequestEncoder,
 		goahttp.ResponseDecoder,
 		debug,
+		dialer,
+		nil,
 	)
 }
 

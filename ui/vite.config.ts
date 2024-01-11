@@ -1,7 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
 
-const apisvrOrigin = process.env.APISVR_ORIGIN ?? 'http://localhost:8000';
+const apisvrOrigin = process.env.VITE_APISVR_ORIGIN ?? 'http://localhost:8000';
 
 export default defineConfig({
 	plugins: [sveltekit()],
@@ -15,6 +15,11 @@ export default defineConfig({
 				target: apisvrOrigin,
 				changeOrigin: false,
 				ws: false
+			},
+			'/ws': {
+				target: apisvrOrigin,
+				changeOrigin: false,
+				ws: true
 			}
 		}
 	}

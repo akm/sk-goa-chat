@@ -23,7 +23,7 @@ func BuildListPayload(chatMessagesListMessage string) (*chatmessages.ListPayload
 		if chatMessagesListMessage != "" {
 			err = json.Unmarshal([]byte(chatMessagesListMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"after\": 4635728304845688011,\n      \"before\": 13066561246146553339,\n      \"channel_id\": 5096907298334997690,\n      \"limit\": 6306927104806872566,\n      \"session_id\": \"Sequi voluptatibus eveniet cumque magni.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"after\": 3544964465354554180,\n      \"before\": 17673947327266176618,\n      \"channel_id\": 15695766911067386108,\n      \"limit\": 8250912138791472019,\n      \"session_id\": \"Et nemo quo et animi voluptas.\"\n   }'")
 			}
 		}
 	}
@@ -47,7 +47,7 @@ func BuildShowPayload(chatMessagesShowMessage string) (*chatmessages.ShowPayload
 		if chatMessagesShowMessage != "" {
 			err = json.Unmarshal([]byte(chatMessagesShowMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 10044309726672495385,\n      \"session_id\": \"Voluptas vero.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 10367661822404905433,\n      \"session_id\": \"Pariatur itaque tempore.\"\n   }'")
 			}
 		}
 	}
@@ -68,7 +68,7 @@ func BuildCreatePayload(chatMessagesCreateMessage string) (*chatmessages.ChatMes
 		if chatMessagesCreateMessage != "" {
 			err = json.Unmarshal([]byte(chatMessagesCreateMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"channel_id\": 14185251234153705068,\n      \"content\": \"Et nemo quo et animi voluptas.\",\n      \"session_id\": \"Velit quaerat neque.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"channel_id\": 8172423812704457457,\n      \"content\": \"Dolorum eligendi molestiae.\",\n      \"session_id\": \"Atque autem eligendi magnam dicta et.\"\n   }'")
 			}
 		}
 	}
@@ -90,7 +90,7 @@ func BuildUpdatePayload(chatMessagesUpdateMessage string) (*chatmessages.ChatMes
 		if chatMessagesUpdateMessage != "" {
 			err = json.Unmarshal([]byte(chatMessagesUpdateMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"content\": \"In eius.\",\n      \"id\": 13208488990939666410,\n      \"session_id\": \"Dolorem reprehenderit quisquam.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"content\": \"Unde ipsum eaque ea ut voluptatem iste.\",\n      \"id\": 12051398758544000342,\n      \"session_id\": \"Neque ex exercitationem.\"\n   }'")
 			}
 		}
 	}
@@ -112,7 +112,7 @@ func BuildDeletePayload(chatMessagesDeleteMessage string) (*chatmessages.DeleteP
 		if chatMessagesDeleteMessage != "" {
 			err = json.Unmarshal([]byte(chatMessagesDeleteMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 12703000236813531731,\n      \"session_id\": \"Neque velit.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 6502519870035504266,\n      \"session_id\": \"Eos tenetur exercitationem quisquam at.\"\n   }'")
 			}
 		}
 	}
