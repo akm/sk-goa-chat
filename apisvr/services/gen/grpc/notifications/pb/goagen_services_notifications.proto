@@ -1,0 +1,28 @@
+// Code generated with goa v3.14.1, DO NOT EDIT.
+//
+// notifications protocol buffer definition
+//
+// Command:
+// $ goa gen apisvr/design -o ./services
+
+syntax = "proto3";
+
+package notifications;
+
+option go_package = "/notificationspb";
+
+// Service is the notifications service interface.
+service Notifications {
+	// Subscribe to events sent such new chat messages.
+	rpc Subscribe (SubscribeRequest) returns (stream SubscribeResponse);
+}
+
+message SubscribeRequest {
+	// Session ID
+	string session_id = 1;
+}
+
+message SubscribeResponse {
+	// IDs of channels which got new messages
+	repeated uint64 channel_ids = 1;
+}
