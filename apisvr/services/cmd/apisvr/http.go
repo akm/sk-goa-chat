@@ -5,9 +5,11 @@ import (
 	chatmessages "apisvr/services/gen/chat_messages"
 	channelssvr "apisvr/services/gen/http/channels/server"
 	chatmessagessvr "apisvr/services/gen/http/chat_messages/server"
+	notificationssvr "apisvr/services/gen/http/notifications/server"
 	sessionssvr "apisvr/services/gen/http/sessions/server"
 	userssvr "apisvr/services/gen/http/users/server"
 	log "apisvr/services/gen/log"
+	notifications "apisvr/services/gen/notifications"
 	sessions "apisvr/services/gen/sessions"
 	users "apisvr/services/gen/users"
 	"context"
@@ -17,6 +19,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/gorilla/websocket"
 	goahttp "goa.design/goa/v3/http"
 	httpmdlwr "goa.design/goa/v3/http/middleware"
 	"goa.design/goa/v3/middleware"
@@ -24,7 +27,7 @@ import (
 
 // handleHTTPServer starts configures and starts a HTTP server on the given
 // URL. It shuts down the server if any error is received in the error channel.
-func handleHTTPServer(ctx context.Context, u *url.URL, channelsEndpoints *channels.Endpoints, chatMessagesEndpoints *chatmessages.Endpoints, sessionsEndpoints *sessions.Endpoints, usersEndpoints *users.Endpoints, wg *sync.WaitGroup, errc chan error, logger *log.Logger, debug bool) {
+func handleHTTPServer(ctx context.Context, u *url.URL, channelsEndpoints *channels.Endpoints, chatMessagesEndpoints *chatmessages.Endpoints, notificationsEndpoints *notifications.Endpoints, sessionsEndpoints *sessions.Endpoints, usersEndpoints *users.Endpoints, wg *sync.WaitGroup, errc chan error, logger *log.Logger, debug bool) {
 
 	// Setup goa log adapter.
 	var (
@@ -55,21 +58,25 @@ func handleHTTPServer(ctx context.Context, u *url.URL, channelsEndpoints *channe
 	// the service input and output data structures to HTTP requests and
 	// responses.
 	var (
-		channelsServer     *channelssvr.Server
-		chatMessagesServer *chatmessagessvr.Server
-		sessionsServer     *sessionssvr.Server
-		usersServer        *userssvr.Server
+		channelsServer      *channelssvr.Server
+		chatMessagesServer  *chatmessagessvr.Server
+		notificationsServer *notificationssvr.Server
+		sessionsServer      *sessionssvr.Server
+		usersServer         *userssvr.Server
 	)
 	{
 		eh := errorHandler(logger)
+		upgrader := &websocket.Upgrader{}
 		channelsServer = channelssvr.New(channelsEndpoints, mux, dec, enc, eh, nil)
 		chatMessagesServer = chatmessagessvr.New(chatMessagesEndpoints, mux, dec, enc, eh, nil)
+		notificationsServer = notificationssvr.New(notificationsEndpoints, mux, dec, enc, eh, nil, upgrader, nil)
 		sessionsServer = sessionssvr.New(sessionsEndpoints, mux, dec, enc, eh, nil)
 		usersServer = userssvr.New(usersEndpoints, mux, dec, enc, eh, nil)
 		if debug {
 			servers := goahttp.Servers{
 				channelsServer,
 				chatMessagesServer,
+				notificationsServer,
 				sessionsServer,
 				usersServer,
 			}
@@ -79,6 +86,7 @@ func handleHTTPServer(ctx context.Context, u *url.URL, channelsEndpoints *channe
 	// Configure the mux.
 	channelssvr.Mount(mux, channelsServer)
 	chatmessagessvr.Mount(mux, chatMessagesServer)
+	notificationssvr.Mount(mux, notificationsServer)
 	sessionssvr.Mount(mux, sessionsServer)
 	userssvr.Mount(mux, usersServer)
 
@@ -97,6 +105,9 @@ func handleHTTPServer(ctx context.Context, u *url.URL, channelsEndpoints *channe
 		logger.Info().Msgf("HTTP %q mounted on %s %s", m.Method, m.Verb, m.Pattern)
 	}
 	for _, m := range chatMessagesServer.Mounts {
+		logger.Info().Msgf("HTTP %q mounted on %s %s", m.Method, m.Verb, m.Pattern)
+	}
+	for _, m := range notificationsServer.Mounts {
 		logger.Info().Msgf("HTTP %q mounted on %s %s", m.Method, m.Verb, m.Pattern)
 	}
 	for _, m := range sessionsServer.Mounts {

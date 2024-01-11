@@ -7,11 +7,14 @@ import (
 	channelssvr "apisvr/services/gen/grpc/channels/server"
 	chat_messagespb "apisvr/services/gen/grpc/chat_messages/pb"
 	chatmessagessvr "apisvr/services/gen/grpc/chat_messages/server"
+	notificationspb "apisvr/services/gen/grpc/notifications/pb"
+	notificationssvr "apisvr/services/gen/grpc/notifications/server"
 	sessionspb "apisvr/services/gen/grpc/sessions/pb"
 	sessionssvr "apisvr/services/gen/grpc/sessions/server"
 	userspb "apisvr/services/gen/grpc/users/pb"
 	userssvr "apisvr/services/gen/grpc/users/server"
 	log "apisvr/services/gen/log"
+	notifications "apisvr/services/gen/notifications"
 	sessions "apisvr/services/gen/sessions"
 	users "apisvr/services/gen/users"
 	"context"
@@ -27,7 +30,7 @@ import (
 
 // handleGRPCServer starts configures and starts a gRPC server on the given
 // URL. It shuts down the server if any error is received in the error channel.
-func handleGRPCServer(ctx context.Context, u *url.URL, channelsEndpoints *channels.Endpoints, chatMessagesEndpoints *chatmessages.Endpoints, sessionsEndpoints *sessions.Endpoints, usersEndpoints *users.Endpoints, wg *sync.WaitGroup, errc chan error, logger *log.Logger, debug bool) {
+func handleGRPCServer(ctx context.Context, u *url.URL, channelsEndpoints *channels.Endpoints, chatMessagesEndpoints *chatmessages.Endpoints, notificationsEndpoints *notifications.Endpoints, sessionsEndpoints *sessions.Endpoints, usersEndpoints *users.Endpoints, wg *sync.WaitGroup, errc chan error, logger *log.Logger, debug bool) {
 
 	// Setup goa log adapter.
 	var (
@@ -42,14 +45,16 @@ func handleGRPCServer(ctx context.Context, u *url.URL, channelsEndpoints *channe
 	// the service input and output data structures to gRPC requests and
 	// responses.
 	var (
-		channelsServer     *channelssvr.Server
-		chatMessagesServer *chatmessagessvr.Server
-		sessionsServer     *sessionssvr.Server
-		usersServer        *userssvr.Server
+		channelsServer      *channelssvr.Server
+		chatMessagesServer  *chatmessagessvr.Server
+		notificationsServer *notificationssvr.Server
+		sessionsServer      *sessionssvr.Server
+		usersServer         *userssvr.Server
 	)
 	{
 		channelsServer = channelssvr.New(channelsEndpoints, nil)
 		chatMessagesServer = chatmessagessvr.New(chatMessagesEndpoints, nil)
+		notificationsServer = notificationssvr.New(notificationsEndpoints, nil)
 		sessionsServer = sessionssvr.New(sessionsEndpoints, nil)
 		usersServer = userssvr.New(usersEndpoints, nil)
 	}
@@ -60,11 +65,16 @@ func handleGRPCServer(ctx context.Context, u *url.URL, channelsEndpoints *channe
 			grpcmdlwr.UnaryRequestID(),
 			grpcmdlwr.UnaryServerLog(adapter),
 		),
+		grpc.ChainStreamInterceptor(
+			grpcmdlwr.StreamRequestID(),
+			grpcmdlwr.StreamServerLog(adapter),
+		),
 	)
 
 	// Register the servers.
 	channelspb.RegisterChannelsServer(srv, channelsServer)
 	chat_messagespb.RegisterChatMessagesServer(srv, chatMessagesServer)
+	notificationspb.RegisterNotificationsServer(srv, notificationsServer)
 	sessionspb.RegisterSessionsServer(srv, sessionsServer)
 	userspb.RegisterUsersServer(srv, usersServer)
 
