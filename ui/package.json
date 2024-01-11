@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "run-p dev:containers:up dev:apisvr dev:run",
 		"dev:apisvr": "GOOGLE_CLOUD_PROJECT=sk-goa-chat FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:9099' make -C ../apisvr dev",
-		"dev:run": "GOOGLE_CLOUD_PROJECT=sk-goa-chat FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:9099' VITE_FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:9099' vite dev",
+		"dev:run": "GOOGLE_CLOUD_PROJECT=sk-goa-chat FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:9099' VITE_FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:9099' VITE_UISVR_ORIGIN=http://localhost:5173 vite dev",
 		"dev:containers:up": "make -C ../containers/localdev up",
 		"dev:containers:down": "make -C ../containers/localdev down",
 		"build": "vite build",
