@@ -6,6 +6,8 @@
 	import type { Channel } from '$lib/models/channel';
 	import type { ChatMessage } from '$lib/models/chat_message';
 	import { channelOptionsEqual } from '@grpc/grpc-js/build/src/channel-options.js';
+	import { notificationsSocket } from '$lib/websockets';
+	import { onDestroy, onMount } from 'svelte';
 
 	export let data: {
 		channel: Channel;
@@ -17,6 +19,37 @@
 	let errorMessage = '';
 
 	let settingVisible = false;
+
+	const nofiticationHandler = (event) => {
+		// console.log('event', event);
+		// console.log('event.data', event.data);
+		const notification = JSON.parse(event.data);
+		// console.log('notification', notification);
+		const chID = Number(data.channel.id);
+		if (notification.channel_ids.includes(chID)) {
+			readLaterMessages()
+				.then(() => {
+					console.log('update by notification OK');
+				})
+				.catch((err) => {
+					console.log('update by notification failed', err);
+				});
+		} else {
+			console.log('notification does not include channel id', {
+				channel_ids: notification.channel_ids,
+				channel_id: chID
+			});
+		}
+	};
+
+	let ws: WebSocket;
+	onMount(() => {
+		ws = notificationsSocket();
+		ws.addEventListener('message', nofiticationHandler);
+	});
+	onDestroy(() => {
+		if (ws) ws.removeEventListener('message', nofiticationHandler);
+	});
 
 	const updateChannel = async () => {
 		const result = await fetch(`/api/channels/${data.channel.id}`, {
