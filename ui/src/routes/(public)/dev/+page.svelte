@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Button, Listgroup, Modal, Label, Input, Hr } from 'flowbite-svelte';
+	import { Button, Listgroup, Heading, Modal, Label, Input, Hr } from 'flowbite-svelte';
+	import { CogOutline, TrashBinSolid, InfoCircleSolid } from 'flowbite-svelte-icons';
 
 	const channelLinks = [
 		{ name: 'general', href: '/channels/1' },
@@ -30,6 +31,15 @@
 
 <div class="flex h-full flex-auto flex-col p-6">
 	<div class="flex h-full flex-auto flex-shrink-0 flex-col rounded-2xl bg-gray-100 p-4">
+		<div class="flex flex-row">
+			<Heading tag="h3" class="mb-4">
+				general
+				<Button pill={true} outline={true} class="!p-2">
+					<CogOutline class="w-4 h-4 text-primary-700" />
+				</Button>
+			</Heading>
+		</div>
+
 		<div class="mb-4 flex h-full flex-col overflow-x-auto">
 			<div class="flex h-full flex-col">
 				<div class="">
