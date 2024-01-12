@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Listgroup, Heading, Modal, Label, Input, Hr } from 'flowbite-svelte';
+	import { Button, Listgroup, Heading, Avatar, NavHamburger,Dropdown, DropdownHeader, DropdownItem, Modal, Label, Input, Hr } from 'flowbite-svelte';
 	import { CogOutline, TrashBinSolid, InfoCircleSolid } from 'flowbite-svelte-icons';
 
 	const channelLinks = [
@@ -20,13 +20,41 @@
 </script>
 
 <div class="flex w-64 flex-shrink-0 flex-col bg-white py-8 pl-6 pr-2">
-	{#if channelLinks.length > 0}
-		<Listgroup active items={channelLinks} let:item class="w-48" data-testid="channel_list">
-			{item.name}
-		</Listgroup>
-	{/if}
+	<div class="flex flex-row mb-4">
+		<div class="flex-none w-12">
+			<img src="/logo192.png" class="mr-3 h-6 sm:h-9" alt="SK Goa Chat Logo" />
+		</div>	
+		<div class="flex-shrink pt-1">
+			<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+				SK Goa Chat
+			</span>
+		</div>	
+	</div>	
 
-	<Button class="mt-4" color="alternative" href="/channels/new">New Channel</Button>
+	<div class="flex-row">
+		{#if channelLinks.length > 0}
+			<Listgroup active items={channelLinks} let:item class="w-48" data-testid="channel_list">
+				{item.name}
+			</Listgroup>
+		{/if}
+
+		<Button class="mt-4" color="alternative" href="/channels/new">New Channel</Button>
+	</div>
+
+	<div class="flex flex-row mt-16">
+		<div class="flex items-center space-x-4 rtl:space-x-reverse">
+			<Avatar id="avatar-menu" rounded />
+			<div class="space-y-1 font-medium dark:text-white">
+			  <div>Jese Leos</div>
+			  <div class="text-sm text-gray-500 dark:text-gray-400">Joined in August 2014</div>
+			</div>
+		  </div>
+
+		<Dropdown placement="bottom" triggeredBy="#avatar-menu">
+			<DropdownItem >ログアウト</DropdownItem>
+		</Dropdown>
+
+	</div>
 </div>
 
 <div class="flex h-full flex-auto flex-col p-6">
