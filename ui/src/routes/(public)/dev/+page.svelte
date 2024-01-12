@@ -99,8 +99,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="flex h-32 w-full flex-row items-center rounded-xl bg-white px-4">
-			<div class="ml-4 flex-grow">
+		<div class="flex h-32 w-full flex-row items-center rounded-xl bg-white">
+			<div class="flex-grow">
 				<div class="relative w-full">
 					<div class="flex flex-row">
 						<textarea class="grow h-24 p-2 border border-gray-300 rounded-md" />
