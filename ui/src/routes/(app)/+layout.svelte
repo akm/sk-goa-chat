@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Button, Listgroup } from 'flowbite-svelte';
 
-	import '../../app.pcss';
 	import { page } from '$app/stores';
 	import type { Channel } from '$lib/models/channel';
 
