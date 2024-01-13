@@ -73,12 +73,7 @@ func newBaseAuthService(logger *log.Logger, convToAuthenticationError func(error
 	}
 }
 
-func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, sessionID string) (*models.User, error) {
-	fbauth, err := s.firebaseAuthClient(ctx)
-	if err != nil {
-		return nil, err
-	}
-
+func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, fbauth auth.Client, sessionID string) (*models.User, error) {
 	token, err := fbauth.VerifySessionCookie(ctx, sessionID)
 	if err != nil {
 		return nil, s.ConvToAuthenticationError(err)
@@ -105,7 +100,12 @@ func (s *baseAuthService) actionWithAuth(ctx context.Context, name string, sessi
 	}
 	defer db.Close()
 
-	user, err := s.authenticate(ctx, db, sessionID)
+	fbauth, err := s.firebaseAuthClient(ctx)
+	if err != nil {
+		return err
+	}
+
+	user, err := s.authenticate(ctx, db, fbauth, sessionID)
 	if err != nil {
 		return err
 	}
