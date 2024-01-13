@@ -41,6 +41,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 				switch (err.code) {
 					case 'auth/session-cookie-revoked':
 					case 'auth/user-not-found':
+						event.locals.user = undefined;
+						event.locals.sessionID = undefined;
 						return await resolve(event);
 				}
 			}

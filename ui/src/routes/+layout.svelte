@@ -18,8 +18,6 @@
 		} catch (e) {
 			console.log('failed to delete session: ', e);
 		}
-		$page.data.user = undefined;
-		$page.data.sessionID = undefined;
 		window.location.href = $page.url.origin + '/signin';
 	};
 
