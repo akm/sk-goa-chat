@@ -3,7 +3,6 @@ package chatapi
 import (
 	"apisvr/lib/errors"
 	"apisvr/lib/sql"
-	"apisvr/models"
 	log "apisvr/services/gen/log"
 	notifications "apisvr/services/gen/notifications"
 	"context"
@@ -28,9 +27,17 @@ func NewNotifications(logger *log.Logger) notifications.Service {
 
 // Subscribe to events sent such new chat messages.
 func (s *notificationssrvc) Subscribe(ctx context.Context, p *notifications.SubscribePayload, stream notifications.SubscribeServerStream) (err error) {
-	err = s.actionWithAuth(ctx, "notifications.subscribe", p.SessionID, func(ctx context.Context, db *sql.DB, user *models.User) error {
+	err = s.actionWithDB(ctx, "notifications.subscribe", func(ctx context.Context, db *sql.DB) error {
+		fbauth, err := s.firebaseAuthClient(ctx)
+		if err != nil {
+			return err
+		}
 
 		query := func(ctx context.Context) (map[uint64]uint64, error) {
+			if _, err := s.authenticate(ctx, db, fbauth, p.SessionID); err != nil {
+				return nil, err
+			}
+
 			rows, err := db.QueryContext(ctx, "SELECT channel_id, MAX(id) AS max_id FROM chat_messages GROUP BY channel_id")
 			if err != nil {
 				return nil, errors.Wrapf(err, "failed to query chat messages")
@@ -64,7 +71,11 @@ func (s *notificationssrvc) Subscribe(ctx context.Context, p *notifications.Subs
 			case <-ticker.C:
 				currMap, err := query(ctx)
 				if err != nil {
-					return err
+					if err := stream.Close(); err != nil {
+						s.logger.Printf("failed to close stream: [%T] %+v", err, err)
+					} else {
+						return err
+					}
 				}
 
 				channelIDs := []uint64{}
