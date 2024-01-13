@@ -47,7 +47,7 @@
 	};
 </script>
 
-<div class="space-y-4">
+<div class="space-y-4 mt-8">
 	<Heading tag="h3" class="mb-4">ログイン</Heading>
 
 	{#if errorMessage}
