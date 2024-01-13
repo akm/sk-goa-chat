@@ -41,7 +41,9 @@ func NewDeletePayload(message *sessionspb.DeleteRequest) *sessions.DeletePayload
 
 // NewProtoDeleteResponse builds the gRPC response type from the result of the
 // "delete" endpoint of the "sessions" service.
-func NewProtoDeleteResponse() *sessionspb.DeleteResponse {
-	message := &sessionspb.DeleteResponse{}
+func NewProtoDeleteResponse(result *sessions.DeleteResult) *sessionspb.DeleteResponse {
+	message := &sessionspb.DeleteResponse{
+		SessionId: result.SessionID,
+	}
 	return message
 }

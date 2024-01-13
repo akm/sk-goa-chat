@@ -44,7 +44,11 @@ func (c *Client) Create(ctx context.Context, p *CreatePayload) (res *CreateResul
 // Delete may return the following errors:
 //   - "invalid_payload" (type *goa.ServiceError)
 //   - error: internal error
-func (c *Client) Delete(ctx context.Context, p *DeletePayload) (err error) {
-	_, err = c.DeleteEndpoint(ctx, p)
-	return
+func (c *Client) Delete(ctx context.Context, p *DeletePayload) (res *DeleteResult, err error) {
+	var ires any
+	ires, err = c.DeleteEndpoint(ctx, p)
+	if err != nil {
+		return
+	}
+	return ires.(*DeleteResult), nil
 }

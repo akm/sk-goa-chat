@@ -79,7 +79,7 @@ paths:
                         schema:
                             $ref: '#/components/schemas/CreateRequestBody'
                         example:
-                            name: Excepturi earum tenetur sed sed ut quibusdam.
+                            name: Recusandae quo ratione et.
             responses:
                 "201":
                     description: Created response.
@@ -89,8 +89,8 @@ paths:
                                 $ref: '#/components/schemas/Channel'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 13322691396419903010
-                                name: Aliquam reiciendis.
+                                id: 3871602425964841270
+                                name: In omnis quasi dolores non.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "400":
                     description: 'invalid_payload: Bad Request response.'
@@ -139,8 +139,8 @@ paths:
                                 $ref: '#/components/schemas/Channel'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 11643325753069024245
-                                name: Magni dolores nesciunt.
+                                id: 10066336226929949440
+                                name: Non officia dignissimos repellat at.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "401":
                     description: 'unauthenticated: Unauthorized response.'
@@ -188,8 +188,8 @@ paths:
                                 $ref: '#/components/schemas/Channel'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 2420097712217243777
-                                name: Qui aut veritatis quaerat.
+                                id: 3174728128026383618
+                                name: Modi ullam excepturi earum.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "401":
                     description: 'unauthenticated: Unauthorized response.'
@@ -235,7 +235,7 @@ paths:
                         schema:
                             $ref: '#/components/schemas/CreateRequestBody'
                         example:
-                            name: Quasi dolores.
+                            name: Corrupti ut deleniti consequatur voluptates ab quia.
             responses:
                 "200":
                     description: OK response.
@@ -245,8 +245,8 @@ paths:
                                 $ref: '#/components/schemas/Channel'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 4767501215037465810
-                                name: Corrupti ut deleniti consequatur voluptates ab quia.
+                                id: 15889514314966169584
+                                name: Saepe recusandae.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "400":
                     description: 'invalid_payload: Bad Request response.'
@@ -381,8 +381,8 @@ paths:
                         schema:
                             $ref: '#/components/schemas/CreateRequestBody2'
                         example:
-                            channel_id: 10045783446838657138
-                            content: Sit quos enim praesentium provident et.
+                            channel_id: 15556517036826360854
+                            content: Et labore.
             responses:
                 "201":
                     description: Created response.
@@ -391,13 +391,13 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/ChatMessage'
                             example:
-                                channel_id: 10030370312238534585
-                                content: Et quasi in animi.
+                                channel_id: 7516670838824219425
+                                content: Id labore temporibus sed.
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 13145541921246075429
+                                id: 8845190340737756413
                                 updated_at: 2006-01-02T15:04:05Z07:00
-                                user_id: 2859200271161070869
-                                user_name: Id labore temporibus sed.
+                                user_id: 4723834145395715149
+                                user_name: Dicta rerum.
                 "400":
                     description: 'invalid_payload: Bad Request response.'
                     content:
@@ -496,13 +496,13 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/ChatMessage'
                             example:
-                                channel_id: 2144952444717266027
-                                content: Nemo iusto eum.
+                                channel_id: 1008265692079476370
+                                content: In et modi nam.
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 2571508077731446733
+                                id: 4436441058387454044
                                 updated_at: 2006-01-02T15:04:05Z07:00
-                                user_id: 14163683418456383212
-                                user_name: Fugit assumenda magni nihil facere.
+                                user_id: 12018679536742733167
+                                user_name: Facere illo nemo iusto eum.
                 "401":
                     description: 'unauthenticated: Unauthorized response.'
                     content:
@@ -547,7 +547,7 @@ paths:
                         schema:
                             $ref: '#/components/schemas/UpdateRequestBody'
                         example:
-                            content: Et odit.
+                            content: Unde voluptas voluptatem quam velit et odit.
             responses:
                 "200":
                     description: OK response.
@@ -601,6 +601,14 @@ paths:
             responses:
                 "200":
                     description: OK response.
+                    headers:
+                        Set-Cookie:
+                            description: Session ID
+                            schema:
+                                type: string
+                                description: Session ID
+                                example: Ullam et alias aut.
+                            example: Non quo quam.
                 "400":
                     description: 'invalid_payload: Bad Request response.'
                     content:
@@ -652,12 +660,10 @@ paths:
                                 $ref: '#/components/schemas/UserList'
                             example:
                                 items:
-                                    - id: 9889316568717454133
-                                      name: Architecto inventore expedita dolores.
-                                    - id: 9889316568717454133
-                                      name: Architecto inventore expedita dolores.
-                                    - id: 9889316568717454133
-                                      name: Architecto inventore expedita dolores.
+                                    - id: 674974725234254612
+                                      name: Veritatis in similique.
+                                    - id: 674974725234254612
+                                      name: Veritatis in similique.
                                 offset: 0
                                 total: 160
         post:
@@ -672,8 +678,8 @@ paths:
                         schema:
                             $ref: '#/components/schemas/CreateRequestBody4'
                         example:
-                            email: Repudiandae animi odit quo quo voluptatem minima.
-                            name: Sit omnis sed.
+                            email: Libero esse qui inventore culpa.
+                            name: Quo voluptatem minima ut eum.
             responses:
                 "201":
                     description: Created response.
@@ -683,8 +689,8 @@ paths:
                                 $ref: '#/components/schemas/User'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 4274411630003616062
-                                name: Minus id eius est est recusandae.
+                                id: 5312361766264616584
+                                name: Occaecati magnam qui vel hic quo vero.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "400":
                     description: 'invalid_payload: Bad Request response.'
@@ -1164,12 +1170,10 @@ components:
                     example: 160
             example:
                 items:
-                    - id: 9889316568717454133
-                      name: Architecto inventore expedita dolores.
-                    - id: 9889316568717454133
-                      name: Architecto inventore expedita dolores.
-                    - id: 9889316568717454133
-                      name: Architecto inventore expedita dolores.
+                    - id: 674974725234254612
+                      name: Veritatis in similique.
+                    - id: 674974725234254612
+                      name: Veritatis in similique.
                 offset: 0
                 total: 160
             required:
@@ -1198,10 +1202,10 @@ components:
             items:
                 $ref: '#/components/schemas/UserListItem'
             example:
-                - id: 9889316568717454133
-                  name: Architecto inventore expedita dolores.
-                - id: 9889316568717454133
-                  name: Architecto inventore expedita dolores.
+                - id: 674974725234254612
+                  name: Veritatis in similique.
+                - id: 674974725234254612
+                  name: Veritatis in similique.
 tags:
     - name: channels
     - name: chat_messages

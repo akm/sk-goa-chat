@@ -35,4 +35,6 @@ message DeleteRequest {
 }
 
 message DeleteResponse {
+	// Session ID
+	string session_id = 1;
 }

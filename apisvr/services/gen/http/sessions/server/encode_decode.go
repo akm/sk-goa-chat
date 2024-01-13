@@ -94,6 +94,15 @@ func EncodeCreateError(encoder func(context.Context, http.ResponseWriter) goahtt
 // sessions delete endpoint.
 func EncodeDeleteResponse(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder) func(context.Context, http.ResponseWriter, any) error {
 	return func(ctx context.Context, w http.ResponseWriter, v any) error {
+		res, _ := v.(*sessions.DeleteResult)
+		sessionID := res.SessionID
+		http.SetCookie(w, &http.Cookie{
+			Name:     "session_id",
+			Value:    sessionID,
+			MaxAge:   3600,
+			Path:     "/",
+			HttpOnly: true,
+		})
 		w.WriteHeader(http.StatusOK)
 		return nil
 	}

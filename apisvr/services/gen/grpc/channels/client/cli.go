@@ -23,7 +23,7 @@ func BuildListPayload(channelsListMessage string) (*channels.ListPayload, error)
 		if channelsListMessage != "" {
 			err = json.Unmarshal([]byte(channelsListMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"session_id\": \"Qui vel hic quo vero distinctio expedita.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"session_id\": \"Alias rem.\"\n   }'")
 			}
 		}
 	}
@@ -43,7 +43,7 @@ func BuildShowPayload(channelsShowMessage string) (*channels.ShowPayload, error)
 		if channelsShowMessage != "" {
 			err = json.Unmarshal([]byte(channelsShowMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 11296320162095826430,\n      \"session_id\": \"In alias rem sequi tempore et.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 13315485509768610097,\n      \"session_id\": \"Tempore et minus molestias aspernatur blanditiis neque.\"\n   }'")
 			}
 		}
 	}
@@ -64,7 +64,7 @@ func BuildCreatePayload(channelsCreateMessage string) (*channels.ChannelCreatePa
 		if channelsCreateMessage != "" {
 			err = json.Unmarshal([]byte(channelsCreateMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"name\": \"Molestias animi consequatur consequatur doloremque assumenda sint.\",\n      \"session_id\": \"Quia praesentium.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"name\": \"Consequatur consequatur doloremque assumenda sint consequuntur corrupti.\",\n      \"session_id\": \"Blanditiis molestias.\"\n   }'")
 			}
 		}
 	}
@@ -85,7 +85,7 @@ func BuildUpdatePayload(channelsUpdateMessage string) (*channels.ChannelUpdatePa
 		if channelsUpdateMessage != "" {
 			err = json.Unmarshal([]byte(channelsUpdateMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 15530299141661648374,\n      \"name\": \"Non commodi et voluptas.\",\n      \"session_id\": \"Sequi voluptatibus eveniet cumque magni.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 5096907298334997690,\n      \"name\": \"Commodi et voluptas.\",\n      \"session_id\": \"Cumque magni vitae.\"\n   }'")
 			}
 		}
 	}

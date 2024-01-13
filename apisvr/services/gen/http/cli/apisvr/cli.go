@@ -36,8 +36,8 @@ users (list|create)
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
-	return os.Args[0] + ` channels list --session-id "Dignissimos aspernatur qui."` + "\n" +
-		os.Args[0] + ` chat-messages list --limit 5314643365623931100 --channel-id 1722316354911009714 --after 13958713590171479784 --before 16407905638149946005 --session-id "Nisi non facere vitae."` + "\n" +
+	return os.Args[0] + ` channels list --session-id "Excepturi eveniet."` + "\n" +
+		os.Args[0] + ` chat-messages list --limit 869822283739345648 --channel-id 18205167818237641942 --after 9363623954785491311 --before 735355215373132696 --session-id "In est similique non impedit."` + "\n" +
 		os.Args[0] + ` notifications subscribe --session-id "Ducimus beatae molestias est."` + "\n" +
 		os.Args[0] + ` sessions create --body '{
       "id_token": "Ad cupiditate non quam in nihil."
@@ -374,7 +374,7 @@ List implements list.
     -session-id STRING: 
 
 Example:
-    %[1]s channels list --session-id "Dignissimos aspernatur qui."
+    %[1]s channels list --session-id "Excepturi eveniet."
 `, os.Args[0])
 }
 
@@ -386,7 +386,7 @@ Show implements show.
     -session-id STRING: 
 
 Example:
-    %[1]s channels show --id 14681272151725024096 --session-id "Dolorum est qui maxime alias."
+    %[1]s channels show --id 7348357204986159664 --session-id "Ex cumque et ipsa voluptate ullam."
 `, os.Args[0])
 }
 
@@ -399,8 +399,8 @@ Create implements create.
 
 Example:
     %[1]s channels create --body '{
-      "name": "Excepturi earum tenetur sed sed ut quibusdam."
-   }' --session-id "Quos recusandae quo."
+      "name": "Recusandae quo ratione et."
+   }' --session-id "Reiciendis at officiis rerum nihil."
 `, os.Args[0])
 }
 
@@ -414,8 +414,8 @@ Update implements update.
 
 Example:
     %[1]s channels update --body '{
-      "name": "Quasi dolores."
-   }' --id 14872597286999707803 --session-id "Veniam amet exercitationem unde ea."
+      "name": "Corrupti ut deleniti consequatur voluptates ab quia."
+   }' --id 16051933798475324595 --session-id "Animi rerum."
 `, os.Args[0])
 }
 
@@ -427,7 +427,7 @@ Delete implements delete.
     -session-id STRING: 
 
 Example:
-    %[1]s channels delete --id 3230230199289603967 --session-id "Aut soluta voluptates ut autem."
+    %[1]s channels delete --id 11634181251069557909 --session-id "Dolores nesciunt architecto aut."
 `, os.Args[0])
 }
 
@@ -460,7 +460,7 @@ List implements list.
     -session-id STRING: 
 
 Example:
-    %[1]s chat-messages list --limit 5314643365623931100 --channel-id 1722316354911009714 --after 13958713590171479784 --before 16407905638149946005 --session-id "Nisi non facere vitae."
+    %[1]s chat-messages list --limit 869822283739345648 --channel-id 18205167818237641942 --after 9363623954785491311 --before 735355215373132696 --session-id "In est similique non impedit."
 `, os.Args[0])
 }
 
@@ -472,7 +472,7 @@ Show implements show.
     -session-id STRING: 
 
 Example:
-    %[1]s chat-messages show --id 2446642401133126898 --session-id "Fugit porro recusandae velit consequatur."
+    %[1]s chat-messages show --id 7639062889424950639 --session-id "Voluptatibus consequatur nemo earum."
 `, os.Args[0])
 }
 
@@ -485,9 +485,9 @@ Create implements create.
 
 Example:
     %[1]s chat-messages create --body '{
-      "channel_id": 10045783446838657138,
-      "content": "Sit quos enim praesentium provident et."
-   }' --session-id "Pariatur laborum sequi necessitatibus cum voluptatum nihil."
+      "channel_id": 15556517036826360854,
+      "content": "Et labore."
+   }' --session-id "Laborum sequi necessitatibus."
 `, os.Args[0])
 }
 
@@ -501,7 +501,7 @@ Update implements update.
 
 Example:
     %[1]s chat-messages update --body '{
-      "content": "Et odit."
+      "content": "Unde voluptas voluptatem quam velit et odit."
    }' --id 14325405331609480272 --session-id "Odio quod sint atque ipsa."
 `, os.Args[0])
 }
@@ -613,8 +613,8 @@ Create implements create.
 
 Example:
     %[1]s users create --body '{
-      "email": "Repudiandae animi odit quo quo voluptatem minima.",
-      "name": "Sit omnis sed."
+      "email": "Libero esse qui inventore culpa.",
+      "name": "Quo voluptatem minima ut eum."
    }'
 `, os.Args[0])
 }

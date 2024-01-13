@@ -49,7 +49,11 @@ func DecodeCreateRequest(ctx context.Context, v any, md metadata.MD) (any, error
 // EncodeDeleteResponse encodes responses from the "sessions" service "delete"
 // endpoint.
 func EncodeDeleteResponse(ctx context.Context, v any, hdr, trlr *metadata.MD) (any, error) {
-	resp := NewProtoDeleteResponse()
+	result, ok := v.(*sessions.DeleteResult)
+	if !ok {
+		return nil, goagrpc.ErrInvalidType("sessions", "delete", "*sessions.DeleteResult", v)
+	}
+	resp := NewProtoDeleteResponse(result)
 	return resp, nil
 }
 

@@ -58,7 +58,7 @@ func (c *Client) Delete() goa.Endpoint {
 		inv := goagrpc.NewInvoker(
 			BuildDeleteFunc(c.grpccli, c.opts...),
 			EncodeDeleteRequest,
-			nil)
+			DecodeDeleteResponse)
 		res, err := inv.Invoke(ctx, v)
 		if err != nil {
 			resp := goagrpc.DecodeError(err)
