@@ -9,3 +9,7 @@ dev:
 .PHONY: preview
 preview:
 	npm run preview
+
+.PHONY: test
+test:
+	npm run test
