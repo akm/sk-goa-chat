@@ -34,7 +34,7 @@
 </script>
 
 <div class="flex h-full w-full flex-row overflow-x-hidden">
-	<div class="flex w-64 flex-shrink-0 flex-col bg-white py-2 pl-6 pr-2">
+	<div class="flex w-64 flex-shrink-0 flex-col bg-white py-2 pl-6 pr-2" data-testid="sidebar">
 		<div class="flex flex-auto flex-shrink-0 flex-col rounded-2xl p-4">
 			<div class="flex flex-row mb-4">
 				<div class="flex-none w-12">
