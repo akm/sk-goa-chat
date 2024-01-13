@@ -46,6 +46,7 @@
 	onMount(() => {
 		ws = notificationsSocket();
 		ws.addEventListener('message', nofiticationHandler);
+		scrollToLatestChat('instant');
 	});
 	onDestroy(() => {
 		if (ws) ws.removeEventListener('message', nofiticationHandler);
@@ -80,13 +81,12 @@
 		window.location.href = '/';
 	};
 
-	let content = '';
-
+	let textarea: HTMLTextAreaElement;
 	const postMessage = async () => {
 		const result = await fetch(`/api/chat_messages`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ channel_id: Number(data.channel.id), content })
+			body: JSON.stringify({ channel_id: Number(data.channel.id), content: textarea.value })
 		});
 		const json = await result.json();
 		console.log('json', json);
@@ -94,20 +94,8 @@
 			errorMessage = json.message;
 			return;
 		}
-		data.messages = [
-			...data.messages,
-			{
-				id: json.id,
-				createdAt: json.created_at,
-				updatedAt: json.updated_at,
-				channelId: json.channel_id,
-				userId: json.user_id,
-				userName: json.user_name,
-				content
-			}
-		];
-		content = '';
-		// window.location.reload();
+		textarea.value = '';
+		textarea.focus();
 	};
 
 	const readNewMessages = async (reqPath: string): Promise<ChatMessage[]> => {
@@ -145,12 +133,31 @@
 			});
 	};
 
+	let scrollContainer: HTMLDivElement;
+	const latestChatVisible = (): boolean => {
+		const pos =
+			scrollContainer.scrollHeight - (scrollContainer.scrollTop + scrollContainer.clientHeight);
+		return pos < 100;
+	};
+	const scrollToLatestChat = (behavior?: ScrollBehavior) => {
+		scrollContainer.scrollTo({
+			top: scrollContainer.scrollHeight - scrollContainer.clientHeight - 50,
+			behavior: behavior
+		});
+	};
+
 	const readLaterMessages = async () => {
+		const latestVisible = latestChatVisible();
 		const newMessages = await readNewMessages(
 			`/api/chat_messages?channel_id=${data.channel.id}&after=${data.lastMessageId}&limit=50`
 		);
 		data.messages = uniqSort([...data.messages, ...newMessages]);
 		data.lastMessageId = Number(data.messages[data.messages.length - 1].id);
+		if (latestVisible) {
+			setTimeout(() => {
+				scrollToLatestChat('smooth');
+			}, 10);
+		}
 	};
 
 	const readEarlierMessages = async () => {
@@ -162,52 +169,79 @@
 	};
 </script>
 
-<Heading tag="h3" class="mb-4">
-	{data.channel.name}
-	<Button pill={true} outline={true} class="!p-2" on:click={() => (settingVisible = true)}>
-		<CogOutline class="w-4 h-4 text-primary-700" />
-	</Button>
-</Heading>
+<div class="flex h-full flex-auto flex-col p-6">
+	<div class="flex h-full flex-auto flex-shrink-0 flex-col rounded-2xl bg-gray-100 p-4">
+		<div class="flex flex-row">
+			<Heading tag="h3" class="mb-4">
+				{data.channel.name}
+				<Button pill={true} outline={true} class="!p-2" on:click={() => (settingVisible = true)}>
+					<CogOutline class="w-4 h-4 text-primary-700" />
+				</Button>
+			</Heading>
+		</div>
 
-<div class="flex justify-center">
-	<Button on:click={readEarlierMessages} class="mt-4" color="alternative"
-		>Read previous messages</Button
-	>
-</div>
+		<div class="mb-4 flex h-full flex-col overflow-x-auto" bind:this={scrollContainer}>
+			<div class="flex h-full flex-col">
+				<div class="flex justify-center">
+					<Button on:click={readEarlierMessages} class="mt-4" color="alternative"
+						>Read previous messages</Button
+					>
+				</div>
 
-{#each data.messages as msg (msg.id)}
-	<div class="flex items-start mb-4">
-		<!-- <div class="flex-shrink-0">
+				{#each data.messages as msg (msg.id)}
+					<div class="flex items-start mb-4">
+						<!-- <div class="flex-shrink-0">
 		<img
 			class="w-10 h-10 rounded-full"
 			src={msg.user.avatarUrl}
 			alt={msg.user.name}
 		/>
 	</div> -->
-		<div class="flex flex-col flex-1 w-0 ms-3">
-			<div class="flex items-center justify-between">
-				<h4 class="text-sm font-medium text-gray-900 dark:text-white">
-					{msg.userName}
-				</h4>
-				<p class="text-sm text-gray-500">
-					{msg.createdAt}
-				</p>
+						<div class="flex flex-col flex-1 w-0 ms-3">
+							<div class="flex items-center justify-between">
+								<h4 class="text-sm font-medium text-gray-900 dark:text-white">
+									{msg.userName}
+								</h4>
+								<p class="text-sm text-gray-500">
+									{msg.createdAt}
+								</p>
+							</div>
+							<p class="mt-1 text-sm text-gray-700 dark:text-white">
+								{msg.content}
+							</p>
+						</div>
+					</div>
+				{/each}
+
+				<div class="flex justify-center">
+					<Button on:click={readLaterMessages} class="mt-4" color="alternative"
+						>Read next messages</Button
+					>
+				</div>
 			</div>
-			<p class="mt-1 text-sm text-gray-700 dark:text-white">
-				{msg.content}
-			</p>
 		</div>
-	</div>
-{/each}
-
-<div class="flex justify-center">
-	<Button on:click={readLaterMessages} class="mt-4" color="alternative">Read next messages</Button>
-</div>
-
-<div class="flex mt-4">
-	<textarea bind:value={content} class="grow h-24 p-2 border border-gray-300 rounded-md" />
-	<div class="flex-0 h-24">
-		<Button class="m-2 h-20" on:click={postMessage}>Send</Button>
+		<div class="flex h-32 w-full flex-row items-center rounded-xl bg-white">
+			<div class="flex-grow">
+				<div class="relative w-full">
+					<div class="flex flex-row">
+						<textarea
+							bind:this={textarea}
+							on:keypress={(e) => {
+								if (e.key === 'Enter' && (e.altKey || e.metaKey || e.ctrlKey)) {
+									// Chrome では metaKey は反応しない
+									e.preventDefault();
+									postMessage();
+								}
+							}}
+							class="grow h-24 p-2 border border-gray-300 rounded-md"
+						/>
+						<div class="flex-0 h-24">
+							<Button class="m-2 h-20" on:click={postMessage}>Send</Button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 

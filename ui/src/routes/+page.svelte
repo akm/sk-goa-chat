@@ -3,6 +3,5 @@
 </script>
 
 <div>
-	<p>Select a channel</p>
-	<p>(TODO Select last channel)</p>
+	<p><a href="/channels/1"> Open Chat</a></p>
 </div>
