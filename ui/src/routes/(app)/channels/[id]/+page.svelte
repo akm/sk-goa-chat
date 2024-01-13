@@ -46,6 +46,7 @@
 	onMount(() => {
 		ws = notificationsSocket();
 		ws.addEventListener('message', nofiticationHandler);
+		scrollToLatestChat('instant');
 	});
 	onDestroy(() => {
 		if (ws) ws.removeEventListener('message', nofiticationHandler);
@@ -94,20 +95,7 @@
 			errorMessage = json.message;
 			return;
 		}
-		data.messages = [
-			...data.messages,
-			{
-				id: json.id,
-				createdAt: json.created_at,
-				updatedAt: json.updated_at,
-				channelId: json.channel_id,
-				userId: json.user_id,
-				userName: json.user_name,
-				content
-			}
-		];
 		content = '';
-		// window.location.reload();
 	};
 
 	const readNewMessages = async (reqPath: string): Promise<ChatMessage[]> => {
@@ -145,12 +133,31 @@
 			});
 	};
 
+	let scrollContainer: HTMLDivElement;
+	const latestChatVisible = (): boolean => {
+		const pos =
+			scrollContainer.scrollHeight - (scrollContainer.scrollTop + scrollContainer.clientHeight);
+		return pos < 100;
+	};
+	const scrollToLatestChat = (behavior?: ScrollBehavior) => {
+		scrollContainer.scrollTo({
+			top: scrollContainer.scrollHeight - scrollContainer.clientHeight - 50,
+			behavior: behavior
+		});
+	};
+
 	const readLaterMessages = async () => {
+		const latestVisible = latestChatVisible();
 		const newMessages = await readNewMessages(
 			`/api/chat_messages?channel_id=${data.channel.id}&after=${data.lastMessageId}&limit=50`
 		);
 		data.messages = uniqSort([...data.messages, ...newMessages]);
 		data.lastMessageId = Number(data.messages[data.messages.length - 1].id);
+		if (latestVisible) {
+			setTimeout(() => {
+				scrollToLatestChat('smooth');
+			}, 10);
+		}
 	};
 
 	const readEarlierMessages = async () => {
@@ -173,7 +180,7 @@
 			</Heading>
 		</div>
 
-		<div class="mb-4 flex h-full flex-col overflow-x-auto">
+		<div class="mb-4 flex h-full flex-col overflow-x-auto" bind:this={scrollContainer}>
 			<div class="flex h-full flex-col">
 				<div class="flex justify-center">
 					<Button on:click={readEarlierMessages} class="mt-4" color="alternative"
