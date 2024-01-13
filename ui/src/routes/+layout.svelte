@@ -8,8 +8,18 @@
 	import type { Channel } from '$lib/models/channel';
 
 	const signout = async () => {
-		closeWebSockets();
-		await deleteSession();
+		try {
+			closeWebSockets();
+		} catch (e) {
+			console.log('failed to close websockets: ', e);
+		}
+		try {
+			await deleteSession();
+		} catch (e) {
+			console.log('failed to delete session: ', e);
+		}
+		$page.data.user = undefined;
+		$page.data.sessionID = undefined;
 		window.location.href = $page.url.origin + '/signin';
 	};
 
