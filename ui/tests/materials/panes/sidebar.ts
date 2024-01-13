@@ -16,13 +16,9 @@ export class Sidebar {
 
 	get avatarMenu(): AvatarMenu {
 		return new AvatarMenu(
-			this.locator.locator('div[role="tooltip"]:has(span[data-testid="account_name"])')
+			this.locator.locator('div[role="tooltip"]:has(button:text("ログアウト"))')
 		);
 	}
-}
-
-export class AvatarMenu {
-	constructor(readonly locator: Locator) {}
 
 	get accountName(): Locator {
 		return this.locator.locator('span[data-testid="account_name"]');
@@ -30,6 +26,10 @@ export class AvatarMenu {
 	get accountEmail(): Locator {
 		return this.locator.locator('span[data-testid="account_email"]');
 	}
+}
+
+export class AvatarMenu {
+	constructor(readonly locator: Locator) {}
 
 	get signoutButton(): Locator {
 		return this.locator.locator('button:text("ログアウト")');
