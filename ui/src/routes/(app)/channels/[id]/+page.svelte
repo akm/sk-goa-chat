@@ -81,13 +81,12 @@
 		window.location.href = '/';
 	};
 
-	let content = '';
-
+	let textarea: HTMLTextAreaElement;
 	const postMessage = async () => {
 		const result = await fetch(`/api/chat_messages`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ channel_id: Number(data.channel.id), content })
+			body: JSON.stringify({ channel_id: Number(data.channel.id), content: textarea.value })
 		});
 		const json = await result.json();
 		console.log('json', json);
@@ -95,7 +94,8 @@
 			errorMessage = json.message;
 			return;
 		}
-		content = '';
+		textarea.value = '';
+		textarea.focus();
 	};
 
 	const readNewMessages = async (reqPath: string): Promise<ChatMessage[]> => {
@@ -225,7 +225,14 @@
 				<div class="relative w-full">
 					<div class="flex flex-row">
 						<textarea
-							bind:value={content}
+							bind:this={textarea}
+							on:keypress={(e) => {
+								if (e.key === 'Enter' && (e.altKey || e.metaKey || e.ctrlKey)) {
+									// Chrome では metaKey は反応しない
+									e.preventDefault();
+									postMessage();
+								}
+							}}
 							class="grow h-24 p-2 border border-gray-300 rounded-md"
 						/>
 						<div class="flex-0 h-24">
