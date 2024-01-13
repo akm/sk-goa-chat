@@ -91,32 +91,30 @@
 
 		<div class="mb-4 flex h-full flex-col overflow-x-auto">
 			<div class="flex h-full flex-col">
-				<div class="">
-					<div class="flex flex-row justify-center">
-						<Button class="mt-4" color="alternative">Read previous messages</Button>
-					</div>
+				<div class="flex flex-row justify-center">
+					<Button class="mt-4" color="alternative">Read previous messages</Button>
+				</div>
 
-					{#each messages as msg (msg.id)}
-						<div class="flex flex-row items-start mb-4">
-							<div class="flex flex-col flex-1 w-0 ms-3">
-								<div class="flex items-center justify-between">
-									<h4 class="text-sm font-medium text-gray-900 dark:text-white">
-										{msg.userName}
-									</h4>
-									<p class="text-sm text-gray-500">
-										{msg.createdAt}
-									</p>
-								</div>
-								<p class="mt-1 text-sm text-gray-700 dark:text-white">
-									{msg.content}
+				{#each messages as msg (msg.id)}
+					<div class="flex flex-row items-start mb-4">
+						<div class="flex flex-col flex-1 w-0 ms-3">
+							<div class="flex items-center justify-between">
+								<h4 class="text-sm font-medium text-gray-900 dark:text-white">
+									{msg.userName}
+								</h4>
+								<p class="text-sm text-gray-500">
+									{msg.createdAt}
 								</p>
 							</div>
+							<p class="mt-1 text-sm text-gray-700 dark:text-white">
+								{msg.content}
+							</p>
 						</div>
-					{/each}
-
-					<div class="flex flex-row justify-center">
-						<Button class="mt-4" color="alternative">Read next messages</Button>
 					</div>
+				{/each}
+
+				<div class="flex flex-row justify-center">
+					<Button class="mt-4" color="alternative">Read next messages</Button>
 				</div>
 			</div>
 		</div>
