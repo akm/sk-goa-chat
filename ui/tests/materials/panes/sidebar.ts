@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 
-export class Header {
+export class Sidebar {
 	readonly locator: Locator;
 	constructor(page: Page) {
 		this.locator = page.locator('nav[data-testid="header_nav"]');
