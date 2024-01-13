@@ -92,23 +92,15 @@ func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, fbauth a
 }
 
 func (s *baseAuthService) actionWithAuth(ctx context.Context, name string, sessionID string, cb func(context.Context, *sql.DB, *models.User) error) error {
-	s.logger.Info().Msg(name)
-	ctx = SetupContext(ctx)
-	db, err := s.sqlOpen()
-	if err != nil {
-		return err
-	}
-	defer db.Close()
-
-	fbauth, err := s.firebaseAuthClient(ctx)
-	if err != nil {
-		return err
-	}
-
-	user, err := s.authenticate(ctx, db, fbauth, sessionID)
-	if err != nil {
-		return err
-	}
-
-	return cb(ctx, db, user)
+	return s.actionWithDB(ctx, name, func(ctx context.Context, db *sql.DB) error {
+		fbauth, err := s.firebaseAuthClient(ctx)
+		if err != nil {
+			return err
+		}
+		user, err := s.authenticate(ctx, db, fbauth, sessionID)
+		if err != nil {
+			return err
+		}
+		return cb(ctx, db, user)
+	})
 }
