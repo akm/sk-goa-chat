@@ -36,7 +36,7 @@ users (list|create)
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
 	return os.Args[0] + ` channels list --message '{
-      "session_id": "Qui vel hic quo vero distinctio expedita."
+      "session_id": "Alias rem."
    }'` + "\n" +
 		os.Args[0] + ` chat-messages list --message '{
       "after": 3544964465354554180,
@@ -362,7 +362,7 @@ List implements list.
 
 Example:
     %[1]s channels list --message '{
-      "session_id": "Qui vel hic quo vero distinctio expedita."
+      "session_id": "Alias rem."
    }'
 `, os.Args[0])
 }
@@ -375,8 +375,8 @@ Show implements show.
 
 Example:
     %[1]s channels show --message '{
-      "id": 11296320162095826430,
-      "session_id": "In alias rem sequi tempore et."
+      "id": 13315485509768610097,
+      "session_id": "Tempore et minus molestias aspernatur blanditiis neque."
    }'
 `, os.Args[0])
 }
@@ -389,8 +389,8 @@ Create implements create.
 
 Example:
     %[1]s channels create --message '{
-      "name": "Molestias animi consequatur consequatur doloremque assumenda sint.",
-      "session_id": "Quia praesentium."
+      "name": "Consequatur consequatur doloremque assumenda sint consequuntur corrupti.",
+      "session_id": "Blanditiis molestias."
    }'
 `, os.Args[0])
 }
@@ -403,9 +403,9 @@ Update implements update.
 
 Example:
     %[1]s channels update --message '{
-      "id": 15530299141661648374,
-      "name": "Non commodi et voluptas.",
-      "session_id": "Sequi voluptatibus eveniet cumque magni."
+      "id": 5096907298334997690,
+      "name": "Commodi et voluptas.",
+      "session_id": "Cumque magni vitae."
    }'
 `, os.Args[0])
 }
@@ -616,8 +616,8 @@ Create implements create.
 
 Example:
     %[1]s users create --message '{
-      "email": "Non quia voluptatibus repellat ipsum quas.",
-      "name": "Vel deserunt ullam ea hic enim aut."
+      "email": "Id eius omnis animi.",
+      "name": "Non quia voluptatibus repellat ipsum quas."
    }'
 `, os.Args[0])
 }

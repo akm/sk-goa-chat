@@ -21,7 +21,13 @@ type channelssrvc struct {
 
 // NewChannels returns the channels service implementation.
 func NewChannels(logger *log.Logger) channels.Service {
-	return &channelssrvc{baseAuthService: newBaseAuthService(logger), ChannelsConvertor: NewChannelsConvertor()}
+	return &channelssrvc{
+		baseAuthService: newBaseAuthService(
+			logger,
+			channels.MakeUnauthenticated,
+		),
+		ChannelsConvertor: NewChannelsConvertor(),
+	}
 }
 
 // List implements list.

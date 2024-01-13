@@ -72,3 +72,13 @@ func EncodeDeleteRequest(ctx context.Context, v any, md *metadata.MD) (any, erro
 	}
 	return NewProtoDeleteRequest(payload), nil
 }
+
+// DecodeDeleteResponse decodes responses from the sessions delete endpoint.
+func DecodeDeleteResponse(ctx context.Context, v any, hdr, trlr metadata.MD) (any, error) {
+	message, ok := v.(*sessionspb.DeleteResponse)
+	if !ok {
+		return nil, goagrpc.ErrInvalidType("sessions", "delete", "*sessionspb.DeleteResponse", v)
+	}
+	res := NewDeleteResult(message)
+	return res, nil
+}

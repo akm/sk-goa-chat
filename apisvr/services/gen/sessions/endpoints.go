@@ -47,6 +47,6 @@ func NewCreateEndpoint(s Service) goa.Endpoint {
 func NewDeleteEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
 		p := req.(*DeletePayload)
-		return nil, s.Delete(ctx, p)
+		return s.Delete(ctx, p)
 	}
 }

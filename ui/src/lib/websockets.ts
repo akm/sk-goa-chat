@@ -26,3 +26,8 @@ export const notificationsSocket = (): WebSocket => {
 	_notificationsSocket = ws;
 	return _notificationsSocket;
 };
+
+export const closeWebSockets = (): void => {
+	if (!_notificationsSocket) return;
+	_notificationsSocket.close(1000);
+};

@@ -89,6 +89,15 @@ func NewCreateInvalidPayload(body *CreateInvalidPayloadResponseBody) *goa.Servic
 	return v
 }
 
+// NewDeleteResultOK builds a "sessions" service "delete" endpoint result from
+// a HTTP "OK" response.
+func NewDeleteResultOK(sessionID string) *sessions.DeleteResult {
+	v := &sessions.DeleteResult{}
+	v.SessionID = sessionID
+
+	return v
+}
+
 // NewDeleteInvalidPayload builds a sessions service delete endpoint
 // invalid_payload error.
 func NewDeleteInvalidPayload(body *DeleteInvalidPayloadResponseBody) *goa.ServiceError {

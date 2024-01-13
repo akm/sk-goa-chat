@@ -18,7 +18,7 @@ type Service interface {
 	// Create implements create.
 	Create(context.Context, *CreatePayload) (res *CreateResult, err error)
 	// Delete implements delete.
-	Delete(context.Context, *DeletePayload) (err error)
+	Delete(context.Context, *DeletePayload) (res *DeleteResult, err error)
 }
 
 // ServiceName is the name of the service as defined in the design. This is the
@@ -45,6 +45,12 @@ type CreateResult struct {
 
 // DeletePayload is the payload type of the sessions service delete method.
 type DeletePayload struct {
+	// Session ID
+	SessionID string
+}
+
+// DeleteResult is the result type of the sessions service delete method.
+type DeleteResult struct {
 	// Session ID
 	SessionID string
 }

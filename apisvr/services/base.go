@@ -6,6 +6,7 @@ import (
 
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
+	goa "goa.design/goa/v3/pkg"
 
 	"apisvr/lib/errors"
 	"apisvr/lib/firebase"
@@ -13,7 +14,6 @@ import (
 	"apisvr/lib/sql"
 	"apisvr/models"
 	_ "apisvr/models_ext"
-	channels "apisvr/services/gen/channels"
 	log "apisvr/services/gen/log"
 )
 
@@ -63,27 +63,26 @@ func (s *baseService) firebaseAuthClient(ctx context.Context) (auth.Client, erro
 
 type baseAuthService struct {
 	baseService
+	ConvToAuthenticationError func(error) *goa.ServiceError
 }
 
-func newBaseAuthService(logger *log.Logger) baseAuthService {
-	return baseAuthService{baseService: newBaseService(logger)}
-}
-
-func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, sessionID string) (*models.User, error) {
-	fbauth, err := s.firebaseAuthClient(ctx)
-	if err != nil {
-		return nil, err
+func newBaseAuthService(logger *log.Logger, convToAuthenticationError func(error) *goa.ServiceError) baseAuthService {
+	return baseAuthService{
+		baseService:               newBaseService(logger),
+		ConvToAuthenticationError: convToAuthenticationError,
 	}
+}
 
+func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, fbauth auth.Client, sessionID string) (*models.User, error) {
 	token, err := fbauth.VerifySessionCookie(ctx, sessionID)
 	if err != nil {
-		return nil, err
+		return nil, s.ConvToAuthenticationError(err)
 	}
 
 	user, err := models.Users(qm.Where("fbauth_uid = ?", token.UID)).One(ctx, db)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, channels.MakeUnauthenticated(fmt.Errorf("user not found"))
+			return nil, s.ConvToAuthenticationError(fmt.Errorf("user not found"))
 		} else {
 			return nil, errors.Wrapf(err, "failed to query user")
 		}
@@ -93,18 +92,15 @@ func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, sessionI
 }
 
 func (s *baseAuthService) actionWithAuth(ctx context.Context, name string, sessionID string, cb func(context.Context, *sql.DB, *models.User) error) error {
-	s.logger.Info().Msg(name)
-	ctx = SetupContext(ctx)
-	db, err := s.sqlOpen()
-	if err != nil {
-		return err
-	}
-	defer db.Close()
-
-	user, err := s.authenticate(ctx, db, sessionID)
-	if err != nil {
-		return err
-	}
-
-	return cb(ctx, db, user)
+	return s.actionWithDB(ctx, name, func(ctx context.Context, db *sql.DB) error {
+		fbauth, err := s.firebaseAuthClient(ctx)
+		if err != nil {
+			return err
+		}
+		user, err := s.authenticate(ctx, db, fbauth, sessionID)
+		if err != nil {
+			return err
+		}
+		return cb(ctx, db, user)
+	})
 }

@@ -21,7 +21,7 @@ func BuildCreatePayload(usersCreateBody string) (*users.UserCreatePayload, error
 	{
 		err = json.Unmarshal([]byte(usersCreateBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"email\": \"Repudiandae animi odit quo quo voluptatem minima.\",\n      \"name\": \"Sit omnis sed.\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"email\": \"Libero esse qui inventore culpa.\",\n      \"name\": \"Quo voluptatem minima ut eum.\"\n   }'")
 		}
 	}
 	v := &users.UserCreatePayload{

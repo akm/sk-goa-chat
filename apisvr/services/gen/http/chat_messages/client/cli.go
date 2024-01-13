@@ -101,7 +101,7 @@ func BuildCreatePayload(chatMessagesCreateBody string, chatMessagesCreateSession
 	{
 		err = json.Unmarshal([]byte(chatMessagesCreateBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"channel_id\": 10045783446838657138,\n      \"content\": \"Sit quos enim praesentium provident et.\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"channel_id\": 15556517036826360854,\n      \"content\": \"Et labore.\"\n   }'")
 		}
 	}
 	var sessionID string
@@ -125,7 +125,7 @@ func BuildUpdatePayload(chatMessagesUpdateBody string, chatMessagesUpdateID stri
 	{
 		err = json.Unmarshal([]byte(chatMessagesUpdateBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"content\": \"Et odit.\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"content\": \"Unde voluptas voluptatem quam velit et odit.\"\n   }'")
 		}
 	}
 	var id uint64

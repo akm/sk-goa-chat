@@ -171,7 +171,28 @@ func DecodeDeleteResponse(decoder func(*http.Response) goahttp.Decoder, restoreB
 		}
 		switch resp.StatusCode {
 		case http.StatusOK:
-			return nil, nil
+			var (
+				sessionID    string
+				sessionIDRaw string
+
+				cookies = resp.Cookies()
+				err     error
+			)
+			for _, c := range cookies {
+				switch c.Name {
+				case "session_id":
+					sessionIDRaw = c.Value
+				}
+			}
+			if sessionIDRaw == "" {
+				err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "cookie"))
+			}
+			sessionID = sessionIDRaw
+			if err != nil {
+				return nil, goahttp.ErrValidationError("sessions", "delete", err)
+			}
+			res := NewDeleteResultOK(sessionID)
+			return res, nil
 		case http.StatusBadRequest:
 			var (
 				body DeleteInvalidPayloadResponseBody
