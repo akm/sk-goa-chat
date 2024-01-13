@@ -36,7 +36,7 @@ func (s *sessionssrvc) Create(ctx context.Context, p *sessions.CreatePayload) (r
 }
 
 // Delete implements delete.
-func (s *sessionssrvc) Delete(ctx context.Context, p *sessions.DeletePayload) (err error) {
+func (s *sessionssrvc) Delete(ctx context.Context, p *sessions.DeletePayload) (res *sessions.DeleteResult, err error) {
 	err = s.action(ctx, "sessions.delete", func(ctx context.Context) error {
 		fbauth, err := s.firebaseAuthClient(ctx)
 		if err != nil {
@@ -49,6 +49,7 @@ func (s *sessionssrvc) Delete(ctx context.Context, p *sessions.DeletePayload) (e
 		if err = fbauth.RevokeRefreshTokens(ctx, token.Subject); err != nil {
 			return err
 		}
+		res = &sessions.DeleteResult{SessionID: ""} // sessionID を空文字列に設定
 		return nil
 	})
 	return
