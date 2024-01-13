@@ -18,7 +18,12 @@ type notificationssrvc struct {
 
 // NewNotifications returns the notifications service implementation.
 func NewNotifications(logger *log.Logger) notifications.Service {
-	return &notificationssrvc{baseAuthService: newBaseAuthService(logger)}
+	return &notificationssrvc{
+		baseAuthService: newBaseAuthService(
+			logger,
+			notifications.MakeUnauthenticated,
+		),
+	}
 }
 
 // Subscribe to events sent such new chat messages.

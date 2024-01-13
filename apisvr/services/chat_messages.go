@@ -24,7 +24,13 @@ type chatMessagessrvc struct {
 
 // NewChatMessages returns the chat_messages service implementation.
 func NewChatMessages(logger *log.Logger) chatmessages.Service {
-	return &chatMessagessrvc{baseAuthService: newBaseAuthService(logger), ChatMessageConvertor: NewChatMessageConvertor()}
+	return &chatMessagessrvc{
+		baseAuthService: newBaseAuthService(
+			logger,
+			chatmessages.MakeUnauthenticated,
+		),
+		ChatMessageConvertor: NewChatMessageConvertor(),
+	}
 }
 
 // List implements list.

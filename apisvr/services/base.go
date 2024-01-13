@@ -6,6 +6,7 @@ import (
 
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
+	goa "goa.design/goa/v3/pkg"
 
 	"apisvr/lib/errors"
 	"apisvr/lib/firebase"
@@ -13,7 +14,6 @@ import (
 	"apisvr/lib/sql"
 	"apisvr/models"
 	_ "apisvr/models_ext"
-	channels "apisvr/services/gen/channels"
 	log "apisvr/services/gen/log"
 )
 
@@ -63,10 +63,14 @@ func (s *baseService) firebaseAuthClient(ctx context.Context) (auth.Client, erro
 
 type baseAuthService struct {
 	baseService
+	ConvToAuthenticationError func(error) *goa.ServiceError
 }
 
-func newBaseAuthService(logger *log.Logger) baseAuthService {
-	return baseAuthService{baseService: newBaseService(logger)}
+func newBaseAuthService(logger *log.Logger, convToAuthenticationError func(error) *goa.ServiceError) baseAuthService {
+	return baseAuthService{
+		baseService:               newBaseService(logger),
+		ConvToAuthenticationError: convToAuthenticationError,
+	}
 }
 
 func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, sessionID string) (*models.User, error) {
@@ -77,13 +81,13 @@ func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, sessionI
 
 	token, err := fbauth.VerifySessionCookie(ctx, sessionID)
 	if err != nil {
-		return nil, err
+		return nil, s.ConvToAuthenticationError(err)
 	}
 
 	user, err := models.Users(qm.Where("fbauth_uid = ?", token.UID)).One(ctx, db)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, channels.MakeUnauthenticated(fmt.Errorf("user not found"))
+			return nil, s.ConvToAuthenticationError(fmt.Errorf("user not found"))
 		} else {
 			return nil, errors.Wrapf(err, "failed to query user")
 		}
