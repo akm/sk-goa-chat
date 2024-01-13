@@ -4,9 +4,11 @@
 	import '../app.pcss';
 	import { page } from '$app/stores';
 	import { deleteSession } from '$lib/session';
+	import { closeWebSockets } from '$lib/websockets';
 	import type { Channel } from '$lib/models/channel';
 
 	const signout = async () => {
+		closeWebSockets();
 		await deleteSession();
 		window.location.href = $page.url.origin + '/signin';
 	};
