@@ -1,6 +1,6 @@
 # sk-goa-chat
 
-## 概要
+## Overview
 
 sk-goa-chat は [SvelteKit](https://kit.svelte.dev/) と [Goa](https://goa.design/) を使ったWebアプリケーションの検証のためのプロジェクトです。
 
@@ -16,8 +16,7 @@ APIを提供する Goa のサーバーを `apisvr` と呼び、主にUIのアセ
 `uisvr` は Vite の Proxy の機能によって パスが `/api` と `/ws` にマッチするブラウザからのHTTPリクエストを `apisvr` に転送します。
 また `uisvr` が SSRする際に必要なデータは、 gRPC を使って `apisvr` から取得します。
 
-
-## 通信経路
+## Communication Paths
 
 ```mermaid
 flowchart LR
@@ -30,22 +29,54 @@ flowchart LR
     C --> D
 ```
 
-## 主なライブラリ等
+## Prerequisite
 
-- ui  で使用するライブラリ
+- [make](https://www.gnu.org/software/make/manual/make.html)
+- [asdf](https://asdf-vm.com/) (あるいはasdf互換のバージョン管理ツール)
+- [Docker Desktop](https://www.docker.com/ja-jp/products/docker-desktop/)
+    - [Docker Compose](https://docs.docker.com/compose/) を主に使います
+
+
+## Getting Started
+
+### Install
+
+```
+make install
+```
+
+### Build
+
+```
+make build
+```
+
+### Run locally
+
+```
+make dev
+```
+
+### Open in browser
+
+Open http://localhost:5173
+
+## Libraries / Middlewares
+
+- ui
   - [SvelteKit](https://kit.svelte.dev/)
       - [Vite](https://vitejs.dev/)
   - [flowbite-svelte](https://flowbite-svelte.com/)
-- apisvr で使用するライブラリ
+- apisvr
   - [Goa](https://goa.design/)
   - [sqlboiler](github.com/volatiletech/sqlboiler)
   - [goose](https://github.com/pressly/goose)
   - [zerolog](https://github.com/rs/zerolog)
   - [goahttpcheck](github.com/ikawaha/goahttpcheck)
-- ミドルウェア
+- Middleware
   - [MySQL](https://www.mysql.com/)
   - [Firebase Authentication](https://firebase.google.com/docs/auth?hl=ja)
-- E2E テスト
+- E2E 
   - [Playwright](https://playwright.dev/)
 
 ## やらないこと
