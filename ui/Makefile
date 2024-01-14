@@ -10,6 +10,10 @@ install:
 build: setup
 	npm run build
 
+.PHONY: lint
+lint:
+	npm run lint
+
 .PHONY: dev
 dev: setup
 	npm run dev
