@@ -60,15 +60,15 @@ jobs:
         working-directory: ./ui
 
       - name: npm install
-        run: npm install
+        run: make install
         working-directory: ./ui
 
       - name: build
-        run: npm run build
+        run: make build
         working-directory: ./ui
 
       - name: lint
-        run: npm run build
+        run: make lint
         working-directory: ./ui
 
       - name: unit test
