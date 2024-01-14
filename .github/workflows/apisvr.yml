@@ -56,3 +56,5 @@ jobs:
       - name: test
         run: make test
         working-directory: ./apisvr
+        env:
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
