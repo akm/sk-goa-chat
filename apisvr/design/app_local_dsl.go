@@ -8,8 +8,3 @@ func field(tag any, name string, args ...any) string {
 	dsl.Field(tag, name, args...)
 	return name
 }
-
-func gRPC() {
-	dsl.GRPC(func() {
-	})
-}
