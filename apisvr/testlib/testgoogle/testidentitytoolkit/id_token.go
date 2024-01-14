@@ -29,7 +29,7 @@ func GetIdToken(t testing.TB, ctx context.Context, email, password string, opts 
 		}
 	}
 	// option.WithEndpoint("http://localhost:9099/identitytoolkit.googleapis.com/v1"),
-	// option.WithAPIKey("AIzaSyBRcOfsczLRC7VX0iirMU2dlAFKYPRo-9U"),
+	// option.WithAPIKey("[firebaseConfig.apiKey]"),
 	identitytoolkitService, err := identitytoolkit.NewService(ctx, opts...)
 	if err != nil {
 		t.Fatal(err)
