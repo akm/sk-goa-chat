@@ -1,4 +1,5 @@
 # https://github.com/golangci/golangci-lint
+# See https://golangci-lint.run/usage/false-positives/#nolint-directive for nolint directive
 LINT_GOLANGCI_LINT_VERSION=v1.55.2
 LINT_GOLANGCI_LINT=$(shell go env GOPATH)/bin/golangci-lint
 $(LINT_GOLANGCI_LINT):
