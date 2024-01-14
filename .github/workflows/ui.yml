@@ -1,0 +1,84 @@
+# See https://help.github.com/en/actions/automating-your-workflow-with-github-actions
+
+name: ui CI
+
+on:
+  push:
+    branches:
+      - "**"
+    paths:
+      - ".github/**"
+      - "apisvr/**"
+      - "containers/**"
+      - "dbmigrations/**"
+      - "ui/**"
+      - "*"
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    # if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    steps:
+      # https://github.com/actions/checkout
+      - uses: actions/checkout@v4
+
+      # https://github.com/actions/setup-go
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: "apisvr/go.mod"
+
+      - name: Check golang version/env
+        run: |
+          set -x
+          go version
+          go env
+
+      # https://github.com/actions/setup-node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Check node/yarn version
+        run: |
+          set -x
+          node -v
+          yarn -v
+          npm -v
+          npm prefix --location=global
+
+      - name: Check docker version
+        run: |
+          set -x
+          docker -v
+          docker-compose -v
+          docker compose version
+          docker version
+
+      - name: Install firebase tools
+        run: npm install -g firebase-tools
+        working-directory: ./ui
+
+      - name: npm install
+        run: make install
+        working-directory: ./ui
+
+      - name: build
+        run: make build
+        working-directory: ./ui
+
+      - name: lint
+        run: make lint
+        working-directory: ./ui
+
+      - name: unit test
+        run: npm run test:unit
+        working-directory: ./ui
+
+      - name: install playwright
+        run: npx playwright install
+        working-directory: ./ui
+
+      - name: integration test
+        run: npm run test:integration
+        working-directory: ./ui

@@ -17,7 +17,7 @@ test: test_containers_up test_mysql_wait_to_connect test_dbmigration_up
 
 .PHONY: test_run
 test_run:
-	go test -tags timetravel ./...
+	go test -p 1 -tags timetravel ./...
 
 .PHONY: test_containers_up
 test_containers_up:

@@ -67,7 +67,7 @@ func (s *userssrvc) Create(ctx context.Context, p *users.UserCreatePayload) (res
 			return err
 		}
 
-		err = sql.BeginTx(ctx, db, func(ctx context.Context, tx *sql.Tx) error {
+		return sql.BeginTx(ctx, db, func(ctx context.Context, tx *sql.Tx) error {
 			if m, err := models.Users(qm.Where("email = ?", p.Email)).One(ctx, db); err != nil {
 				if err == sql.ErrNoRows {
 					// OK
@@ -131,7 +131,6 @@ func (s *userssrvc) Create(ctx context.Context, p *users.UserCreatePayload) (res
 			res = s.ModelToResult(m)
 			return nil
 		})
-		return nil
 	})
 	return
 }

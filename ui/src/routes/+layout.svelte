@@ -34,16 +34,20 @@
 </script>
 
 <div class="flex h-full w-full flex-row overflow-x-hidden">
-	<div class="flex w-64 flex-shrink-0 flex-col bg-white py-2 pl-6 pr-2">
+	<div class="flex w-64 flex-shrink-0 flex-col bg-white py-2 pl-6 pr-2" data-testid="sidebar">
 		<div class="flex flex-auto flex-shrink-0 flex-col rounded-2xl p-4">
 			<div class="flex flex-row mb-4">
 				<div class="flex-none w-12">
-					<img src="/logo192.png" class="mr-3 h-6 sm:h-9" alt="SK Goa Chat Logo" />
+					<a href="/">
+						<img src="/logo192.png" class="mr-3 h-6 sm:h-9" alt="SK Goa Chat Logo" />
+					</a>
 				</div>
 				<div class="flex-shrink pt-1">
-					<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-						SK Goa Chat
-					</span>
+					<a href="/">
+						<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+							SK Goa Chat
+						</span>
+					</a>
 				</div>
 			</div>
 		</div>

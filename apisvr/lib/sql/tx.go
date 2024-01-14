@@ -1,6 +1,9 @@
 package sql
 
-import "context"
+import (
+	"apisvr/lib/errors"
+	"context"
+)
 
 func BeginTx(ctx context.Context, db *DB, cb func(context.Context, *Tx) error) error {
 	tx, err := db.BeginTx(ctx, nil)
@@ -9,7 +12,9 @@ func BeginTx(ctx context.Context, db *DB, cb func(context.Context, *Tx) error) e
 	}
 
 	if err := cb(ctx, tx); err != nil {
-		tx.Rollback()
+		if rollbackError := tx.Rollback(); rollbackError != nil {
+			return errors.Join(err, errors.Wrapf(rollbackError, "rollback error"))
+		}
 		return err
 	}
 

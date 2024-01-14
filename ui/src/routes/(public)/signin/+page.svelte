@@ -1,18 +1,17 @@
 <script lang="ts">
 	import { createSession } from '$lib/session';
-	import { app, isFirebaseError } from '$lib/firebase';
+	import { isFirebaseError } from '$lib/firebase';
 	import { auth } from '$lib/firebase/auth';
 	import { page } from '$app/stores';
 
 	import { onMount } from 'svelte';
-	import { getAnalytics } from 'firebase/analytics';
 	import { signInWithEmailAndPassword, type UserCredential } from 'firebase/auth';
 
 	import { Label, Input, Button, Heading } from 'flowbite-svelte';
 	import { ExclamationCircleOutline } from 'flowbite-svelte-icons';
 
 	onMount(() => {
-		const analytics = getAnalytics(app);
+		// const analytics = getAnalytics(app);
 	});
 	let email = '';
 	let password = '';

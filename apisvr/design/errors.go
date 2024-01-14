@@ -19,10 +19,10 @@ func userError(key string, httpStatusCode int, grpcCode int) func() (func(), fun
 
 var (
 	unauthenticated = userError("unauthenticated", dsl.StatusUnauthorized, dsl.CodeUnauthenticated)
-	unauthorized    = userError("unauthorized", dsl.StatusForbidden, dsl.CodePermissionDenied)
+	unauthorized    = userError("unauthorized", dsl.StatusForbidden, dsl.CodePermissionDenied) //nolint:unused
 	notFound        = userError("not_found", dsl.StatusNotFound, dsl.CodeNotFound)
-	invalidQuery    = userError("invalid_query", dsl.StatusBadRequest, dsl.CodeInvalidArgument)
+	invalidQuery    = userError("invalid_query", dsl.StatusBadRequest, dsl.CodeInvalidArgument) //nolint:unused
 	invalidPayload  = userError("invalid_payload", dsl.StatusBadRequest, dsl.CodeInvalidArgument)
-	conflict        = userError("conflict", dsl.StatusConflict, dsl.CodeAlreadyExists)
-	paymentRequired = userError("payment_required", dsl.StatusPaymentRequired, dsl.CodeFailedPrecondition)
+	conflict        = userError("conflict", dsl.StatusConflict, dsl.CodeAlreadyExists)                     //nolint:unused
+	paymentRequired = userError("payment_required", dsl.StatusPaymentRequired, dsl.CodeFailedPrecondition) //nolint:unused
 )

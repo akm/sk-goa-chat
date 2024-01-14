@@ -1,5 +1,5 @@
 .PHONY: default
-default: build test
+default: build lint test
 
 include ../config.mk
 include ./Makefiles/dev.mk

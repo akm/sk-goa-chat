@@ -25,6 +25,7 @@ func NewClientWithLogger(ctx context.Context, app *firebase.App, logger *log.Log
 
 type ClientFactoryFunc = func(ctx context.Context, app *firebase.App, logger *log.Logger) (Client, error)
 
+//nolint:unused
 var clientFactory ClientFactoryFunc = func(ctx context.Context, app *firebase.App, logger *log.Logger) (Client, error) {
 	cli, err := NewClientWithLogger(ctx, app, logger)
 	if err != nil {

@@ -18,7 +18,7 @@
 		"grpc:gen:channels": "mkdir -p src/lib/server/protos && protoc --ts_out $_ --proto_path ../apisvr/services/gen/grpc/channels/pb ../apisvr/services/gen/grpc/channels/pb/goagen_services_channels.proto",
 		"grpc:gen:users": "mkdir -p src/lib/server/protos && protoc --ts_out $_ --proto_path ../apisvr/services/gen/grpc/users/pb ../apisvr/services/gen/grpc/users/pb/goagen_services_users.proto",
 		"grpc:gen:chat_messages": "mkdir -p src/lib/server/protos && protoc --ts_out $_ --proto_path ../apisvr/services/gen/grpc/chat_messages/pb ../apisvr/services/gen/grpc/chat_messages/pb/goagen_services_chat_messages.proto",
-		"test": "run-s test:unit test:integration",
+		"test": "run-s test:unit:run test:integration",
 		"test:integration": "run-s test:integration:setup test:integration:run",
 		"test:integration:containers:up": "make -C tests/integration/containers up",
 		"test:integration:containers:down": "make -C tests/integration/containers down",
@@ -27,7 +27,9 @@
 		"test:integration:run": "playwright test tests/integration/test.ts",
 		"test:integration:setup": "run-s test:integration:containers:restart test:integration:dbmigrattions:up",
 		"test:integration:teardown": "npm run test:integration:containers:down",
-		"test:unit": "vitest"
+		"test:unit": "vitest",
+		"test:unit:run": "vitest run",
+		"test:unit:watch": "vitest watch"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.40.1",

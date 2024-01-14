@@ -85,7 +85,15 @@ func (s *notificationssrvc) Subscribe(ctx context.Context, p *notifications.Subs
 					}
 				}
 				if len(channelIDs) > 0 {
-					stream.Send(&notifications.NotificationEvent{ChannelIds: channelIDs})
+					if err := stream.Send(&notifications.NotificationEvent{ChannelIds: channelIDs}); err != nil {
+						sendError := errors.Wrapf(err, "failed to send notification event")
+						if err := stream.Close(); err != nil {
+							s.logger.Printf("failed to close stream: [%T] %+v", err, err)
+							return errors.Join(sendError, errors.Wrapf(err, "failed to close stream"))
+						} else {
+							return sendError
+						}
+					}
 					lastMap = currMap
 				}
 			}
