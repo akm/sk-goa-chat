@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { Heading, TextPlaceholder, Alert } from 'flowbite-svelte';
+	import { Heading, Alert } from 'flowbite-svelte';
 	import { Button, Modal, Label, Input, Hr } from 'flowbite-svelte';
 	import { CogOutline, TrashBinSolid, InfoCircleSolid } from 'flowbite-svelte-icons';
 
 	import type { Channel } from '$lib/models/channel';
 	import type { ChatMessage } from '$lib/models/chat_message';
-	import { channelOptionsEqual } from '@grpc/grpc-js/build/src/channel-options.js';
 	import { notificationsSocket } from '$lib/websockets';
 	import { onDestroy, onMount } from 'svelte';
 
@@ -139,7 +138,7 @@
 			scrollContainer.scrollHeight - (scrollContainer.scrollTop + scrollContainer.clientHeight);
 		return pos < 100;
 	};
-	const scrollToLatestChat = (behavior?: ScrollBehavior) => {
+	const scrollToLatestChat = (behavior?: 'instant' | 'smooth') => {
 		scrollContainer.scrollTo({
 			top: scrollContainer.scrollHeight - scrollContainer.clientHeight - 50,
 			behavior: behavior

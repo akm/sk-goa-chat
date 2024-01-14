@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { app, isFirebaseError } from '$lib/firebase';
+	import { isFirebaseError } from '$lib/firebase';
 	import { auth } from '$lib/firebase/auth';
 	import { createSession } from '$lib/session';
 	import { page } from '$app/stores';
 
-	import { getAnalytics } from 'firebase/analytics';
 	import {
 		type UserCredential,
 		createUserWithEmailAndPassword,
@@ -17,7 +16,7 @@
 
 	onMount(() => {
 		// analytics の初期化は onMount の外で実行すると  window is not defined というエラーが firebase の内部
-		const analytics = getAnalytics(app);
+		// const analytics = getAnalytics(app);
 	});
 
 	let email = '';
