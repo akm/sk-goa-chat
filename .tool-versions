@@ -1,5 +1,7 @@
 golang 1.21.4
 protoc 25.1
+nodejs 21.5.0
+ruby 3.2.2
 
 # https://github.com/iroddis/asdf-mysql
 mysql 8.0.33
