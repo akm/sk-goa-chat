@@ -59,7 +59,19 @@ make dev
 
 ### Open in browser
 
-Open http://localhost:5173
+Open http://localhost:5173 
+
+## Directories
+
+Name         | Description
+-------------|------------------
+apisvr       | APIを提供するサーバーのソースコード
+containers   | ローカルで使用する MySQL や Firebase Emulators のコンテナ
+dbmigrations | RDBのマイグレーション
+docs         | ドキュメント
+modifiers    | 自動生成されるコードに更に変更を加えるための ruby のスクリプト群
+ui           | UIとそれを提供するサーバー(uisvr)のソースコード
+
 
 ## Libraries / Middlewares
 
