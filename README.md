@@ -81,10 +81,10 @@ Name                            | Description
   - [flowbite-svelte](https://flowbite-svelte.com/)
 - apisvr
   - [Goa](https://goa.design/)
-  - [sqlboiler](github.com/volatiletech/sqlboiler)
+  - [sqlboiler](https://github.com/volatiletech/sqlboiler)
   - [goose](https://github.com/pressly/goose)
   - [zerolog](https://github.com/rs/zerolog)
-  - [goahttpcheck](github.com/ikawaha/goahttpcheck)
+  - [goahttpcheck](https://github.com/ikawaha/goahttpcheck)
 - Middleware
   - [MySQL](https://www.mysql.com/)
   - [Firebase Authentication](https://firebase.google.com/docs/auth?hl=ja)
