@@ -11,6 +11,10 @@ ENVS=\
 envs:
 	@echo $(ENVS)
 
+.PHONY: port
+port:
+	@echo $(SWAGGERUI_PORT)
+
 .PHONY: run
 run:
 	$(ENVS) docker compose up
