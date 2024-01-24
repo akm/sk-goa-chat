@@ -1,6 +1,7 @@
 package main
 
 import (
+	"apisvr/lib/http/cors"
 	channels "apisvr/services/gen/channels"
 	chatmessages "apisvr/services/gen/chat_messages"
 	channelssvr "apisvr/services/gen/http/channels/server"
@@ -94,6 +95,7 @@ func handleHTTPServer(ctx context.Context, u *url.URL, channelsEndpoints *channe
 	// here apply to all the service endpoints.
 	var handler http.Handler = mux
 	{
+		handler = cors.NewFromEnv("APP_CORS_ALLOW_ORIGINS").Handle(handler)
 		handler = httpmdlwr.Log(adapter)(handler)
 		handler = httpmdlwr.RequestID()(handler)
 	}
