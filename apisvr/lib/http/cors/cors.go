@@ -12,7 +12,7 @@ type Cors struct {
 	allowOrigins     []string
 	AllowHeaders     []string
 	AllowMethods     []string
-	AllowCredentials bool
+	AllowCredentials string
 	Logger           *log.Logger
 }
 
@@ -21,7 +21,7 @@ func New(allowOrigins []string) *Cors {
 		allowOrigins:     allowOrigins,
 		AllowHeaders:     []string{"Content-Type"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowCredentials: false,
+		AllowCredentials: "false",
 	}
 }
 
@@ -48,7 +48,7 @@ func NewFromEnv(allowOriginsEnv string, envs ...string) *Cors {
 		}
 	}
 	if len(envs) > 2 {
-		r.AllowCredentials = os.Getenv(envs[2]) == "true"
+		r.AllowCredentials = os.Getenv(envs[2])
 	}
 	return r
 }
@@ -66,13 +66,6 @@ func (c *Cors) Handle(h http.Handler) http.Handler {
 	allowHeaders := strings.Join(c.AllowHeaders, ", ")
 	allowMethods := strings.Join(c.AllowMethods, ", ")
 
-	var allowCredentials string
-	if c.AllowCredentials {
-		allowCredentials = "true"
-	} else {
-		allowCredentials = "false"
-	}
-
 	if c.Logger != nil {
 		c.Logger.Debug().Msgf("CORS Start Handling: %+v\n", *c)
 	}
@@ -87,7 +80,7 @@ func (c *Cors) Handle(h http.Handler) http.Handler {
 				w.Header().Set("Access-Control-Allow-Origin", origin)
 				w.Header().Set("Access-Control-Allow-Headers", allowHeaders)
 				w.Header().Set("Access-Control-Allow-Methods", allowMethods)
-				w.Header().Set("Access-Control-Allow-Credentials", allowCredentials)
+				w.Header().Set("Access-Control-Allow-Credentials", c.AllowCredentials)
 			}
 			// Preflight Request の場合は 200 を返す
 			if acrm := r.Header.Get("Access-Control-Request-Method"); acrm != "" {
