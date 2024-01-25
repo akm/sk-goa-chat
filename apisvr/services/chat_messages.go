@@ -1,7 +1,6 @@
 package chatapi
 
 import (
-	"apisvr/lib/collection"
 	"apisvr/lib/sql"
 	"apisvr/lib/time"
 	"apisvr/models"
@@ -9,6 +8,7 @@ import (
 	log "apisvr/services/gen/log"
 	"context"
 	"fmt"
+	"svrlib/collection"
 
 	"github.com/volatiletech/null/v8"
 	"github.com/volatiletech/sqlboiler/v4/boil"
