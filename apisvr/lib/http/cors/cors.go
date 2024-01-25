@@ -27,30 +27,14 @@ func New(allowOrigins []string) *Cors {
 
 // NewFromEnv は環境変数から CORS を生成する
 // allowOriginsEnv: 許可する Origin の環境変数名
-// envs: AllowHeaders, AllowMethods, AllowCredentials を指す環境変数名の順番で指定する
-func NewFromEnv(allowOriginsEnv string, envs ...string) *Cors {
+func NewFromEnv(allowOriginsEnv string) *Cors {
 	var allowOrigins []string
 	if v := os.Getenv(allowOriginsEnv); v != "" {
 		allowOrigins = strings.Split(v, ",")
 	} else {
 		allowOrigins = []string{}
 	}
-	r := New(allowOrigins)
-
-	if len(envs) > 0 {
-		if v := os.Getenv(envs[0]); v != "" {
-			r.AllowHeaders = strings.Split(v, ",")
-		}
-	}
-	if len(envs) > 1 {
-		if v := os.Getenv(envs[1]); v != "" {
-			r.AllowMethods = strings.Split(v, ",")
-		}
-	}
-	if len(envs) > 2 {
-		r.AllowCredentials = os.Getenv(envs[2])
-	}
-	return r
+	return New(allowOrigins)
 }
 
 func (c *Cors) Tap(f func(*Cors)) *Cors {
