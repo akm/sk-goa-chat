@@ -53,6 +53,16 @@ func NewFromEnv(allowOriginsEnv string, envs ...string) *Cors {
 	return r
 }
 
+func (c *Cors) Tap(f func(*Cors)) *Cors {
+	f(c)
+	return c
+}
+
+func (c *Cors) WithLogger(logger *log.Logger) *Cors {
+	c.Logger = logger
+	return c
+}
+
 func (c *Cors) Handle(h http.Handler) http.Handler {
 	if len(c.allowOrigins) == 0 {
 		return h
