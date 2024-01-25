@@ -104,3 +104,5 @@ require (
 )
 
 replace dbmigrations => ../dbmigrations
+
+replace svrlib => ../svrlib
