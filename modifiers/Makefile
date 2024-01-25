@@ -4,7 +4,8 @@ apisvr_services_gen:
 
 .PHONY: apisvr_services_cmd
 apisvr_services_cmd:
-	FILE=apisvr/services/cmd/apisvr/main.go $(MAKE) modify
+	FILE=apisvr/services/cmd/apisvr/main.go $(MAKE) modify && \
+	FILE=apisvr/services/cmd/apisvr/http.go $(MAKE) modify
 
 .PHONY: modify
 modify: call_modifier go_fmt
