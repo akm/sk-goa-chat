@@ -8,8 +8,10 @@ services:
     restart: always
     ports:
       - "${SWAGGERUI_PORT}:8080"
+    # https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/
     environment:
       SWAGGER_JSON: ${SWAGGERUI_JSON_PATH}
+      WITH_CREDENTIALS: "true"
     volumes:
       - ../../apisvr:/srv/apisvr
     networks:
