@@ -4,7 +4,8 @@
 
 sk-goa-chat は [SvelteKit](https://kit.svelte.dev/) と [Goa](https://goa.design/) を使ったWebアプリケーションの検証のためのプロジェクトです。
 
-Goa は OpenAPI で定義された HTTP と protoc に基づいた gRPC による通信を同時にサポートするWebアプリケーションのフレームワークです。 Goa は gRPC のようなストリーミングを HTTP においては WebSockets を用いて実現します。
+Goa は OpenAPI で定義された HTTP と protoc に基づいた gRPC による通信を同時にサポートするWebアプリケーションのフレームワークです。 
+Goa は gRPC のようなストリーミングを HTTP においては WebSockets を用いて実現します。
 
 SvelteKit は [Svelte](https://svelte.dev/) と [Vite](https://vitejs.dev/) を用いたWebアプリケーション開発のフレームワークです。
 
@@ -70,6 +71,7 @@ Name                            | Description
 [dbmigrations](./dbmigrations/) | RDBのマイグレーション
 [docs](./docs/)                 | ドキュメント
 [modifiers](./modifiers/)       | 自動生成されるコードに更に変更を加えるための ruby のスクリプト群
+[tools][./tools]                | 開発や運用で使用するツール群
 [ui](./ui/)                     | UIとそれを提供するサーバー(uisvr)のソースコード
 
 
@@ -88,8 +90,10 @@ Name                            | Description
 - Middleware
   - [MySQL](https://www.mysql.com/)
   - [Firebase Authentication](https://firebase.google.com/docs/auth?hl=ja)
-- E2E 
+- E2E test
   - [Playwright](https://playwright.dev/)
+- Tools
+  - [Swagger UI](https://swagger.io/tools/swagger-ui/)
 
 ## やらないこと
 
