@@ -1,7 +1,6 @@
 package grpcintegrations
 
 import (
-	"apisvr/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/channels"
 	channelspb "apisvr/services/gen/grpc/channels/pb"
@@ -16,6 +15,7 @@ import (
 	"context"
 	"net"
 	"strings"
+	"svrlib/models"
 	"svrlib/time"
 	"testing"
 

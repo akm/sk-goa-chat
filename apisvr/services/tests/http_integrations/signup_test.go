@@ -1,7 +1,6 @@
 package httpintegrations
 
 import (
-	"apisvr/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/http/channels/server"
 	sessionsserver "apisvr/services/gen/http/sessions/server"
@@ -18,6 +17,7 @@ import (
 	"net/http"
 	"svrlib/firebase"
 	"svrlib/firebase/auth"
+	"svrlib/models"
 	"svrlib/time"
 	"testing"
 

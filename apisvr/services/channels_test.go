@@ -1,7 +1,6 @@
 package chatapi
 
 import (
-	"apisvr/models"
 	"apisvr/services/gen/channels"
 	"apisvr/services/gen/log"
 	"apisvr/testlib/testfirebase/testauth"
@@ -12,6 +11,7 @@ import (
 	"apisvr/testlib/testuser"
 	"context"
 	"strings"
+	"svrlib/models"
 	"svrlib/sql"
 	"svrlib/time"
 	"testing"

@@ -1,7 +1,6 @@
 package httpintegrations
 
 import (
-	"apisvr/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/channels"
 	"apisvr/services/gen/http/channels/server"
@@ -17,6 +16,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"svrlib/models"
 	"svrlib/time"
 	"testing"
 
