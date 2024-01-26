@@ -1,6 +1,6 @@
 # coding: utf-8
 
-$content.sub!('chatapi "apisvr/services"'){|key| ['"apisvr/lib/goa/goaext"', "\t"+ key].join("\n") }
+$content.sub!('chatapi "apisvr/services"'){|key| ['"svrlib/goa/goaext"', "\t"+ key].join("\n") }
 $content.sub!('logger = log.New("chatapi", false)'){ 'logger = log.New("chatapi", dbgF != nil && *dbgF)' }
 
 error_handler_def = <<EOS

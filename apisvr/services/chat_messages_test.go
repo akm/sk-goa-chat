@@ -1,8 +1,6 @@
 package chatapi
 
 import (
-	"apisvr/lib/collection"
-	"apisvr/lib/time"
 	"apisvr/models"
 	chatmessages "apisvr/services/gen/chat_messages"
 	log "apisvr/services/gen/log"
@@ -16,6 +14,8 @@ import (
 	"fmt"
 	"math"
 	"strings"
+	"svrlib/collection"
+	"svrlib/time"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

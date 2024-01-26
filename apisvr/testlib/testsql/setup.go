@@ -1,10 +1,10 @@
 package testsql
 
 import (
-	"apisvr/lib/log"
-	"apisvr/lib/sql"
 	"apisvr/testlib/testdir"
 	"path/filepath"
+	"svrlib/log"
+	"svrlib/sql"
 	"testing"
 
 	"github.com/pressly/goose/v3"

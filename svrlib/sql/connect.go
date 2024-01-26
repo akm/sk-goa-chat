@@ -1,9 +1,9 @@
 package sql
 
 import (
-	"apisvr/lib/errors"
-	"apisvr/lib/log"
 	"os"
+	"svrlib/errors"
+	"svrlib/log"
 
 	_ "github.com/go-sql-driver/mysql"
 	sqldblogger "github.com/simukti/sqldb-logger"

@@ -1,8 +1,8 @@
 package testlog
 
 import (
-	"apisvr/lib/log"
-	"apisvr/lib/time"
+	"svrlib/log"
+	"svrlib/time"
 	"testing"
 )
 

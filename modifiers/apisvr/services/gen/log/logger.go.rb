@@ -1,6 +1,6 @@
 # coding: utf-8
 
-$content.sub!('"github.com/rs/zerolog"'){ '"apisvr/lib/log"' }
+$content.sub!('"github.com/rs/zerolog"'){ '"svrlib/log"' }
 
 $content.gsub!('zerolog.'){ 'log.' }
 

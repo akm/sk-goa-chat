@@ -1,11 +1,11 @@
 package chatapi
 
 import (
-	"apisvr/lib/errors"
-	"apisvr/lib/sql"
 	log "apisvr/services/gen/log"
 	notifications "apisvr/services/gen/notifications"
 	"context"
+	"svrlib/errors"
+	"svrlib/sql"
 	"time"
 )
 

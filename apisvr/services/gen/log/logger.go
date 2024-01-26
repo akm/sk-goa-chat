@@ -11,7 +11,7 @@ import (
 	"fmt"
 	"os"
 
-	"apisvr/lib/log"
+	"svrlib/log"
 )
 
 // Logger is an adapted zerologger

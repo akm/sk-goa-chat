@@ -1,7 +1,6 @@
 package httpintegrations
 
 import (
-	"apisvr/lib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/channels"
@@ -18,6 +17,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"svrlib/time"
 	"testing"
 
 	"github.com/ikawaha/goahttpcheck"

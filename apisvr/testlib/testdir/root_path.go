@@ -1,9 +1,9 @@
 package testdir
 
 import (
-	"apisvr/lib/errors"
 	"os"
 	"path/filepath"
+	"svrlib/errors"
 	"testing"
 )
 

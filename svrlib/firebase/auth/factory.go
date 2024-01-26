@@ -1,10 +1,10 @@
 package auth
 
 import (
-	"apisvr/lib/errors"
-	"apisvr/lib/firebase"
-	"apisvr/lib/log"
 	"context"
+	"svrlib/errors"
+	"svrlib/firebase"
+	"svrlib/log"
 )
 
 func NewClientRaw(ctx context.Context, app *firebase.App) (*OrigClient, error) {

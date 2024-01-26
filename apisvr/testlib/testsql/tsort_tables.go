@@ -1,8 +1,8 @@
 package testsql
 
 import (
-	"apisvr/lib/sql"
 	"slices"
+	"svrlib/sql"
 	"testing"
 
 	"github.com/ninedraft/tsort"

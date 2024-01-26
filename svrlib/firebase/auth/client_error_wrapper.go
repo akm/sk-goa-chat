@@ -1,9 +1,9 @@
 package auth
 
 import (
-	"apisvr/lib/errors"
-	"apisvr/lib/time"
 	"context"
+	"svrlib/errors"
+	"svrlib/time"
 )
 
 type ClientErrorWrapper struct {

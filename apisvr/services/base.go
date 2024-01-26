@@ -8,13 +8,13 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	goa "goa.design/goa/v3/pkg"
 
-	"apisvr/lib/errors"
-	"apisvr/lib/firebase"
-	"apisvr/lib/firebase/auth"
-	"apisvr/lib/sql"
 	"apisvr/models"
 	_ "apisvr/models_ext"
 	log "apisvr/services/gen/log"
+	"svrlib/errors"
+	"svrlib/firebase"
+	"svrlib/firebase/auth"
+	"svrlib/sql"
 )
 
 func SetupContext(ctx context.Context) context.Context {

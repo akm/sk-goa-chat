@@ -1,7 +1,6 @@
 package main
 
 import (
-	"apisvr/lib/http/cors"
 	channels "apisvr/services/gen/channels"
 	chatmessages "apisvr/services/gen/chat_messages"
 	channelssvr "apisvr/services/gen/http/channels/server"
@@ -17,6 +16,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"svrlib/http/cors"
 	"sync"
 	"time"
 

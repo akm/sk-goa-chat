@@ -1,16 +1,16 @@
 package chatapi
 
 import (
-	"apisvr/lib/errors"
-	"apisvr/lib/firebase/auth"
-	"apisvr/lib/sql"
-	"apisvr/lib/time"
 	"apisvr/models"
 	log "apisvr/services/gen/log"
 	users "apisvr/services/gen/users"
 	"context"
 	"fmt"
 	"strings"
+	"svrlib/errors"
+	"svrlib/firebase/auth"
+	"svrlib/sql"
+	"svrlib/time"
 
 	"firebase.google.com/go/v4/errorutils"
 	"github.com/volatiletech/sqlboiler/v4/boil"

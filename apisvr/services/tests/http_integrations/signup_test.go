@@ -1,9 +1,6 @@
 package httpintegrations
 
 import (
-	"apisvr/lib/firebase"
-	"apisvr/lib/firebase/auth"
-	"apisvr/lib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/http/channels/server"
@@ -19,6 +16,9 @@ import (
 	"apisvr/testlib/testsql"
 	"context"
 	"net/http"
+	"svrlib/firebase"
+	"svrlib/firebase/auth"
+	"svrlib/time"
 	"testing"
 
 	"github.com/ikawaha/goahttpcheck"

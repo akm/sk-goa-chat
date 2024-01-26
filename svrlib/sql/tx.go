@@ -1,8 +1,8 @@
 package sql
 
 import (
-	"apisvr/lib/errors"
 	"context"
+	"svrlib/errors"
 )
 
 func BeginTx(ctx context.Context, db *DB, cb func(context.Context, *Tx) error) error {

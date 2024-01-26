@@ -1,9 +1,9 @@
 package auth
 
 import (
-	"apisvr/lib/log"
-	"apisvr/lib/time"
 	"context"
+	"svrlib/log"
+	"svrlib/time"
 )
 
 type ClientLogger struct {

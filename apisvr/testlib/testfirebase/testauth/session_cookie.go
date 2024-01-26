@@ -1,10 +1,10 @@
 package testauth
 
 import (
-	"apisvr/lib/firebase/auth"
-	"apisvr/lib/time"
 	"apisvr/testlib/testgoogle/testidentitytoolkit"
 	"context"
+	"svrlib/firebase/auth"
+	"svrlib/time"
 	"testing"
 
 	"google.golang.org/api/option"

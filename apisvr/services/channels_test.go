@@ -1,8 +1,6 @@
 package chatapi
 
 import (
-	"apisvr/lib/sql"
-	"apisvr/lib/time"
 	"apisvr/models"
 	"apisvr/services/gen/channels"
 	"apisvr/services/gen/log"
@@ -14,6 +12,8 @@ import (
 	"apisvr/testlib/testuser"
 	"context"
 	"strings"
+	"svrlib/sql"
+	"svrlib/time"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

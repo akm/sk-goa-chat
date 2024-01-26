@@ -1,12 +1,12 @@
 package testuser
 
 import (
-	"apisvr/lib/firebase/auth"
-	"apisvr/lib/time"
 	"apisvr/models"
 	"apisvr/testlib/testgoogle/testidentitytoolkit"
 	"context"
 	"database/sql"
+	"svrlib/firebase/auth"
+	"svrlib/time"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

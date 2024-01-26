@@ -1,7 +1,6 @@
 package main
 
 import (
-	"apisvr/lib/goa/goaext"
 	chatapi "apisvr/services"
 	channels "apisvr/services/gen/channels"
 	chatmessages "apisvr/services/gen/chat_messages"
@@ -16,6 +15,7 @@ import (
 	"net/url"
 	"os"
 	"os/signal"
+	"svrlib/goa/goaext"
 	"sync"
 	"syscall"
 )

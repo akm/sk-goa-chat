@@ -1,9 +1,9 @@
 package testauth
 
 import (
-	"apisvr/lib/firebase"
-	"apisvr/lib/firebase/auth"
 	"context"
+	"svrlib/firebase"
+	"svrlib/firebase/auth"
 	"testing"
 
 	"github.com/stretchr/testify/require"

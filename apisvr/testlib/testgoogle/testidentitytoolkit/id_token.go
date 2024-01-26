@@ -1,10 +1,10 @@
 package testidentitytoolkit
 
 import (
-	"apisvr/lib/errors"
 	"context"
 	"fmt"
 	"os"
+	"svrlib/errors"
 	"testing"
 
 	"google.golang.org/api/identitytoolkit/v1"

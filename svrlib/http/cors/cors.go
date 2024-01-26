@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"apisvr/lib/log"
+	"svrlib/log"
 )
 
 type Cors struct {

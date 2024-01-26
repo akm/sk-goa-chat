@@ -1,9 +1,9 @@
 package modelsext
 
 import (
-	"apisvr/lib/time"
 	"apisvr/models"
 	"context"
+	"svrlib/time"
 
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )

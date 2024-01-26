@@ -1,7 +1,6 @@
 package grpcintegrations
 
 import (
-	"apisvr/lib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/channels"
@@ -17,6 +16,7 @@ import (
 	"context"
 	"net"
 	"strings"
+	"svrlib/time"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
