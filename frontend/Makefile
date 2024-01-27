@@ -1,3 +1,6 @@
+.PHONY: default
+default: build lint test
+
 NODE_MODULES=node_modules
 $(NODE_MODULES):
 	$(MAKE) install
@@ -14,10 +17,6 @@ build: setup
 lint:
 	npm run lint
 
-.PHONY: dev
-dev: setup
-	npm run dev
-
 .PHONY: preview
 preview: setup
 	npm run preview
@@ -33,3 +32,5 @@ setup: $(NODE_MODULES)
 FIREBASE_CONFIG_FILE=src/lib/firebase/firebaseconfig.ts
 $(FIREBASE_CONFIG_FILE):
 	cp $(FIREBASE_CONFIG_FILE).dummy $(FIREBASE_CONFIG_FILE)
+
+include ./Makefiles/dev.mk
