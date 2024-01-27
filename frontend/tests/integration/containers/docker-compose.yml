@@ -20,7 +20,7 @@ services:
 
   firebase-emulators:
     build:
-      context: ../../../../containers/firebase-emulators
+      context: ../../../../backend/containers/firebase-emulators
       dockerfile: Dockerfile
     ports:
       - ${FIREBASE_AUTH_PORT}:9099

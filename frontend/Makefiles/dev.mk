@@ -10,7 +10,7 @@ DEV_ENVS=\
 
 .PHONY: dev_apisvr
 dev_apisvr:
-	$(DEV_ENVS) $(MAKE) -C ../apisvr dev
+	$(DEV_ENVS) $(MAKE) -C ../backend/apisvr dev
 
 .PHONY: dev_run
 dev_run:
@@ -18,8 +18,8 @@ dev_run:
 
 .PHONY: dev_containers_up_with_migration
 dev_containers_up_with_migration:
-	$(MAKE) -C ../apisvr dev_containers_up_with_migration
+	$(MAKE) -C ../backend/apisvr dev_containers_up_with_migration
 
 .PHONY: dev_containers_down
 dev_containers_down:
-	$(MAKE) -C ../apisvr dev_containers_down
+	$(MAKE) -C ../backend/apisvr dev_containers_down

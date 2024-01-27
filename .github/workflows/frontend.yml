@@ -8,9 +8,9 @@ on:
       - "**"
     paths:
       - ".github/**"
-      - "apisvr/**"
-      - "containers/**"
-      - "dbmigrations/**"
+      - "backend/apisvr/**"
+      - "backend/containers/**"
+      - "backend/dbmigrations/**"
       - "frontend/**"
       - "*"
 
@@ -26,7 +26,7 @@ jobs:
       # https://github.com/actions/setup-go
       - uses: actions/setup-go@v4
         with:
-          go-version-file: "apisvr/go.mod"
+          go-version-file: "backend/apisvr/go.mod"
 
       - name: Check golang version/env
         run: |

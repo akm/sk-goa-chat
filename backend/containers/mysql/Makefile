@@ -1,4 +1,4 @@
-include ../../config.mk
+include ../../../config.mk
 
 ## mysql クライアントを docker コンテナとして独立して動かす場合はこちらを使う
 # LOCAL_CONTAINERS_MYSQL?=localdev_mysql

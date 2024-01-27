@@ -1,4 +1,4 @@
-include ../../config.mk
+include ../../../config.mk
 
 ENVS=\
 	MYSQL_DATABASE_NAME=$(MYSQL_DATABASE_NAME)
