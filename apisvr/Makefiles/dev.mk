@@ -14,6 +14,17 @@ dev: dev_containers_up
 dev_containers_up:
 	$(DEV_SERVER_ENVS) $(MAKE) -C ../containers/localdev up
 
+.PHONY: dev_containers_up_with_migration
+dev_containers_up_with_migration: dev_containers_up dev_dbmigrations_up
+
 .PHONY: dev_containers_down
 dev_containers_down:
 	$(DEV_SERVER_ENVS) $(MAKE) -C ../containers/localdev down
+
+.PHONY: dev_mysql_wait_to_connect
+dev_mysql_wait_to_connect:
+	$(ENVS) $(MAKE) -C ../containers/mysql wait_to_connect
+
+.PHONY: dev_dbmigrations_up
+dev_dbmigrations_up: dev_mysql_wait_to_connect
+	$(ENVS) $(MAKE) -C ../dbmigrations up
