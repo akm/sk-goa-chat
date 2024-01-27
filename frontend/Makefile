@@ -34,3 +34,4 @@ $(FIREBASE_CONFIG_FILE):
 	cp $(FIREBASE_CONFIG_FILE).dummy $(FIREBASE_CONFIG_FILE)
 
 include ./Makefiles/dev.mk
+include ./Makefiles/grpc.mk
