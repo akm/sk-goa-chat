@@ -11,6 +11,11 @@ build:
 	$(MAKE) -C apisvr build && \
 	$(MAKE) -C frontend build
 
+.PHONY: lint
+lint:
+	$(MAKE) -C apisvr lint && \
+	$(MAKE) -C frontend lint
+
 .PHONY: test
 test:
 	$(MAKE) -C apisvr test && \
