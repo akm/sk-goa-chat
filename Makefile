@@ -9,8 +9,8 @@ install:
 .PHONY: build
 build:
 	$(MAKE) -C apisvr build && \
-	$(MAKE) -C ui build
+	$(MAKE) -C frontend build
 
 .PHONY: dev
 dev:
-	$(MAKE) -C ui dev
+	$(MAKE) -C frontend dev

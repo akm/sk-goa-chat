@@ -70,14 +70,14 @@ Name                            | Description
 [containers](./containers/)     | ローカルで使用する MySQL や Firebase Emulators のコンテナ
 [dbmigrations](./dbmigrations/) | RDBのマイグレーション
 [docs](./docs/)                 | ドキュメント
+[frontend](./frontend/)         | UIとそれを提供するサーバー(uisvr)のソースコード
 [modifiers](./modifiers/)       | 自動生成されるコードに更に変更を加えるための ruby のスクリプト群
 [tools][./tools]                | 開発や運用で使用するツール群
-[ui](./ui/)                     | UIとそれを提供するサーバー(uisvr)のソースコード
 
 
 ## Libraries / Middlewares
 
-- ui
+- frontend
   - [SvelteKit](https://kit.svelte.dev/)
       - [Vite](https://vitejs.dev/)
   - [flowbite-svelte](https://flowbite-svelte.com/)

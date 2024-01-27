@@ -1,6 +1,6 @@
 # See https://help.github.com/en/actions/automating-your-workflow-with-github-actions
 
-name: ui CI
+name: frontend CI
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
       - "apisvr/**"
       - "containers/**"
       - "dbmigrations/**"
-      - "ui/**"
+      - "frontend/**"
       - "*"
 
 jobs:
@@ -57,28 +57,28 @@ jobs:
 
       - name: Install firebase tools
         run: npm install -g firebase-tools
-        working-directory: ./ui
+        working-directory: ./frontend
 
       - name: npm install
         run: make install
-        working-directory: ./ui
+        working-directory: ./frontend
 
       - name: build
         run: make build
-        working-directory: ./ui
+        working-directory: ./frontend
 
       - name: lint
         run: make lint
-        working-directory: ./ui
+        working-directory: ./frontend
 
       - name: unit test
         run: npm run test:unit
-        working-directory: ./ui
+        working-directory: ./frontend
 
       - name: install playwright
         run: npx playwright install
-        working-directory: ./ui
+        working-directory: ./frontend
 
       - name: integration test
         run: npm run test:integration
-        working-directory: ./ui
+        working-directory: ./frontend
