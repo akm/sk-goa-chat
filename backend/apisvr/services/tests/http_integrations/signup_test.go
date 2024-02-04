@@ -9,7 +9,7 @@ import (
 	"applib/log/logtest"
 	"applib/database/sql/sqltest"
 	"applib/time"
-	"apisvr/models"
+	"biz/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/http/channels/server"
 	sessionsserver "apisvr/services/gen/http/sessions/server"

@@ -1,7 +1,6 @@
 package httpintegrations
 
 import (
-	"apisvr/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/channels"
 	"apisvr/services/gen/http/channels/server"
@@ -13,6 +12,7 @@ import (
 	"applib/log/logtest"
 	"applib/sqlboiler/sqlboilertest"
 	"applib/time"
+	"biz/models"
 	"biz/testuser"
 	"context"
 	"fmt"

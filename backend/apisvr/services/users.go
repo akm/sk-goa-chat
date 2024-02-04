@@ -5,7 +5,7 @@ import (
 	"applib/firebase/auth"
 	"applib/database/sql"
 	"applib/time"
-	"apisvr/models"
+	"biz/models"
 	log "apisvr/services/gen/log"
 	users "apisvr/services/gen/users"
 	"context"

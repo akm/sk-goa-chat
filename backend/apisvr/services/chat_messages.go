@@ -4,7 +4,7 @@ import (
 	"applib/collection"
 	"applib/database/sql"
 	"applib/time"
-	"apisvr/models"
+	"biz/models"
 	chatmessages "apisvr/services/gen/chat_messages"
 	log "apisvr/services/gen/log"
 	"context"

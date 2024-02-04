@@ -1,7 +1,6 @@
 package chatapi
 
 import (
-	"apisvr/models"
 	"apisvr/services/gen/channels"
 	"apisvr/services/gen/log"
 	"applib/database/sql"
@@ -11,6 +10,7 @@ import (
 	"applib/log/logtest"
 	"applib/sqlboiler/sqlboilertest"
 	"applib/time"
+	"biz/models"
 	"biz/testuser"
 	"context"
 	"strings"

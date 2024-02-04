@@ -4,7 +4,7 @@ import (
 	"applib/firebase/auth"
 	"applib/google/identitytoolkit/identitytoolkittest"
 	"applib/time"
-	"apisvr/models"
+	"biz/models"
 	"context"
 	"database/sql"
 	"testing"

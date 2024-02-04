@@ -1,7 +1,6 @@
 package chatapi
 
 import (
-	"apisvr/models"
 	chatmessages "apisvr/services/gen/chat_messages"
 	log "apisvr/services/gen/log"
 	"applib/collection"
@@ -11,6 +10,7 @@ import (
 	"applib/log/logtest"
 	"applib/sqlboiler/sqlboilertest"
 	"applib/time"
+	"biz/models"
 	"biz/testuser"
 	"context"
 	"fmt"

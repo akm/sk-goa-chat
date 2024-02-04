@@ -2,7 +2,7 @@ package modelsext
 
 import (
 	"applib/time"
-	"apisvr/models"
+	"biz/models"
 	"context"
 
 	"github.com/volatiletech/sqlboiler/v4/boil"

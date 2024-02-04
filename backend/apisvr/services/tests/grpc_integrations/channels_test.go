@@ -1,7 +1,6 @@
 package grpcintegrations
 
 import (
-	"apisvr/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/channels"
 	channelspb "apisvr/services/gen/grpc/channels/pb"
@@ -13,6 +12,7 @@ import (
 	"applib/log/logtest"
 	"applib/sqlboiler/sqlboilertest"
 	"applib/time"
+	"biz/models"
 	"biz/testuser"
 	"context"
 	"net"

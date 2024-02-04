@@ -1,13 +1,13 @@
 package chatapi
 
 import (
-	"apisvr/models"
 	log "apisvr/services/gen/log"
 	"apisvr/services/gen/users"
 	"applib/database/sql/sqltest"
 	"applib/log/logtest"
 	"applib/sqlboiler/sqlboilertest"
 	"applib/time"
+	"biz/models"
 	"context"
 	"testing"
 
