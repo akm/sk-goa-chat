@@ -1,7 +1,7 @@
 package log
 
 import (
-	"apisvr/lib/time"
+	"apisvr/applib/time"
 	"io"
 	"os"
 	"regexp"

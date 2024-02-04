@@ -1,8 +1,8 @@
 package testauth
 
 import (
-	"apisvr/lib/firebase/auth"
-	"apisvr/lib/time"
+	"apisvr/applib/firebase/auth"
+	"apisvr/applib/time"
 	"apisvr/testlib/testgoogle/testidentitytoolkit"
 	"context"
 	"testing"

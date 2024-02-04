@@ -1,8 +1,8 @@
 package testuser
 
 import (
-	"apisvr/lib/firebase/auth"
-	"apisvr/lib/time"
+	"apisvr/applib/firebase/auth"
+	"apisvr/applib/time"
 	"apisvr/models"
 	"apisvr/testlib/testgoogle/testidentitytoolkit"
 	"context"

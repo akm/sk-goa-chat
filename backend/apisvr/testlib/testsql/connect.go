@@ -1,11 +1,11 @@
 package testsql
 
 import (
-	"apisvr/lib/log"
-	"apisvr/lib/sql"
+	"apisvr/applib/log"
+	"apisvr/applib/sql"
 	"testing"
 
-	_ "apisvr/lib/sqlboiler"
+	_ "apisvr/applib/sqlboiler"
 )
 
 func Open(t *testing.T, logger *log.Logger) *sql.DB {

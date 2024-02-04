@@ -1,7 +1,7 @@
 package testdir
 
 import (
-	"apisvr/lib/errors"
+	"apisvr/applib/errors"
 	"os"
 	"path/filepath"
 	"testing"

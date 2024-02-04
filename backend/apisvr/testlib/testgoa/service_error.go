@@ -1,7 +1,7 @@
 package testgoa
 
 import (
-	"apisvr/lib/errors"
+	"apisvr/applib/errors"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

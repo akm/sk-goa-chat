@@ -1,9 +1,9 @@
 package httpintegrations
 
 import (
-	"apisvr/lib/firebase"
-	"apisvr/lib/firebase/auth"
-	"apisvr/lib/time"
+	"apisvr/applib/firebase"
+	"apisvr/applib/firebase/auth"
+	"apisvr/applib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/http/channels/server"

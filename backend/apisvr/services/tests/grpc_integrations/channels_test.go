@@ -1,7 +1,7 @@
 package grpcintegrations
 
 import (
-	"apisvr/lib/time"
+	"apisvr/applib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/channels"

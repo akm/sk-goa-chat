@@ -1,5 +1,5 @@
 package chatapi
 
 import (
-	_ "apisvr/lib/sqlboiler"
+	_ "apisvr/applib/sqlboiler"
 )

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"apisvr/lib/goa/goaext"
+	"apisvr/applib/goa/goaext"
 	chatapi "apisvr/services"
 	channels "apisvr/services/gen/channels"
 	chatmessages "apisvr/services/gen/chat_messages"

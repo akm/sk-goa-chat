@@ -1,8 +1,8 @@
 package auth
 
 import (
-	"apisvr/lib/log"
-	"apisvr/lib/time"
+	"apisvr/applib/log"
+	"apisvr/applib/time"
 	"context"
 )
 

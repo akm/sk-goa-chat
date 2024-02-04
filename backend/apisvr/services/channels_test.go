@@ -1,8 +1,8 @@
 package chatapi
 
 import (
-	"apisvr/lib/sql"
-	"apisvr/lib/time"
+	"apisvr/applib/sql"
+	"apisvr/applib/time"
 	"apisvr/models"
 	"apisvr/services/gen/channels"
 	"apisvr/services/gen/log"

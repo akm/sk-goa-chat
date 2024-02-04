@@ -1,9 +1,9 @@
 package auth_test
 
 import (
-	"apisvr/lib/firebase"
-	"apisvr/lib/firebase/auth"
-	"apisvr/lib/firebase/errorutils"
+	"apisvr/applib/firebase"
+	"apisvr/applib/firebase/auth"
+	"apisvr/applib/firebase/errorutils"
 	"apisvr/testlib/testfirebase/testauth"
 	"context"
 	"fmt"

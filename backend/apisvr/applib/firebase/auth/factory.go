@@ -1,9 +1,9 @@
 package auth
 
 import (
-	"apisvr/lib/errors"
-	"apisvr/lib/firebase"
-	"apisvr/lib/log"
+	"apisvr/applib/errors"
+	"apisvr/applib/firebase"
+	"apisvr/applib/log"
 	"context"
 )
 

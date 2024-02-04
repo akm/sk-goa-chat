@@ -1,7 +1,7 @@
 package testsql
 
 import (
-	"apisvr/lib/sql"
+	"apisvr/applib/sql"
 	"slices"
 	"testing"
 

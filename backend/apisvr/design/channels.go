@@ -1,7 +1,7 @@
 package design
 
 import (
-	"apisvr/lib/time"
+	"apisvr/applib/time"
 	"slices"
 
 	. "goa.design/goa/v3/dsl"
