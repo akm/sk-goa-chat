@@ -8,9 +8,19 @@ install:
 
 .PHONY: build
 build:
-	$(MAKE) -C apisvr build && \
-	$(MAKE) -C ui build
+	$(MAKE) -C backend build && \
+	$(MAKE) -C frontend build
+
+.PHONY: lint
+lint:
+	$(MAKE) -C backend lint && \
+	$(MAKE) -C frontend lint
+
+.PHONY: test
+test:
+	$(MAKE) -C backend test && \
+	$(MAKE) -C frontend test
 
 .PHONY: dev
 dev:
-	$(MAKE) -C ui dev
+	$(MAKE) -C frontend dev

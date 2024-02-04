@@ -1,0 +1,33 @@
+# Variable substitution
+# https://docs.docker.com/compose/compose-file/compose-file-v3/#variable-substitution
+# 環境変数は ui/tests/containers/Makefile で設定されています。
+version: '3.7'
+name: 'sk_goa_chat_containers_locale2e'
+services:
+  mysql:
+    platform: linux/amd64
+    image: mysql:8.0.35
+    container_name: locale2e_mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE_NAME}
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - '${MYSQL_PORT}:3306'
+    networks:
+      - network1
+
+  firebase-emulators:
+    build:
+      context: ../../../../backend/containers/firebase-emulators
+      dockerfile: Dockerfile
+    ports:
+      - ${FIREBASE_AUTH_PORT}:9099
+      # emulator の console のJSは 9099 でアクセスしようとするのでポート番号を変えると期待通りには動かないため使わない
+      # - 9099:9099
+      # - 4000:4000
+    command: firebase emulators:start
+
+networks:
+  network1:

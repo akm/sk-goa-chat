@@ -64,24 +64,26 @@ Open http://localhost:5173
 
 ## Directories
 
-Name                            | Description
---------------------------------|------------------
-[apisvr](./apisvr/)             | APIを提供するサーバーのソースコード
-[containers](./containers/)     | ローカルで使用する MySQL や Firebase Emulators のコンテナ
-[dbmigrations](./dbmigrations/) | RDBのマイグレーション
-[docs](./docs/)                 | ドキュメント
-[modifiers](./modifiers/)       | 自動生成されるコードに更に変更を加えるための ruby のスクリプト群
-[tools][./tools]                | 開発や運用で使用するツール群
-[ui](./ui/)                     | UIとそれを提供するサーバー(uisvr)のソースコード
+Name                                    | Description
+----------------------------------------|------------------
+[backend/apisvr](./backend/apisvr/)             | APIを提供するサーバーのソースコード
+[backend/applib](./backend/applib/)             | バックエンドのライブラリ的なパッケージ群
+[backend/biz](./backend/biz/)                   | バックエンドのビジネスロジックのパッケージ群
+[backend/containers](./backend/containers/)     | ローカルで使用する MySQL や Firebase Emulators のコンテナ
+[backend/dbmigrations](./backend/dbmigrations/) | RDBのマイグレーション
+[docs](./docs/)                         | ドキュメント
+[frontend](./frontend/)                 | UIとそれを提供するサーバー(uisvr)のソースコード
+[modifiers](./modifiers/)               | 自動生成されるコードに更に変更を加えるための ruby のスクリプト群
+[tools][./tools]                        | 開発や運用で使用するツール群
 
 
 ## Libraries / Middlewares
 
-- ui
+- frontend
   - [SvelteKit](https://kit.svelte.dev/)
       - [Vite](https://vitejs.dev/)
   - [flowbite-svelte](https://flowbite-svelte.com/)
-- apisvr
+- backend
   - [Goa](https://goa.design/)
   - [sqlboiler](https://github.com/volatiletech/sqlboiler)
   - [goose](https://github.com/pressly/goose)
