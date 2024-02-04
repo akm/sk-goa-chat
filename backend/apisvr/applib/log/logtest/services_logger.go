@@ -1,4 +1,4 @@
-package testlog
+package logtest
 
 import (
 	"apisvr/applib/log"

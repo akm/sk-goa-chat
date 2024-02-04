@@ -6,6 +6,7 @@ import (
 	"apisvr/applib/firebase/auth"
 	"apisvr/applib/firebase/auth/authtest"
 	"apisvr/applib/google/identitytoolkit/identitytoolkittest"
+	"apisvr/applib/log/logtest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
@@ -15,7 +16,6 @@ import (
 	"apisvr/services/gen/log"
 	"apisvr/services/gen/sessions"
 	"apisvr/services/gen/users"
-	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
 	"context"
 	"net/http"
@@ -28,7 +28,7 @@ import (
 )
 
 func TestSignup(t *testing.T) {
-	logger := testlog.New(t)
+	logger := logtest.New(t)
 	conn := testsql.Setup(t, logger)
 	defer conn.Close()
 

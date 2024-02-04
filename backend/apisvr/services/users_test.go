@@ -1,11 +1,11 @@
 package chatapi
 
 import (
+	"apisvr/applib/log/logtest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	log "apisvr/services/gen/log"
 	"apisvr/services/gen/users"
-	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
 	"apisvr/testlib/testsqlboiler"
 	"context"
@@ -16,7 +16,7 @@ import (
 )
 
 func TestUsers(t *testing.T) {
-	logger := testlog.New(t)
+	logger := logtest.New(t)
 	conn := testsql.Setup(t, logger)
 	defer conn.Close()
 

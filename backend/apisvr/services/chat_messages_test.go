@@ -4,11 +4,11 @@ import (
 	"apisvr/applib/collection"
 	"apisvr/applib/firebase/auth/authtest"
 	"apisvr/applib/goa/goatest"
+	"apisvr/applib/log/logtest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	chatmessages "apisvr/services/gen/chat_messages"
 	log "apisvr/services/gen/log"
-	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
 	"apisvr/testlib/testsqlboiler"
 	"apisvr/testlib/testuser"
@@ -24,7 +24,7 @@ import (
 )
 
 func TestChaeMessages(t *testing.T) {
-	logger := testlog.New(t)
+	logger := logtest.New(t)
 	conn := testsql.Setup(t, logger)
 	defer conn.Close()
 
@@ -140,7 +140,7 @@ func TestChaeMessages(t *testing.T) {
 }
 
 func TestChaeMessagesList(t *testing.T) {
-	logger := testlog.New(t)
+	logger := logtest.New(t)
 	conn := testsql.Setup(t, logger)
 	defer conn.Close()
 

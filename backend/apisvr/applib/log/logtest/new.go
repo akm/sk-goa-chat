@@ -1,3 +1,3 @@
-package testlog
+package logtest
 
 var New = NewServicesLogger

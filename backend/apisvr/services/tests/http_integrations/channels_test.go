@@ -4,13 +4,13 @@ import (
 	"apisvr/applib/encoding/json/jsontest"
 	"apisvr/applib/firebase/auth/authtest"
 	"apisvr/applib/goa/goatest"
+	"apisvr/applib/log/logtest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/channels"
 	"apisvr/services/gen/http/channels/server"
 	"apisvr/services/gen/log"
-	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
 	"apisvr/testlib/testsqlboiler"
 	"apisvr/testlib/testuser"
@@ -26,7 +26,7 @@ import (
 )
 
 func TestChannels(t *testing.T) {
-	logger := testlog.New(t)
+	logger := logtest.New(t)
 	conn := testsql.Setup(t, logger)
 	defer conn.Close()
 
