@@ -1,4 +1,4 @@
-package testdir
+package dirtest
 
 import (
 	"apisvr/applib/errors"

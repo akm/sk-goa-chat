@@ -2,8 +2,8 @@ package testsql
 
 import (
 	"apisvr/applib/log"
+	"apisvr/applib/os/dirtest"
 	"apisvr/applib/sql"
-	"apisvr/testlib/testdir"
 	"path/filepath"
 	"testing"
 
@@ -25,7 +25,7 @@ func Setup(t *testing.T, logger *log.Logger) *sql.DB {
 		t.Fatalf("failed to set dialect: %s", err)
 	}
 
-	rootPath := testdir.RootPath(t)
+	rootPath := dirtest.RootPath(t)
 	if err := goose.Up(conn, filepath.Join(rootPath, "../dbmigrations")); err != nil {
 		t.Fatalf("failed to migrate: %s", err)
 	}
