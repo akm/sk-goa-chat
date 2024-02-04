@@ -15,7 +15,7 @@ require (
 	github.com/simukti/sqldb-logger/logadapter/zerologadapter v0.0.0-20230108155151-646c1a075551
 	github.com/stretchr/testify v1.8.4
 	github.com/volatiletech/sqlboiler/v4 v4.16.1
-	goa.design/goa/v3 v3.14.6
+	goa.design/goa/v3 v3.14.1
 	google.golang.org/api v0.161.0
 )
 
