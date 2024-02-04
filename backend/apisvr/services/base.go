@@ -11,7 +11,7 @@ import (
 	"apisvr/applib/errors"
 	"apisvr/applib/firebase"
 	"apisvr/applib/firebase/auth"
-	"apisvr/applib/sql"
+	"apisvr/applib/database/sql"
 	"apisvr/models"
 	_ "apisvr/models_ext"
 	log "apisvr/services/gen/log"

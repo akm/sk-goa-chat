@@ -7,7 +7,7 @@ import (
 	"apisvr/applib/firebase/auth/authtest"
 	"apisvr/applib/google/identitytoolkit/identitytoolkittest"
 	"apisvr/applib/log/logtest"
-	"apisvr/applib/sql/sqltest"
+	"apisvr/applib/database/sql/sqltest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"

@@ -3,7 +3,7 @@ package sqltest
 import (
 	"apisvr/applib/log"
 	"apisvr/applib/os/dirtest"
-	"apisvr/applib/sql"
+	"apisvr/applib/database/sql"
 	"path/filepath"
 	"testing"
 

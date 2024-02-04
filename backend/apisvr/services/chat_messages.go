@@ -2,7 +2,7 @@ package chatapi
 
 import (
 	"apisvr/applib/collection"
-	"apisvr/applib/sql"
+	"apisvr/applib/database/sql"
 	"apisvr/applib/time"
 	"apisvr/models"
 	chatmessages "apisvr/services/gen/chat_messages"

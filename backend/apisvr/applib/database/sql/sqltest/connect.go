@@ -1,8 +1,8 @@
 package sqltest
 
 import (
+	"apisvr/applib/database/sql"
 	"apisvr/applib/log"
-	"apisvr/applib/sql"
 	"testing"
 
 	_ "apisvr/applib/sqlboiler"

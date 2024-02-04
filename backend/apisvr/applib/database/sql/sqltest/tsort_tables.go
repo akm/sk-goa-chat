@@ -1,7 +1,7 @@
 package sqltest
 
 import (
-	"apisvr/applib/sql"
+	"apisvr/applib/database/sql"
 	"slices"
 	"testing"
 

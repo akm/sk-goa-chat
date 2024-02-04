@@ -1,11 +1,11 @@
 package httpintegrations
 
 import (
+	"apisvr/applib/database/sql/sqltest"
 	"apisvr/applib/encoding/json/jsontest"
 	"apisvr/applib/firebase/auth/authtest"
 	"apisvr/applib/goa/goatest"
 	"apisvr/applib/log/logtest"
-	"apisvr/applib/sql/sqltest"
 	"apisvr/applib/sqlboiler/sqlboilertest"
 	"apisvr/applib/time"
 	"apisvr/biz/testuser"
