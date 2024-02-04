@@ -2,12 +2,12 @@ package chatapi
 
 import (
 	"apisvr/applib/firebase/auth/authtest"
+	"apisvr/applib/goa/goatest"
 	"apisvr/applib/sql"
 	"apisvr/applib/time"
 	"apisvr/models"
 	"apisvr/services/gen/channels"
 	"apisvr/services/gen/log"
-	"apisvr/testlib/testgoa"
 	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
 	"apisvr/testlib/testsqlboiler"
@@ -71,7 +71,7 @@ func TestChannels(t *testing.T) {
 		}
 		t.Run("not found", func(t *testing.T) {
 			res, err := srvc.Show(ctx, &channels.ShowPayload{SessionID: sessionID, ID: 999})
-			testgoa.AssertServiceError(t, "not_found", err) // ステータスコードは確認できない
+			goatest.AssertServiceError(t, "not_found", err) // ステータスコードは確認できない
 			assert.Nil(t, res)
 		})
 	})
@@ -86,12 +86,12 @@ func TestChannels(t *testing.T) {
 		})
 		t.Run("empty name", func(t *testing.T) {
 			res, err := srvc.Create(ctx, &channels.ChannelCreatePayload{SessionID: sessionID, Name: ""})
-			testgoa.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
+			goatest.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
 			assert.Nil(t, res)
 		})
 		t.Run("too long name", func(t *testing.T) {
 			res, err := srvc.Create(ctx, &channels.ChannelCreatePayload{SessionID: sessionID, Name: strings.Repeat("a", 256)})
-			testgoa.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
+			goatest.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
 			assert.Nil(t, res)
 		})
 
@@ -105,7 +105,7 @@ func TestChannels(t *testing.T) {
 			})
 			t.Run("max plus 1", func(t *testing.T) {
 				res, err := srvc.Create(ctx, &channels.ChannelCreatePayload{SessionID: sessionID, Name: maxMultiByteCharacters + "a"})
-				testgoa.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
+				goatest.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
 				assert.Nil(t, res)
 			})
 		})
@@ -114,7 +114,7 @@ func TestChannels(t *testing.T) {
 	t.Run("update", func(t *testing.T) {
 		t.Run("invalid id", func(t *testing.T) {
 			res, err := srvc.Update(ctx, &channels.ChannelUpdatePayload{SessionID: sessionID, ID: 999, Name: "test"})
-			testgoa.AssertServiceError(t, "not_found", err) // ステータスコードは確認できない
+			goatest.AssertServiceError(t, "not_found", err) // ステータスコードは確認できない
 			assert.Nil(t, res)
 		})
 		t.Run("valid name", func(t *testing.T) {
@@ -128,12 +128,12 @@ func TestChannels(t *testing.T) {
 		})
 		t.Run("empty name", func(t *testing.T) {
 			res, err := srvc.Update(ctx, &channels.ChannelUpdatePayload{SessionID: sessionID, ID: ch1.ID, Name: ""})
-			testgoa.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
+			goatest.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
 			assert.Nil(t, res)
 		})
 		t.Run("too long name", func(t *testing.T) {
 			res, err := srvc.Update(ctx, &channels.ChannelUpdatePayload{SessionID: sessionID, ID: ch1.ID, Name: strings.Repeat("a", 256)})
-			testgoa.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
+			goatest.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
 			assert.Nil(t, res)
 		})
 
@@ -147,7 +147,7 @@ func TestChannels(t *testing.T) {
 			})
 			t.Run("max plus 1", func(t *testing.T) {
 				res, err := srvc.Update(ctx, &channels.ChannelUpdatePayload{SessionID: sessionID, ID: ch1.ID, Name: maxMultiByteCharacters + "a"})
-				testgoa.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
+				goatest.AssertServiceError(t, "invalid_payload", err) // ステータスコードは確認できない
 				assert.Nil(t, res)
 			})
 		})
@@ -156,7 +156,7 @@ func TestChannels(t *testing.T) {
 	t.Run("delete", func(t *testing.T) {
 		t.Run("invalid id", func(t *testing.T) {
 			res, err := srvc.Delete(ctx, &channels.DeletePayload{SessionID: sessionID, ID: 999})
-			testgoa.AssertServiceError(t, "not_found", err) // ステータスコードは確認できない
+			goatest.AssertServiceError(t, "not_found", err) // ステータスコードは確認できない
 			assert.Nil(t, res)
 		})
 		t.Run("valid id", func(t *testing.T) {

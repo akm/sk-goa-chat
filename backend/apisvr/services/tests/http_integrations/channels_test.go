@@ -2,13 +2,13 @@ package httpintegrations
 
 import (
 	"apisvr/applib/firebase/auth/authtest"
+	"apisvr/applib/goa/goatest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/channels"
 	"apisvr/services/gen/http/channels/server"
 	"apisvr/services/gen/log"
-	"apisvr/testlib/testgoa"
 	"apisvr/testlib/testjson"
 	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
@@ -99,7 +99,7 @@ func TestChannels(t *testing.T) {
 				WithCookie("session_id", sessionID).
 				Check().HasStatus(http.StatusNotFound).Cb(func(r *http.Response) {
 				defer r.Body.Close()
-				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
+				goatest.ParseErrorBodyAndAssert(t, r.Body, &goatest.DefaultErrorResponseBody{
 					Name:    "not_found",
 					Message: "channel not found",
 				})
@@ -124,7 +124,7 @@ func TestChannels(t *testing.T) {
 				WithCookie("session_id", sessionID).
 				WithJSON(map[string]any{"name": ""}).Check().HasStatus(http.StatusBadRequest).Cb(func(r *http.Response) {
 				defer r.Body.Close()
-				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
+				goatest.ParseErrorBodyAndAssert(t, r.Body, &goatest.DefaultErrorResponseBody{
 					Name:    "invalid_payload",
 					Message: "name is required",
 				})
@@ -135,7 +135,7 @@ func TestChannels(t *testing.T) {
 				WithCookie("session_id", sessionID).
 				WithJSON(map[string]any{"name": strings.Repeat("a", 256)}).Check().HasStatus(http.StatusBadRequest).Cb(func(r *http.Response) {
 				defer r.Body.Close()
-				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
+				goatest.ParseErrorBodyAndAssert(t, r.Body, &goatest.DefaultErrorResponseBody{
 					Name:    "invalid_payload",
 					Message: "name is too long",
 				})
@@ -149,7 +149,7 @@ func TestChannels(t *testing.T) {
 				WithCookie("session_id", sessionID).
 				WithJSON(map[string]any{"name": "test"}).Check().HasStatus(http.StatusNotFound).Cb(func(r *http.Response) {
 				defer r.Body.Close()
-				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
+				goatest.ParseErrorBodyAndAssert(t, r.Body, &goatest.DefaultErrorResponseBody{
 					Name:    "not_found",
 					Message: "channel not found",
 				})
@@ -171,7 +171,7 @@ func TestChannels(t *testing.T) {
 				WithCookie("session_id", sessionID).
 				WithJSON(map[string]any{"name": ""}).Check().HasStatus(http.StatusBadRequest).Cb(func(r *http.Response) {
 				defer r.Body.Close()
-				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
+				goatest.ParseErrorBodyAndAssert(t, r.Body, &goatest.DefaultErrorResponseBody{
 					Name:    "invalid_payload",
 					Message: "name is required",
 				})
@@ -182,7 +182,7 @@ func TestChannels(t *testing.T) {
 				WithCookie("session_id", sessionID).
 				WithJSON(map[string]any{"name": strings.Repeat("a", 256)}).Check().HasStatus(http.StatusBadRequest).Cb(func(r *http.Response) {
 				defer r.Body.Close()
-				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
+				goatest.ParseErrorBodyAndAssert(t, r.Body, &goatest.DefaultErrorResponseBody{
 					Name:    "invalid_payload",
 					Message: "name is too long",
 				})
@@ -196,7 +196,7 @@ func TestChannels(t *testing.T) {
 				WithCookie("session_id", sessionID).
 				Check().HasStatus(http.StatusNotFound).Cb(func(r *http.Response) {
 				defer r.Body.Close()
-				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
+				goatest.ParseErrorBodyAndAssert(t, r.Body, &goatest.DefaultErrorResponseBody{
 					Name:    "not_found",
 					Message: "channel not found",
 				})
@@ -218,7 +218,7 @@ func TestChannels(t *testing.T) {
 				WithCookie("session_id", sessionID).
 				Check().HasStatus(http.StatusNotFound).Cb(func(r *http.Response) {
 				defer r.Body.Close()
-				testgoa.ParseErrorBodyAndAssert(t, r.Body, &testgoa.DefaultErrorResponseBody{
+				goatest.ParseErrorBodyAndAssert(t, r.Body, &goatest.DefaultErrorResponseBody{
 					Name:    "not_found",
 					Message: "channel not found",
 				})

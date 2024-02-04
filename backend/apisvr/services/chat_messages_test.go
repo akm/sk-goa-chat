@@ -3,11 +3,11 @@ package chatapi
 import (
 	"apisvr/applib/collection"
 	"apisvr/applib/firebase/auth/authtest"
+	"apisvr/applib/goa/goatest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	chatmessages "apisvr/services/gen/chat_messages"
 	log "apisvr/services/gen/log"
-	"apisvr/testlib/testgoa"
 	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
 	"apisvr/testlib/testsqlboiler"
@@ -88,14 +88,14 @@ func TestChaeMessages(t *testing.T) {
 		})
 		t.Run("empty content", func(t *testing.T) {
 			res, err := srvc.Create(ctx, &chatmessages.ChatMessageCreatePayload{SessionID: sessionID, ChannelID: ch1.ID, Content: ""})
-			testgoa.AssertServiceError(t, "invalid_payload", err)
+			goatest.AssertServiceError(t, "invalid_payload", err)
 			assert.Nil(t, res)
 		})
 		t.Run("too long content", func(t *testing.T) {
 			// mediumtext は 最大長が 16,777,215 (2 ^ 24 − 1) 文字の TEXT カラム。
 			// https://dev.mysql.com/doc/refman/8.0/ja/string-type-syntax.html
 			res, err := srvc.Create(ctx, &chatmessages.ChatMessageCreatePayload{SessionID: sessionID, ChannelID: ch1.ID, Content: strings.Repeat("a", int(math.Pow(2, 24)))})
-			testgoa.AssertServiceError(t, "invalid_payload", err)
+			goatest.AssertServiceError(t, "invalid_payload", err)
 			assert.Nil(t, res)
 		})
 	})
@@ -103,7 +103,7 @@ func TestChaeMessages(t *testing.T) {
 	t.Run("update", func(t *testing.T) {
 		t.Run("invalid id", func(t *testing.T) {
 			res, err := srvc.Update(ctx, &chatmessages.ChatMessageUpdatePayload{SessionID: sessionID, ID: 999, Content: "bonjour"})
-			testgoa.AssertServiceError(t, "not_found", err)
+			goatest.AssertServiceError(t, "not_found", err)
 			assert.Nil(t, res)
 		})
 		t.Run("valid content", func(t *testing.T) {
@@ -113,14 +113,14 @@ func TestChaeMessages(t *testing.T) {
 		})
 		t.Run("empty content", func(t *testing.T) {
 			res, err := srvc.Update(ctx, &chatmessages.ChatMessageUpdatePayload{SessionID: sessionID, ID: ch1Msg1.ID, Content: ""})
-			testgoa.AssertServiceError(t, "invalid_payload", err)
+			goatest.AssertServiceError(t, "invalid_payload", err)
 			assert.Nil(t, res)
 		})
 		t.Run("too long content", func(t *testing.T) {
 			// mediumtext は 最大長が 16,777,215 (2 ^ 24 − 1) 文字の TEXT カラム。
 			// https://dev.mysql.com/doc/refman/8.0/ja/string-type-syntax.html
 			res, err := srvc.Update(ctx, &chatmessages.ChatMessageUpdatePayload{SessionID: sessionID, ID: ch1Msg1.ID, Content: strings.Repeat("a", int(math.Pow(2, 24)))})
-			testgoa.AssertServiceError(t, "invalid_payload", err)
+			goatest.AssertServiceError(t, "invalid_payload", err)
 			assert.Nil(t, res)
 		})
 	})
@@ -128,7 +128,7 @@ func TestChaeMessages(t *testing.T) {
 	t.Run("delete", func(t *testing.T) {
 		t.Run("invalid id", func(t *testing.T) {
 			res, err := srvc.Delete(ctx, &chatmessages.DeletePayload{SessionID: sessionID, ID: 999})
-			testgoa.AssertServiceError(t, "not_found", err)
+			goatest.AssertServiceError(t, "not_found", err)
 			assert.Nil(t, res)
 		})
 		t.Run("valid id", func(t *testing.T) {

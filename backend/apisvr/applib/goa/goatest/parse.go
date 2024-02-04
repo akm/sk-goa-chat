@@ -1,4 +1,4 @@
-package testgoa
+package goatest
 
 import (
 	"apisvr/testlib/testjson"
