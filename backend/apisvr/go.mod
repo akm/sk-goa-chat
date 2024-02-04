@@ -16,7 +16,7 @@ require (
 	github.com/volatiletech/randomize v0.0.1
 	github.com/volatiletech/sqlboiler/v4 v4.16.1
 	github.com/volatiletech/strmangle v0.0.6
-	goa.design/goa/v3 v3.14.6
+	goa.design/goa/v3 v3.14.1
 	goa.design/plugins/v3 v3.14.1
 	google.golang.org/grpc v1.60.1
 	google.golang.org/protobuf v1.32.0
