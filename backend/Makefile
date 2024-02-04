@@ -1,5 +1,5 @@
 .PHONY: default
-default: build
+default: build lint test
 
 .PHONY: build
 build:
