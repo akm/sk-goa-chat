@@ -630,6 +630,8 @@ go.uber.org/multierr v1.6.0/go.mod h1:cdWPpRnG4AhwMwsgIHip0KRBQjJy5kYEpYjJxpXp9i
 go.uber.org/multierr v1.11.0 h1:blXXJkSxSSfBVBlC76pxqeO+LN3aDfLQo+309xJstO0=
 go.uber.org/multierr v1.11.0/go.mod h1:20+QtiLqy0Nd6FdQB9TLXag12DsQkrbs3htMFfDN80Y=
 go.uber.org/zap v1.17.0/go.mod h1:MXVU+bhUf/A7Xi2HNOnopQOrmycQ5Ih87HtOu4q5SSo=
+goa.design/goa/v3 v3.14.1 h1:wNvKwCXeEJWmosd2MXaZHjJGm+wtEPCZf5jNXCx3oJo=
+goa.design/goa/v3 v3.14.1/go.mod h1:MhHWTSB7X6qVuNvjDTNtr/YQyYi9x1I4zfPtXnCdHtQ=
 goa.design/goa/v3 v3.14.6 h1:mbu6n9be7puIqhn95zZaccn+k3QVqiR5teLvIrznt5c=
 goa.design/goa/v3 v3.14.6/go.mod h1:wcdZ2jy4oC2R93R3kBWKqyDapkVLQbILkOLXcqWMXHY=
 golang.org/x/crypto v0.0.0-20180904163835-0709b304e793/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
