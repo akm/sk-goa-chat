@@ -1,8 +1,8 @@
 package chatapi
 
 import (
-	"apisvr/applib/errors"
-	"apisvr/applib/database/sql"
+	"applib/errors"
+	"applib/database/sql"
 	log "apisvr/services/gen/log"
 	notifications "apisvr/services/gen/notifications"
 	"context"

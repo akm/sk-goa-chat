@@ -1,8 +1,8 @@
 package logtest
 
 import (
-	"apisvr/applib/log"
-	"apisvr/applib/time"
+	"applib/log"
+	"applib/time"
 	"testing"
 )
 

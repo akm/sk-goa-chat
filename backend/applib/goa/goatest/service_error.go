@@ -1,7 +1,7 @@
 package goatest
 
 import (
-	"apisvr/applib/errors"
+	"applib/errors"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

@@ -1,9 +1,9 @@
 package authtest
 
 import (
-	"apisvr/applib/firebase/auth"
-	"apisvr/applib/google/identitytoolkit/identitytoolkittest"
-	"apisvr/applib/time"
+	"applib/firebase/auth"
+	"applib/google/identitytoolkit/identitytoolkittest"
+	"applib/time"
 	"context"
 	"testing"
 

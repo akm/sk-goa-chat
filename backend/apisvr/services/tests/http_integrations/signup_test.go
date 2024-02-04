@@ -1,14 +1,14 @@
 package httpintegrations
 
 import (
-	"apisvr/applib/encoding/json/jsontest"
-	"apisvr/applib/firebase"
-	"apisvr/applib/firebase/auth"
-	"apisvr/applib/firebase/auth/authtest"
-	"apisvr/applib/google/identitytoolkit/identitytoolkittest"
-	"apisvr/applib/log/logtest"
-	"apisvr/applib/database/sql/sqltest"
-	"apisvr/applib/time"
+	"applib/encoding/json/jsontest"
+	"applib/firebase"
+	"applib/firebase/auth"
+	"applib/firebase/auth/authtest"
+	"applib/google/identitytoolkit/identitytoolkittest"
+	"applib/log/logtest"
+	"applib/database/sql/sqltest"
+	"applib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/http/channels/server"

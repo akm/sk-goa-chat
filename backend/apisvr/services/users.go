@@ -1,10 +1,10 @@
 package chatapi
 
 import (
-	"apisvr/applib/errors"
-	"apisvr/applib/firebase/auth"
-	"apisvr/applib/database/sql"
-	"apisvr/applib/time"
+	"applib/errors"
+	"applib/firebase/auth"
+	"applib/database/sql"
+	"applib/time"
 	"apisvr/models"
 	log "apisvr/services/gen/log"
 	users "apisvr/services/gen/users"

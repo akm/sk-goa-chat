@@ -1,7 +1,7 @@
 package goatest
 
 import (
-	"apisvr/applib/encoding/json/jsontest"
+	"applib/encoding/json/jsontest"
 	"io"
 	"testing"
 

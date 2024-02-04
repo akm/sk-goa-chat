@@ -1,7 +1,7 @@
 package modelsext
 
 import (
-	"apisvr/applib/time"
+	"applib/time"
 	"apisvr/models"
 	"context"
 

@@ -1,10 +1,10 @@
 package auth_test
 
 import (
-	"apisvr/applib/firebase"
-	"apisvr/applib/firebase/auth"
-	"apisvr/applib/firebase/auth/authtest"
-	"apisvr/applib/firebase/errorutils"
+	"applib/firebase"
+	"applib/firebase/auth"
+	"applib/firebase/auth/authtest"
+	"applib/firebase/errorutils"
 	"context"
 	"fmt"
 	"testing"

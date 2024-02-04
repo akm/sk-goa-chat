@@ -1,8 +1,8 @@
 package sql
 
 import (
-	"apisvr/applib/errors"
-	"apisvr/applib/log"
+	"applib/errors"
+	"applib/log"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"

@@ -1,7 +1,7 @@
 package dirtest
 
 import (
-	"apisvr/applib/errors"
+	"applib/errors"
 	"os"
 	"path/filepath"
 	"testing"

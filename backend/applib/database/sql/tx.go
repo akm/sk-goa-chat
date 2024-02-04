@@ -1,7 +1,7 @@
 package sql
 
 import (
-	"apisvr/applib/errors"
+	"applib/errors"
 	"context"
 )
 

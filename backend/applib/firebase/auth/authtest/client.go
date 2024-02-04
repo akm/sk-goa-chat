@@ -1,8 +1,8 @@
 package authtest
 
 import (
-	"apisvr/applib/firebase"
-	"apisvr/applib/firebase/auth"
+	"applib/firebase"
+	"applib/firebase/auth"
 	"context"
 	"testing"
 

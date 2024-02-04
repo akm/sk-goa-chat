@@ -1,7 +1,7 @@
 package main
 
 import (
-	"apisvr/applib/http/cors"
+	"applib/http/cors"
 	channels "apisvr/services/gen/channels"
 	chatmessages "apisvr/services/gen/chat_messages"
 	channelssvr "apisvr/services/gen/http/channels/server"

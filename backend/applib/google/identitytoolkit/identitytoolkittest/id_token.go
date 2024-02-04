@@ -1,7 +1,7 @@
 package identitytoolkittest
 
 import (
-	"apisvr/applib/errors"
+	"applib/errors"
 	"context"
 	"fmt"
 	"os"

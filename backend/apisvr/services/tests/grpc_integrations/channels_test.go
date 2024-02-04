@@ -1,12 +1,6 @@
 package grpcintegrations
 
 import (
-	"apisvr/applib/database/sql/sqltest"
-	"apisvr/applib/encoding/json/jsontest"
-	"apisvr/applib/firebase/auth/authtest"
-	"apisvr/applib/log/logtest"
-	"apisvr/applib/sqlboiler/sqlboilertest"
-	"apisvr/applib/time"
 	"apisvr/biz/testuser"
 	"apisvr/models"
 	chatapi "apisvr/services"
@@ -14,6 +8,12 @@ import (
 	channelspb "apisvr/services/gen/grpc/channels/pb"
 	channelssvr "apisvr/services/gen/grpc/channels/server"
 	"apisvr/services/gen/log"
+	"applib/database/sql/sqltest"
+	"applib/encoding/json/jsontest"
+	"applib/firebase/auth/authtest"
+	"applib/log/logtest"
+	"applib/sqlboiler/sqlboilertest"
+	"applib/time"
 	"context"
 	"net"
 	"strings"
