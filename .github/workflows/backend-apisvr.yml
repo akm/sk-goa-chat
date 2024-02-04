@@ -8,10 +8,13 @@ on:
       - "**"
     paths:
       - ".github/**"
-      - "backend/apisvr/**"
-      - "backend/containers/**"
-      - "backend/dbmigrations/**"
-      - "*"
+      - ".gitignore"
+      - ".tool-versions"
+      - "backend/**"
+      - "config.mk"
+      - "Makefile"
+      # - "modifiers"
+      # - "tools/**"
 
 jobs:
   test:
