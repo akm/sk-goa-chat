@@ -4,6 +4,7 @@ import (
 	"apisvr/applib/firebase"
 	"apisvr/applib/firebase/auth"
 	"apisvr/applib/firebase/auth/authtest"
+	"apisvr/applib/google/identitytoolkit/identitytoolkittest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
@@ -13,7 +14,6 @@ import (
 	"apisvr/services/gen/log"
 	"apisvr/services/gen/sessions"
 	"apisvr/services/gen/users"
-	"apisvr/testlib/testgoogle/testidentitytoolkit"
 	"apisvr/testlib/testjson"
 	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
@@ -75,7 +75,7 @@ func TestSignup(t *testing.T) {
 
 		// ブラウザ上のJSではfirebaseのライブラリによって CreateUser の結果から IDToken を取得できますが、
 		// Goでは実装されていないので、代わりに identitytoolkit のAPIの呼び出してIDTokenを取得します。
-		fooIDToken = testidentitytoolkit.GetIdToken(t, ctx, fooEmail, fooPassword)
+		fooIDToken = identitytoolkittest.GetIdToken(t, ctx, fooEmail, fooPassword)
 		assert.NotEmpty(t, fooIDToken)
 	})
 

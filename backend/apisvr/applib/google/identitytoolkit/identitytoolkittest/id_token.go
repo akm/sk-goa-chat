@@ -1,4 +1,4 @@
-package testidentitytoolkit
+package identitytoolkittest
 
 import (
 	"apisvr/applib/errors"

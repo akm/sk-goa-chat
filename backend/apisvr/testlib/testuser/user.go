@@ -2,9 +2,9 @@ package testuser
 
 import (
 	"apisvr/applib/firebase/auth"
+	"apisvr/applib/google/identitytoolkit/identitytoolkittest"
 	"apisvr/applib/time"
 	"apisvr/models"
-	"apisvr/testlib/testgoogle/testidentitytoolkit"
 	"context"
 	"database/sql"
 	"testing"
@@ -54,7 +54,7 @@ func (u *User) GetIdToken(t *testing.T, ctx context.Context, fbauth auth.Client)
 	if u.UID == "" {
 		u.CreateOnFirebaseAuth(t, ctx, fbauth)
 	}
-	u.IDToken = testidentitytoolkit.GetIdToken(t, ctx, u.Email, u.Password)
+	u.IDToken = identitytoolkittest.GetIdToken(t, ctx, u.Email, u.Password)
 	assert.NotEmpty(t, u.IDToken)
 	return u.IDToken
 }
