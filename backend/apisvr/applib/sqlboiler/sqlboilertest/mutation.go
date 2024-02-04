@@ -1,4 +1,4 @@
-package testsqlboiler
+package sqlboilertest
 
 import (
 	"context"

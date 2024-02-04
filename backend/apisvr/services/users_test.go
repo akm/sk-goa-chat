@@ -3,11 +3,11 @@ package chatapi
 import (
 	"apisvr/applib/log/logtest"
 	"apisvr/applib/sql/sqltest"
+	"apisvr/applib/sqlboiler/sqlboilertest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	log "apisvr/services/gen/log"
 	"apisvr/services/gen/users"
-	"apisvr/testlib/testsqlboiler"
 	"context"
 	"testing"
 
@@ -39,7 +39,7 @@ func TestUsers(t *testing.T) {
 
 	userFoo := &models.User{Email: "foo@example.com", Name: "Foo", FbauthUID: "foo-uid"}
 	userBar := &models.User{Email: "bar@example.com", Name: "Bar", FbauthUID: "bar-uid"}
-	testsqlboiler.Insert(t, ctx, conn, boil.Infer(), userFoo, userBar)
+	sqlboilertest.Insert(t, ctx, conn, boil.Infer(), userFoo, userBar)
 
 	t.Run("list", func(t *testing.T) {
 		res, err := srvc.List(ctx)
@@ -99,7 +99,7 @@ func TestUsers(t *testing.T) {
 		newName := "Qux2"
 		oldUID := "qux-uid"
 		userQux := &models.User{Email: email, Name: name, FbauthUID: oldUID} // "user on Firebase got lost" テストで使用されます
-		testsqlboiler.Insert(t, ctx, conn, boil.Infer(), userQux)
+		sqlboilertest.Insert(t, ctx, conn, boil.Infer(), userQux)
 
 		res, err := srvc.Create(ctx, &users.UserCreatePayload{Email: email, Name: newName})
 		assert.NoError(t, err)

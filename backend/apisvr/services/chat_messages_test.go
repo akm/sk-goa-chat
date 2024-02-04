@@ -6,11 +6,11 @@ import (
 	"apisvr/applib/goa/goatest"
 	"apisvr/applib/log/logtest"
 	"apisvr/applib/sql/sqltest"
+	"apisvr/applib/sqlboiler/sqlboilertest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	chatmessages "apisvr/services/gen/chat_messages"
 	log "apisvr/services/gen/log"
-	"apisvr/testlib/testsqlboiler"
 	"apisvr/testlib/testuser"
 	"context"
 	"fmt"
@@ -51,7 +51,7 @@ func TestChaeMessages(t *testing.T) {
 
 	ch1 := &models.Channel{Name: "general", Visibility: models.ChannelsVisibilityPublic}
 	ch2 := &models.Channel{Name: "random", Visibility: models.ChannelsVisibilityPublic}
-	testsqlboiler.Insert(t, ctx, conn, boil.Infer(), ch1, ch2)
+	sqlboilertest.Insert(t, ctx, conn, boil.Infer(), ch1, ch2)
 	assert.Equal(t, now, ch1.CreatedAt)
 
 	newChatMessage := func(ch *models.Channel, user *testuser.User, content string) *models.ChatMessage {
@@ -61,7 +61,7 @@ func TestChaeMessages(t *testing.T) {
 	ch1Msg1 := newChatMessage(ch1, userFoo, "Hello")
 	ch1Msg2 := newChatMessage(ch1, userBar, "Hi")
 	ch1Msg3 := newChatMessage(ch1, userFoo, "Yo")
-	testsqlboiler.Insert(t, ctx, conn, boil.Infer(), ch1Msg1, ch1Msg2, ch1Msg3)
+	sqlboilertest.Insert(t, ctx, conn, boil.Infer(), ch1Msg1, ch1Msg2, ch1Msg3)
 
 	t.Run("list", func(t *testing.T) {
 		res, err := srvc.List(ctx, &chatmessages.ListPayload{SessionID: sessionID, ChannelID: &ch1.ID, Limit: 50})
@@ -159,7 +159,7 @@ func TestChaeMessagesList(t *testing.T) {
 
 	ch1 := &models.Channel{Name: "general", Visibility: models.ChannelsVisibilityPublic}
 	ch2 := &models.Channel{Name: "random", Visibility: models.ChannelsVisibilityPublic}
-	testsqlboiler.Insert(t, ctx, conn, boil.Infer(), ch1, ch2)
+	sqlboilertest.Insert(t, ctx, conn, boil.Infer(), ch1, ch2)
 	assert.Equal(t, now, ch1.CreatedAt)
 
 	newChatMessage := func(ch *models.Channel, user *testuser.User, content string) *models.ChatMessage {
@@ -172,7 +172,7 @@ func TestChaeMessagesList(t *testing.T) {
 		msgBarCh1 := newChatMessage(ch1, userBar, fmt.Sprintf("ch1 msg from bar %02d", i+1))
 		msgFooCh2 := newChatMessage(ch2, userFoo, fmt.Sprintf("ch2 msg from foo %02d", i+1))
 		msgBarCh2 := newChatMessage(ch2, userBar, fmt.Sprintf("ch2 msg from bar %02d", i+1))
-		testsqlboiler.Insert(t, ctx, conn, boil.Infer(), msgFooCh1, msgBarCh1, msgFooCh2, msgBarCh2)
+		sqlboilertest.Insert(t, ctx, conn, boil.Infer(), msgFooCh1, msgBarCh1, msgFooCh2, msgBarCh2)
 		messages = append(messages, msgFooCh1, msgBarCh1, msgFooCh2, msgBarCh2)
 	}
 	msgCount := len(messages)

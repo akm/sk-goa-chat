@@ -5,6 +5,7 @@ import (
 	"apisvr/applib/firebase/auth/authtest"
 	"apisvr/applib/log/logtest"
 	"apisvr/applib/sql/sqltest"
+	"apisvr/applib/sqlboiler/sqlboilertest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
@@ -12,7 +13,6 @@ import (
 	channelspb "apisvr/services/gen/grpc/channels/pb"
 	channelssvr "apisvr/services/gen/grpc/channels/server"
 	"apisvr/services/gen/log"
-	"apisvr/testlib/testsqlboiler"
 	"apisvr/testlib/testuser"
 	"context"
 	"net"
@@ -65,7 +65,7 @@ func TestChannels(t *testing.T) {
 
 	ch1 := &models.Channel{Name: "general", Visibility: models.ChannelsVisibilityPublic}
 	ch2 := &models.Channel{Name: "random", Visibility: models.ChannelsVisibilityPublic}
-	testsqlboiler.Insert(t, ctx, conn, boil.Infer(), ch1, ch2)
+	sqlboilertest.Insert(t, ctx, conn, boil.Infer(), ch1, ch2)
 	assert.Equal(t, now, ch1.CreatedAt)
 
 	t.Run("list", func(t *testing.T) {
