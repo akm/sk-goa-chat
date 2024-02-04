@@ -4,6 +4,7 @@ import (
 	"apisvr/applib/encoding/json/jsontest"
 	"apisvr/applib/firebase/auth/authtest"
 	"apisvr/applib/log/logtest"
+	"apisvr/applib/sql/sqltest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
@@ -11,7 +12,6 @@ import (
 	channelspb "apisvr/services/gen/grpc/channels/pb"
 	channelssvr "apisvr/services/gen/grpc/channels/server"
 	"apisvr/services/gen/log"
-	"apisvr/testlib/testsql"
 	"apisvr/testlib/testsqlboiler"
 	"apisvr/testlib/testuser"
 	"context"
@@ -37,7 +37,7 @@ func TestChannels(t *testing.T) {
 	client, closer := setupChannelsServer(ctx, &log.Logger{Logger: logger})
 	defer closer()
 
-	conn := testsql.Setup(t, logger)
+	conn := sqltest.Setup(t, logger)
 	defer conn.Close()
 
 	now := time.Now()

@@ -1,4 +1,4 @@
-package testsql
+package sqltest
 
 import (
 	"apisvr/applib/log"

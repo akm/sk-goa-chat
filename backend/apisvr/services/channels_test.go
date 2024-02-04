@@ -5,11 +5,11 @@ import (
 	"apisvr/applib/goa/goatest"
 	"apisvr/applib/log/logtest"
 	"apisvr/applib/sql"
+	"apisvr/applib/sql/sqltest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	"apisvr/services/gen/channels"
 	"apisvr/services/gen/log"
-	"apisvr/testlib/testsql"
 	"apisvr/testlib/testsqlboiler"
 	"apisvr/testlib/testuser"
 	"context"
@@ -22,7 +22,7 @@ import (
 
 func TestChannels(t *testing.T) {
 	logger := logtest.New(t)
-	conn := testsql.Setup(t, logger)
+	conn := sqltest.Setup(t, logger)
 	defer conn.Close()
 
 	now := time.Now()
