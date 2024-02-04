@@ -2,11 +2,11 @@ package chatapi
 
 import (
 	"apisvr/applib/collection"
+	"apisvr/applib/firebase/auth/authtest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	chatmessages "apisvr/services/gen/chat_messages"
 	log "apisvr/services/gen/log"
-	"apisvr/testlib/testfirebase/testauth"
 	"apisvr/testlib/testgoa"
 	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
@@ -35,7 +35,7 @@ func TestChaeMessages(t *testing.T) {
 	srvc := NewChatMessages(&log.Logger{Logger: logger})
 	conv := NewChatMessageConvertor()
 
-	fbauth := testauth.Setup(t, ctx)
+	fbauth := authtest.Setup(t, ctx)
 
 	userFoo := testuser.Foo().Setup(t, ctx, fbauth, conn)
 	userBar := testuser.Bar().Setup(t, ctx, fbauth, conn)
@@ -151,7 +151,7 @@ func TestChaeMessagesList(t *testing.T) {
 	srvc := NewChatMessages(&log.Logger{Logger: logger})
 	conv := NewChatMessageConvertor()
 
-	fbauth := testauth.Setup(t, ctx)
+	fbauth := authtest.Setup(t, ctx)
 
 	userFoo := testuser.Foo().Setup(t, ctx, fbauth, conn)
 	userBar := testuser.Bar().Setup(t, ctx, fbauth, conn)

@@ -3,6 +3,7 @@ package httpintegrations
 import (
 	"apisvr/applib/firebase"
 	"apisvr/applib/firebase/auth"
+	"apisvr/applib/firebase/auth/authtest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
@@ -12,7 +13,6 @@ import (
 	"apisvr/services/gen/log"
 	"apisvr/services/gen/sessions"
 	"apisvr/services/gen/users"
-	"apisvr/testlib/testfirebase/testauth"
 	"apisvr/testlib/testgoogle/testidentitytoolkit"
 	"apisvr/testlib/testjson"
 	"apisvr/testlib/testlog"
@@ -44,7 +44,7 @@ func TestSignup(t *testing.T) {
 	require.NoError(t, err)
 
 	t.Run("delete all of users before test", func(t *testing.T) {
-		testauth.DeleteUsers(t, ctx, fbauth)
+		authtest.DeleteUsers(t, ctx, fbauth)
 	})
 
 	checker := goahttpcheck.New()

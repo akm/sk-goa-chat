@@ -1,12 +1,12 @@
 package chatapi
 
 import (
+	"apisvr/applib/firebase/auth/authtest"
 	"apisvr/applib/sql"
 	"apisvr/applib/time"
 	"apisvr/models"
 	"apisvr/services/gen/channels"
 	"apisvr/services/gen/log"
-	"apisvr/testlib/testfirebase/testauth"
 	"apisvr/testlib/testgoa"
 	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
@@ -32,7 +32,7 @@ func TestChannels(t *testing.T) {
 	srvc := NewChannels(&log.Logger{Logger: logger})
 	conv := NewChannelsConvertor()
 
-	fbauth := testauth.Setup(t, ctx)
+	fbauth := authtest.Setup(t, ctx)
 
 	userFoo := testuser.Foo()
 	userFoo.Setup(t, ctx, fbauth, conn)

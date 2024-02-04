@@ -1,13 +1,13 @@
 package httpintegrations
 
 import (
+	"apisvr/applib/firebase/auth/authtest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/channels"
 	"apisvr/services/gen/http/channels/server"
 	"apisvr/services/gen/log"
-	"apisvr/testlib/testfirebase/testauth"
 	"apisvr/testlib/testgoa"
 	"apisvr/testlib/testjson"
 	"apisvr/testlib/testlog"
@@ -44,7 +44,7 @@ func TestChannels(t *testing.T) {
 	checker.Mount(server.NewUpdateHandler, server.MountUpdateHandler, channels.NewUpdateEndpoint(srvc))
 	checker.Mount(server.NewDeleteHandler, server.MountDeleteHandler, channels.NewDeleteEndpoint(srvc))
 
-	fbauth := testauth.Setup(t, ctx)
+	fbauth := authtest.Setup(t, ctx)
 
 	userFoo := testuser.Foo()
 	userFoo.Setup(t, ctx, fbauth, conn)

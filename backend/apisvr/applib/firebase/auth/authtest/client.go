@@ -1,4 +1,4 @@
-package testauth
+package authtest
 
 import (
 	"apisvr/applib/firebase"

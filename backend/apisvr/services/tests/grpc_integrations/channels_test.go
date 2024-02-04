@@ -1,6 +1,7 @@
 package grpcintegrations
 
 import (
+	"apisvr/applib/firebase/auth/authtest"
 	"apisvr/applib/time"
 	"apisvr/models"
 	chatapi "apisvr/services"
@@ -8,7 +9,6 @@ import (
 	channelspb "apisvr/services/gen/grpc/channels/pb"
 	channelssvr "apisvr/services/gen/grpc/channels/server"
 	"apisvr/services/gen/log"
-	"apisvr/testlib/testfirebase/testauth"
 	"apisvr/testlib/testjson"
 	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
@@ -45,7 +45,7 @@ func TestChannels(t *testing.T) {
 
 	conv := NewChannelsConvertor()
 
-	fbauth := testauth.Setup(t, ctx)
+	fbauth := authtest.Setup(t, ctx)
 
 	userFoo := testuser.Foo()
 	userFoo.Setup(t, ctx, fbauth, conn)
