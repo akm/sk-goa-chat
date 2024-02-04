@@ -1,6 +1,7 @@
 package httpintegrations
 
 import (
+	"apisvr/applib/encoding/json/jsontest"
 	"apisvr/applib/firebase"
 	"apisvr/applib/firebase/auth"
 	"apisvr/applib/firebase/auth/authtest"
@@ -14,7 +15,6 @@ import (
 	"apisvr/services/gen/log"
 	"apisvr/services/gen/sessions"
 	"apisvr/services/gen/users"
-	"apisvr/testlib/testjson"
 	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
 	"context"
@@ -85,9 +85,9 @@ func TestSignup(t *testing.T) {
 			Check().HasStatus(http.StatusCreated).Cb(
 			func(r *http.Response) {
 				defer r.Body.Close()
-				res := testjson.UnmarshalFrom[server.CreateResponseBody](t, r.Body)
-				expected := testjson.Unmarshal[server.CreateResponseBody](t,
-					testjson.MarshalAndSnakeizeJsonKeys(t,
+				res := jsontest.UnmarshalFrom[server.CreateResponseBody](t, r.Body)
+				expected := jsontest.Unmarshal[server.CreateResponseBody](t,
+					jsontest.MarshalAndSnakeizeJsonKeys(t,
 						usersConv.ModelToResult(&models.User{ID: res.ID, Email: fooEmail, Name: fooName, CreatedAt: now, UpdatedAt: now}),
 					),
 				)

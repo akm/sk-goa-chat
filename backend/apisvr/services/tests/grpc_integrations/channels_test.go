@@ -1,6 +1,7 @@
 package grpcintegrations
 
 import (
+	"apisvr/applib/encoding/json/jsontest"
 	"apisvr/applib/firebase/auth/authtest"
 	"apisvr/applib/time"
 	"apisvr/models"
@@ -9,7 +10,6 @@ import (
 	channelspb "apisvr/services/gen/grpc/channels/pb"
 	channelssvr "apisvr/services/gen/grpc/channels/server"
 	"apisvr/services/gen/log"
-	"apisvr/testlib/testjson"
 	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
 	"apisvr/testlib/testsqlboiler"
@@ -59,7 +59,7 @@ func TestChannels(t *testing.T) {
 				Total:  uint64(0),
 				Offset: uint64(0),
 				Items:  &channelspb.ChannelListItemCollection{},
-			}, testjson.Reassign(t, out))
+			}, jsontest.Reassign(t, out))
 		})
 	})
 
@@ -71,7 +71,7 @@ func TestChannels(t *testing.T) {
 	t.Run("list", func(t *testing.T) {
 		out, err := client.List(ctx, &channelspb.ListRequest{SessionId: sessionID})
 		assert.NoError(t, err)
-		assert.Equal(t, conv.ModelsToListResponse([]*models.Channel{ch1, ch2}), testjson.Reassign(t, out))
+		assert.Equal(t, conv.ModelsToListResponse([]*models.Channel{ch1, ch2}), jsontest.Reassign(t, out))
 	})
 
 	t.Run("show", func(t *testing.T) {
@@ -79,7 +79,7 @@ func TestChannels(t *testing.T) {
 			t.Run(ch.Name, func(t *testing.T) {
 				out, err := client.Show(ctx, &channelspb.ShowRequest{SessionId: sessionID, Id: ch.ID})
 				assert.NoError(t, err)
-				assert.Equal(t, conv.ModelToShowResponse(ch), testjson.Reassign(t, out))
+				assert.Equal(t, conv.ModelToShowResponse(ch), jsontest.Reassign(t, out))
 			})
 		}
 		t.Run("not found", func(t *testing.T) {
@@ -97,7 +97,7 @@ func TestChannels(t *testing.T) {
 			assert.NoError(t, err)
 			require.NotNil(t, out)
 			ch := &models.Channel{ID: out.Id, Name: name, CreatedAt: now, UpdatedAt: now}
-			assert.Equal(t, conv.ModelToCreateResponse(t, ch), testjson.Reassign(t, out))
+			assert.Equal(t, conv.ModelToCreateResponse(t, ch), jsontest.Reassign(t, out))
 		})
 		t.Run("empty name", func(t *testing.T) {
 			out, err := client.Create(ctx, &channelspb.CreateRequest{SessionId: sessionID, Name: ""})
@@ -126,7 +126,7 @@ func TestChannels(t *testing.T) {
 			assert.NoError(t, err)
 			require.NotNil(t, out)
 			ch := &models.Channel{ID: ch1.ID, Name: newName, CreatedAt: now, UpdatedAt: now}
-			assert.Equal(t, conv.ModelToUpdateResponse(t, ch), testjson.Reassign(t, out))
+			assert.Equal(t, conv.ModelToUpdateResponse(t, ch), jsontest.Reassign(t, out))
 
 		})
 		t.Run("empty name", func(t *testing.T) {
@@ -154,7 +154,7 @@ func TestChannels(t *testing.T) {
 			out, err := client.Delete(ctx, &channelspb.DeleteRequest{SessionId: sessionID, Id: ch2.ID})
 			assert.NoError(t, err)
 			require.NotNil(t, out)
-			assert.Equal(t, conv.ModelToDeleteResponse(t, ch2), testjson.Reassign(t, out))
+			assert.Equal(t, conv.ModelToDeleteResponse(t, ch2), jsontest.Reassign(t, out))
 		})
 	})
 }
@@ -243,11 +243,11 @@ func (c *channelsConvertor) ModelToShowResponse(m *models.Channel) *channelspb.S
 	}
 }
 func (c *channelsConvertor) ModelToCreateResponse(t *testing.T, m *models.Channel) *channelspb.CreateResponse {
-	return testjson.ReassignAs[channelspb.ShowResponse, channelspb.CreateResponse](t, c.ModelToShowResponse(m))
+	return jsontest.ReassignAs[channelspb.ShowResponse, channelspb.CreateResponse](t, c.ModelToShowResponse(m))
 }
 func (c *channelsConvertor) ModelToUpdateResponse(t *testing.T, m *models.Channel) *channelspb.UpdateResponse {
-	return testjson.ReassignAs[channelspb.ShowResponse, channelspb.UpdateResponse](t, c.ModelToShowResponse(m))
+	return jsontest.ReassignAs[channelspb.ShowResponse, channelspb.UpdateResponse](t, c.ModelToShowResponse(m))
 }
 func (c *channelsConvertor) ModelToDeleteResponse(t *testing.T, m *models.Channel) *channelspb.DeleteResponse {
-	return testjson.ReassignAs[channelspb.ShowResponse, channelspb.DeleteResponse](t, c.ModelToShowResponse(m))
+	return jsontest.ReassignAs[channelspb.ShowResponse, channelspb.DeleteResponse](t, c.ModelToShowResponse(m))
 }

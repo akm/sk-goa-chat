@@ -1,6 +1,7 @@
 package httpintegrations
 
 import (
+	"apisvr/applib/encoding/json/jsontest"
 	"apisvr/applib/firebase/auth/authtest"
 	"apisvr/applib/goa/goatest"
 	"apisvr/applib/time"
@@ -9,7 +10,6 @@ import (
 	"apisvr/services/gen/channels"
 	"apisvr/services/gen/http/channels/server"
 	"apisvr/services/gen/log"
-	"apisvr/testlib/testjson"
 	"apisvr/testlib/testlog"
 	"apisvr/testlib/testsql"
 	"apisvr/testlib/testsqlboiler"
@@ -56,7 +56,7 @@ func TestChannels(t *testing.T) {
 				WithCookie("session_id", sessionID).
 				Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
 				defer r.Body.Close()
-				res := testjson.UnmarshalFrom[server.ListResponseBody](t, r.Body)
+				res := jsontest.UnmarshalFrom[server.ListResponseBody](t, r.Body)
 				assert.Equal(t, &server.ListResponseBody{
 					Total:  0,
 					Offset: 0,
@@ -76,7 +76,7 @@ func TestChannels(t *testing.T) {
 			WithCookie("session_id", sessionID).
 			Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
 			defer r.Body.Close()
-			res := testjson.CamelizeJsonKeysAndUnmarshalFrom[channels.ChannelList](t, r.Body)
+			res := jsontest.CamelizeJsonKeysAndUnmarshalFrom[channels.ChannelList](t, r.Body)
 			assert.Equal(t, conv.ModelsToList([]*models.Channel{ch1, ch2}), res)
 		})
 	})
@@ -88,8 +88,8 @@ func TestChannels(t *testing.T) {
 					WithCookie("session_id", sessionID).
 					Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
 					defer r.Body.Close()
-					res := testjson.UnmarshalFrom[server.ShowResponseBody](t, r.Body)
-					expected := testjson.Unmarshal[server.ShowResponseBody](t, testjson.MarshalAndSnakeizeJsonKeys(t, conv.ModelToResult(ch)))
+					res := jsontest.UnmarshalFrom[server.ShowResponseBody](t, r.Body)
+					expected := jsontest.Unmarshal[server.ShowResponseBody](t, jsontest.MarshalAndSnakeizeJsonKeys(t, conv.ModelToResult(ch)))
 					assert.Equal(t, expected, res)
 				})
 			})
@@ -114,8 +114,8 @@ func TestChannels(t *testing.T) {
 				WithCookie("session_id", sessionID).
 				WithJSON(map[string]any{"name": name}).Check().HasStatus(http.StatusCreated).Cb(func(r *http.Response) {
 				defer r.Body.Close()
-				res := testjson.UnmarshalFrom[server.CreateResponseBody](t, r.Body)
-				expected := testjson.Unmarshal[server.CreateResponseBody](t, testjson.MarshalAndSnakeizeJsonKeys(t, conv.ModelToResult(&models.Channel{ID: res.ID, Name: name, CreatedAt: now, UpdatedAt: now})))
+				res := jsontest.UnmarshalFrom[server.CreateResponseBody](t, r.Body)
+				expected := jsontest.Unmarshal[server.CreateResponseBody](t, jsontest.MarshalAndSnakeizeJsonKeys(t, conv.ModelToResult(&models.Channel{ID: res.ID, Name: name, CreatedAt: now, UpdatedAt: now})))
 				assert.Equal(t, expected, res)
 			})
 		})
@@ -161,8 +161,8 @@ func TestChannels(t *testing.T) {
 				WithCookie("session_id", sessionID).
 				WithJSON(map[string]any{"name": newName}).Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
 				defer r.Body.Close()
-				res := testjson.UnmarshalFrom[server.UpdateResponseBody](t, r.Body)
-				expected := testjson.Unmarshal[server.UpdateResponseBody](t, testjson.MarshalAndSnakeizeJsonKeys(t, conv.ModelToResult(&models.Channel{ID: res.ID, Name: newName, CreatedAt: now, UpdatedAt: now})))
+				res := jsontest.UnmarshalFrom[server.UpdateResponseBody](t, r.Body)
+				expected := jsontest.Unmarshal[server.UpdateResponseBody](t, jsontest.MarshalAndSnakeizeJsonKeys(t, conv.ModelToResult(&models.Channel{ID: res.ID, Name: newName, CreatedAt: now, UpdatedAt: now})))
 				assert.Equal(t, expected, res)
 			})
 		})
@@ -209,8 +209,8 @@ func TestChannels(t *testing.T) {
 				WithCookie("session_id", sessionID).
 				Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
 				defer r.Body.Close()
-				res := testjson.UnmarshalFrom[server.UpdateResponseBody](t, r.Body)
-				expected := testjson.Unmarshal[server.UpdateResponseBody](t, testjson.MarshalAndSnakeizeJsonKeys(t, conv.ModelToResult(ch1Loaded)))
+				res := jsontest.UnmarshalFrom[server.UpdateResponseBody](t, r.Body)
+				expected := jsontest.Unmarshal[server.UpdateResponseBody](t, jsontest.MarshalAndSnakeizeJsonKeys(t, conv.ModelToResult(ch1Loaded)))
 				assert.Equal(t, expected, res)
 			})
 			//  削除後は 404 Not Found

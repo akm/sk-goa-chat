@@ -1,7 +1,7 @@
 package goatest
 
 import (
-	"apisvr/testlib/testjson"
+	"apisvr/applib/encoding/json/jsontest"
 	"io"
 	"testing"
 
@@ -26,12 +26,12 @@ type DefaultErrorResponseBody struct {
 
 func ParseErrorBody(t *testing.T, b []byte) *DefaultErrorResponseBody {
 	t.Helper()
-	return testjson.Unmarshal[DefaultErrorResponseBody](t, b)
+	return jsontest.Unmarshal[DefaultErrorResponseBody](t, b)
 }
 
 func ParseErrorBodyFrom(t *testing.T, reader io.Reader) *DefaultErrorResponseBody {
 	t.Helper()
-	return testjson.UnmarshalFrom[DefaultErrorResponseBody](t, reader)
+	return jsontest.UnmarshalFrom[DefaultErrorResponseBody](t, reader)
 }
 
 func AssertErrorWithoutID(t *testing.T, expected, actual *DefaultErrorResponseBody) {
