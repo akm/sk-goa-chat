@@ -66,9 +66,11 @@ Open http://localhost:5173
 
 Name                                    | Description
 ----------------------------------------|------------------
-[backend/apisvr](./apisvr/)             | APIを提供するサーバーのソースコード
-[backend/containers](./containers/)     | ローカルで使用する MySQL や Firebase Emulators のコンテナ
-[backend/dbmigrations](./dbmigrations/) | RDBのマイグレーション
+[backend/apisvr](./backend/apisvr/)             | APIを提供するサーバーのソースコード
+[backend/applib](./backend/applib/)             | バックエンドのライブラリ的なパッケージ群
+[backend/biz](./backend/biz/)                   | バックエンドのビジネスロジックのパッケージ群
+[backend/containers](./backend/containers/)     | ローカルで使用する MySQL や Firebase Emulators のコンテナ
+[backend/dbmigrations](./backend/dbmigrations/) | RDBのマイグレーション
 [docs](./docs/)                         | ドキュメント
 [frontend](./frontend/)                 | UIとそれを提供するサーバー(uisvr)のソースコード
 [modifiers](./modifiers/)               | 自動生成されるコードに更に変更を加えるための ruby のスクリプト群
