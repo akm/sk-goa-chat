@@ -1,22 +1,6 @@
-# create-svelte
+# frontend
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## 開発環境の起動
 
 ```bash
 npm run dev
@@ -25,14 +9,52 @@ npm run dev
 npm run dev -- --open
 ```
 
-## Building
-
-To create a production version of your app:
+## 開発用ビルド
 
 ```bash
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+apisvr や関連するミドルウェアの開発用コンテナも起動します。
+
+
+## プロダクションビルド
+
+```bash
+npm run preview
+```
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+
+## gRPC クライアント生成
+
+```bash
+npm run grpc:gen
+```
+
+## テスト
+
+```bash
+npm run test
+```
+
+単体テストのみ
+
+```bash
+npm run test:unit
+```
+
+integrationテスト(E2Eテスト)のみ
+
+```bash
+npm run test:integration
+```
+
+## 主な技術
+
+- [SvelteKit](https://kit.svelte.jp/)
+- [flowbite-svelte](https://flowbite-svelte.com/)
+- [Tailwind CSS](https://tailwindcss.com)
+- [素のHTMLの要素](https://developer.mozilla.org/ja/docs/Web/HTML/Element)
+- [Playwright](https://playwright.dev/)
