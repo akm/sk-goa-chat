@@ -62,6 +62,10 @@ make dev
 
 Open http://localhost:5173 
 
+## How to develop
+
+See [Development.md](./Development.md)
+
 ## Directories
 
 Name                                    | Description
