@@ -1,9 +1,10 @@
-HTTP_PORT?=8000
-GRPC_PORT?=8080
+# APP_HTTP_PORT と APP_GRPC_PORT は frontend/tests/integration から呼ばれる際は環境変数で上書きされます
+APP_HTTP_PORT?=$(APP_PORT_APISVR_HTTP_dev)
+APP_GRPC_PORT?=$(APP_PORT_APISVR_GRPC_dev)
 
 APISVR_OPTIONS=\
-	-http-port $(HTTP_PORT) \
-	-grpc-port $(GRPC_PORT)
+	-http-port $(APP_HTTP_PORT) \
+	-grpc-port $(APP_GRPC_PORT)
 
 SWAGGERUI_PORT?=$(shell $(MAKE) -C ../tools/swaggerui --no-print-directory port)
 SWAGGERUI_ORIGIN?="http://localhost:$(SWAGGERUI_PORT)"
