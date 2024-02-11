@@ -11,7 +11,7 @@
       "mode": "test",
       "program": "${fileDirname}",
       "env": {
-        "STAGE": "local",
+        "APP_STAGE": "local",
         "APP_ENV": "test",
         "MYSQL_PORT": "3311",
         "MYSQL_DSN": "root:@tcp(127.0.0.1:3311)/sk_goa_chat_db?charset=utf8mb4&parseTime=True&loc=Asia%2FTokyo"
@@ -30,7 +30,7 @@
       // "program": "${fileDirname}"
       "program": "${workspaceFolder}/services/cmd/apisvr",
       "env": {
-        "STAGE": "local",
+        "APP_STAGE": "local",
         "MYSQL_DSN": "root:@tcp(127.0.0.1:3306)/sk_goa_chat_db?charset=utf8mb4&parseTime=True&loc=Asia%2FTokyo",
         "LOG_CONSOLE_WRITER": "true"
       }

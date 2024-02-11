@@ -11,7 +11,7 @@
 # というような Stage を登録する必要はありませんし、通常はそのように行うべきではありません。
 # ただし APP_STAGE_TYPE として local_windows と  local_mac のような区別を行った方が良い場合もあります。
 #
-# ## STAGE の例
+# ## APP_STAGE の例
 #
 # - production
 # - staging1
@@ -27,8 +27,13 @@ endif
 
 # local, github では STAGE は APP_STAGE_TYPE と同一です。デプロイ対象である production や
 # staging では STAGE は APP_STAGE_TYPE と異なり、staging1 などの具体的なステージ名を指定します。
-STAGE?=$(APP_STAGE_TYPE)
-
+ifeq ($(APP_STAGE_TYPE),local)
+APP_STAGE?=$(APP_STAGE_TYPE)
+else ifeq ($(APP_STAGE_TYPE),github)
+APP_STAGE?=$(APP_STAGE_TYPE)
+else
+APP_STAGE?=$(APP_STAGE_TYPE)1
+endif
 
 ## APP_ENV
 #
@@ -43,7 +48,6 @@ STAGE?=$(APP_STAGE_TYPE)
 #
 # この環境変数は、Makefie で処理を開始する際に設定します。
 # つまりmakeのターゲットの実行時にのみ決定するので、静的に指定するものではありません。
-
 
 
 # ## APP_PORT

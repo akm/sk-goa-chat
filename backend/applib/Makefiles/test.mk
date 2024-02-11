@@ -3,7 +3,7 @@ TEST_MYSQL_PORT?=$(shell $(TEST_CONTAINER_ENVS) $(MAKE) -C ../containers/mysql -
 TEST_MYSQL_DSN?='$(shell $(TEST_CONTAINER_ENVS) $(MAKE) -C ../containers/mysql --no-print-directory dsn)'
 
 TEST_ENVS=\
-	STAGE=$(STAGE) \
+	APP_STAGE=$(APP_STAGE) \
 	APP_ENV=test \
 	MYSQL_PORT=$(TEST_MYSQL_PORT) \
 	MYSQL_DSN=$(TEST_MYSQL_DSN) \

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"applib/goa/goaext"
 	chatapi "apisvr/services"
 	channels "apisvr/services/gen/channels"
 	chatmessages "apisvr/services/gen/chat_messages"
@@ -9,6 +8,7 @@ import (
 	notifications "apisvr/services/gen/notifications"
 	sessions "apisvr/services/gen/sessions"
 	users "apisvr/services/gen/users"
+	"applib/goa/goaext"
 	"context"
 	"flag"
 	"fmt"
@@ -68,7 +68,7 @@ func main() {
 	)
 	{
 		var eh func(err error) error
-		if os.Getenv("STAGE") != "local" {
+		if os.Getenv("APP_STAGE") != "local" {
 			eh = goaext.LoggerErrorHandlerFunc(logger)
 		} else {
 			eh = goaext.StderrErrorHandler
