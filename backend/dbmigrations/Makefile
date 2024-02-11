@@ -30,8 +30,7 @@ dsn:
 OPTIONS_EXTRA?=
 OPTIONS?=--dir . --table $(TABLE) $(OPTIONS_EXTRA) mysql '$(DSN)'
 
-ENVS=\
-	STAGE_ENV=$(STAGE_ENV)
+ENVS=
 .PHONY: envs
 envs:
 	@echo $(ENVS)

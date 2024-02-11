@@ -2,7 +2,6 @@ DEV_MYSQL_DSN?='$(shell $(MAKE) -C ../containers/mysql --no-print-directory dsn)
 
 DEV_SERVER_ENVS=\
 	STAGE=$(STAGE) \
-	STAGE_ENV=$(STAGE_ENV) \
 	MYSQL_DSN=$(DEV_MYSQL_DSN) \
 	LOG_CONSOLE_WRITER=true
 
