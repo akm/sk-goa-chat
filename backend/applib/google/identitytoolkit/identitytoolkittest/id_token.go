@@ -17,15 +17,16 @@ import (
 func GetIdToken(t testing.TB, ctx context.Context, email, password string, opts ...option.ClientOption) string {
 	if len(opts) == 0 {
 		opts = []option.ClientOption{}
+		// この環境変数は https://firebase.google.com/docs/emulator-suite/connect_auth?hl=ja にあるように Firebase が使用します。
 		if host := os.Getenv("FIREBASE_AUTH_EMULATOR_HOST"); host != "" {
 			opts = append(opts, option.WithEndpoint(fmt.Sprintf("http://%s/identitytoolkit.googleapis.com/v1", host)))
 		} else {
 			t.Fatalf("%+v\n", errors.Errorf("FIREBASE_AUTH_EMULATOR_HOST is not set"))
 		}
-		if apiKey := os.Getenv("FIREBASE_API_KEY"); apiKey != "" {
+		if apiKey := os.Getenv("APP_FIREBASE_API_KEY"); apiKey != "" {
 			opts = append(opts, option.WithAPIKey(apiKey))
 		} else {
-			t.Fatalf("%+v\n", errors.Errorf("FIREBASE_API_KEY is not set"))
+			t.Fatalf("%+v\n", errors.Errorf("APP_FIREBASE_API_KEY is not set"))
 		}
 	}
 	// option.WithEndpoint("http://localhost:9099/identitytoolkit.googleapis.com/v1"),
