@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
-import { Sidebar } from '../materials/panes/sidebar';
-import { SigninPage } from '../materials/pages/signin_page';
-import { SignupPage } from '../materials/pages/signup_page';
+import { Sidebar } from './materials/panes/sidebar';
+import { SigninPage } from './materials/pages/signin_page';
+import { SignupPage } from './materials/pages/signup_page';
 
 test('show signin page when go to root', async ({ page }) => {
 	const header = new Sidebar(page);
