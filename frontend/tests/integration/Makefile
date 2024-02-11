@@ -33,7 +33,7 @@ APISVR_MYSQL_DSN=$(shell $(ENVS) $(MAKE) -C ../../../backend/containers/mysql --
 apisvr_run: $(APISVR_LOG_DIR)
 	$(ENVS) \
 	$(APISVR_ENVS) \
-	MYSQL_DSN='$(APISVR_MYSQL_DSN)' \
+	APP_MYSQL_DSN='$(APISVR_MYSQL_DSN)' \
 		$(MAKE) -C ../../../backend/apisvr run >> $(APISVR_LOG_DIR)/apisvr.log 2>&1
 
 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:$(FIREBASE_AUTH_PORT)

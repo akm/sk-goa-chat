@@ -2,7 +2,7 @@ include ../../../config.mk
 
 ENVS=\
 	APP_MYSQL_DATABASE_NAME=$(APP_MYSQL_DATABASE_NAME) \
-	MYSQL_PORT=3311
+	APP_MYSQL_PORT=3311
 
 .PHONY: envs
 envs:
