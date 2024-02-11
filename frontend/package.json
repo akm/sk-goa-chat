@@ -17,7 +17,7 @@
 		"grpc:gen": "make grpc_gen",
 		"test": "run-s test:unit:run test:integration",
 		"test:integration": "make test_integration",
-		"test:integration:run": "playwright test tests/integration/test.ts",
+		"test:integration:run": "playwright test tests/integration/*.scenario.ts",
 		"test:unit": "vitest",
 		"test:unit:run": "vitest run",
 		"test:unit:watch": "vitest watch"

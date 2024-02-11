@@ -26,7 +26,7 @@ const config: PlaywrightTestConfig = {
 	],
 
 	testDir: 'tests',
-	testMatch: /(.+\.)?(test|spec)\.[jt]s/
+	testMatch: /(.+\.)?(scenario)\.ts/
 };
 
 export default config;
