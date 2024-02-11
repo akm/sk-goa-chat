@@ -45,11 +45,13 @@ npm run test
 npm run test:unit
 ```
 
-integrationテスト(E2Eテスト)のみ
+integration テスト(E2Eテスト)のみ
 
 ```bash
 npm run test:integration
 ```
+
+integration テストについては [tests/integration](./tests/integration/) を参照してください。
 
 ## 主な技術
 
