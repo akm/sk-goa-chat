@@ -1,6 +1,6 @@
 .PHONY: test_integration
-test_integration:
-	npm run test:integration
+test_integration: test_integration_setup  
+	npm run test:integration:run
 
 .PHONY: test_integration_setup
 test_integration_setup: test_integration_containers_restart test_integration_dbmigrations_up

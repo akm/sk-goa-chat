@@ -16,10 +16,8 @@
 		"format": "prettier --write .",
 		"grpc:gen": "make grpc_gen",
 		"test": "run-s test:unit:run test:integration",
-		"test:integration": "run-s test:integration:setup test:integration:run",
+		"test:integration": "make test_integration",
 		"test:integration:run": "playwright test tests/integration/test.ts",
-		"test:integration:setup": "make test_integration_setup",
-		"test:integration:teardown": "make test_integration_containers_down",
 		"test:unit": "vitest",
 		"test:unit:run": "vitest run",
 		"test:unit:watch": "vitest watch"
