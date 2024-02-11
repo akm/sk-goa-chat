@@ -3,7 +3,7 @@ DEV_MYSQL_DSN?='$(shell $(MAKE) -C ../containers/mysql --no-print-directory dsn)
 DEV_SERVER_ENVS=\
 	APP_STAGE=$(APP_STAGE) \
 	APP_MYSQL_DSN=$(DEV_MYSQL_DSN) \
-	LOG_CONSOLE_WRITER=true
+	APP_LOG_CONSOLE_WRITER=true
 
 .PHONY: dev
 dev: dev_containers_up

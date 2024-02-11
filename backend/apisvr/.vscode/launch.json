@@ -32,7 +32,7 @@
       "env": {
         "APP_STAGE": "local",
         "APP_MYSQL_DSN": "root:@tcp(127.0.0.1:3306)/sk_goa_chat_db?charset=utf8mb4&parseTime=True&loc=Asia%2FTokyo",
-        "LOG_CONSOLE_WRITER": "true"
+        "APP_LOG_CONSOLE_WRITER": "true"
       }
     }
   ]
