@@ -93,8 +93,7 @@ Ruby on Rails の場合は、マイグレーション の作成と実行を行�
 (HTMLの基本的な理解と) [flowbite-svelte](https://flowbite-svelte.com/) のコンポーネントへの理解が必要です。
 またそのレイアウトについては flowbite が使用する [Tailwind CSS](https://tailwindcss.com/) を理解する必要があります。
 
-ビルドや起動の手順は [frontend/README.md](./frontend/README.md) を参照してください。
-
+詳しくは [frontend/README.md](./frontend/README.md) を参照してください。
 
 ### API仮実装
 
@@ -103,6 +102,8 @@ APIを定義するためには [HTTP](https://developer.mozilla.org/ja/docs/Web/
 Goaのアプリケーションを使ってみるのが一番良いです。また [examples](https://github.com/goadesign/examples) も参考になります。
 また有料ですが [Goa v3 入門](https://zenn.dev/ikawaha/books/goa-design-v3) が日本語で解説してあり、最も分かりやすいと思います。
 
+詳しくは [backend/apisvr](./backend/apisvr/) を参照してください。
+
 
 ### 画面APIクライアント組み込み
 
@@ -110,28 +111,21 @@ Goaが生成するAPI定義から、現時点ではgRPC のクライアントの
 OpenAPIのクライアントも生成するべきです。OpenAPI でのAPI定義については、
 [Swagger UI](https://swagger.io/tools/swagger-ui/) で確認することができます。
 
-### DBマイグレーション追加, API実装
+詳しくは [frontend/src/lib](./frontend/src/lib/) を参照してください。
+
+
+### DBマイグレーション追加, APIテスト実装, API実装
 
 RDBのデータマイグレーションには [goose](https://github.com/pressly/goose) を用います。
 データベースのデータの操作には [sqlboiler](https://github.com/volatiletech/sqlboiler) を用いて生成されたモデルを通じて行います。
 ですので、テーブルの作成やカラムの変更を行うマイグレーションを追加した場合、モデルを生成し直す必要があります。
 
-### APIテスト実装
+詳しくは [backend/biz](./backend/biz/) と [backend/apisvr](./backend/apisvr/) を参照してください。
 
-APIの自動テストには３つの種類があります。
-
-- 単体テスト
-- HTTPでの統合テスト
-- gRPCでの統合テスト
-
-どのテストもRDBに接続したり、必要に応じてFirebase等の外部サービスのモックコンテナにアクセスします。
-ビジネスロジックを確認する基本的なテストは単体テストであり、これはHTTPとgRPCのどちらにも依存しません。
-HTTPでの統合テストを行うのは、URL中のクエリ文字列の扱いを確認したり、リクエストやレスポンスのボディが
-本当に期待通りになるかどうかを確認する場合です。
-gRPCの場合も同様ですが、gRPCの場合は Goa が生成する専用のクライアントを用いるのでHTTPのようなプロトコル
-に依存したテストは少ないかもしれません。
 
 
 ### E2Eテスト実装
 
 E2Eテストは frontend 内の tests/integration に [Playwright](https://playwright.dev/) を使って実装します。
+
+詳しくは [frontend/tests/integration](./frontend/tests/integration/) を参照してください。
