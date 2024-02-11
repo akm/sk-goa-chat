@@ -1,3 +1,6 @@
+# このファイルは以下の２つのファイルから読み込まれます
+# - frontend/tests/integration/Makefile
+# - frontend/tests/integration/containers/Makefile
 APISVR_HTTP_PORT=8001
 APISVR_GRPC_PORT=8081
 FIREBASE_AUTH_PORT=9090
