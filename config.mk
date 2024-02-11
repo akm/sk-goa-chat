@@ -30,11 +30,11 @@ endif
 STAGE?=$(STAGE_TYPE)
 
 
-## ENV_TYPE
+## APP_ENV
 #
-# (正確に言えば process cluster type みたいな名前のはずですが分かりやすい名前じゃないので ENV_TYPE にしました)
+# (正確に言えば process cluster type みたいな名前のはずですが分かりやすい名前じゃないので APP_ENV にしました)
 #
-# ENV_TYPE | 起動するプロセス群
+# APP_ENV | 起動するプロセス群
 # ---------|------------------
 # - server | uisvr, apisvr
 # - dev     | uisvr, apisvr, mysql, firebase_auth
@@ -48,7 +48,7 @@ STAGE?=$(STAGE_TYPE)
 
 # ## APP_PORT
 #
-# ENV_TYPE                  | STAGE_TYPE               | apisvr HTTP | apisvr gRPC | ui HTTP  | mysql    | firebase authentication | swagger ui
+# APP_ENV                  | STAGE_TYPE               | apisvr HTTP | apisvr gRPC | ui HTTP  | mysql    | firebase authentication | swagger ui
 # --------------------------|--------------------------|-------------|-------------|----------|----------|-------------------------|------------
 # server                    | staging,production       | 8000        | 8080        | 4173     | 3306     | ?                       |
 # dev                       | local                    | 8000        | 8080        | 5173     | 3306     | 9099                    | 8090
