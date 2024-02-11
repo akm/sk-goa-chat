@@ -10,7 +10,7 @@ services:
     container_name: localdev_mysql
     restart: always
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE_NAME}
+      MYSQL_DATABASE: ${APP_MYSQL_DATABASE_NAME}
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_ROOT_HOST: "%"
     ports:

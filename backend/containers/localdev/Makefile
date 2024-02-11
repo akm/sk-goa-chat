@@ -1,7 +1,7 @@
 include ../../../config.mk
 
 ENVS=\
-	MYSQL_DATABASE_NAME=$(MYSQL_DATABASE_NAME)
+	APP_MYSQL_DATABASE_NAME=$(APP_MYSQL_DATABASE_NAME)
 
 .PHONY: envs
 envs:

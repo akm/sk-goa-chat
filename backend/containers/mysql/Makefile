@@ -8,7 +8,7 @@ include ../../../config.mk
 ## asdf でインストールした mysql クライアントを使う場合はこちらを使う
 MYSQL_HOST?=127.0.0.1
 MYSQL_PORT?=3306
-MYSQL_DB_NAME=$(MYSQL_DATABASE_NAME)
+MYSQL_DB_NAME=$(APP_MYSQL_DATABASE_NAME)
 MYSQL_USER_NAME?=root
 MYSQL_USER_PASSWORD?=
 

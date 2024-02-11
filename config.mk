@@ -73,4 +73,4 @@ APP_PORT_SWAGGERUI_dev?=8090
 
 ## MySQL の設定
 
-MYSQL_DATABASE_NAME?=sk_goa_chat_db
+APP_MYSQL_DATABASE_NAME?=sk_goa_chat_db
