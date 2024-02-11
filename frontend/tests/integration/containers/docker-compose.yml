@@ -23,7 +23,7 @@ services:
       context: ../../../../backend/containers/firebase-emulators
       dockerfile: Dockerfile
     ports:
-      - ${FIREBASE_AUTH_PORT}:9099
+      - ${APP_FIREBASE_AUTH_PORT}:9099
       # emulator の console のJSは 9099 でアクセスしようとするのでポート番号を変えると期待通りには動かないため使わない
       # - 9099:9099
       # - 4000:4000

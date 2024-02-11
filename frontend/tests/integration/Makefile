@@ -36,7 +36,7 @@ apisvr_run: $(APISVR_LOG_DIR)
 	APP_MYSQL_DSN='$(APISVR_MYSQL_DSN)' \
 		$(MAKE) -C ../../../backend/apisvr run >> $(APISVR_LOG_DIR)/apisvr.log 2>&1
 
-FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:$(FIREBASE_AUTH_PORT)
+FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:$(APP_FIREBASE_AUTH_PORT)
 
 # https://firebase.google.com/docs/emulator-suite/connect_auth?hl=ja
 #      FIREBASE_AUTH_EMULATOR_HOST と
