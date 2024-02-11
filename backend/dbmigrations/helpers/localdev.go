@@ -1,9 +1,14 @@
 package helpers
 
-import "os"
+import (
+	"os"
+	"strings"
+)
 
-func IsLocalDev() bool {
-	return os.Getenv("STAGE_ENV") == "localdev"
-}
-
-var DemoData = NewCondition(IsLocalDev)
+var DemoData = NewCondition(func() bool {
+	if os.Getenv("DEMO_DATA") != "" {
+		return os.Getenv("DEMO_DATA") == "true"
+	}
+	return os.Getenv("STAGE_TYPE") == "local" &&
+		!strings.Contains(os.Getenv("ENV_TYPE"), "test")
+})
