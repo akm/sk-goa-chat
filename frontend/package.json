@@ -15,6 +15,7 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"grpc:gen": "make grpc_gen",
+		"openapi:gen": "make openapi_gen",
 		"test": "run-s test:unit:run test:integration",
 		"test:integration": "make test_integration",
 		"test:unit": "vitest",
