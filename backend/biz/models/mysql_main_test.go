@@ -46,7 +46,6 @@ func init() {
 func (m *mysqlTester) setup() error {
 	var err error
 
-	viper.SetEnvPrefix("APP_")
 	viper.SetDefault("mysql.sslmode", "true")
 	viper.SetDefault("mysql.port", 3306)
 
