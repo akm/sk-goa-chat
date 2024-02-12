@@ -1,12 +1,12 @@
 package chatapi
 
 import (
-	"applib/errors"
-	"applib/database/sql"
 	log "apisvr/services/gen/log"
 	notifications "apisvr/services/gen/notifications"
+	"applib/database/sql"
+	"applib/errors"
+	"applib/time"
 	"context"
-	"time"
 )
 
 // notifications service example implementation.
