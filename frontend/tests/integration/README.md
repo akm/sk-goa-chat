@@ -21,14 +21,13 @@ POMは通常 [Locators](https://playwright.dev/docs/locators) を用いて実装
 Locator の種類としては [Other locators](https://playwright.dev/docs/other-locators#css-locator) に挙げられているものがありますが、
 主に CSS locator を用います。CSS locator に対しては、セレクタとして 一般的な [CSSセレクタ](https://developer.mozilla.org/ja/docs/Web/CSS/CSS_selectors) に加え Playwright が拡張したセレクタの記法を使うことができます。
 
-
 ## ディレクトリ
 
-Name | 内容
----------|---------------------
-[containers](./containers/) | test/integrations をローカルで実行する際に使うコンテナ
-[log](./log/)               | test/integrations をローカルで実行する際の apisvr と uisvr のログの出力先
-[pom](./pom/)               | Page Object Models の定義
+| Name                        | 内容                                                                      |
+| --------------------------- | ------------------------------------------------------------------------- |
+| [containers](./containers/) | test/integrations をローカルで実行する際に使うコンテナ                    |
+| [log](./log/)               | test/integrations をローカルで実行する際の apisvr と uisvr のログの出力先 |
+| [pom](./pom/)               | Page Object Models の定義                                                 |
 
 ## キャッチアップ
 

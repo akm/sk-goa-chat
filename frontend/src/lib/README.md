@@ -4,15 +4,16 @@
 
 大前提としてディレクトリ構造は [SvelteKitのルール](https://kit.svelte.jp/docs/modules#$lib-$lib-server) に従います。
 
-ディレクトリ名 | 実行場所 | 内容
-------------|----------|-----
-firebase | ブラウザ, uisvr | firebase に関するもの
-models | ブラウザ, uisvr | frontend上でのモデル
-server | uisvr | サーバー上で動く処理
+| ディレクトリ名 | 実行場所        | 内容                  |
+| -------------- | --------------- | --------------------- |
+| firebase       | ブラウザ, uisvr | firebase に関するもの |
+| models         | ブラウザ, uisvr | frontend上でのモデル  |
+| server         | uisvr           | サーバー上で動く処理  |
 
 ## APIクライアント
 
 frontend でのAPIクライアントには以下の2種類あります。
+
 - SSR(Server-Side Rendering) で使われる gRPC クライアント
 - ブラウザ上で動作するHTTPのOpenAPIクライアント
 
@@ -24,7 +25,7 @@ gRPC クライアントは uisvr 上で動作する API クライアントです
 `npm run grpc:gen` で生成できます。
 gRPC クライアントはリソース毎に生成されるので、リソースが追加する場合には frontend/Makefiles/grpc.mk に定義されている `GRPC_RESOURCES` に対象を追加してください。
 
-https://github.com/akm/sk-goa-chat/blob/a82020596c74a94389c72ef39b4fc57d26717587/frontend/Makefiles/grpc.mk#L4 
+https://github.com/akm/sk-goa-chat/blob/a82020596c74a94389c72ef39b4fc57d26717587/frontend/Makefiles/grpc.mk#L4
 
 ### HTTPクライアント (あるいは OpenAPIクライアント)
 
