@@ -75,7 +75,6 @@ Name                                    | Description
 [backend/biz](./backend/biz/)                   | バックエンドのビジネスロジックのパッケージ群
 [backend/containers](./backend/containers/)     | ローカルで使用する MySQL や Firebase Emulators のコンテナ
 [backend/dbmigrations](./backend/dbmigrations/) | RDBのマイグレーション
-[docs](./docs/)                         | ドキュメント
 [frontend](./frontend/)                 | UIとそれを提供するサーバー(uisvr)のソースコード
 [modifiers](./modifiers/)               | 自動生成されるコードに更に変更を加えるための ruby のスクリプト群
 [tools](./tools)                        | 開発や運用で使用するツール群
