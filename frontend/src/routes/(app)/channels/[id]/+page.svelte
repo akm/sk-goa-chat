@@ -57,7 +57,6 @@
 		console.log('updateChannel', data)
 		const result = await PUT('/api/channels/{id}', {
 			params: {
-				header: { 'Content-Type': 'application/json' },
 				path: { id: data.channel.id },
 			 },
 			body: { name },
@@ -73,7 +72,6 @@
 	const deleteChannel = async () => {
 		const result = await DELETE('/api/channels/{id}', {
 			params: {
-				header: { 'Content-Type': 'application/json' },
 				path: { id: Number(data.channel.id) },
 			},
 		});
@@ -88,9 +86,6 @@
 	let textarea: HTMLTextAreaElement;
 	const postMessage = async () => {
 		const result = await POST('/api/chat_messages', {
-			params: {
-				header: { 'Content-Type': 'application/json' },
-			},
 			body: { channel_id: Number(data.channel.id), content: textarea.value },
 		});
 		if (result.error) {
