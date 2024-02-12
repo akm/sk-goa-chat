@@ -14,7 +14,7 @@ on:
       - "backend/biz/**"
       - "backend/containers/**"
       - "backend/dbmigrations/**"
-      - "config.mk"
+      - ".config.mk"
       - "Makefile"
       # - "modifiers"
       # - "tools/**"

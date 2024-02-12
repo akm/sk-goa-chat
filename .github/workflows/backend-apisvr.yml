@@ -11,7 +11,7 @@ on:
       - ".gitignore"
       - ".tool-versions"
       - "backend/**"
-      - "config.mk"
+      - ".config.mk"
       - "Makefile"
       # - "modifiers"
       # - "tools/**"

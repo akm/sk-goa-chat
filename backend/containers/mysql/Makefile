@@ -1,4 +1,4 @@
-include ../../../config.mk
+include ../../../.config.mk
 
 ## mysql クライアントを docker コンテナとして独立して動かす場合はこちらを使う
 # LOCAL_CONTAINERS_MYSQL?=localdev_mysql
@@ -18,6 +18,10 @@ else
 APP_MYSQL_USER_AUTH_OPTS?=-u $(APP_MYSQL_USER_NAME) --password=$(APP_MYSQL_USER_PASSWORD)
 endif
 APP_MYSQL_USER_OPTS=-h $(APP_MYSQL_HOST) -P $(APP_MYSQL_PORT) $(APP_MYSQL_USER_AUTH_OPTS)
+
+.PHONY: cli_options
+cli_options:
+	@echo $(APP_MYSQL_USER_OPTS)
 
 .PHONY: wait_to_connect
 wait_to_connect:

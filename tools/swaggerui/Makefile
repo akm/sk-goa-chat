@@ -1,4 +1,4 @@
-include ../../config.mk
+include ../../.config.mk
 
 SWAGGERUI_PORT?=$(APP_PORT_SWAGGERUI_dev)
 SWAGGERUI_JSON_PATH?=/srv/apisvr/services/gen/http/openapi3.json

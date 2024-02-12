@@ -7,6 +7,7 @@ import (
 	"applib/log/logtest"
 	"applib/sqlboiler/sqlboilertest"
 	"applib/time"
+	"applib/time/timetest"
 	"biz/models"
 	"context"
 	"testing"
@@ -21,7 +22,7 @@ func TestUsers(t *testing.T) {
 	defer conn.Close()
 
 	now := time.Now()
-	defer time.SetTime(now)
+	defer timetest.SetNow(now)
 
 	ctx := context.Background()
 	srvc := NewUsers(&log.Logger{Logger: logger})
@@ -113,7 +114,7 @@ func TestUsers(t *testing.T) {
 
 func TestUsersConvertor(t *testing.T) {
 	now := time.Now()
-	defer time.SetTime(now)
+	defer timetest.SetNow(now)
 
 	conv := &UsersConvertor{}
 

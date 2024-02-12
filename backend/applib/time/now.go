@@ -2,6 +2,8 @@ package time
 
 import orig "time"
 
+var nowFunc = orig.Now
+
 func Now() orig.Time {
 	return LocalNow()
 }

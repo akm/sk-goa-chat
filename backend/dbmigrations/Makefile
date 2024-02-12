@@ -1,4 +1,4 @@
-include ../../config.mk
+include ../../.config.mk
 
 .PHONY: default
 default: build
@@ -58,7 +58,8 @@ new_go: $(COMMAND_RUNNER)
 # マイグレーション実行
 .PHONY: up
 up: $(COMMAND_RUNNER)
-	$(ENVS) $(COMMAND_RUNNER) $(OPTIONS) up
+	$(ENVS) $(COMMAND_RUNNER) $(OPTIONS) up && \
+	$(MAKE) dump_schema
 
 # マイグレーションを一つ戻す
 .PHONY: down
@@ -74,3 +75,13 @@ state: $(COMMAND_RUNNER)
 .PHONY: reset
 reset: $(COMMAND_RUNNER)
 	$(ENVS) $(COMMAND_RUNNER) $(OPTIONS) reset
+
+# 同じディレクトリの .sql ファイルはマイグレーションとしてみなされてしまうので、親ディレクトリに置きます
+SCHEMA_DUMP_SQL_FILE?=../schema.dump.sql
+$(SCHEMA_DUMP_SQL_FILE): dump_schema
+
+MYSQLDUMP_OPTIONS=$(shell $(MAKE) -C ../containers/mysql --no-print-directory cli_options)
+
+.PHONY: dump_schema
+dump_schema:
+	mysqldump $(MYSQLDUMP_OPTIONS) --no-data $(APP_MYSQL_DATABASE_NAME) > $(SCHEMA_DUMP_SQL_FILE)

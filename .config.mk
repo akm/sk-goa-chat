@@ -79,3 +79,8 @@ APP_PORT_SWAGGERUI_dev?=8090
 ## MySQL の設定
 
 APP_MYSQL_DATABASE_NAME?=sk_goa_chat_db
+
+
+## Firebase の設定
+
+APP_FIREBASE_API_KEY?=firebase-api-key-dummy1
