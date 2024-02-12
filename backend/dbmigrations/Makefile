@@ -76,7 +76,8 @@ state: $(COMMAND_RUNNER)
 reset: $(COMMAND_RUNNER)
 	$(ENVS) $(COMMAND_RUNNER) $(OPTIONS) reset
 
-SCHEMA_DUMP_SQL_FILE?=schema.dump.sql
+# 同じディレクトリの .sql ファイルはマイグレーションとしてみなされてしまうので、親ディレクトリに置きます
+SCHEMA_DUMP_SQL_FILE?=../schema.dump.sql
 $(SCHEMA_DUMP_SQL_FILE): dump_schema
 
 MYSQLDUMP_OPTIONS=$(shell $(MAKE) -C ../containers/mysql cli_options)
