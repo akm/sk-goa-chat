@@ -80,7 +80,7 @@ reset: $(COMMAND_RUNNER)
 SCHEMA_DUMP_SQL_FILE?=../schema.dump.sql
 $(SCHEMA_DUMP_SQL_FILE): dump_schema
 
-MYSQLDUMP_OPTIONS=$(shell $(MAKE) -C ../containers/mysql cli_options)
+MYSQLDUMP_OPTIONS=$(shell $(MAKE) -C ../containers/mysql --no-print-directory cli_options)
 
 .PHONY: dump_schema
 dump_schema:
