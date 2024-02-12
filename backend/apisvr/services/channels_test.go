@@ -10,6 +10,7 @@ import (
 	"applib/log/logtest"
 	"applib/sqlboiler/sqlboilertest"
 	"applib/time"
+	"applib/time/timetest"
 	"biz/models"
 	"biz/testuser"
 	"context"
@@ -26,7 +27,7 @@ func TestChannels(t *testing.T) {
 	defer conn.Close()
 
 	now := time.Now()
-	defer time.SetTime(now)
+	defer timetest.SetNow(now)
 
 	ctx := context.Background()
 	srvc := NewChannels(&log.Logger{Logger: logger})
@@ -119,7 +120,7 @@ func TestChannels(t *testing.T) {
 		})
 		t.Run("valid name", func(t *testing.T) {
 			now, before := time.Now(), now
-			defer time.SetTime(now)
+			defer timetest.SetNow(now)
 			name := ch1.Name + "-dash"
 			res, err := srvc.Update(ctx, &channels.ChannelUpdatePayload{SessionID: sessionID, ID: ch1.ID, Name: name})
 			assert.NoError(t, err)
@@ -177,7 +178,7 @@ func TestChannels(t *testing.T) {
 
 func TestChannelsConvertor(t *testing.T) {
 	now := time.Now()
-	defer time.SetTime(now)
+	defer timetest.SetNow(now)
 
 	conv := &ChannelsConvertor{}
 

@@ -1,15 +1,6 @@
 package httpintegrations
 
 import (
-	"applib/encoding/json/jsontest"
-	"applib/firebase"
-	"applib/firebase/auth"
-	"applib/firebase/auth/authtest"
-	"applib/google/identitytoolkit/identitytoolkittest"
-	"applib/log/logtest"
-	"applib/database/sql/sqltest"
-	"applib/time"
-	"biz/models"
 	chatapi "apisvr/services"
 	"apisvr/services/gen/http/channels/server"
 	sessionsserver "apisvr/services/gen/http/sessions/server"
@@ -17,6 +8,16 @@ import (
 	"apisvr/services/gen/log"
 	"apisvr/services/gen/sessions"
 	"apisvr/services/gen/users"
+	"applib/database/sql/sqltest"
+	"applib/encoding/json/jsontest"
+	"applib/firebase"
+	"applib/firebase/auth"
+	"applib/firebase/auth/authtest"
+	"applib/google/identitytoolkit/identitytoolkittest"
+	"applib/log/logtest"
+	"applib/time"
+	"applib/time/timetest"
+	"biz/models"
 	"context"
 	"net/http"
 	"testing"
@@ -33,7 +34,7 @@ func TestSignup(t *testing.T) {
 	defer conn.Close()
 
 	now := time.Now()
-	defer time.SetTime(now)
+	defer timetest.SetNow(now)
 
 	ctx := context.Background()
 	usersConv := chatapi.NewUsersConvertor()
