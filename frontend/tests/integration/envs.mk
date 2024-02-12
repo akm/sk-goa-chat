@@ -1,9 +1,9 @@
 # このファイルは以下の２つのファイルから読み込まれます
 # - frontend/tests/integration/Makefile
 # - frontend/tests/integration/containers/Makefile
-APP_APISVR_HTTP_PORT=8001
-APP_APISVR_GRPC_PORT=8081
-APP_FIREBASE_AUTH_PORT=9090
+APP_APISVR_HTTP_PORT=$(APP_PORT_APISVR_HTTP_e2e_test)
+APP_APISVR_GRPC_PORT=$(APP_PORT_APISVR_GRPC_e2e_test)
+APP_FIREBASE_AUTH_PORT=$(APP_PORT_FIREBASE_AUTH_e2e_test)
 ENVS=\
 	APP_ENV=e2e_test \
 	APP_MYSQL_DATABASE_NAME=$(APP_MYSQL_DATABASE_NAME) \
