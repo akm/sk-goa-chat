@@ -12,6 +12,7 @@ type (
 
 var (
 	LoadLocation = orig.LoadLocation
+	NewTicker    = orig.NewTicker
 )
 
 const (
