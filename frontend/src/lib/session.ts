@@ -1,18 +1,22 @@
+import { POST, DELETE } from './openapi_client';
+
 export const createSession = async (idToken: string) => {
-	const response = await fetch('/api/session', {
-		method: 'POST',
-		body: JSON.stringify({ id_token: idToken }),
-		headers: { 'Content-Type': 'application/json' }
+	const { error, response } = await POST('/api/session', {
+		params: { header: { 'Content-Type': 'application/json' } },
+		body: { id_token: idToken }
 	});
 	console.log('response', response);
-	if (response.status !== 201) {
-		throw new Error('Failed to login');
+	if (error) {
+		console.log('createSession error', error);
+		throw error;
 	}
 };
 
 export const deleteSession = async () => {
-	const response = await fetch('/api/session', { method: 'DELETE' });
-	if (response.status !== 200) {
-		throw new Error('Failed to logout');
+	const { error, response } = await DELETE('/api/session', {});
+	console.log('response', response);
+	if (error) {
+		console.log('deleteSession error', error);
+		throw error;
 	}
 };
