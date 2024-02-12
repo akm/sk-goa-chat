@@ -54,6 +54,7 @@
 		"@protobuf-ts/grpc-transport": "^2.9.3",
 		"firebase": "^10.7.0",
 		"firebase-admin": "^11.11.1",
+		"openapi-fetch": "^0.8.2",
 		"websocket-polyfill": "^0.0.3"
 	}
 }
