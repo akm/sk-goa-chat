@@ -23,7 +23,7 @@ services:
       context: ../firebase-emulators
       dockerfile: Dockerfile
     ports:
-      - "9091:9099"
+      - "${APP_FIREBASE_AUTH_PORT}:9099"
     command: firebase emulators:start
     networks:
       - network1
