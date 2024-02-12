@@ -19,6 +19,10 @@ APP_MYSQL_USER_AUTH_OPTS?=-u $(APP_MYSQL_USER_NAME) --password=$(APP_MYSQL_USER_
 endif
 APP_MYSQL_USER_OPTS=-h $(APP_MYSQL_HOST) -P $(APP_MYSQL_PORT) $(APP_MYSQL_USER_AUTH_OPTS)
 
+.PHONY: cli_options
+cli_options:
+	@echo $(APP_MYSQL_USER_OPTS)
+
 .PHONY: wait_to_connect
 wait_to_connect:
 	APP_MYSQL_USER_OPTS='$(APP_MYSQL_USER_OPTS)' \
