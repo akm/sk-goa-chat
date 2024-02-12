@@ -3,11 +3,10 @@ TEST_MYSQL_PORT?=$(shell $(TEST_CONTAINER_ENVS) $(MAKE) -C ../containers/mysql -
 TEST_MYSQL_DSN?='$(shell $(TEST_CONTAINER_ENVS) $(MAKE) -C ../containers/mysql --no-print-directory dsn)'
 
 TEST_ENVS=\
-	STAGE=$(STAGE) \
-	ENV_TYPE=test \
-	STAGE_ENV=$(shell ENV_TYPE=test $(MAKE) stage_env) \
-	MYSQL_PORT=$(TEST_MYSQL_PORT) \
-	MYSQL_DSN=$(TEST_MYSQL_DSN) \
+	APP_STAGE=$(APP_STAGE) \
+	APP_ENV=test \
+	APP_MYSQL_PORT=$(TEST_MYSQL_PORT) \
+	APP_MYSQL_DSN=$(TEST_MYSQL_DSN) \
 	GOOGLE_CLOUD_PROJECT=sk-goa-chat \
 	FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:9091'
 

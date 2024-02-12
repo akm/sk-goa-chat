@@ -3,13 +3,17 @@ TEST_MYSQL_PORT?=$(shell $(TEST_CONTAINER_ENVS) $(MAKE) -C ../containers/mysql -
 TEST_MYSQL_DSN?='$(shell $(TEST_CONTAINER_ENVS) $(MAKE) -C ../containers/mysql --no-print-directory dsn)'
 
 TEST_ENVS=\
-	STAGE=$(STAGE) \
-	ENV_TYPE=test \
-	STAGE_ENV=$(shell ENV_TYPE=test $(MAKE) stage_env) \
+	APP_STAGE=$(APP_STAGE) \
+	APP_ENV=unit_test \
+	APP_MYSQL_PORT=$(TEST_MYSQL_PORT) \
+	APP_MYSQL_DSN=$(TEST_MYSQL_DSN) \
 	MYSQL_PORT=$(TEST_MYSQL_PORT) \
-	MYSQL_DSN=$(TEST_MYSQL_DSN) \
 	GOOGLE_CLOUD_PROJECT=sk-goa-chat \
 	FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:9091'
+
+# 環境変数 MYSQL_PORT はどこにも使われていないように見えますが
+# backend/biz/models/mysql_main_test.go で設定される
+# mysql.port に対応しています。
 
 .PHONY: test
 test: test_containers_up test_mysql_wait_to_connect test_dbmigration_up

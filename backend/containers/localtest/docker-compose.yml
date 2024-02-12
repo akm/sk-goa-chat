@@ -10,11 +10,11 @@ services:
     container_name: localtest_mysql
     restart: always
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE_NAME}
+      MYSQL_DATABASE: ${APP_MYSQL_DATABASE_NAME}
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_ROOT_HOST: "%"
     ports:
-      - "${MYSQL_PORT}:3306"
+      - "${APP_MYSQL_PORT}:3306"
     networks:
       - network1
 
@@ -23,7 +23,7 @@ services:
       context: ../firebase-emulators
       dockerfile: Dockerfile
     ports:
-      - "9091:9099"
+      - "${APP_FIREBASE_AUTH_PORT}:9099"
     command: firebase emulators:start
     networks:
       - network1

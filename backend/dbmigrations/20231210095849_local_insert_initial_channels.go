@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	helpers.LocalDev.AddNamedMigrationContext(upGo, downGo)
+	helpers.DemoData.AddNamedMigrationContext(upGo, downGo)
 }
 
 func upGo(ctx context.Context, tx *sql.Tx) error {

@@ -11,11 +11,10 @@
       "mode": "test",
       "program": "${fileDirname}",
       "env": {
-        "STAGE": "local",
-        "ENV_TYPE": "test",
-        "STAGE_ENV": "localtest",
-        "MYSQL_PORT": "3311",
-        "MYSQL_DSN": "root:@tcp(127.0.0.1:3311)/sk_goa_chat_db?charset=utf8mb4&parseTime=True&loc=Asia%2FTokyo"
+        "APP_STAGE": "local",
+        "APP_ENV": "test",
+        "APP_MYSQL_PORT": "3311",
+        "APP_MYSQL_DSN": "root:@tcp(127.0.0.1:3311)/sk_goa_chat_db?charset=utf8mb4&parseTime=True&loc=Asia%2FTokyo"
       },
       "args": ["-test.v"],
       "buildFlags": "-tags timetravel",
@@ -31,10 +30,9 @@
       // "program": "${fileDirname}"
       "program": "${workspaceFolder}/services/cmd/apisvr",
       "env": {
-        "STAGE": "local",
-        "STAGE_ENV": "localdev",
-        "MYSQL_DSN": "root:@tcp(127.0.0.1:3306)/sk_goa_chat_db?charset=utf8mb4&parseTime=True&loc=Asia%2FTokyo",
-        "LOG_CONSOLE_WRITER": "true"
+        "APP_STAGE": "local",
+        "APP_MYSQL_DSN": "root:@tcp(127.0.0.1:3306)/sk_goa_chat_db?charset=utf8mb4&parseTime=True&loc=Asia%2FTokyo",
+        "APP_LOG_CONSOLE_WRITER": "true"
       }
     }
   ]

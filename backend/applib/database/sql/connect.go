@@ -11,7 +11,7 @@ import (
 )
 
 func Open(logger *log.Logger) (*DB, error) {
-	dsn := os.Getenv("MYSQL_DSN")
+	dsn := os.Getenv("APP_MYSQL_DSN")
 	db, err := OrigOpen("mysql", dsn)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to open database with %s", dsn)

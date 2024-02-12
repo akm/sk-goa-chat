@@ -63,4 +63,4 @@ jobs:
         run: make test
         working-directory: ./backend/biz
         env:
-          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          APP_FIREBASE_API_KEY: ${{ secrets.APP_FIREBASE_API_KEY }}

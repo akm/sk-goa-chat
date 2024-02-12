@@ -5,7 +5,7 @@ $content.sub!('logger = log.New("chatapi", false)'){ 'logger = log.New("chatapi"
 
 error_handler_def = <<EOS
         var eh func(err error) error
-        if os.Getenv("STAGE") != "local" {
+        if os.Getenv("APP_STAGE") != "local" {
             eh = goaext.LoggerErrorHandlerFunc(logger)
         } else {
             eh = goaext.StderrErrorHandler
