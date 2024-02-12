@@ -8,7 +8,7 @@
 	import { notificationsSocket } from '$lib/websockets';
 	import { onDestroy, onMount } from 'svelte';
 
-	import { PUT }from '$lib/openapi_client'
+	import { GET, POST, PUT, DELETE }from '$lib/openapi_client'
 
 	export let data: {
 		channel: Channel;
@@ -71,32 +71,33 @@
 	};
 
 	const deleteChannel = async () => {
-		const result = await fetch(`/api/channels/${data.channel.id}`, {
-			method: 'DELETE',
-			headers: { 'Content-Type': 'application/json' }
+		const result = await DELETE('/api/channels/{id}', {
+			params: {
+				header: { 'Content-Type': 'application/json' },
+				path: { id: Number(data.channel.id) },
+			},
 		});
-		const json = await result.json();
-		console.log('json', json);
-		if (!json.id) {
-			errorMessage = json.message;
+		if (result.error) {
+			errorMessage = result.error.message;
 			return;
 		}
+		console.log('deleteChannel', result.data);
 		window.location.href = '/';
 	};
 
 	let textarea: HTMLTextAreaElement;
 	const postMessage = async () => {
-		const result = await fetch(`/api/chat_messages`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ channel_id: Number(data.channel.id), content: textarea.value })
+		const result = await POST('/api/chat_messages', {
+			params: {
+				header: { 'Content-Type': 'application/json' },
+			},
+			body: { channel_id: Number(data.channel.id), content: textarea.value },
 		});
-		const json = await result.json();
-		console.log('json', json);
-		if (!json.id) {
-			errorMessage = json.message;
+		if (result.error) {
+			errorMessage = result.error.message;
 			return;
 		}
+		console.log('postMessage data', result.data);
 		textarea.value = '';
 		textarea.focus();
 	};
