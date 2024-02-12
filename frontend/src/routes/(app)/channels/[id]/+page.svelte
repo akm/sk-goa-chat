@@ -8,6 +8,8 @@
 	import { notificationsSocket } from '$lib/websockets';
 	import { onDestroy, onMount } from 'svelte';
 
+	import { PUT }from '$lib/openapi_client'
+
 	export let data: {
 		channel: Channel;
 		messages: ChatMessage[];
@@ -52,17 +54,19 @@
 	});
 
 	const updateChannel = async () => {
-		const result = await fetch(`/api/channels/${data.channel.id}`, {
-			method: 'PUT',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ name })
+		console.log('updateChannel', data)
+		const result = await PUT('/api/channels/{id}', {
+			params: {
+				header: { 'Content-Type': 'application/json' },
+				path: { id: data.channel.id },
+			 },
+			body: { name },
 		});
-		const json = await result.json();
-		console.log('json', json);
-		if (!json.id) {
-			errorMessage = json.message;
+		if (result.error) {
+			errorMessage = result.error.message;
 			return;
 		}
+		console.log('updateChannel data', result.data);
 		window.location.reload();
 	};
 
