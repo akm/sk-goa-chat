@@ -7,7 +7,7 @@ test_integration: test_integration_setup test_integration_run
 
 .PHONY: test_integration_run
 test_integration_run:
-	$(PLAYWRIGHT_ENVS) npx playwright test tests/integration/*.scenario.ts
+	$(PLAYWRIGHT_ENVS) npx playwright test tests/integration/scenarios/*.test.ts
 
 .PHONY: test_integration_setup
 test_integration_setup: test_integration_containers_restart test_integration_dbmigrations_up
