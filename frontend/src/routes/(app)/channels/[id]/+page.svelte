@@ -97,16 +97,24 @@
 		textarea.focus();
 	};
 
-	const readNewMessages = async (reqPath: string): Promise<ChatMessage[]> => {
-		const result = await fetch(reqPath);
-		const json = await result.json();
-		console.log('json', json);
-		if (!json.items) {
-			errorMessage = json.message;
-			throw json.message;
+	const readNewMessages = async (options: {before?: number, after?: number}): Promise<ChatMessage[]> => {
+		const result = await GET("/api/chat_messages", {
+			params: {
+				query: {
+					channel_id: Number(data.channel.id),
+					before: options.before,
+					after: options.after,
+					limit: 50,
+				}
+			}
+		})
+		if (result.error) {
+			errorMessage = result.error.message;
+			throw result.error.message;
 		}
-		return json.items.map((msg) => ({
-			id: msg.id,
+		console.log("readNewMessages data", result.data)
+		return result.data.items.map((msg) => ({
+			id: BigInt(msg.id), // OpenAPI では number で返ってくるので BigInt に変換しておく
 			createdAt: msg.created_at,
 			updatedAt: msg.updated_at,
 			channelId: msg.channel_id,
@@ -147,9 +155,9 @@
 
 	const readLaterMessages = async () => {
 		const latestVisible = latestChatVisible();
-		const newMessages = await readNewMessages(
-			`/api/chat_messages?channel_id=${data.channel.id}&after=${data.lastMessageId}&limit=50`
-		);
+		const newMessages = await readNewMessages({after: data.lastMessageId});
+		console.log("readLaterMessages data.messages", data.messages);
+		console.log("readLaterMessages newMessages", newMessages);
 		data.messages = uniqSort([...data.messages, ...newMessages]);
 		data.lastMessageId = Number(data.messages[data.messages.length - 1].id);
 		if (latestVisible) {
@@ -161,9 +169,7 @@
 
 	const readEarlierMessages = async () => {
 		const earliestId = data.messages[0].id;
-		const newMessages = await readNewMessages(
-			`/api/chat_messages?channel_id=${data.channel.id}&before=${earliestId}&limit=50`
-		);
+		const newMessages = await readNewMessages({before: Number(earliestId)});
 		data.messages = uniqSort([...newMessages, ...data.messages]);
 	};
 </script>
