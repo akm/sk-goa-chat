@@ -3,584 +3,583 @@
  * Do not make direct changes to the file.
  */
 
-
 export interface paths {
-  "/api/channels": {
-    /** list channels */
-    get: operations["channels#list"];
-    /** create channels */
-    post: operations["channels#create"];
-  };
-  "/api/channels/{id}": {
-    /** show channels */
-    get: operations["channels#show"];
-    /** update channels */
-    put: operations["channels#update"];
-    /** delete channels */
-    delete: operations["channels#delete"];
-  };
-  "/api/chat_messages": {
-    /** list chat_messages */
-    get: operations["chat_messages#list"];
-    /** create chat_messages */
-    post: operations["chat_messages#create"];
-  };
-  "/api/chat_messages/{id}": {
-    /** show chat_messages */
-    get: operations["chat_messages#show"];
-    /** update chat_messages */
-    put: operations["chat_messages#update"];
-    /** delete chat_messages */
-    delete: operations["chat_messages#delete"];
-  };
-  "/api/session": {
-    /** create sessions */
-    post: operations["sessions#create"];
-    /** delete sessions */
-    delete: operations["sessions#delete"];
-  };
-  "/api/users": {
-    /** list users */
-    get: operations["users#list"];
-    /** create users */
-    post: operations["users#create"];
-  };
-  "/ws/notifications/subscribe": {
-    /**
-     * subscribe notifications
-     * @description Subscribe to events sent such new chat messages.
-     */
-    get: operations["notifications#subscribe"];
-  };
+	'/api/channels': {
+		/** list channels */
+		get: operations['channels#list'];
+		/** create channels */
+		post: operations['channels#create'];
+	};
+	'/api/channels/{id}': {
+		/** show channels */
+		get: operations['channels#show'];
+		/** update channels */
+		put: operations['channels#update'];
+		/** delete channels */
+		delete: operations['channels#delete'];
+	};
+	'/api/chat_messages': {
+		/** list chat_messages */
+		get: operations['chat_messages#list'];
+		/** create chat_messages */
+		post: operations['chat_messages#create'];
+	};
+	'/api/chat_messages/{id}': {
+		/** show chat_messages */
+		get: operations['chat_messages#show'];
+		/** update chat_messages */
+		put: operations['chat_messages#update'];
+		/** delete chat_messages */
+		delete: operations['chat_messages#delete'];
+	};
+	'/api/session': {
+		/** create sessions */
+		post: operations['sessions#create'];
+		/** delete sessions */
+		delete: operations['sessions#delete'];
+	};
+	'/api/users': {
+		/** list users */
+		get: operations['users#list'];
+		/** create users */
+		post: operations['users#create'];
+	};
+	'/ws/notifications/subscribe': {
+		/**
+		 * subscribe notifications
+		 * @description Subscribe to events sent such new chat messages.
+		 */
+		get: operations['notifications#subscribe'];
+	};
 }
 
 export type webhooks = Record<string, never>;
 
 export interface components {
-  schemas: {
-    /**
-     * @example {
-     *   "created_at": "2006-01-02T15:04:05Z07:00",
-     *   "id": 17371192142372358000,
-     *   "name": "Omnis fuga ad velit.",
-     *   "updated_at": "2006-01-02T15:04:05Z07:00"
-     * }
-     */
-    Channel: {
-      /**
-       * Format: date-time
-       * @description CreatedAt
-       * @example 2006-01-02T15:04:05Z07:00
-       */
-      created_at: string;
-      /**
-       * @description ID
-       * @example 8887925703461020000
-       */
-      id: number;
-      /**
-       * @description Name
-       * @example Aut facilis itaque et a commodi nisi.
-       */
-      name: string;
-      /**
-       * Format: date-time
-       * @description UpdatedAt
-       * @example 2006-01-02T15:04:05Z07:00
-       */
-      updated_at: string;
-    };
-    /**
-     * @example {
-     *   "items": [
-     *     {
-     *       "created_at": "2006-01-02T15:04:05Z07:00",
-     *       "id": 7271062959787805000,
-     *       "name": "Eos et excepturi aut asperiores.",
-     *       "updated_at": "2006-01-02T15:04:05Z07:00"
-     *     },
-     *     {
-     *       "created_at": "2006-01-02T15:04:05Z07:00",
-     *       "id": 7271062959787805000,
-     *       "name": "Eos et excepturi aut asperiores.",
-     *       "updated_at": "2006-01-02T15:04:05Z07:00"
-     *     },
-     *     {
-     *       "created_at": "2006-01-02T15:04:05Z07:00",
-     *       "id": 7271062959787805000,
-     *       "name": "Eos et excepturi aut asperiores.",
-     *       "updated_at": "2006-01-02T15:04:05Z07:00"
-     *     },
-     *     {
-     *       "created_at": "2006-01-02T15:04:05Z07:00",
-     *       "id": 7271062959787805000,
-     *       "name": "Eos et excepturi aut asperiores.",
-     *       "updated_at": "2006-01-02T15:04:05Z07:00"
-     *     }
-     *   ],
-     *   "offset": 0,
-     *   "total": 160
-     * }
-     */
-    ChannelList: {
-      items: components["schemas"]["ChannelListItemCollection"];
-      /**
-       * @description Offset
-       * @example 0
-       */
-      offset: number;
-      /**
-       * @description Total number of items
-       * @example 160
-       */
-      total: number;
-    };
-    /**
-     * @example {
-     *   "created_at": "2006-01-02T15:04:05Z07:00",
-     *   "id": 6609809700917516000,
-     *   "name": "Delectus dolores accusamus.",
-     *   "updated_at": "2006-01-02T15:04:05Z07:00"
-     * }
-     */
-    ChannelListItem: {
-      /**
-       * Format: date-time
-       * @description CreatedAt
-       * @example 2006-01-02T15:04:05Z07:00
-       */
-      created_at: string;
-      /**
-       * @description ID
-       * @example 11229479667587510000
-       */
-      id: number;
-      /**
-       * @description Name
-       * @example Quaerat in expedita sint.
-       */
-      name: string;
-      /**
-       * Format: date-time
-       * @description UpdatedAt
-       * @example 2006-01-02T15:04:05Z07:00
-       */
-      updated_at: string;
-    };
-    /**
-     * @example [
-     *   {
-     *     "created_at": "2006-01-02T15:04:05Z07:00",
-     *     "id": 7271062959787805000,
-     *     "name": "Eos et excepturi aut asperiores.",
-     *     "updated_at": "2006-01-02T15:04:05Z07:00"
-     *   },
-     *   {
-     *     "created_at": "2006-01-02T15:04:05Z07:00",
-     *     "id": 7271062959787805000,
-     *     "name": "Eos et excepturi aut asperiores.",
-     *     "updated_at": "2006-01-02T15:04:05Z07:00"
-     *   },
-     *   {
-     *     "created_at": "2006-01-02T15:04:05Z07:00",
-     *     "id": 7271062959787805000,
-     *     "name": "Eos et excepturi aut asperiores.",
-     *     "updated_at": "2006-01-02T15:04:05Z07:00"
-     *   }
-     * ]
-     */
-    ChannelListItemCollection: components["schemas"]["ChannelListItem"][];
-    /**
-     * @example {
-     *   "channel_id": 288408193101281000,
-     *   "content": "Quidem voluptatem voluptatem provident sunt.",
-     *   "created_at": "2006-01-02T15:04:05Z07:00",
-     *   "id": 4127618914645184000,
-     *   "updated_at": "2006-01-02T15:04:05Z07:00",
-     *   "user_id": 15204883905590403000,
-     *   "user_name": "Porro maiores consequatur."
-     * }
-     */
-    ChatMessage: {
-      /**
-       * @description Channel ID
-       * @example 8058313704658529000
-       */
-      channel_id: number;
-      /**
-       * @description Content
-       * @example Sint est.
-       */
-      content: string;
-      /**
-       * Format: date-time
-       * @description CreatedAt
-       * @example 2006-01-02T15:04:05Z07:00
-       */
-      created_at: string;
-      /**
-       * @description ID
-       * @example 6896649061399434000
-       */
-      id: number;
-      /**
-       * Format: date-time
-       * @description UpdatedAt
-       * @example 2006-01-02T15:04:05Z07:00
-       */
-      updated_at: string;
-      /**
-       * @description User ID
-       * @example 5278770603776877000
-       */
-      user_id?: number;
-      /**
-       * @description User Name
-       * @example Modi natus maiores ab vero repellat.
-       */
-      user_name: string;
-    };
-    /**
-     * @example {
-     *   "items": [
-     *     {
-     *       "channel_id": 17409760595284138000,
-     *       "content": "Et est nesciunt perspiciatis optio rerum.",
-     *       "created_at": "2006-01-02T15:04:05Z07:00",
-     *       "id": 6470953216617523000,
-     *       "updated_at": "2006-01-02T15:04:05Z07:00",
-     *       "user_id": 3571536357390730000,
-     *       "user_name": "Repudiandae consequatur officia dolores corporis asperiores."
-     *     },
-     *     {
-     *       "channel_id": 17409760595284138000,
-     *       "content": "Et est nesciunt perspiciatis optio rerum.",
-     *       "created_at": "2006-01-02T15:04:05Z07:00",
-     *       "id": 6470953216617523000,
-     *       "updated_at": "2006-01-02T15:04:05Z07:00",
-     *       "user_id": 3571536357390730000,
-     *       "user_name": "Repudiandae consequatur officia dolores corporis asperiores."
-     *     },
-     *     {
-     *       "channel_id": 17409760595284138000,
-     *       "content": "Et est nesciunt perspiciatis optio rerum.",
-     *       "created_at": "2006-01-02T15:04:05Z07:00",
-     *       "id": 6470953216617523000,
-     *       "updated_at": "2006-01-02T15:04:05Z07:00",
-     *       "user_id": 3571536357390730000,
-     *       "user_name": "Repudiandae consequatur officia dolores corporis asperiores."
-     *     }
-     *   ]
-     * }
-     */
-    ChatMessageList: {
-      items: components["schemas"]["ChatMessageListItemCollection"];
-    };
-    /**
-     * @example {
-     *   "channel_id": 10107853787297421000,
-     *   "content": "Eum facilis id.",
-     *   "created_at": "2006-01-02T15:04:05Z07:00",
-     *   "id": 8632705685696530000,
-     *   "updated_at": "2006-01-02T15:04:05Z07:00",
-     *   "user_id": 2961889573707504600,
-     *   "user_name": "Qui voluptas."
-     * }
-     */
-    ChatMessageListItem: {
-      /**
-       * @description Channel ID
-       * @example 5666922043443187000
-       */
-      channel_id: number;
-      /**
-       * @description Content
-       * @example Quo voluptatem ab mollitia esse.
-       */
-      content: string;
-      /**
-       * Format: date-time
-       * @description CreatedAt
-       * @example 2006-01-02T15:04:05Z07:00
-       */
-      created_at: string;
-      /**
-       * @description ID
-       * @example 17189789645605194000
-       */
-      id: number;
-      /**
-       * Format: date-time
-       * @description UpdatedAt
-       * @example 2006-01-02T15:04:05Z07:00
-       */
-      updated_at: string;
-      /**
-       * @description User ID
-       * @example 5366344011041233000
-       */
-      user_id?: number;
-      /**
-       * @description User Name
-       * @example Omnis modi aut necessitatibus voluptate.
-       */
-      user_name: string;
-    };
-    /**
-     * @example [
-     *   {
-     *     "channel_id": 17409760595284138000,
-     *     "content": "Et est nesciunt perspiciatis optio rerum.",
-     *     "created_at": "2006-01-02T15:04:05Z07:00",
-     *     "id": 6470953216617523000,
-     *     "updated_at": "2006-01-02T15:04:05Z07:00",
-     *     "user_id": 3571536357390730000,
-     *     "user_name": "Repudiandae consequatur officia dolores corporis asperiores."
-     *   },
-     *   {
-     *     "channel_id": 17409760595284138000,
-     *     "content": "Et est nesciunt perspiciatis optio rerum.",
-     *     "created_at": "2006-01-02T15:04:05Z07:00",
-     *     "id": 6470953216617523000,
-     *     "updated_at": "2006-01-02T15:04:05Z07:00",
-     *     "user_id": 3571536357390730000,
-     *     "user_name": "Repudiandae consequatur officia dolores corporis asperiores."
-     *   }
-     * ]
-     */
-    ChatMessageListItemCollection: components["schemas"]["ChatMessageListItem"][];
-    /**
-     * @example {
-     *   "name": "Minus reprehenderit voluptatum ducimus."
-     * }
-     */
-    CreateRequestBody: {
-      /**
-       * @description Name
-       * @example Quia officiis natus dolorem eveniet commodi et.
-       */
-      name: string;
-    };
-    /**
-     * @example {
-     *   "channel_id": 7643201742503833000,
-     *   "content": "Ut cum corrupti inventore enim sed."
-     * }
-     */
-    CreateRequestBody2: {
-      /**
-       * @description Channel ID
-       * @example 13607136191731716000
-       */
-      channel_id: number;
-      /**
-       * @description Content
-       * @example Aut doloremque inventore.
-       */
-      content: string;
-    };
-    /**
-     * @example {
-     *   "id_token": "Sapiente incidunt."
-     * }
-     */
-    CreateRequestBody3: {
-      /**
-       * @description ID Token
-       * @example Ut dolor maxime aliquid qui qui.
-       */
-      id_token: string;
-    };
-    /**
-     * @example {
-     *   "email": "Odit voluptatum et.",
-     *   "name": "Quos sint autem exercitationem amet soluta."
-     * }
-     */
-    CreateRequestBody4: {
-      /**
-       * @description Email
-       * @example Quasi cumque facere molestias.
-       */
-      email: string;
-      /**
-       * @description Name
-       * @example Ea optio.
-       */
-      name: string;
-    };
-    /**
-     * @example {
-     *   "fault": true,
-     *   "id": "123abc",
-     *   "message": "parameter 'p' must be an integer",
-     *   "name": "bad_request",
-     *   "temporary": true,
-     *   "timeout": false
-     * }
-     */
-    Error: {
-      /**
-       * @description Is the error a server-side fault?
-       * @example true
-       */
-      fault: boolean;
-      /**
-       * @description ID is a unique identifier for this particular occurrence of the problem.
-       * @example 123abc
-       */
-      id: string;
-      /**
-       * @description Message is a human-readable explanation specific to this occurrence of the problem.
-       * @example parameter 'p' must be an integer
-       */
-      message: string;
-      /**
-       * @description Name is the name of this class of errors.
-       * @example bad_request
-       */
-      name: string;
-      /**
-       * @description Is the error temporary?
-       * @example true
-       */
-      temporary: boolean;
-      /**
-       * @description Is the error a timeout?
-       * @example true
-       */
-      timeout: boolean;
-    };
-    /**
-     * @example {
-     *   "channel_ids": [
-     *     5637093351032393000,
-     *     15882773370709733000,
-     *     11543648513350246000
-     *   ]
-     * }
-     */
-    NotificationEvent: {
-      /**
-       * @description IDs of channels which got new messages
-       * @example [
-       *   17484182105342665000,
-       *   3183472018667960300,
-       *   14223430657308780000
-       * ]
-       */
-      channel_ids: number[];
-    };
-    /**
-     * @example {
-     *   "content": "Asperiores assumenda nisi dignissimos minima ducimus."
-     * }
-     */
-    UpdateRequestBody: {
-      /**
-       * @description Content
-       * @example Dolores modi perspiciatis.
-       */
-      content: string;
-    };
-    /**
-     * @example {
-     *   "created_at": "2006-01-02T15:04:05Z07:00",
-     *   "id": 9072987713619447000,
-     *   "name": "Blanditiis voluptatum aliquid aperiam doloribus hic.",
-     *   "updated_at": "2006-01-02T15:04:05Z07:00"
-     * }
-     */
-    User: {
-      /**
-       * Format: date-time
-       * @description CreatedAt
-       * @example 2006-01-02T15:04:05Z07:00
-       */
-      created_at: string;
-      /**
-       * @description ID
-       * @example 819908799023234600
-       */
-      id: number;
-      /**
-       * @description Name
-       * @example Excepturi nemo architecto reprehenderit.
-       */
-      name: string;
-      /**
-       * Format: date-time
-       * @description UpdatedAt
-       * @example 2006-01-02T15:04:05Z07:00
-       */
-      updated_at: string;
-    };
-    /**
-     * @example {
-     *   "items": [
-     *     {
-     *       "id": 674974725234254600,
-     *       "name": "Veritatis in similique."
-     *     },
-     *     {
-     *       "id": 674974725234254600,
-     *       "name": "Veritatis in similique."
-     *     }
-     *   ],
-     *   "offset": 0,
-     *   "total": 160
-     * }
-     */
-    UserList: {
-      items: components["schemas"]["UserListItemCollection"];
-      /**
-       * @description Offset
-       * @example 0
-       */
-      offset: number;
-      /**
-       * @description Total number of items
-       * @example 160
-       */
-      total: number;
-    };
-    /**
-     * @example {
-     *   "id": 16675404849395530000,
-     *   "name": "Dolor quibusdam."
-     * }
-     */
-    UserListItem: {
-      /**
-       * @description ID
-       * @example 12813499962679181000
-       */
-      id: number;
-      /**
-       * @description Name
-       * @example Nostrum omnis quaerat voluptas et quia nisi.
-       */
-      name: string;
-    };
-    /**
-     * @example [
-     *   {
-     *     "id": 674974725234254600,
-     *     "name": "Veritatis in similique."
-     *   },
-     *   {
-     *     "id": 674974725234254600,
-     *     "name": "Veritatis in similique."
-     *   }
-     * ]
-     */
-    UserListItemCollection: components["schemas"]["UserListItem"][];
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+	schemas: {
+		/**
+		 * @example {
+		 *   "created_at": "2006-01-02T15:04:05Z07:00",
+		 *   "id": 17371192142372358000,
+		 *   "name": "Omnis fuga ad velit.",
+		 *   "updated_at": "2006-01-02T15:04:05Z07:00"
+		 * }
+		 */
+		Channel: {
+			/**
+			 * Format: date-time
+			 * @description CreatedAt
+			 * @example 2006-01-02T15:04:05Z07:00
+			 */
+			created_at: string;
+			/**
+			 * @description ID
+			 * @example 8887925703461020000
+			 */
+			id: number;
+			/**
+			 * @description Name
+			 * @example Aut facilis itaque et a commodi nisi.
+			 */
+			name: string;
+			/**
+			 * Format: date-time
+			 * @description UpdatedAt
+			 * @example 2006-01-02T15:04:05Z07:00
+			 */
+			updated_at: string;
+		};
+		/**
+		 * @example {
+		 *   "items": [
+		 *     {
+		 *       "created_at": "2006-01-02T15:04:05Z07:00",
+		 *       "id": 7271062959787805000,
+		 *       "name": "Eos et excepturi aut asperiores.",
+		 *       "updated_at": "2006-01-02T15:04:05Z07:00"
+		 *     },
+		 *     {
+		 *       "created_at": "2006-01-02T15:04:05Z07:00",
+		 *       "id": 7271062959787805000,
+		 *       "name": "Eos et excepturi aut asperiores.",
+		 *       "updated_at": "2006-01-02T15:04:05Z07:00"
+		 *     },
+		 *     {
+		 *       "created_at": "2006-01-02T15:04:05Z07:00",
+		 *       "id": 7271062959787805000,
+		 *       "name": "Eos et excepturi aut asperiores.",
+		 *       "updated_at": "2006-01-02T15:04:05Z07:00"
+		 *     },
+		 *     {
+		 *       "created_at": "2006-01-02T15:04:05Z07:00",
+		 *       "id": 7271062959787805000,
+		 *       "name": "Eos et excepturi aut asperiores.",
+		 *       "updated_at": "2006-01-02T15:04:05Z07:00"
+		 *     }
+		 *   ],
+		 *   "offset": 0,
+		 *   "total": 160
+		 * }
+		 */
+		ChannelList: {
+			items: components['schemas']['ChannelListItemCollection'];
+			/**
+			 * @description Offset
+			 * @example 0
+			 */
+			offset: number;
+			/**
+			 * @description Total number of items
+			 * @example 160
+			 */
+			total: number;
+		};
+		/**
+		 * @example {
+		 *   "created_at": "2006-01-02T15:04:05Z07:00",
+		 *   "id": 6609809700917516000,
+		 *   "name": "Delectus dolores accusamus.",
+		 *   "updated_at": "2006-01-02T15:04:05Z07:00"
+		 * }
+		 */
+		ChannelListItem: {
+			/**
+			 * Format: date-time
+			 * @description CreatedAt
+			 * @example 2006-01-02T15:04:05Z07:00
+			 */
+			created_at: string;
+			/**
+			 * @description ID
+			 * @example 11229479667587510000
+			 */
+			id: number;
+			/**
+			 * @description Name
+			 * @example Quaerat in expedita sint.
+			 */
+			name: string;
+			/**
+			 * Format: date-time
+			 * @description UpdatedAt
+			 * @example 2006-01-02T15:04:05Z07:00
+			 */
+			updated_at: string;
+		};
+		/**
+		 * @example [
+		 *   {
+		 *     "created_at": "2006-01-02T15:04:05Z07:00",
+		 *     "id": 7271062959787805000,
+		 *     "name": "Eos et excepturi aut asperiores.",
+		 *     "updated_at": "2006-01-02T15:04:05Z07:00"
+		 *   },
+		 *   {
+		 *     "created_at": "2006-01-02T15:04:05Z07:00",
+		 *     "id": 7271062959787805000,
+		 *     "name": "Eos et excepturi aut asperiores.",
+		 *     "updated_at": "2006-01-02T15:04:05Z07:00"
+		 *   },
+		 *   {
+		 *     "created_at": "2006-01-02T15:04:05Z07:00",
+		 *     "id": 7271062959787805000,
+		 *     "name": "Eos et excepturi aut asperiores.",
+		 *     "updated_at": "2006-01-02T15:04:05Z07:00"
+		 *   }
+		 * ]
+		 */
+		ChannelListItemCollection: components['schemas']['ChannelListItem'][];
+		/**
+		 * @example {
+		 *   "channel_id": 288408193101281000,
+		 *   "content": "Quidem voluptatem voluptatem provident sunt.",
+		 *   "created_at": "2006-01-02T15:04:05Z07:00",
+		 *   "id": 4127618914645184000,
+		 *   "updated_at": "2006-01-02T15:04:05Z07:00",
+		 *   "user_id": 15204883905590403000,
+		 *   "user_name": "Porro maiores consequatur."
+		 * }
+		 */
+		ChatMessage: {
+			/**
+			 * @description Channel ID
+			 * @example 8058313704658529000
+			 */
+			channel_id: number;
+			/**
+			 * @description Content
+			 * @example Sint est.
+			 */
+			content: string;
+			/**
+			 * Format: date-time
+			 * @description CreatedAt
+			 * @example 2006-01-02T15:04:05Z07:00
+			 */
+			created_at: string;
+			/**
+			 * @description ID
+			 * @example 6896649061399434000
+			 */
+			id: number;
+			/**
+			 * Format: date-time
+			 * @description UpdatedAt
+			 * @example 2006-01-02T15:04:05Z07:00
+			 */
+			updated_at: string;
+			/**
+			 * @description User ID
+			 * @example 5278770603776877000
+			 */
+			user_id?: number;
+			/**
+			 * @description User Name
+			 * @example Modi natus maiores ab vero repellat.
+			 */
+			user_name: string;
+		};
+		/**
+		 * @example {
+		 *   "items": [
+		 *     {
+		 *       "channel_id": 17409760595284138000,
+		 *       "content": "Et est nesciunt perspiciatis optio rerum.",
+		 *       "created_at": "2006-01-02T15:04:05Z07:00",
+		 *       "id": 6470953216617523000,
+		 *       "updated_at": "2006-01-02T15:04:05Z07:00",
+		 *       "user_id": 3571536357390730000,
+		 *       "user_name": "Repudiandae consequatur officia dolores corporis asperiores."
+		 *     },
+		 *     {
+		 *       "channel_id": 17409760595284138000,
+		 *       "content": "Et est nesciunt perspiciatis optio rerum.",
+		 *       "created_at": "2006-01-02T15:04:05Z07:00",
+		 *       "id": 6470953216617523000,
+		 *       "updated_at": "2006-01-02T15:04:05Z07:00",
+		 *       "user_id": 3571536357390730000,
+		 *       "user_name": "Repudiandae consequatur officia dolores corporis asperiores."
+		 *     },
+		 *     {
+		 *       "channel_id": 17409760595284138000,
+		 *       "content": "Et est nesciunt perspiciatis optio rerum.",
+		 *       "created_at": "2006-01-02T15:04:05Z07:00",
+		 *       "id": 6470953216617523000,
+		 *       "updated_at": "2006-01-02T15:04:05Z07:00",
+		 *       "user_id": 3571536357390730000,
+		 *       "user_name": "Repudiandae consequatur officia dolores corporis asperiores."
+		 *     }
+		 *   ]
+		 * }
+		 */
+		ChatMessageList: {
+			items: components['schemas']['ChatMessageListItemCollection'];
+		};
+		/**
+		 * @example {
+		 *   "channel_id": 10107853787297421000,
+		 *   "content": "Eum facilis id.",
+		 *   "created_at": "2006-01-02T15:04:05Z07:00",
+		 *   "id": 8632705685696530000,
+		 *   "updated_at": "2006-01-02T15:04:05Z07:00",
+		 *   "user_id": 2961889573707504600,
+		 *   "user_name": "Qui voluptas."
+		 * }
+		 */
+		ChatMessageListItem: {
+			/**
+			 * @description Channel ID
+			 * @example 5666922043443187000
+			 */
+			channel_id: number;
+			/**
+			 * @description Content
+			 * @example Quo voluptatem ab mollitia esse.
+			 */
+			content: string;
+			/**
+			 * Format: date-time
+			 * @description CreatedAt
+			 * @example 2006-01-02T15:04:05Z07:00
+			 */
+			created_at: string;
+			/**
+			 * @description ID
+			 * @example 17189789645605194000
+			 */
+			id: number;
+			/**
+			 * Format: date-time
+			 * @description UpdatedAt
+			 * @example 2006-01-02T15:04:05Z07:00
+			 */
+			updated_at: string;
+			/**
+			 * @description User ID
+			 * @example 5366344011041233000
+			 */
+			user_id?: number;
+			/**
+			 * @description User Name
+			 * @example Omnis modi aut necessitatibus voluptate.
+			 */
+			user_name: string;
+		};
+		/**
+		 * @example [
+		 *   {
+		 *     "channel_id": 17409760595284138000,
+		 *     "content": "Et est nesciunt perspiciatis optio rerum.",
+		 *     "created_at": "2006-01-02T15:04:05Z07:00",
+		 *     "id": 6470953216617523000,
+		 *     "updated_at": "2006-01-02T15:04:05Z07:00",
+		 *     "user_id": 3571536357390730000,
+		 *     "user_name": "Repudiandae consequatur officia dolores corporis asperiores."
+		 *   },
+		 *   {
+		 *     "channel_id": 17409760595284138000,
+		 *     "content": "Et est nesciunt perspiciatis optio rerum.",
+		 *     "created_at": "2006-01-02T15:04:05Z07:00",
+		 *     "id": 6470953216617523000,
+		 *     "updated_at": "2006-01-02T15:04:05Z07:00",
+		 *     "user_id": 3571536357390730000,
+		 *     "user_name": "Repudiandae consequatur officia dolores corporis asperiores."
+		 *   }
+		 * ]
+		 */
+		ChatMessageListItemCollection: components['schemas']['ChatMessageListItem'][];
+		/**
+		 * @example {
+		 *   "name": "Minus reprehenderit voluptatum ducimus."
+		 * }
+		 */
+		CreateRequestBody: {
+			/**
+			 * @description Name
+			 * @example Quia officiis natus dolorem eveniet commodi et.
+			 */
+			name: string;
+		};
+		/**
+		 * @example {
+		 *   "channel_id": 7643201742503833000,
+		 *   "content": "Ut cum corrupti inventore enim sed."
+		 * }
+		 */
+		CreateRequestBody2: {
+			/**
+			 * @description Channel ID
+			 * @example 13607136191731716000
+			 */
+			channel_id: number;
+			/**
+			 * @description Content
+			 * @example Aut doloremque inventore.
+			 */
+			content: string;
+		};
+		/**
+		 * @example {
+		 *   "id_token": "Sapiente incidunt."
+		 * }
+		 */
+		CreateRequestBody3: {
+			/**
+			 * @description ID Token
+			 * @example Ut dolor maxime aliquid qui qui.
+			 */
+			id_token: string;
+		};
+		/**
+		 * @example {
+		 *   "email": "Odit voluptatum et.",
+		 *   "name": "Quos sint autem exercitationem amet soluta."
+		 * }
+		 */
+		CreateRequestBody4: {
+			/**
+			 * @description Email
+			 * @example Quasi cumque facere molestias.
+			 */
+			email: string;
+			/**
+			 * @description Name
+			 * @example Ea optio.
+			 */
+			name: string;
+		};
+		/**
+		 * @example {
+		 *   "fault": true,
+		 *   "id": "123abc",
+		 *   "message": "parameter 'p' must be an integer",
+		 *   "name": "bad_request",
+		 *   "temporary": true,
+		 *   "timeout": false
+		 * }
+		 */
+		Error: {
+			/**
+			 * @description Is the error a server-side fault?
+			 * @example true
+			 */
+			fault: boolean;
+			/**
+			 * @description ID is a unique identifier for this particular occurrence of the problem.
+			 * @example 123abc
+			 */
+			id: string;
+			/**
+			 * @description Message is a human-readable explanation specific to this occurrence of the problem.
+			 * @example parameter 'p' must be an integer
+			 */
+			message: string;
+			/**
+			 * @description Name is the name of this class of errors.
+			 * @example bad_request
+			 */
+			name: string;
+			/**
+			 * @description Is the error temporary?
+			 * @example true
+			 */
+			temporary: boolean;
+			/**
+			 * @description Is the error a timeout?
+			 * @example true
+			 */
+			timeout: boolean;
+		};
+		/**
+		 * @example {
+		 *   "channel_ids": [
+		 *     5637093351032393000,
+		 *     15882773370709733000,
+		 *     11543648513350246000
+		 *   ]
+		 * }
+		 */
+		NotificationEvent: {
+			/**
+			 * @description IDs of channels which got new messages
+			 * @example [
+			 *   17484182105342665000,
+			 *   3183472018667960300,
+			 *   14223430657308780000
+			 * ]
+			 */
+			channel_ids: number[];
+		};
+		/**
+		 * @example {
+		 *   "content": "Asperiores assumenda nisi dignissimos minima ducimus."
+		 * }
+		 */
+		UpdateRequestBody: {
+			/**
+			 * @description Content
+			 * @example Dolores modi perspiciatis.
+			 */
+			content: string;
+		};
+		/**
+		 * @example {
+		 *   "created_at": "2006-01-02T15:04:05Z07:00",
+		 *   "id": 9072987713619447000,
+		 *   "name": "Blanditiis voluptatum aliquid aperiam doloribus hic.",
+		 *   "updated_at": "2006-01-02T15:04:05Z07:00"
+		 * }
+		 */
+		User: {
+			/**
+			 * Format: date-time
+			 * @description CreatedAt
+			 * @example 2006-01-02T15:04:05Z07:00
+			 */
+			created_at: string;
+			/**
+			 * @description ID
+			 * @example 819908799023234600
+			 */
+			id: number;
+			/**
+			 * @description Name
+			 * @example Excepturi nemo architecto reprehenderit.
+			 */
+			name: string;
+			/**
+			 * Format: date-time
+			 * @description UpdatedAt
+			 * @example 2006-01-02T15:04:05Z07:00
+			 */
+			updated_at: string;
+		};
+		/**
+		 * @example {
+		 *   "items": [
+		 *     {
+		 *       "id": 674974725234254600,
+		 *       "name": "Veritatis in similique."
+		 *     },
+		 *     {
+		 *       "id": 674974725234254600,
+		 *       "name": "Veritatis in similique."
+		 *     }
+		 *   ],
+		 *   "offset": 0,
+		 *   "total": 160
+		 * }
+		 */
+		UserList: {
+			items: components['schemas']['UserListItemCollection'];
+			/**
+			 * @description Offset
+			 * @example 0
+			 */
+			offset: number;
+			/**
+			 * @description Total number of items
+			 * @example 160
+			 */
+			total: number;
+		};
+		/**
+		 * @example {
+		 *   "id": 16675404849395530000,
+		 *   "name": "Dolor quibusdam."
+		 * }
+		 */
+		UserListItem: {
+			/**
+			 * @description ID
+			 * @example 12813499962679181000
+			 */
+			id: number;
+			/**
+			 * @description Name
+			 * @example Nostrum omnis quaerat voluptas et quia nisi.
+			 */
+			name: string;
+		};
+		/**
+		 * @example [
+		 *   {
+		 *     "id": 674974725234254600,
+		 *     "name": "Veritatis in similique."
+		 *   },
+		 *   {
+		 *     "id": 674974725234254600,
+		 *     "name": "Veritatis in similique."
+		 *   }
+		 * ]
+		 */
+		UserListItemCollection: components['schemas']['UserListItem'][];
+	};
+	responses: never;
+	parameters: never;
+	requestBodies: never;
+	headers: never;
+	pathItems: never;
 }
 
 export type $defs = Record<string, never>;
@@ -588,561 +587,560 @@ export type $defs = Record<string, never>;
 export type external = Record<string, never>;
 
 export interface operations {
-
-  /** list channels */
-  "channels#list": {
-    parameters: {
-      cookie: {
-        /**
-         * @description Session ID
-         * @example Voluptas excepturi a.
-         */
-        session_id: string;
-      };
-    };
-    responses: {
-      /** @description OK response. */
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChannelList"];
-        };
-      };
-      /** @description unauthenticated: Unauthorized response. */
-      401: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-    };
-  };
-  /** create channels */
-  "channels#create": {
-    parameters: {
-      cookie: {
-        /**
-         * @description Session ID
-         * @example Nulla voluptates dolore.
-         */
-        session_id: string;
-      };
-    };
-    requestBody: {
-      content: {
-        /**
-         * @example {
-         *   "name": "Recusandae quo ratione et."
-         * }
-         */
-        "application/json": components["schemas"]["CreateRequestBody"];
-      };
-    };
-    responses: {
-      /** @description Created response. */
-      201: {
-        content: {
-          "application/json": components["schemas"]["Channel"];
-        };
-      };
-      /** @description invalid_payload: Bad Request response. */
-      400: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-      /** @description unauthenticated: Unauthorized response. */
-      401: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-    };
-  };
-  /** show channels */
-  "channels#show": {
-    parameters: {
-      path: {
-        /**
-         * @description ID
-         * @example 3948786518705750000
-         */
-        id: number;
-      };
-      cookie: {
-        /**
-         * @description Session ID
-         * @example Molestiae qui nam perspiciatis recusandae.
-         */
-        session_id: string;
-      };
-    };
-    responses: {
-      /** @description OK response. */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Channel"];
-        };
-      };
-      /** @description unauthenticated: Unauthorized response. */
-      401: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-      /** @description not_found: Not Found response. */
-      404: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-    };
-  };
-  /** update channels */
-  "channels#update": {
-    parameters: {
-      path: {
-        /**
-         * @description ID
-         * @example 1715852999616860400
-         */
-        id: number;
-      };
-      cookie: {
-        /**
-         * @description Session ID
-         * @example Ullam officiis qui ducimus laborum.
-         */
-        session_id: string;
-      };
-    };
-    requestBody: {
-      content: {
-        /**
-         * @example {
-         *   "name": "Corrupti ut deleniti consequatur voluptates ab quia."
-         * }
-         */
-        "application/json": components["schemas"]["CreateRequestBody"];
-      };
-    };
-    responses: {
-      /** @description OK response. */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Channel"];
-        };
-      };
-      /** @description invalid_payload: Bad Request response. */
-      400: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-      /** @description unauthenticated: Unauthorized response. */
-      401: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-      /** @description not_found: Not Found response. */
-      404: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-    };
-  };
-  /** delete channels */
-  "channels#delete": {
-    parameters: {
-      path: {
-        /**
-         * @description ID
-         * @example 625015297926360800
-         */
-        id: number;
-      };
-      cookie: {
-        /**
-         * @description Session ID
-         * @example Modi commodi.
-         */
-        session_id: string;
-      };
-    };
-    responses: {
-      /** @description OK response. */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Channel"];
-        };
-      };
-      /** @description unauthenticated: Unauthorized response. */
-      401: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-      /** @description not_found: Not Found response. */
-      404: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-    };
-  };
-  /** list chat_messages */
-  "chat_messages#list": {
-    parameters: {
-      query: {
-        /**
-         * @description Limit
-         * @example 5378726181949906000
-         */
-        limit: number;
-        /**
-         * @description Channel ID
-         * @example 15506178172141631000
-         */
-        channel_id?: number;
-        /**
-         * @description ChatMessage ID for query to get messages after this
-         * @example 6284718171232417000
-         */
-        after?: number;
-        /**
-         * @description ChatMessage ID for query to get messages before this
-         * @example 12694947601255190000
-         */
-        before?: number;
-      };
-      cookie: {
-        /**
-         * @description Session ID
-         * @example Aut facere dolorem quo dolorem.
-         */
-        session_id: string;
-      };
-    };
-    responses: {
-      /** @description OK response. */
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChatMessageList"];
-        };
-      };
-      /** @description unauthenticated: Unauthorized response. */
-      401: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-    };
-  };
-  /** create chat_messages */
-  "chat_messages#create": {
-    parameters: {
-      cookie: {
-        /**
-         * @description Session ID
-         * @example Quod illo fugit voluptatibus.
-         */
-        session_id: string;
-      };
-    };
-    requestBody: {
-      content: {
-        /**
-         * @example {
-         *   "channel_id": 15556517036826362000,
-         *   "content": "Et labore."
-         * }
-         */
-        "application/json": components["schemas"]["CreateRequestBody2"];
-      };
-    };
-    responses: {
-      /** @description Created response. */
-      201: {
-        content: {
-          "application/json": components["schemas"]["ChatMessage"];
-        };
-      };
-      /** @description invalid_payload: Bad Request response. */
-      400: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-      /** @description unauthenticated: Unauthorized response. */
-      401: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-    };
-  };
-  /** show chat_messages */
-  "chat_messages#show": {
-    parameters: {
-      path: {
-        /**
-         * @description ID
-         * @example 11669699388174062000
-         */
-        id: number;
-      };
-      cookie: {
-        /**
-         * @description Session ID
-         * @example Quis quasi atque.
-         */
-        session_id: string;
-      };
-    };
-    responses: {
-      /** @description OK response. */
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChatMessage"];
-        };
-      };
-      /** @description unauthenticated: Unauthorized response. */
-      401: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-      /** @description not_found: Not Found response. */
-      404: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-    };
-  };
-  /** update chat_messages */
-  "chat_messages#update": {
-    parameters: {
-      path: {
-        /**
-         * @description ID
-         * @example 13457396349289187000
-         */
-        id: number;
-      };
-      cookie: {
-        /**
-         * @description Session ID
-         * @example Facilis velit.
-         */
-        session_id: string;
-      };
-    };
-    requestBody: {
-      content: {
-        /**
-         * @example {
-         *   "content": "Unde voluptas voluptatem quam velit et odit."
-         * }
-         */
-        "application/json": components["schemas"]["UpdateRequestBody"];
-      };
-    };
-    responses: {
-      /** @description OK response. */
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChatMessage"];
-        };
-      };
-      /** @description invalid_payload: Bad Request response. */
-      400: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-      /** @description unauthenticated: Unauthorized response. */
-      401: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-      /** @description not_found: Not Found response. */
-      404: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-    };
-  };
-  /** delete chat_messages */
-  "chat_messages#delete": {
-    parameters: {
-      path: {
-        /**
-         * @description ID
-         * @example 7517180322405254000
-         */
-        id: number;
-      };
-      cookie: {
-        /**
-         * @description Session ID
-         * @example Quaerat ad eos.
-         */
-        session_id: string;
-      };
-    };
-    responses: {
-      /** @description OK response. */
-      200: {
-        content: {
-          "application/json": components["schemas"]["ChatMessage"];
-        };
-      };
-      /** @description unauthenticated: Unauthorized response. */
-      401: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-      /** @description not_found: Not Found response. */
-      404: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-    };
-  };
-  /** create sessions */
-  "sessions#create": {
-    requestBody: {
-      content: {
-        /**
-         * @example {
-         *   "id_token": "Ad cupiditate non quam in nihil."
-         * }
-         */
-        "application/json": components["schemas"]["CreateRequestBody3"];
-      };
-    };
-    responses: {
-      /** @description Created response. */
-      201: {
-        headers: {
-          /**
-           * @description Session ID
-           * @example Ullam in tempore aliquid ipsum.
-           */
-          "Set-Cookie"?: string;
-        };
-        content: never;
-      };
-      /** @description invalid_payload: Bad Request response. */
-      400: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-    };
-  };
-  /** delete sessions */
-  "sessions#delete": {
-    parameters: {
-      cookie: {
-        /**
-         * @description Session ID
-         * @example Officia sunt aut.
-         */
-        session_id: string;
-      };
-    };
-    responses: {
-      /** @description OK response. */
-      200: {
-        headers: {
-          /**
-           * @description Session ID
-           * @example Non quo quam.
-           */
-          "Set-Cookie"?: string;
-        };
-        content: never;
-      };
-      /** @description invalid_payload: Bad Request response. */
-      400: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-    };
-  };
-  /** list users */
-  "users#list": {
-    responses: {
-      /** @description OK response. */
-      200: {
-        content: {
-          "application/json": components["schemas"]["UserList"];
-        };
-      };
-    };
-  };
-  /** create users */
-  "users#create": {
-    requestBody: {
-      content: {
-        /**
-         * @example {
-         *   "email": "Libero esse qui inventore culpa.",
-         *   "name": "Quo voluptatem minima ut eum."
-         * }
-         */
-        "application/json": components["schemas"]["CreateRequestBody4"];
-      };
-    };
-    responses: {
-      /** @description Created response. */
-      201: {
-        content: {
-          "application/json": components["schemas"]["User"];
-        };
-      };
-      /** @description invalid_payload: Bad Request response. */
-      400: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-    };
-  };
-  /**
-   * subscribe notifications
-   * @description Subscribe to events sent such new chat messages.
-   */
-  "notifications#subscribe": {
-    parameters: {
-      cookie: {
-        /**
-         * @description Session ID
-         * @example Error quia voluptas consequatur provident.
-         */
-        session_id: string;
-      };
-    };
-    responses: {
-      /** @description Switching Protocols response. */
-      101: {
-        content: {
-          "application/json": components["schemas"]["NotificationEvent"];
-        };
-      };
-      /** @description unauthenticated: Unauthorized response. */
-      401: {
-        content: {
-          "application/vnd.goa.error": components["schemas"]["Error"];
-        };
-      };
-    };
-  };
+	/** list channels */
+	'channels#list': {
+		parameters: {
+			cookie: {
+				/**
+				 * @description Session ID
+				 * @example Voluptas excepturi a.
+				 */
+				session_id: string;
+			};
+		};
+		responses: {
+			/** @description OK response. */
+			200: {
+				content: {
+					'application/json': components['schemas']['ChannelList'];
+				};
+			};
+			/** @description unauthenticated: Unauthorized response. */
+			401: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+		};
+	};
+	/** create channels */
+	'channels#create': {
+		parameters: {
+			cookie: {
+				/**
+				 * @description Session ID
+				 * @example Nulla voluptates dolore.
+				 */
+				session_id: string;
+			};
+		};
+		requestBody: {
+			content: {
+				/**
+				 * @example {
+				 *   "name": "Recusandae quo ratione et."
+				 * }
+				 */
+				'application/json': components['schemas']['CreateRequestBody'];
+			};
+		};
+		responses: {
+			/** @description Created response. */
+			201: {
+				content: {
+					'application/json': components['schemas']['Channel'];
+				};
+			};
+			/** @description invalid_payload: Bad Request response. */
+			400: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+			/** @description unauthenticated: Unauthorized response. */
+			401: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+		};
+	};
+	/** show channels */
+	'channels#show': {
+		parameters: {
+			path: {
+				/**
+				 * @description ID
+				 * @example 3948786518705750000
+				 */
+				id: number;
+			};
+			cookie: {
+				/**
+				 * @description Session ID
+				 * @example Molestiae qui nam perspiciatis recusandae.
+				 */
+				session_id: string;
+			};
+		};
+		responses: {
+			/** @description OK response. */
+			200: {
+				content: {
+					'application/json': components['schemas']['Channel'];
+				};
+			};
+			/** @description unauthenticated: Unauthorized response. */
+			401: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+			/** @description not_found: Not Found response. */
+			404: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+		};
+	};
+	/** update channels */
+	'channels#update': {
+		parameters: {
+			path: {
+				/**
+				 * @description ID
+				 * @example 1715852999616860400
+				 */
+				id: number;
+			};
+			cookie: {
+				/**
+				 * @description Session ID
+				 * @example Ullam officiis qui ducimus laborum.
+				 */
+				session_id: string;
+			};
+		};
+		requestBody: {
+			content: {
+				/**
+				 * @example {
+				 *   "name": "Corrupti ut deleniti consequatur voluptates ab quia."
+				 * }
+				 */
+				'application/json': components['schemas']['CreateRequestBody'];
+			};
+		};
+		responses: {
+			/** @description OK response. */
+			200: {
+				content: {
+					'application/json': components['schemas']['Channel'];
+				};
+			};
+			/** @description invalid_payload: Bad Request response. */
+			400: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+			/** @description unauthenticated: Unauthorized response. */
+			401: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+			/** @description not_found: Not Found response. */
+			404: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+		};
+	};
+	/** delete channels */
+	'channels#delete': {
+		parameters: {
+			path: {
+				/**
+				 * @description ID
+				 * @example 625015297926360800
+				 */
+				id: number;
+			};
+			cookie: {
+				/**
+				 * @description Session ID
+				 * @example Modi commodi.
+				 */
+				session_id: string;
+			};
+		};
+		responses: {
+			/** @description OK response. */
+			200: {
+				content: {
+					'application/json': components['schemas']['Channel'];
+				};
+			};
+			/** @description unauthenticated: Unauthorized response. */
+			401: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+			/** @description not_found: Not Found response. */
+			404: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+		};
+	};
+	/** list chat_messages */
+	'chat_messages#list': {
+		parameters: {
+			query: {
+				/**
+				 * @description Limit
+				 * @example 5378726181949906000
+				 */
+				limit: number;
+				/**
+				 * @description Channel ID
+				 * @example 15506178172141631000
+				 */
+				channel_id?: number;
+				/**
+				 * @description ChatMessage ID for query to get messages after this
+				 * @example 6284718171232417000
+				 */
+				after?: number;
+				/**
+				 * @description ChatMessage ID for query to get messages before this
+				 * @example 12694947601255190000
+				 */
+				before?: number;
+			};
+			cookie: {
+				/**
+				 * @description Session ID
+				 * @example Aut facere dolorem quo dolorem.
+				 */
+				session_id: string;
+			};
+		};
+		responses: {
+			/** @description OK response. */
+			200: {
+				content: {
+					'application/json': components['schemas']['ChatMessageList'];
+				};
+			};
+			/** @description unauthenticated: Unauthorized response. */
+			401: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+		};
+	};
+	/** create chat_messages */
+	'chat_messages#create': {
+		parameters: {
+			cookie: {
+				/**
+				 * @description Session ID
+				 * @example Quod illo fugit voluptatibus.
+				 */
+				session_id: string;
+			};
+		};
+		requestBody: {
+			content: {
+				/**
+				 * @example {
+				 *   "channel_id": 15556517036826362000,
+				 *   "content": "Et labore."
+				 * }
+				 */
+				'application/json': components['schemas']['CreateRequestBody2'];
+			};
+		};
+		responses: {
+			/** @description Created response. */
+			201: {
+				content: {
+					'application/json': components['schemas']['ChatMessage'];
+				};
+			};
+			/** @description invalid_payload: Bad Request response. */
+			400: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+			/** @description unauthenticated: Unauthorized response. */
+			401: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+		};
+	};
+	/** show chat_messages */
+	'chat_messages#show': {
+		parameters: {
+			path: {
+				/**
+				 * @description ID
+				 * @example 11669699388174062000
+				 */
+				id: number;
+			};
+			cookie: {
+				/**
+				 * @description Session ID
+				 * @example Quis quasi atque.
+				 */
+				session_id: string;
+			};
+		};
+		responses: {
+			/** @description OK response. */
+			200: {
+				content: {
+					'application/json': components['schemas']['ChatMessage'];
+				};
+			};
+			/** @description unauthenticated: Unauthorized response. */
+			401: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+			/** @description not_found: Not Found response. */
+			404: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+		};
+	};
+	/** update chat_messages */
+	'chat_messages#update': {
+		parameters: {
+			path: {
+				/**
+				 * @description ID
+				 * @example 13457396349289187000
+				 */
+				id: number;
+			};
+			cookie: {
+				/**
+				 * @description Session ID
+				 * @example Facilis velit.
+				 */
+				session_id: string;
+			};
+		};
+		requestBody: {
+			content: {
+				/**
+				 * @example {
+				 *   "content": "Unde voluptas voluptatem quam velit et odit."
+				 * }
+				 */
+				'application/json': components['schemas']['UpdateRequestBody'];
+			};
+		};
+		responses: {
+			/** @description OK response. */
+			200: {
+				content: {
+					'application/json': components['schemas']['ChatMessage'];
+				};
+			};
+			/** @description invalid_payload: Bad Request response. */
+			400: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+			/** @description unauthenticated: Unauthorized response. */
+			401: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+			/** @description not_found: Not Found response. */
+			404: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+		};
+	};
+	/** delete chat_messages */
+	'chat_messages#delete': {
+		parameters: {
+			path: {
+				/**
+				 * @description ID
+				 * @example 7517180322405254000
+				 */
+				id: number;
+			};
+			cookie: {
+				/**
+				 * @description Session ID
+				 * @example Quaerat ad eos.
+				 */
+				session_id: string;
+			};
+		};
+		responses: {
+			/** @description OK response. */
+			200: {
+				content: {
+					'application/json': components['schemas']['ChatMessage'];
+				};
+			};
+			/** @description unauthenticated: Unauthorized response. */
+			401: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+			/** @description not_found: Not Found response. */
+			404: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+		};
+	};
+	/** create sessions */
+	'sessions#create': {
+		requestBody: {
+			content: {
+				/**
+				 * @example {
+				 *   "id_token": "Ad cupiditate non quam in nihil."
+				 * }
+				 */
+				'application/json': components['schemas']['CreateRequestBody3'];
+			};
+		};
+		responses: {
+			/** @description Created response. */
+			201: {
+				headers: {
+					/**
+					 * @description Session ID
+					 * @example Ullam in tempore aliquid ipsum.
+					 */
+					'Set-Cookie'?: string;
+				};
+				content: never;
+			};
+			/** @description invalid_payload: Bad Request response. */
+			400: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+		};
+	};
+	/** delete sessions */
+	'sessions#delete': {
+		parameters: {
+			cookie: {
+				/**
+				 * @description Session ID
+				 * @example Officia sunt aut.
+				 */
+				session_id: string;
+			};
+		};
+		responses: {
+			/** @description OK response. */
+			200: {
+				headers: {
+					/**
+					 * @description Session ID
+					 * @example Non quo quam.
+					 */
+					'Set-Cookie'?: string;
+				};
+				content: never;
+			};
+			/** @description invalid_payload: Bad Request response. */
+			400: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+		};
+	};
+	/** list users */
+	'users#list': {
+		responses: {
+			/** @description OK response. */
+			200: {
+				content: {
+					'application/json': components['schemas']['UserList'];
+				};
+			};
+		};
+	};
+	/** create users */
+	'users#create': {
+		requestBody: {
+			content: {
+				/**
+				 * @example {
+				 *   "email": "Libero esse qui inventore culpa.",
+				 *   "name": "Quo voluptatem minima ut eum."
+				 * }
+				 */
+				'application/json': components['schemas']['CreateRequestBody4'];
+			};
+		};
+		responses: {
+			/** @description Created response. */
+			201: {
+				content: {
+					'application/json': components['schemas']['User'];
+				};
+			};
+			/** @description invalid_payload: Bad Request response. */
+			400: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+		};
+	};
+	/**
+	 * subscribe notifications
+	 * @description Subscribe to events sent such new chat messages.
+	 */
+	'notifications#subscribe': {
+		parameters: {
+			cookie: {
+				/**
+				 * @description Session ID
+				 * @example Error quia voluptas consequatur provident.
+				 */
+				session_id: string;
+			};
+		};
+		responses: {
+			/** @description Switching Protocols response. */
+			101: {
+				content: {
+					'application/json': components['schemas']['NotificationEvent'];
+				};
+			};
+			/** @description unauthenticated: Unauthorized response. */
+			401: {
+				content: {
+					'application/vnd.goa.error': components['schemas']['Error'];
+				};
+			};
+		};
+	};
 }

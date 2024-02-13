@@ -8,7 +8,7 @@
 	import { notificationsSocket } from '$lib/websockets';
 	import { onDestroy, onMount } from 'svelte';
 
-	import { GET, POST, PUT, DELETE }from '$lib/openapi_client'
+	import { GET, POST, PUT, DELETE } from '$lib/openapi_client';
 
 	export let data: {
 		channel: Channel;
@@ -54,12 +54,12 @@
 	});
 
 	const updateChannel = async () => {
-		console.log('updateChannel', data)
+		console.log('updateChannel', data);
 		const result = await PUT('/api/channels/{id}', {
 			params: {
-				path: { id: data.channel.id },
-			 },
-			body: { name },
+				path: { id: data.channel.id }
+			},
+			body: { name }
 		});
 		if (result.error) {
 			errorMessage = result.error.message;
@@ -72,8 +72,8 @@
 	const deleteChannel = async () => {
 		const result = await DELETE('/api/channels/{id}', {
 			params: {
-				path: { id: Number(data.channel.id) },
-			},
+				path: { id: Number(data.channel.id) }
+			}
 		});
 		if (result.error) {
 			errorMessage = result.error.message;
@@ -86,7 +86,7 @@
 	let textarea: HTMLTextAreaElement;
 	const postMessage = async () => {
 		const result = await POST('/api/chat_messages', {
-			body: { channel_id: Number(data.channel.id), content: textarea.value },
+			body: { channel_id: Number(data.channel.id), content: textarea.value }
 		});
 		if (result.error) {
 			errorMessage = result.error.message;
@@ -97,22 +97,25 @@
 		textarea.focus();
 	};
 
-	const readNewMessages = async (options: {before?: number, after?: number}): Promise<ChatMessage[]> => {
-		const result = await GET("/api/chat_messages", {
+	const readNewMessages = async (options: {
+		before?: number;
+		after?: number;
+	}): Promise<ChatMessage[]> => {
+		const result = await GET('/api/chat_messages', {
 			params: {
 				query: {
 					channel_id: Number(data.channel.id),
 					before: options.before,
 					after: options.after,
-					limit: 50,
+					limit: 50
 				}
 			}
-		})
+		});
 		if (result.error) {
 			errorMessage = result.error.message;
 			throw result.error.message;
 		}
-		console.log("readNewMessages data", result.data)
+		console.log('readNewMessages data', result.data);
 		return result.data.items.map((msg) => ({
 			id: BigInt(msg.id), // OpenAPI では number で返ってくるので BigInt に変換しておく
 			createdAt: msg.created_at,
@@ -155,9 +158,9 @@
 
 	const readLaterMessages = async () => {
 		const latestVisible = latestChatVisible();
-		const newMessages = await readNewMessages({after: data.lastMessageId});
-		console.log("readLaterMessages data.messages", data.messages);
-		console.log("readLaterMessages newMessages", newMessages);
+		const newMessages = await readNewMessages({ after: data.lastMessageId });
+		console.log('readLaterMessages data.messages', data.messages);
+		console.log('readLaterMessages newMessages', newMessages);
 		data.messages = uniqSort([...data.messages, ...newMessages]);
 		data.lastMessageId = Number(data.messages[data.messages.length - 1].id);
 		if (latestVisible) {
@@ -169,7 +172,7 @@
 
 	const readEarlierMessages = async () => {
 		const earliestId = data.messages[0].id;
-		const newMessages = await readNewMessages({before: Number(earliestId)});
+		const newMessages = await readNewMessages({ before: Number(earliestId) });
 		data.messages = uniqSort([...newMessages, ...data.messages]);
 	};
 </script>

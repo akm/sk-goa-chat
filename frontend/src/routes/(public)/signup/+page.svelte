@@ -38,7 +38,7 @@
 			throw err;
 		}
 
-		const result = await POST('/api/users', {body: { email: email, name: accountName }});
+		const result = await POST('/api/users', { body: { email: email, name: accountName } });
 		if (result.error) {
 			errorMessage = result.error.message;
 			return;
