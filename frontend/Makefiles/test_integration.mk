@@ -6,7 +6,7 @@ PLAYWRIGHT_ENVS=\
 test_integration: test_integration_setup test_integration_run
 
 .PHONY: test_integration_run
-test_integration_run:
+test_integration_run: test_integration_setup
 	$(PLAYWRIGHT_ENVS) npx playwright test tests/integration/scenarios/*.test.ts
 
 .PHONY: test_integration_setup
@@ -27,3 +27,7 @@ test_integration_containers_restart:
 .PHONY: test_integration_dbmigrations_up
 test_integration_dbmigrations_up:
 	$(MAKE) -C tests/integration mysql_wait_to_connect dbmigrations_up
+
+.PHONY: test_integration_setup
+test_integration_setup:
+	$(MAKE) -C tests/integration test_setup

@@ -57,3 +57,8 @@ uisvr_run: $(APISVR_LOG_DIR)
 	$(ENVS) \
 	$(UISVR_ENVS) \
 		$(MAKE) -C ../.. build preview >> $(APISVR_LOG_DIR)/uisvr.log 2>&1
+
+
+.PHONY: test_setup
+test_setup:
+	mkdir -p tmp
