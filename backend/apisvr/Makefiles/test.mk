@@ -4,7 +4,7 @@ TEST_MYSQL_DSN?='$(shell $(TEST_CONTAINER_ENVS) $(MAKE) -C ../containers/mysql -
 
 TEST_ENVS=\
 	APP_STAGE=$(APP_STAGE) \
-	APP_ENV=test \
+	APP_ENV=unit_test \
 	APP_MYSQL_PORT=$(TEST_MYSQL_PORT) \
 	APP_MYSQL_DSN=$(TEST_MYSQL_DSN) \
 	GOOGLE_CLOUD_PROJECT=sk-goa-chat \

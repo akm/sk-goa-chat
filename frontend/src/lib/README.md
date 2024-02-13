@@ -30,4 +30,4 @@ https://github.com/akm/sk-goa-chat/blob/a82020596c74a94389c72ef39b4fc57d26717587
 ### HTTPクライアント (あるいは OpenAPIクライアント)
 
 HTTPクライアント はブラウザ上で動作する API クライアントです。
-現時点では HTTP クライアントを生成するタスクは用意されていませんが、近い将来準備する予定です。
+[openapi-typescript](https://github.com/drwpow/openapi-typescript) によって生成さえた型定義 ( [openapi.d.ts](./openapi.d.ts) ) を [openapi-fetch](https://github.com/drwpow/openapi-typescript/tree/main/packages/openapi-fetch) に指定して生成した GET, POST, PUT, DELETE などを使います ( [openapi_client.ts](./openapi_client.ts) )。

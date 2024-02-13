@@ -37,4 +37,5 @@ $(FIREBASE_CONFIG_FILE):
 
 include ./Makefiles/dev.mk
 include ./Makefiles/grpc.mk
+include ./Makefiles/openapi.mk
 include ./Makefiles/test_integration.mk

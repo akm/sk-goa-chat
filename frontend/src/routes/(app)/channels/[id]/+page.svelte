@@ -8,6 +8,8 @@
 	import { notificationsSocket } from '$lib/websockets';
 	import { onDestroy, onMount } from 'svelte';
 
+	import { GET, POST, PUT, DELETE } from '$lib/openapi_client';
+
 	export let data: {
 		channel: Channel;
 		messages: ChatMessage[];
@@ -52,61 +54,70 @@
 	});
 
 	const updateChannel = async () => {
-		const result = await fetch(`/api/channels/${data.channel.id}`, {
-			method: 'PUT',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ name })
+		console.log('updateChannel', data);
+		const result = await PUT('/api/channels/{id}', {
+			params: {
+				path: { id: data.channel.id }
+			},
+			body: { name }
 		});
-		const json = await result.json();
-		console.log('json', json);
-		if (!json.id) {
-			errorMessage = json.message;
+		if (result.error) {
+			errorMessage = result.error.message;
 			return;
 		}
+		console.log('updateChannel data', result.data);
 		window.location.reload();
 	};
 
 	const deleteChannel = async () => {
-		const result = await fetch(`/api/channels/${data.channel.id}`, {
-			method: 'DELETE',
-			headers: { 'Content-Type': 'application/json' }
+		const result = await DELETE('/api/channels/{id}', {
+			params: {
+				path: { id: Number(data.channel.id) }
+			}
 		});
-		const json = await result.json();
-		console.log('json', json);
-		if (!json.id) {
-			errorMessage = json.message;
+		if (result.error) {
+			errorMessage = result.error.message;
 			return;
 		}
+		console.log('deleteChannel', result.data);
 		window.location.href = '/';
 	};
 
 	let textarea: HTMLTextAreaElement;
 	const postMessage = async () => {
-		const result = await fetch(`/api/chat_messages`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ channel_id: Number(data.channel.id), content: textarea.value })
+		const result = await POST('/api/chat_messages', {
+			body: { channel_id: Number(data.channel.id), content: textarea.value }
 		});
-		const json = await result.json();
-		console.log('json', json);
-		if (!json.id) {
-			errorMessage = json.message;
+		if (result.error) {
+			errorMessage = result.error.message;
 			return;
 		}
+		console.log('postMessage data', result.data);
 		textarea.value = '';
 		textarea.focus();
 	};
 
-	const readNewMessages = async (reqPath: string): Promise<ChatMessage[]> => {
-		const result = await fetch(reqPath);
-		const json = await result.json();
-		console.log('json', json);
-		if (!json.items) {
-			errorMessage = json.message;
-			throw json.message;
+	const readNewMessages = async (options: {
+		before?: number;
+		after?: number;
+	}): Promise<ChatMessage[]> => {
+		const result = await GET('/api/chat_messages', {
+			params: {
+				query: {
+					channel_id: Number(data.channel.id),
+					before: options.before,
+					after: options.after,
+					limit: 50
+				}
+			}
+		});
+		if (result.error) {
+			errorMessage = result.error.message;
+			throw result.error.message;
 		}
-		return json.items.map((msg) => ({
-			id: msg.id,
+		console.log('readNewMessages data', result.data);
+		return result.data.items.map((msg) => ({
+			id: BigInt(msg.id), // OpenAPI では number で返ってくるので BigInt に変換しておく
 			createdAt: msg.created_at,
 			updatedAt: msg.updated_at,
 			channelId: msg.channel_id,
@@ -147,9 +158,9 @@
 
 	const readLaterMessages = async () => {
 		const latestVisible = latestChatVisible();
-		const newMessages = await readNewMessages(
-			`/api/chat_messages?channel_id=${data.channel.id}&after=${data.lastMessageId}&limit=50`
-		);
+		const newMessages = await readNewMessages({ after: data.lastMessageId });
+		console.log('readLaterMessages data.messages', data.messages);
+		console.log('readLaterMessages newMessages', newMessages);
 		data.messages = uniqSort([...data.messages, ...newMessages]);
 		data.lastMessageId = Number(data.messages[data.messages.length - 1].id);
 		if (latestVisible) {
@@ -161,9 +172,7 @@
 
 	const readEarlierMessages = async () => {
 		const earliestId = data.messages[0].id;
-		const newMessages = await readNewMessages(
-			`/api/chat_messages?channel_id=${data.channel.id}&before=${earliestId}&limit=50`
-		);
+		const newMessages = await readNewMessages({ before: Number(earliestId) });
 		data.messages = uniqSort([...newMessages, ...data.messages]);
 	};
 </script>

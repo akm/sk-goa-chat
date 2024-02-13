@@ -2,6 +2,7 @@
 	import { isFirebaseError } from '$lib/firebase';
 	import { auth } from '$lib/firebase/auth';
 	import { createSession } from '$lib/session';
+	import { POST } from '$lib/openapi_client';
 	import { page } from '$app/stores';
 
 	import {
@@ -37,17 +38,12 @@
 			throw err;
 		}
 
-		const result = await fetch(`/api/users`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ email: email, name: accountName })
-		});
-		const json = await result.json();
-		console.log('json', json);
-		if (!json.id) {
-			errorMessage = json.message;
+		const result = await POST('/api/users', { body: { email: email, name: accountName } });
+		if (result.error) {
+			errorMessage = result.error.message;
 			return;
 		}
+		console.log('signup result.data', result.data);
 
 		if (accountName != '') {
 			try {

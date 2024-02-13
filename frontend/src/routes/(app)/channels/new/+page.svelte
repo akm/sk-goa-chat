@@ -1,26 +1,20 @@
 <script lang="ts">
 	import { Heading, Button, Label, Input, Alert } from 'flowbite-svelte';
 	import { InfoCircleSolid } from 'flowbite-svelte-icons';
+	import { POST } from '$lib/openapi_client';
 
 	let name = '';
 	let errorMessage = '';
 
 	const createChannel = async () => {
-		const result = await fetch('/api/channels', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ name })
-		});
-		const json = await result.json();
-		console.log('json', json);
-		if (!json.id) {
-			errorMessage = json.message;
+		const result = await POST('/api/channels', { body: { name } });
+		if (result.error) {
+			errorMessage = result.error.message;
 			return;
 		}
+		console.log('createChannel result.data', result.data);
 		// goto だと追加したチャンネルが一覧に反映されないので window.location.href でリロードする
-		window.location.href = `/channels/${json.id}`;
+		window.location.href = `/channels/${result.data.id}`;
 	};
 </script>
 

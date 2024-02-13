@@ -59,7 +59,7 @@ new_go: $(COMMAND_RUNNER)
 .PHONY: up
 up: $(COMMAND_RUNNER)
 	$(ENVS) $(COMMAND_RUNNER) $(OPTIONS) up && \
-	$(MAKE) dump_schema
+	[[ "${APP_ENV}" =~ test ]] && echo "SKIP dump schema" || $(MAKE) dump_schema
 
 # マイグレーションを一つ戻す
 .PHONY: down
