@@ -11,7 +11,8 @@ DEV_ENVS=\
 
 .PHONY: dev_backend
 dev_backend:
-	$(DEV_ENVS) $(MAKE) -C ../backend dev
+	$(DEV_ENVS) APP_SKIP_DB_SCHEMA_DUMP=true \
+		$(MAKE) -C ../backend dev
 
 .PHONY: dev_run
 dev_run:
