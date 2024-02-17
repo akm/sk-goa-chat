@@ -35,7 +35,6 @@ test('show signin page when go to root', async ({ page, context, browser }) => {
 		const fooMsg1 = 'foo message 1';
 		await chatPage1.textarea.fill(fooMsg1);
 		await chatPage1.button('Send').click();
-		await page.waitForTimeout(10_000);
 		await expect(chatPage1.messagePane.locator(`p:text("${fooMsg1}")`)).toBeVisible();
 		await expect(chatPage2.messagePane.locator(`p:text("${fooMsg1}")`)).toBeVisible();
 	});
