@@ -3,6 +3,8 @@ import 'websocket-polyfill';
 let _notificationsSocket: WebSocket;
 
 export const notificationsSocket = (): WebSocket => {
+	console.log('notificationsSocket ');
+
 	if (_notificationsSocket) return _notificationsSocket;
 
 	const apisvrOrigin = import.meta.env.VITE_UISVR_ORIGIN as string;
@@ -10,6 +12,8 @@ export const notificationsSocket = (): WebSocket => {
 		? apisvrOrigin.replace('https://', 'wss://')
 		: apisvrOrigin.replace('http://', 'ws://');
 	const wsUrl = `${wsOrigin}/ws/notifications/subscribe`;
+
+	console.log('notificationsSocket wsUrl', wsUrl);
 
 	// const websocket = io(wsUrl);
 	const ws = new WebSocket(wsUrl);
@@ -22,6 +26,8 @@ export const notificationsSocket = (): WebSocket => {
 	ws.addEventListener('error', (event) => {
 		console.log('WebSocket error', event);
 	});
+
+	console.log('notificationsSocket ws', ws);
 
 	_notificationsSocket = ws;
 	return _notificationsSocket;
