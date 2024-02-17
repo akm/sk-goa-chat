@@ -8,7 +8,10 @@ const config: PlaywrightTestConfig = {
 			slowMo: Number(process.env.SLOMO || 0) // テスト実行時のスローモーション。デモなら 2000 くらいがよい
 		},
 		baseURL: 'http://localhost:' + (process.env.APP_UISVR_HTTP_PORT ?? '4173'),
-		trace: 'retain-on-failure'
+		trace: 'retain-on-failure',
+
+		// https://playwright.dev/docs/api/class-testoptions#test-options-video
+		video: process.env.VIDEO === 'on' ? 'on' : 'off'
 	},
 
 	// https://playwright.dev/docs/api/class-testconfig#test-config-web-server
@@ -27,7 +30,10 @@ const config: PlaywrightTestConfig = {
 
 	testDir: 'tests/integration/scenarios',
 	testMatch: /(.+\.)?test\.ts/,
-	workers: 1
+	workers: 1,
+
+	// https://playwright.dev/docs/test-reporters#github-actions-annotations
+	reporter: process.env.CI ? 'github' : 'list'
 };
 
 export default config;
