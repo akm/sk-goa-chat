@@ -1,12 +1,12 @@
 package chatapi
 
 import (
+	chatmessages "apisvr/services/gen/chat_messages"
+	log "apisvr/services/gen/log"
 	"applib/collection"
 	"applib/database/sql"
 	"applib/time"
 	"biz/models"
-	chatmessages "apisvr/services/gen/chat_messages"
-	log "apisvr/services/gen/log"
 	"context"
 	"fmt"
 
@@ -89,6 +89,13 @@ func (s *chatMessagessrvc) Show(ctx context.Context, p *chatmessages.ShowPayload
 // Create implements create.
 const maxContentLength = 16_777_215
 
+type chatMessageEvent struct {
+	ChannelID uint64
+	ID        uint64
+}
+
+var newMessageChannels = []chan chatMessageEvent{}
+
 func (s *chatMessagessrvc) Create(ctx context.Context, p *chatmessages.ChatMessageCreatePayload) (res *chatmessages.ChatMessage, err error) {
 	err = s.actionWithAuth(ctx, "chatMessages.create", p.SessionID, func(ctx context.Context, db *sql.DB, user *models.User) error {
 		if p.Content == "" {
@@ -115,6 +122,12 @@ func (s *chatMessagessrvc) Create(ctx context.Context, p *chatmessages.ChatMessa
 			return err
 		}
 		res = s.ModelToResult(m)
+		go func() {
+			for _, ch := range newMessageChannels {
+				ch <- chatMessageEvent{ChannelID: m.ChannelID, ID: m.ID}
+			}
+		}()
+
 		return nil
 	})
 	return
