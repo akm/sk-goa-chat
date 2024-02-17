@@ -27,6 +27,12 @@ func NewNotifications(logger *log.Logger) notifications.Service {
 
 // Subscribe to events sent such new chat messages.
 func (s *notificationssrvc) Subscribe(ctx context.Context, p *notifications.SubscribePayload, stream notifications.SubscribeServerStream) (err error) {
+	defer func() {
+		if err := stream.Close(); err != nil {
+			s.logger.Printf("failed to close stream: [%T] %+v", err, err)
+		}
+	}()
+
 	err = s.actionWithDB(ctx, "notifications.subscribe", func(ctx context.Context, db *sql.DB) error {
 		fbauth, err := s.firebaseAuthClient(ctx)
 		if err != nil {
@@ -71,13 +77,8 @@ func (s *notificationssrvc) Subscribe(ctx context.Context, p *notifications.Subs
 			case <-ticker.C:
 				currMap, err := query(ctx)
 				if err != nil {
-					if err := stream.Close(); err != nil {
-						s.logger.Printf("failed to close stream: [%T] %+v", err, err)
-					} else {
-						return err
-					}
+					return err
 				}
-
 				channelIDs := []uint64{}
 				for channelID, maxID := range currMap {
 					if lastMap[channelID] < maxID {
@@ -86,13 +87,7 @@ func (s *notificationssrvc) Subscribe(ctx context.Context, p *notifications.Subs
 				}
 				if len(channelIDs) > 0 {
 					if err := stream.Send(&notifications.NotificationEvent{ChannelIds: channelIDs}); err != nil {
-						sendError := errors.Wrapf(err, "failed to send notification event")
-						if err := stream.Close(); err != nil {
-							s.logger.Printf("failed to close stream: [%T] %+v", err, err)
-							return errors.Join(sendError, errors.Wrapf(err, "failed to close stream"))
-						} else {
-							return sendError
-						}
+						return errors.Wrapf(err, "failed to send notification event")
 					}
 					lastMap = currMap
 				}
@@ -102,7 +97,7 @@ func (s *notificationssrvc) Subscribe(ctx context.Context, p *notifications.Subs
 			}
 		}
 		s.logger.Printf("subscription ended")
-		return stream.Close()
+		return nil
 	})
 
 	return
