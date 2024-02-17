@@ -4,7 +4,6 @@ import { loadCookiesFrom } from '../steps/auth';
 import { foo, bar } from './config';
 
 import { signup } from '../steps/signup';
-import { saveCookiesTo } from '../steps/auth';
 import { ChannelListPane } from '../pom/panes/channel_list';
 import { ChatPage } from '../pom/pages/chat_page';
 
