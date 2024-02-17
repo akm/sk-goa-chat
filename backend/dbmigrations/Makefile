@@ -30,7 +30,10 @@ dsn:
 OPTIONS_EXTRA?=
 OPTIONS?=--dir . --table $(TABLE) $(OPTIONS_EXTRA) mysql '$(DSN)'
 
-ENVS=
+ENVS=\
+	APP_STAGE_TYPE=$(APP_STAGE_TYPE) \
+	APP_STAGE=$(APP_STAGE) \
+	APP_ENV=$(APP_ENV)
 .PHONY: envs
 envs:
 	@echo $(ENVS)
@@ -59,7 +62,7 @@ new_go: $(COMMAND_RUNNER)
 .PHONY: up
 up: $(COMMAND_RUNNER)
 	$(ENVS) $(COMMAND_RUNNER) $(OPTIONS) up && \
-	[[ "${APP_ENV}" =~ test ]] && echo "SKIP dump schema" || $(MAKE) dump_schema
+	( [[ "${APP_ENV}" =~ test ]] || [[ "${APP_SKIP_DB_SCHEMA_DUMP}" =~ true ]] ) && echo "SKIP dump schema" || $(MAKE) dump_schema
 
 # マイグレーションを一つ戻す
 .PHONY: down

@@ -3,8 +3,8 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "run-p dev:containers:up dev:apisvr dev:run",
-		"dev:apisvr": "make dev_apisvr",
+		"dev": "run-p dev:backend dev:run",
+		"dev:backend": "make dev_backend",
 		"dev:run": "make dev_run",
 		"dev:containers:up": "make dev_containers_up_with_migration",
 		"dev:containers:down": "make dev_containers_down",

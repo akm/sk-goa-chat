@@ -189,7 +189,7 @@
 		</div>
 
 		<div class="mb-4 flex h-full flex-col overflow-x-auto" bind:this={scrollContainer}>
-			<div class="flex h-full flex-col">
+			<div class="flex h-full flex-col" data-testid="message_pane">
 				<div class="flex justify-center">
 					<Button on:click={readEarlierMessages} class="mt-4" color="alternative"
 						>Read previous messages</Button

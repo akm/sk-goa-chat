@@ -54,7 +54,7 @@
 
 		<div class="mb-4 flex h-full flex-col overflow-x-auto">
 			<div class="flex h-full flex-col">
-				<div class="flex-row">
+				<div class="flex-row" data-testid="channel_list_pane">
 					{#if channelLinks && channelLinks.length > 0}
 						<Listgroup active items={channelLinks} let:item class="w-48" data-testid="channel_list">
 							{item.name}

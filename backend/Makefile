@@ -21,4 +21,7 @@ test:
 
 .PHONY: dev
 dev:
+	$(MAKE) -C ./containers/localdev up && \
+	$(MAKE) -C ./containers/mysql wait_to_connect && \
+	$(MAKE) -C ./dbmigrations up && \
 	$(MAKE) -C apisvr dev

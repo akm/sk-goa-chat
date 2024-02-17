@@ -9,9 +9,10 @@ DEV_ENVS=\
 	VITE_FIREBASE_AUTH_EMULATOR_HOST="127.0.0.1:$(APP_PORT_FIREBASE_AUTH_dev)" \
 	VITE_UISVR_ORIGIN=http://localhost:$(APP_PORT_UISVR_HTTP_dev)
 
-.PHONY: dev_apisvr
-dev_apisvr:
-	$(DEV_ENVS) $(MAKE) -C ../backend/apisvr dev
+.PHONY: dev_backend
+dev_backend:
+	$(DEV_ENVS) APP_SKIP_DB_SCHEMA_DUMP=true \
+		$(MAKE) -C ../backend dev
 
 .PHONY: dev_run
 dev_run:

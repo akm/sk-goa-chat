@@ -25,8 +25,9 @@ const config: PlaywrightTestConfig = {
 		}
 	],
 
-	testDir: 'tests',
-	testMatch: /(.+\.)?(scenario)\.ts/
+	testDir: 'tests/integration/scenarios',
+	testMatch: /(.+\.)?test\.ts/,
+	workers: 1
 };
 
 export default config;
