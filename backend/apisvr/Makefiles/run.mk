@@ -6,7 +6,7 @@ APISVR_OPTIONS=\
 	-http-port $(APP_HTTP_PORT) \
 	-grpc-port $(APP_GRPC_PORT)
 
-SWAGGERUI_PORT?=$(shell $(MAKE) -C ../tools/swaggerui --no-print-directory port)
+SWAGGERUI_PORT?=$(shell $(MAKE) -C ../../tools/swaggerui --no-print-directory port)
 SWAGGERUI_ORIGIN?="http://localhost:$(SWAGGERUI_PORT)"
 
 APISVR_ENVS=\
