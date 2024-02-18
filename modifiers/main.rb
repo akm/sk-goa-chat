@@ -14,3 +14,5 @@ $content = File.read(target_path)
 load(pattern_path) # パターンを読み込む
 
 open(target_path, 'w'){|f| f.puts($content) }
+
+system("go fmt #{target_path}", exception: true)
