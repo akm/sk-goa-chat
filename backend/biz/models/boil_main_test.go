@@ -4,6 +4,7 @@
 package models
 
 import (
+	"applib/time"
 	"database/sql"
 	"flag"
 	"fmt"
@@ -12,7 +13,6 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
-	"time"
 
 	"github.com/spf13/viper"
 	"github.com/volatiletech/sqlboiler/v4/boil"

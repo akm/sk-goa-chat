@@ -4,6 +4,7 @@
 package models
 
 import (
+	"applib/time"
 	"context"
 	"database/sql"
 	"fmt"
@@ -11,7 +12,6 @@ import (
 	"strconv"
 	"strings"
 	"sync"
-	"time"
 
 	"github.com/friendsofgo/errors"
 	"github.com/volatiletech/sqlboiler/v4/boil"
