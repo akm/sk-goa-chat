@@ -4,8 +4,6 @@ go 1.21.4
 
 replace applib => ../applib
 
-replace time => ../applib/time
-
 require (
 	applib v0.0.0-00010101000000-000000000000
 	github.com/friendsofgo/errors v0.9.2
