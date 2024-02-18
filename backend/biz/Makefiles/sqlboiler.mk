@@ -5,4 +5,6 @@ sqlboiler_gen: sqlboiler_gen_prepare
 
 .PHONY: sqlboiler_gen_prepare
 sqlboiler_gen_prepare:
-	$(MAKE) -C ../dbmigrations up
+	$(MAKE) -C ../containers/localdev up && \
+	$(MAKE) -C ../containers/mysql wait_to_connect && \
+	APP_SKIP_DB_SCHEMA_DUMP=true $(MAKE) -C ../dbmigrations up
