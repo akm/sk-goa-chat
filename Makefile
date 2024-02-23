@@ -19,6 +19,7 @@ lint:
 .PHONY: test
 test:
 	$(MAKE) -C backend test && \
+	$(MAKE) -C frontend test_integration_pw_setup && \
 	$(MAKE) -C frontend test
 
 .PHONY: dev

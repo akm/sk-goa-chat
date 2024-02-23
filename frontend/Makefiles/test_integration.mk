@@ -31,3 +31,11 @@ test_integration_dbmigrations_up:
 .PHONY: test_integration_setup
 test_integration_setup:
 	$(MAKE) -C tests/integration test_setup
+
+# このターゲットは、playwright のセットアップを行うためのものです。
+# 実行すると最新の　playwright のブラウザがインストールされて時間がかかるので、
+# test_integration_setup　には含めません。
+.PHONY: test_integration_pw_setup
+test_integration_pw_setup:
+	npx playwright install
+
