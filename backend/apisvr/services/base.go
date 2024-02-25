@@ -91,10 +91,6 @@ func (s *BaseAuthService) authenticate(ctx context.Context, db *sql.DB, fbauth a
 	return user, nil
 }
 
-type baseAuthUserContextKey string
-
-const baseAuthUserKey baseAuthUserContextKey = "user"
-
 func (s *BaseAuthService) APIKeyAuth(ctx context.Context, key string, schema *security.APIKeyScheme) (newCtx context.Context, err error) {
 	newCtx = ctx
 	err = func() error {
@@ -114,7 +110,7 @@ func (s *BaseAuthService) APIKeyAuth(ctx context.Context, key string, schema *se
 		if err != nil {
 			return err
 		}
-		newCtx = context.WithValue(ctx, baseAuthUserKey, u)
+		newCtx = NewContextWithUser(ctx, u)
 		return nil
 	}()
 	return
@@ -136,7 +132,10 @@ func (s *BaseAuthService) APIKeyAuth(ctx context.Context, key string, schema *se
 
 func (s *BaseAuthService) actionWithUser(ctx context.Context, name string, idToken string, cb func(context.Context, *sql.DB, *models.User) error) error {
 	return s.actionWithDB(ctx, name, func(ctx context.Context, db *sql.DB) error {
-		u := ctx.Value(baseAuthUserKey).(*models.User)
+		u, err := UserFromContext(ctx)
+		if err != nil {
+			return err
+		}
 		return cb(ctx, db, u)
 	})
 }
