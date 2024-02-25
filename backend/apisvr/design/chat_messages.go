@@ -89,13 +89,13 @@ func chatMessageListPayloadAttrs() ([]string, []string) {
 }
 
 var _ = Service("chat_messages", func() {
-	Security(authApiKeySecurity)
+	idTokenHeader := idTokenSecurity()
 
 	httpUnautheticated, grpcUnauthenticated := unauthenticated()
 
 	HTTP(func() {
 		Path("/api/chat_messages")
-		Header(authApiKeyName + ":X-ID-TOKEN")
+		idTokenHeader()
 		httpUnautheticated()
 	})
 
