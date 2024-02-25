@@ -14,7 +14,10 @@
         "APP_STAGE": "local",
         "APP_ENV": "test",
         "APP_MYSQL_PORT": "3311",
-        "APP_MYSQL_DSN": "root:@tcp(127.0.0.1:3311)/sk_goa_chat_db?charset=utf8mb4&parseTime=True&loc=Asia%2FTokyo"
+        "APP_MYSQL_DSN": "root:@tcp(127.0.0.1:3311)/sk_goa_chat_db?charset=utf8mb4&parseTime=True&loc=Asia%2FTokyo",
+        "GOOGLE_CLOUD_PROJECT": "sk-goa-chat",
+        "APP_FIREBASE_API_KEY": "firebase-api-key-dummy1",
+        "FIREBASE_AUTH_EMULATOR_HOST": "127.0.0.1:9091"
       },
       "args": ["-test.v"],
       "buildFlags": "-tags timetravel",
