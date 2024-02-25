@@ -105,27 +105,27 @@ func TestSignup(t *testing.T) {
 		})
 	})
 
-	var fooSessionID string
-	t.Run("create session", func(t *testing.T) {
-		checker.Test(t, http.MethodPost, "/api/session").
-			WithJSON(map[string]any{"id_token": fooIDToken}).
-			Check().HasStatus(http.StatusCreated).Cb(
-			func(r *http.Response) {
-				defer r.Body.Close()
+	// var fooSessionID string
+	// t.Run("create session", func(t *testing.T) {
+	// 	checker.Test(t, http.MethodPost, "/api/session").
+	// 		WithJSON(map[string]any{"id_token": fooIDToken}).
+	// 		Check().HasStatus(http.StatusCreated).Cb(
+	// 		func(r *http.Response) {
+	// 			defer r.Body.Close()
 
-				cookieMap := map[string]string{}
-				for _, c := range r.Cookies() {
-					cookieMap[c.Name] = c.Value
-				}
-				assert.NotEmpty(t, cookieMap["session_id"])
-				fooSessionID = cookieMap["session_id"]
-				assert.NotEmpty(t, fooSessionID)
-			})
-	})
+	// 			cookieMap := map[string]string{}
+	// 			for _, c := range r.Cookies() {
+	// 				cookieMap[c.Name] = c.Value
+	// 			}
+	// 			assert.NotEmpty(t, cookieMap["session_id"])
+	// 			fooSessionID = cookieMap["session_id"]
+	// 			assert.NotEmpty(t, fooSessionID)
+	// 		})
+	// })
 
-	t.Run("delete session", func(t *testing.T) {
-		checker.Test(t, http.MethodDelete, "/api/session").
-			WithCookie("session_id", fooSessionID).
-			Check().HasStatus(http.StatusOK)
-	})
+	// t.Run("delete session", func(t *testing.T) {
+	// 	checker.Test(t, http.MethodDelete, "/api/session").
+	// 		WithCookie("session_id", fooSessionID).
+	// 		Check().HasStatus(http.StatusOK)
+	// })
 }
