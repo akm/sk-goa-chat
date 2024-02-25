@@ -64,18 +64,6 @@ func (c *ClientLogger) GetUserByEmail(ctx context.Context, email string) (*UserR
 // 	}
 // }
 
-// func (c *ClientLogger) SessionCookie(ctx context.Context, idToken string, expiresIn time.Duration) (string, error) {
-// 	c.logger.Info().Msgf("SessionCookie calling %s", idToken)
-// 	res, err := c.impl.SessionCookie(ctx, idToken, expiresIn)
-// 	if err != nil {
-// 		c.logger.Error().Err(err).Msgf("SessionCookie %s", idToken)
-// 		return "", err
-// 	} else {
-// 		c.logger.Info().Msgf("SessionCookie result %s", idToken)
-// 		return res, nil
-// 	}
-// }
-
 func (c *ClientLogger) VerifyIDToken(ctx context.Context, idToken string) (*Token, error) {
 	c.logger.Info().Msgf("VerifyIDToken calling %s", idToken)
 	res, err := c.impl.VerifyIDToken(ctx, idToken)
@@ -99,6 +87,18 @@ func (c *ClientLogger) VerifyIDTokenAndCheckRevoked(ctx context.Context, idToken
 		return res, nil
 	}
 }
+
+// func (c *ClientLogger) SessionCookie(ctx context.Context, idToken string, expiresIn time.Duration) (string, error) {
+// 	c.logger.Info().Msgf("SessionCookie calling %s", idToken)
+// 	res, err := c.impl.SessionCookie(ctx, idToken, expiresIn)
+// 	if err != nil {
+// 		c.logger.Error().Err(err).Msgf("SessionCookie %s", idToken)
+// 		return "", err
+// 	} else {
+// 		c.logger.Info().Msgf("SessionCookie result %s", idToken)
+// 		return res, nil
+// 	}
+// }
 
 // func (c *ClientLogger) VerifySessionCookie(ctx context.Context, sessionCookie string) (*Token, error) {
 // 	c.logger.Info().Msgf("VerifySessionCookie calling %s", sessionCookie)

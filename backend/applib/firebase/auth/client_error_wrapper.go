@@ -31,14 +31,6 @@ func (c *ClientErrorWrapper) GetUserByEmail(ctx context.Context, email string) (
 	return res, nil
 }
 
-//	func (c *ClientErrorWrapper) SessionCookie(ctx context.Context, idToken string, expiresIn time.Duration) (string, error) {
-//		res, err := c.impl.SessionCookie(ctx, idToken, expiresIn)
-//		if err != nil {
-//			return "", errors.Wrapf(err, "failed to SessionCookie %s", idToken)
-//		}
-//		return res, nil
-//	}
-
 func (c *ClientErrorWrapper) VerifyIDToken(ctx context.Context, idToken string) (*Token, error) {
 	res, err := c.impl.VerifyIDToken(ctx, idToken)
 	if err != nil {
@@ -54,6 +46,14 @@ func (c *ClientErrorWrapper) VerifyIDTokenAndCheckRevoked(ctx context.Context, i
 	}
 	return res, nil
 }
+
+//	func (c *ClientErrorWrapper) SessionCookie(ctx context.Context, idToken string, expiresIn time.Duration) (string, error) {
+//		res, err := c.impl.SessionCookie(ctx, idToken, expiresIn)
+//		if err != nil {
+//			return "", errors.Wrapf(err, "failed to SessionCookie %s", idToken)
+//		}
+//		return res, nil
+//	}
 
 // func (c *ClientErrorWrapper) VerifySessionCookie(ctx context.Context, sessionCookie string) (*Token, error) {
 // 	res, err := c.impl.VerifySessionCookie(ctx, sessionCookie)
