@@ -23,7 +23,7 @@ func channelFields(action string) []string {
 	r := []string{}
 
 	if InPayload() {
-		r = append(r, fieldSessionID(1))
+		r = append(r, authApiKeyField(1))
 	}
 
 	if InRT() || action == "update" {
@@ -82,7 +82,7 @@ var _ = Service("channels", func() {
 	})
 
 	Method("list", func() {
-		Payload(func() { Required(fieldSessionID(1)) })
+		Payload(func() { Required(authApiKeyField(1)) })
 		Result(ChannelListRT)
 		HTTP(func() {
 			GET("")
@@ -96,7 +96,7 @@ var _ = Service("channels", func() {
 	Method("show", func() {
 		Payload(func() {
 			Required(
-				fieldSessionID(1),
+				authApiKeyField(1),
 				field(2, "id", UInt64, "ID"),
 			)
 		})
@@ -152,7 +152,7 @@ var _ = Service("channels", func() {
 	Method("delete", func() {
 		Payload(func() {
 			Required(
-				fieldSessionID(1),
+				authApiKeyField(1),
 				field(2, "id", UInt64, "ID"),
 			)
 		})
