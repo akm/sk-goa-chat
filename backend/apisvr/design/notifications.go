@@ -24,7 +24,7 @@ var _ = Service("notifications", func() {
 
 		Payload(func() {
 			Required(
-				fieldSessionID(1),
+				authApiKeyField(1),
 			)
 		})
 

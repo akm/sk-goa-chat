@@ -23,7 +23,7 @@ func chatMessageFields(action string) []string {
 	r := []string{}
 
 	if InPayload() {
-		r = append(r, fieldSessionID(1))
+		r = append(r, authApiKeyField(1))
 	}
 
 	if InRT() || action == "update" {
@@ -75,7 +75,7 @@ var ChatMessageUpdatePayload = Type("ChatMessageUpdatePayload", func() {
 
 func chatMessageListPayloadAttrs() ([]string, []string) {
 	requiredCookies := []string{
-		fieldSessionID(1),
+		authApiKeyField(1),
 	}
 	requiredParams := []string{
 		field(2, "limit", Int, "Limit", func() { Default(50) }),
@@ -129,7 +129,7 @@ var _ = Service("chat_messages", func() {
 	Method("show", func() {
 		Payload(func() {
 			Required(
-				fieldSessionID(1),
+				authApiKeyField(1),
 				field(2, "id", UInt64, "ID"),
 			)
 		})
@@ -185,7 +185,7 @@ var _ = Service("chat_messages", func() {
 	Method("delete", func() {
 		Payload(func() {
 			Required(
-				fieldSessionID(1),
+				authApiKeyField(1),
 				field(2, "id", UInt64, "ID"),
 			)
 		})
