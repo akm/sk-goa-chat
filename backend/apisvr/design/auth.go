@@ -15,9 +15,14 @@ func authApiKeyField(tag any) string {
 	return authApiKeyName
 }
 
-func idTokenSecurity() func() {
+func idTokenSecurity() (func(), func()) {
 	dsl.Security(authApiKeySecurity)
 	return func() {
-		dsl.Header(authApiKeyName + ":X-ID-TOKEN")
-	}
+			dsl.Header(authApiKeyName + ":X-ID-TOKEN")
+		},
+		func() {
+			dsl.Message(func() {
+				dsl.Attribute(authApiKeyName)
+			})
+		}
 }
