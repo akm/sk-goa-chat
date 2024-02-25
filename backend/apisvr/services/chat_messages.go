@@ -35,7 +35,7 @@ func NewChatMessages(logger *log.Logger) chatmessages.Service {
 
 // List implements list.
 func (s *chatMessagessrvc) List(ctx context.Context, p *chatmessages.ListPayload) (res *chatmessages.ChatMessageList, err error) {
-	err = s.actionWithAuth(ctx, "chatMessages.list", p.SessionID, func(ctx context.Context, db *sql.DB, user *models.User) error {
+	err = s.actionWithAuth(ctx, "chatMessages.list", p.IDToken, func(ctx context.Context, db *sql.DB, user *models.User) error {
 		mods := []qm.QueryMod{qm.Limit(p.Limit)}
 
 		if p.ChannelID != nil {
@@ -72,7 +72,7 @@ func (s *chatMessagessrvc) List(ctx context.Context, p *chatmessages.ListPayload
 
 // Show implements show.
 func (s *chatMessagessrvc) Show(ctx context.Context, p *chatmessages.ShowPayload) (res *chatmessages.ChatMessage, err error) {
-	err = s.actionWithAuth(ctx, "chatMessages.show", p.SessionID, func(ctx context.Context, db *sql.DB, user *models.User) error {
+	err = s.actionWithAuth(ctx, "chatMessages.show", p.IDToken, func(ctx context.Context, db *sql.DB, user *models.User) error {
 		m, err := models.FindChatMessage(ctx, db, p.ID)
 		if err != nil {
 			if err == sql.ErrNoRows {
@@ -97,7 +97,7 @@ type chatMessageEvent struct {
 var newMessageChannels = []chan chatMessageEvent{}
 
 func (s *chatMessagessrvc) Create(ctx context.Context, p *chatmessages.ChatMessageCreatePayload) (res *chatmessages.ChatMessage, err error) {
-	err = s.actionWithAuth(ctx, "chatMessages.create", p.SessionID, func(ctx context.Context, db *sql.DB, user *models.User) error {
+	err = s.actionWithAuth(ctx, "chatMessages.create", p.IDToken, func(ctx context.Context, db *sql.DB, user *models.User) error {
 		if p.Content == "" {
 			return chatmessages.MakeInvalidPayload(fmt.Errorf("content is required"))
 		} else {
@@ -135,7 +135,7 @@ func (s *chatMessagessrvc) Create(ctx context.Context, p *chatmessages.ChatMessa
 
 // Update implements update.
 func (s *chatMessagessrvc) Update(ctx context.Context, p *chatmessages.ChatMessageUpdatePayload) (res *chatmessages.ChatMessage, err error) {
-	err = s.actionWithAuth(ctx, "chatMessages.update", p.SessionID, func(ctx context.Context, db *sql.DB, user *models.User) error {
+	err = s.actionWithAuth(ctx, "chatMessages.update", p.IDToken, func(ctx context.Context, db *sql.DB, user *models.User) error {
 		if p.Content == "" {
 			return chatmessages.MakeInvalidPayload(fmt.Errorf("content is required"))
 		} else {
@@ -163,7 +163,7 @@ func (s *chatMessagessrvc) Update(ctx context.Context, p *chatmessages.ChatMessa
 
 // Delete implements delete.
 func (s *chatMessagessrvc) Delete(ctx context.Context, p *chatmessages.DeletePayload) (res *chatmessages.ChatMessage, err error) {
-	err = s.actionWithAuth(ctx, "chatMessages.delete", p.SessionID, func(ctx context.Context, db *sql.DB, user *models.User) error {
+	err = s.actionWithAuth(ctx, "chatMessages.delete", p.IDToken, func(ctx context.Context, db *sql.DB, user *models.User) error {
 		m, err := models.FindChatMessage(ctx, db, p.ID)
 		if err != nil {
 			if err == sql.ErrNoRows {

@@ -38,7 +38,7 @@ func (s *notificationssrvc) Subscribe(ctx context.Context, p *notifications.Subs
 		if err != nil {
 			return err
 		}
-		if _, err := s.authenticate(ctx, db, fbauth, p.SessionID); err != nil {
+		if _, err := s.authenticate(ctx, db, fbauth, p.IDToken); err != nil {
 			return err
 		}
 
@@ -50,7 +50,7 @@ func (s *notificationssrvc) Subscribe(ctx context.Context, p *notifications.Subs
 
 		done := false
 		for {
-			if _, err := s.authenticate(ctx, db, fbauth, p.SessionID); err != nil {
+			if _, err := s.authenticate(ctx, db, fbauth, p.IDToken); err != nil {
 				return err
 			}
 
