@@ -15,14 +15,14 @@ import (
 // channels service example implementation.
 // The example methods log the requests and return zero values.
 type channelssrvc struct {
-	baseAuthService
+	BaseAuthService
 	*ChannelsConvertor
 }
 
 // NewChannels returns the channels service implementation.
 func NewChannels(logger *log.Logger) channels.Service {
 	return &channelssrvc{
-		baseAuthService: newBaseAuthService(
+		BaseAuthService: NewBaseAuthService(
 			logger,
 			channels.MakeUnauthenticated,
 		),

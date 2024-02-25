@@ -18,14 +18,14 @@ import (
 // chat_messages service example implementation.
 // The example methods log the requests and return zero values.
 type chatMessagessrvc struct {
-	baseAuthService
+	BaseAuthService
 	*ChatMessageConvertor
 }
 
 // NewChatMessages returns the chat_messages service implementation.
 func NewChatMessages(logger *log.Logger) chatmessages.Service {
 	return &chatMessagessrvc{
-		baseAuthService: newBaseAuthService(
+		BaseAuthService: NewBaseAuthService(
 			logger,
 			chatmessages.MakeUnauthenticated,
 		),

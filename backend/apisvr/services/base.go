@@ -62,19 +62,19 @@ func (s *BaseService) firebaseAuthClient(ctx context.Context) (auth.Client, erro
 	return fbauth, nil
 }
 
-type baseAuthService struct {
+type BaseAuthService struct {
 	BaseService
 	ConvToAuthenticationError func(error) *goa.ServiceError
 }
 
-func newBaseAuthService(logger *log.Logger, convToAuthenticationError func(error) *goa.ServiceError) baseAuthService {
-	return baseAuthService{
+func NewBaseAuthService(logger *log.Logger, convToAuthenticationError func(error) *goa.ServiceError) BaseAuthService {
+	return BaseAuthService{
 		BaseService:               NewBaseService(logger),
 		ConvToAuthenticationError: convToAuthenticationError,
 	}
 }
 
-func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, fbauth auth.Client, idToken string) (*models.User, error) {
+func (s *BaseAuthService) authenticate(ctx context.Context, db *sql.DB, fbauth auth.Client, idToken string) (*models.User, error) {
 	token, err := fbauth.VerifyIDToken(ctx, idToken)
 	if err != nil {
 		return nil, s.ConvToAuthenticationError(err)
@@ -96,7 +96,7 @@ type baseAuthUserContextKey string
 
 const baseAuthUserKey baseAuthUserContextKey = "user"
 
-func (s *baseAuthService) APIKeyAuth(ctx context.Context, key string, schema *security.APIKeyScheme) (newCtx context.Context, err error) {
+func (s *BaseAuthService) APIKeyAuth(ctx context.Context, key string, schema *security.APIKeyScheme) (newCtx context.Context, err error) {
 	newCtx = ctx
 	err = func() error {
 		// TODO Get db from context for message processing
@@ -135,7 +135,7 @@ func (s *baseAuthService) APIKeyAuth(ctx context.Context, key string, schema *se
 // 	})
 // }
 
-func (s *baseAuthService) actionWithUser(ctx context.Context, name string, idToken string, cb func(context.Context, *sql.DB, *models.User) error) error {
+func (s *BaseAuthService) actionWithUser(ctx context.Context, name string, idToken string, cb func(context.Context, *sql.DB, *models.User) error) error {
 	return s.actionWithDB(ctx, name, func(ctx context.Context, db *sql.DB) error {
 		u := ctx.Value(baseAuthUserKey).(*models.User)
 		return cb(ctx, db, u)
