@@ -73,7 +73,6 @@ var _ = Service("channels", func() {
 
 	HTTP(func() {
 		Path("/api/channels")
-		idTokenHeader()
 		httpUnautheticated()
 	})
 
@@ -86,6 +85,7 @@ var _ = Service("channels", func() {
 		Result(ChannelListRT)
 		HTTP(func() {
 			GET("")
+			idTokenHeader()
 			Response(StatusOK)
 		})
 		GRPC(func() {
@@ -105,6 +105,7 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			GET("/{id}")
+			idTokenHeader()
 			Response(StatusOK)
 			httpNotFound()
 		})
@@ -121,6 +122,7 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			POST("")
+			idTokenHeader()
 			Response(StatusCreated)
 			httpInvalidPayload()
 		})
@@ -138,6 +140,7 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			PUT("/{id}")
+			idTokenHeader()
 			Response(StatusOK)
 			httpNotFound()
 			httpInvalidPayload()
@@ -161,6 +164,7 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			DELETE("/{id}")
+			idTokenHeader()
 			Response(StatusOK)
 			httpNotFound()
 		})

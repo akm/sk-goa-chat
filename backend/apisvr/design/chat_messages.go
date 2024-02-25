@@ -95,7 +95,6 @@ var _ = Service("chat_messages", func() {
 
 	HTTP(func() {
 		Path("/api/chat_messages")
-		idTokenHeader()
 		httpUnautheticated()
 	})
 
@@ -114,6 +113,7 @@ var _ = Service("chat_messages", func() {
 		Result(ChatMessageListRT)
 		HTTP(func() {
 			GET("")
+			idTokenHeader()
 			Response(StatusOK)
 			Params(func() {
 				for _, attr := range paramsAttrs {
@@ -138,6 +138,7 @@ var _ = Service("chat_messages", func() {
 
 		HTTP(func() {
 			GET("/{id}")
+			idTokenHeader()
 			Response(StatusOK)
 			httpNotFound()
 		})
@@ -154,6 +155,7 @@ var _ = Service("chat_messages", func() {
 
 		HTTP(func() {
 			POST("")
+			idTokenHeader()
 			Response(StatusCreated)
 			httpInvalidPayload()
 		})
@@ -171,6 +173,7 @@ var _ = Service("chat_messages", func() {
 
 		HTTP(func() {
 			PUT("/{id}")
+			idTokenHeader()
 			Response(StatusOK)
 			httpNotFound()
 			httpInvalidPayload()
@@ -194,6 +197,7 @@ var _ = Service("chat_messages", func() {
 
 		HTTP(func() {
 			DELETE("/{id}")
+			idTokenHeader()
 			Response(StatusOK)
 			httpNotFound()
 		})
