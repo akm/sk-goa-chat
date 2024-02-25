@@ -7,6 +7,7 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	goa "goa.design/goa/v3/pkg"
+	"goa.design/goa/v3/security"
 
 	log "apisvr/services/gen/log"
 	"applib/database/sql"
@@ -91,16 +92,52 @@ func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, fbauth a
 	return user, nil
 }
 
-func (s *baseAuthService) actionWithAuth(ctx context.Context, name string, idToken string, cb func(context.Context, *sql.DB, *models.User) error) error {
-	return s.actionWithDB(ctx, name, func(ctx context.Context, db *sql.DB) error {
+type baseAuthUserContextKey string
+
+const baseAuthUserKey baseAuthUserContextKey = "user"
+
+func (s *baseAuthService) APIKeyAuth(ctx context.Context, key string, schema *security.APIKeyScheme) (newCtx context.Context, err error) {
+	newCtx = ctx
+	err = func() error {
+		// TODO Get db from context for message processing
+		db, err := s.sqlOpen()
+		if err != nil {
+			return err
+		}
+		defer db.Close()
+
 		fbauth, err := s.firebaseAuthClient(ctx)
 		if err != nil {
 			return err
 		}
-		user, err := s.authenticate(ctx, db, fbauth, idToken)
+
+		u, err := s.authenticate(ctx, db, fbauth, key)
 		if err != nil {
 			return err
 		}
-		return cb(ctx, db, user)
+		newCtx = context.WithValue(ctx, baseAuthUserKey, u)
+		return nil
+	}()
+	return
+}
+
+// func (s *baseAuthService) actionWithAuth(ctx context.Context, name string, idToken string, cb func(context.Context, *sql.DB, *models.User) error) error {
+// 	return s.actionWithDB(ctx, name, func(ctx context.Context, db *sql.DB) error {
+// 		fbauth, err := s.firebaseAuthClient(ctx)
+// 		if err != nil {
+// 			return err
+// 		}
+// 		user, err := s.authenticate(ctx, db, fbauth, idToken)
+// 		if err != nil {
+// 			return err
+// 		}
+// 		return cb(ctx, db, user)
+// 	})
+// }
+
+func (s *baseAuthService) actionWithUser(ctx context.Context, name string, idToken string, cb func(context.Context, *sql.DB, *models.User) error) error {
+	return s.actionWithDB(ctx, name, func(ctx context.Context, db *sql.DB) error {
+		u := ctx.Value(baseAuthUserKey).(*models.User)
+		return cb(ctx, db, u)
 	})
 }
