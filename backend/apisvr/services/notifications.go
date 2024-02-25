@@ -12,13 +12,13 @@ import (
 // notifications service example implementation.
 // The example methods log the requests and return zero values.
 type notificationssrvc struct {
-	baseAuthService
+	BaseAuthService
 }
 
 // NewNotifications returns the notifications service implementation.
 func NewNotifications(logger *log.Logger) notifications.Service {
 	return &notificationssrvc{
-		baseAuthService: newBaseAuthService(
+		BaseAuthService: NewBaseAuthService(
 			logger,
 			notifications.MakeUnauthenticated,
 		),
