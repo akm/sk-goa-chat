@@ -89,7 +89,7 @@ func chatMessageListPayloadAttrs() ([]string, []string) {
 }
 
 var _ = Service("chat_messages", func() {
-	// Security(sessionAuth)
+	Security(authApiKeySecurity)
 
 	httpUnautheticated, grpcUnauthenticated := unauthenticated()
 
