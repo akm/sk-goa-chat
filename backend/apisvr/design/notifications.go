@@ -11,12 +11,10 @@ var _ = Service("notifications", func() {
 
 	HTTP(func() {
 		Path("/ws/notifications")
-		httpIdToken()
 		httpUnautheticated()
 	})
 
 	GRPC(func() {
-		grpcIdToken()
 		grpcUnauthenticated()
 	})
 
@@ -33,10 +31,12 @@ var _ = Service("notifications", func() {
 
 		HTTP(func() {
 			GET("/subscribe")
+			httpIdToken()
 			Response(StatusOK)
 		})
 
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 		})
 	})

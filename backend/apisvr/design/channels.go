@@ -73,12 +73,10 @@ var _ = Service("channels", func() {
 
 	HTTP(func() {
 		Path("/api/channels")
-		httpIdToken()
 		httpUnautheticated()
 	})
 
 	GRPC(func() {
-		grpcIdToken()
 		grpcUnauthenticated()
 	})
 
@@ -87,9 +85,11 @@ var _ = Service("channels", func() {
 		Result(ChannelListRT)
 		HTTP(func() {
 			GET("")
+			httpIdToken()
 			Response(StatusOK)
 		})
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 		})
 	})
@@ -106,10 +106,12 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			GET("/{id}")
+			httpIdToken()
 			Response(StatusOK)
 			httpNotFound()
 		})
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 			grpcNotFound()
 		})
@@ -122,10 +124,12 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			POST("")
+			httpIdToken()
 			Response(StatusCreated)
 			httpInvalidPayload()
 		})
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 			grpcInvalidPayload()
 		})
@@ -139,11 +143,13 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			PUT("/{id}")
+			httpIdToken()
 			Response(StatusOK)
 			httpNotFound()
 			httpInvalidPayload()
 		})
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 			grpcNotFound()
 			grpcInvalidPayload()
@@ -162,10 +168,12 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			DELETE("/{id}")
+			httpIdToken()
 			Response(StatusOK)
 			httpNotFound()
 		})
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 			grpcNotFound()
 		})
