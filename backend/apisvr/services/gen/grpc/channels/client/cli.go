@@ -16,114 +16,105 @@ import (
 
 // BuildListPayload builds the payload for the channels list endpoint from CLI
 // flags.
-func BuildListPayload(channelsListIDToken string) (*channels.ListPayload, error) {
-	var idToken string
+func BuildListPayload(channelsListMessage string) (*channels.ListPayload, error) {
+	var err error
+	var message channelspb.ListRequest
 	{
-		idToken = channelsListIDToken
+		if channelsListMessage != "" {
+			err = json.Unmarshal([]byte(channelsListMessage), &message)
+			if err != nil {
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id_token\": \"abcdef12345\"\n   }'")
+			}
+		}
 	}
-	v := &channels.ListPayload{}
-	v.IDToken = idToken
+	v := &channels.ListPayload{
+		IDToken: message.IdToken,
+	}
 
 	return v, nil
 }
 
 // BuildShowPayload builds the payload for the channels show endpoint from CLI
 // flags.
-func BuildShowPayload(channelsShowMessage string, channelsShowIDToken string) (*channels.ShowPayload, error) {
+func BuildShowPayload(channelsShowMessage string) (*channels.ShowPayload, error) {
 	var err error
 	var message channelspb.ShowRequest
 	{
 		if channelsShowMessage != "" {
 			err = json.Unmarshal([]byte(channelsShowMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 4243154004623530542\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 4243154004623530542,\n      \"id_token\": \"abcdef12345\"\n   }'")
 			}
 		}
 	}
-	var idToken string
-	{
-		idToken = channelsShowIDToken
-	}
 	v := &channels.ShowPayload{
-		ID: message.Id,
+		IDToken: message.IdToken,
+		ID:      message.Id,
 	}
-	v.IDToken = idToken
 
 	return v, nil
 }
 
 // BuildCreatePayload builds the payload for the channels create endpoint from
 // CLI flags.
-func BuildCreatePayload(channelsCreateMessage string, channelsCreateIDToken string) (*channels.ChannelCreatePayload, error) {
+func BuildCreatePayload(channelsCreateMessage string) (*channels.ChannelCreatePayload, error) {
 	var err error
 	var message channelspb.CreateRequest
 	{
 		if channelsCreateMessage != "" {
 			err = json.Unmarshal([]byte(channelsCreateMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"name\": \"Sit quos enim praesentium provident et.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id_token\": \"abcdef12345\",\n      \"name\": \"Sit quos enim praesentium provident et.\"\n   }'")
 			}
 		}
 	}
-	var idToken string
-	{
-		idToken = channelsCreateIDToken
-	}
 	v := &channels.ChannelCreatePayload{
-		Name: message.Name,
+		IDToken: message.IdToken,
+		Name:    message.Name,
 	}
-	v.IDToken = idToken
 
 	return v, nil
 }
 
 // BuildUpdatePayload builds the payload for the channels update endpoint from
 // CLI flags.
-func BuildUpdatePayload(channelsUpdateMessage string, channelsUpdateIDToken string) (*channels.ChannelUpdatePayload, error) {
+func BuildUpdatePayload(channelsUpdateMessage string) (*channels.ChannelUpdatePayload, error) {
 	var err error
 	var message channelspb.UpdateRequest
 	{
 		if channelsUpdateMessage != "" {
 			err = json.Unmarshal([]byte(channelsUpdateMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 8845190340737756413,\n      \"name\": \"Nihil aliquam dicta.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 8845190340737756413,\n      \"id_token\": \"abcdef12345\",\n      \"name\": \"Nihil aliquam dicta.\"\n   }'")
 			}
 		}
 	}
-	var idToken string
-	{
-		idToken = channelsUpdateIDToken
-	}
 	v := &channels.ChannelUpdatePayload{
-		ID:   message.Id,
-		Name: message.Name,
+		IDToken: message.IdToken,
+		ID:      message.Id,
+		Name:    message.Name,
 	}
-	v.IDToken = idToken
 
 	return v, nil
 }
 
 // BuildDeletePayload builds the payload for the channels delete endpoint from
 // CLI flags.
-func BuildDeletePayload(channelsDeleteMessage string, channelsDeleteIDToken string) (*channels.DeletePayload, error) {
+func BuildDeletePayload(channelsDeleteMessage string) (*channels.DeletePayload, error) {
 	var err error
 	var message channelspb.DeleteRequest
 	{
 		if channelsDeleteMessage != "" {
 			err = json.Unmarshal([]byte(channelsDeleteMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 13886048143001497827\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 13886048143001497827,\n      \"id_token\": \"abcdef12345\"\n   }'")
 			}
 		}
 	}
-	var idToken string
-	{
-		idToken = channelsDeleteIDToken
-	}
 	v := &channels.DeletePayload{
-		ID: message.Id,
+		IDToken: message.IdToken,
+		ID:      message.Id,
 	}
-	v.IDToken = idToken
 
 	return v, nil
 }

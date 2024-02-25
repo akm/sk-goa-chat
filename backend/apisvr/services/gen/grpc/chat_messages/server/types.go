@@ -15,14 +15,14 @@ import (
 
 // NewListPayload builds the payload of the "list" endpoint of the
 // "chat_messages" service from the gRPC request type.
-func NewListPayload(message *chat_messagespb.ListRequest, idToken string) *chatmessages.ListPayload {
+func NewListPayload(message *chat_messagespb.ListRequest) *chatmessages.ListPayload {
 	v := &chatmessages.ListPayload{
+		IDToken:   message.IdToken,
 		Limit:     int(message.Limit),
 		ChannelID: message.ChannelId,
 		After:     message.After,
 		Before:    message.Before,
 	}
-	v.IDToken = idToken
 	return v
 }
 
@@ -50,11 +50,11 @@ func NewProtoListResponse(result *chatmessagesviews.ChatMessageListView) *chat_m
 
 // NewShowPayload builds the payload of the "show" endpoint of the
 // "chat_messages" service from the gRPC request type.
-func NewShowPayload(message *chat_messagespb.ShowRequest, idToken string) *chatmessages.ShowPayload {
+func NewShowPayload(message *chat_messagespb.ShowRequest) *chatmessages.ShowPayload {
 	v := &chatmessages.ShowPayload{
-		ID: message.Id,
+		IDToken: message.IdToken,
+		ID:      message.Id,
 	}
-	v.IDToken = idToken
 	return v
 }
 
@@ -75,12 +75,12 @@ func NewProtoShowResponse(result *chatmessagesviews.ChatMessageView) *chat_messa
 
 // NewCreatePayload builds the payload of the "create" endpoint of the
 // "chat_messages" service from the gRPC request type.
-func NewCreatePayload(message *chat_messagespb.CreateRequest, idToken string) *chatmessages.ChatMessageCreatePayload {
+func NewCreatePayload(message *chat_messagespb.CreateRequest) *chatmessages.ChatMessageCreatePayload {
 	v := &chatmessages.ChatMessageCreatePayload{
+		IDToken:   message.IdToken,
 		ChannelID: message.ChannelId,
 		Content:   message.Content,
 	}
-	v.IDToken = idToken
 	return v
 }
 
@@ -101,12 +101,12 @@ func NewProtoCreateResponse(result *chatmessagesviews.ChatMessageView) *chat_mes
 
 // NewUpdatePayload builds the payload of the "update" endpoint of the
 // "chat_messages" service from the gRPC request type.
-func NewUpdatePayload(message *chat_messagespb.UpdateRequest, idToken string) *chatmessages.ChatMessageUpdatePayload {
+func NewUpdatePayload(message *chat_messagespb.UpdateRequest) *chatmessages.ChatMessageUpdatePayload {
 	v := &chatmessages.ChatMessageUpdatePayload{
+		IDToken: message.IdToken,
 		ID:      message.Id,
 		Content: message.Content,
 	}
-	v.IDToken = idToken
 	return v
 }
 
@@ -127,11 +127,11 @@ func NewProtoUpdateResponse(result *chatmessagesviews.ChatMessageView) *chat_mes
 
 // NewDeletePayload builds the payload of the "delete" endpoint of the
 // "chat_messages" service from the gRPC request type.
-func NewDeletePayload(message *chat_messagespb.DeleteRequest, idToken string) *chatmessages.DeletePayload {
+func NewDeletePayload(message *chat_messagespb.DeleteRequest) *chatmessages.DeletePayload {
 	v := &chatmessages.DeletePayload{
-		ID: message.Id,
+		IDToken: message.IdToken,
+		ID:      message.Id,
 	}
-	v.IDToken = idToken
 	return v
 }
 

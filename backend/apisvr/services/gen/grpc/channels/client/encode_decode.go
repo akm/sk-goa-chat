@@ -38,8 +38,7 @@ func EncodeListRequest(ctx context.Context, v any, md *metadata.MD) (any, error)
 	if !ok {
 		return nil, goagrpc.ErrInvalidType("channels", "list", "*channels.ListPayload", v)
 	}
-	(*md).Append("authorization", payload.IDToken)
-	return NewProtoListRequest(), nil
+	return NewProtoListRequest(payload), nil
 }
 
 // DecodeListResponse decodes responses from the channels list endpoint.
@@ -82,7 +81,6 @@ func EncodeShowRequest(ctx context.Context, v any, md *metadata.MD) (any, error)
 	if !ok {
 		return nil, goagrpc.ErrInvalidType("channels", "show", "*channels.ShowPayload", v)
 	}
-	(*md).Append("authorization", payload.IDToken)
 	return NewProtoShowRequest(payload), nil
 }
 
@@ -126,7 +124,6 @@ func EncodeCreateRequest(ctx context.Context, v any, md *metadata.MD) (any, erro
 	if !ok {
 		return nil, goagrpc.ErrInvalidType("channels", "create", "*channels.ChannelCreatePayload", v)
 	}
-	(*md).Append("authorization", payload.IDToken)
 	return NewProtoCreateRequest(payload), nil
 }
 
@@ -170,7 +167,6 @@ func EncodeUpdateRequest(ctx context.Context, v any, md *metadata.MD) (any, erro
 	if !ok {
 		return nil, goagrpc.ErrInvalidType("channels", "update", "*channels.ChannelUpdatePayload", v)
 	}
-	(*md).Append("authorization", payload.IDToken)
 	return NewProtoUpdateRequest(payload), nil
 }
 
@@ -214,7 +210,6 @@ func EncodeDeleteRequest(ctx context.Context, v any, md *metadata.MD) (any, erro
 	if !ok {
 		return nil, goagrpc.ErrInvalidType("channels", "delete", "*channels.DeletePayload", v)
 	}
-	(*md).Append("authorization", payload.IDToken)
 	return NewProtoDeleteRequest(payload), nil
 }
 
