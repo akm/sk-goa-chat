@@ -73,7 +73,7 @@ var _ = Service("channels", func() {
 
 	HTTP(func() {
 		Path("/api/channels")
-		Cookie(sessionIdKey)
+		Cookie(authApiKeyName)
 		httpUnautheticated()
 	})
 
