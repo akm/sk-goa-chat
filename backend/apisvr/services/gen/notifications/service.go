@@ -11,12 +11,19 @@ import (
 	"context"
 
 	goa "goa.design/goa/v3/pkg"
+	"goa.design/goa/v3/security"
 )
 
 // Service is the notifications service interface.
 type Service interface {
 	// Subscribe to events sent such new chat messages.
 	Subscribe(context.Context, *SubscribePayload, SubscribeServerStream) (err error)
+}
+
+// Auther defines the authorization functions to be implemented by the service.
+type Auther interface {
+	// APIKeyAuth implements the authorization logic for the APIKey security scheme.
+	APIKeyAuth(ctx context.Context, key string, schema *security.APIKeyScheme) (context.Context, error)
 }
 
 // ServiceName is the name of the service as defined in the design. This is the
@@ -55,8 +62,8 @@ type NotificationEvent struct {
 // SubscribePayload is the payload type of the notifications service subscribe
 // method.
 type SubscribePayload struct {
-	// Session ID
-	SessionID string
+	// X-ID-TOKEN
+	IDToken string
 }
 
 // MakeUnauthenticated builds a goa.ServiceError from an error.

@@ -12,6 +12,7 @@ import (
 	"context"
 
 	goa "goa.design/goa/v3/pkg"
+	"goa.design/goa/v3/security"
 )
 
 // Service is the channels service interface.
@@ -26,6 +27,12 @@ type Service interface {
 	Update(context.Context, *ChannelUpdatePayload) (res *Channel, err error)
 	// Delete implements delete.
 	Delete(context.Context, *DeletePayload) (res *Channel, err error)
+}
+
+// Auther defines the authorization functions to be implemented by the service.
+type Auther interface {
+	// APIKeyAuth implements the authorization logic for the APIKey security scheme.
+	APIKeyAuth(ctx context.Context, key string, schema *security.APIKeyScheme) (context.Context, error)
 }
 
 // ServiceName is the name of the service as defined in the design. This is the
@@ -53,8 +60,8 @@ type Channel struct {
 // ChannelCreatePayload is the payload type of the channels service create
 // method.
 type ChannelCreatePayload struct {
-	// Session ID
-	SessionID string
+	// X-ID-TOKEN
+	IDToken string
 	// Name
 	Name string
 }
@@ -85,8 +92,8 @@ type ChannelListItemCollection []*ChannelListItem
 // ChannelUpdatePayload is the payload type of the channels service update
 // method.
 type ChannelUpdatePayload struct {
-	// Session ID
-	SessionID string
+	// X-ID-TOKEN
+	IDToken string
 	// ID
 	ID uint64
 	// Name
@@ -95,22 +102,22 @@ type ChannelUpdatePayload struct {
 
 // DeletePayload is the payload type of the channels service delete method.
 type DeletePayload struct {
-	// Session ID
-	SessionID string
+	// X-ID-TOKEN
+	IDToken string
 	// ID
 	ID uint64
 }
 
 // ListPayload is the payload type of the channels service list method.
 type ListPayload struct {
-	// Session ID
-	SessionID string
+	// X-ID-TOKEN
+	IDToken string
 }
 
 // ShowPayload is the payload type of the channels service show method.
 type ShowPayload struct {
-	// Session ID
-	SessionID string
+	// X-ID-TOKEN
+	IDToken string
 	// ID
 	ID uint64
 }

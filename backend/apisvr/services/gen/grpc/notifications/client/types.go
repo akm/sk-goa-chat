@@ -16,10 +16,8 @@ import (
 
 // NewProtoSubscribeRequest builds the gRPC request type from the payload of
 // the "subscribe" endpoint of the "notifications" service.
-func NewProtoSubscribeRequest(payload *notifications.SubscribePayload) *notificationspb.SubscribeRequest {
-	message := &notificationspb.SubscribeRequest{
-		SessionId: payload.SessionID,
-	}
+func NewProtoSubscribeRequest() *notificationspb.SubscribeRequest {
+	message := &notificationspb.SubscribeRequest{}
 	return message
 }
 

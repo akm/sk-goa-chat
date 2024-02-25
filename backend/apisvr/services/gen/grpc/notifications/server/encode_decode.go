@@ -8,11 +8,12 @@
 package server
 
 import (
-	notificationspb "apisvr/services/gen/grpc/notifications/pb"
 	notifications "apisvr/services/gen/notifications"
 	"context"
+	"strings"
 
 	goagrpc "goa.design/goa/v3/grpc"
+	goa "goa.design/goa/v3/pkg"
 	"google.golang.org/grpc/metadata"
 )
 
@@ -31,17 +32,27 @@ func EncodeSubscribeResponse(ctx context.Context, v any, hdr, trlr *metadata.MD)
 // "subscribe" endpoint.
 func DecodeSubscribeRequest(ctx context.Context, v any, md metadata.MD) (any, error) {
 	var (
-		message *notificationspb.SubscribeRequest
-		ok      bool
+		idToken string
+		err     error
 	)
 	{
-		if message, ok = v.(*notificationspb.SubscribeRequest); !ok {
-			return nil, goagrpc.ErrInvalidType("notifications", "subscribe", "*notificationspb.SubscribeRequest", v)
+		if vals := md.Get("authorization"); len(vals) == 0 {
+			err = goa.MergeErrors(err, goa.MissingFieldError("authorization", "metadata"))
+		} else {
+			idToken = vals[0]
 		}
+	}
+	if err != nil {
+		return nil, err
 	}
 	var payload *notifications.SubscribePayload
 	{
-		payload = NewSubscribePayload(message)
+		payload = NewSubscribePayload(idToken)
+		if strings.Contains(payload.IDToken, " ") {
+			// Remove authorization scheme prefix (e.g. "Bearer")
+			cred := strings.SplitN(payload.IDToken, " ", 2)[1]
+			payload.IDToken = cred
+		}
 	}
 	return payload, nil
 }

@@ -38,7 +38,8 @@ func EncodeSubscribeRequest(ctx context.Context, v any, md *metadata.MD) (any, e
 	if !ok {
 		return nil, goagrpc.ErrInvalidType("notifications", "subscribe", "*notifications.SubscribePayload", v)
 	}
-	return NewProtoSubscribeRequest(payload), nil
+	(*md).Append("authorization", payload.IDToken)
+	return NewProtoSubscribeRequest(), nil
 }
 
 // DecodeSubscribeResponse decodes responses from the notifications subscribe

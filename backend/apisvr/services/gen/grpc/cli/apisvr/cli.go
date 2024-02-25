@@ -11,7 +11,6 @@ import (
 	channelsc "apisvr/services/gen/grpc/channels/client"
 	chatmessagesc "apisvr/services/gen/grpc/chat_messages/client"
 	notificationsc "apisvr/services/gen/grpc/notifications/client"
-	sessionsc "apisvr/services/gen/grpc/sessions/client"
 	usersc "apisvr/services/gen/grpc/users/client"
 	"flag"
 	"fmt"
@@ -28,29 +27,20 @@ func UsageCommands() string {
 	return `channels (list|show|create|update|delete)
 chat-messages (list|show|create|update|delete)
 notifications subscribe
-sessions (create|delete)
 users (list|create)
 `
 }
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
-	return os.Args[0] + ` channels list --message '{
-      "session_id": "Alias rem."
-   }'` + "\n" +
+	return os.Args[0] + ` channels list --id-token "abcdef12345"` + "\n" +
 		os.Args[0] + ` chat-messages list --message '{
-      "after": 3544964465354554180,
-      "before": 17673947327266176618,
-      "channel_id": 15695766911067386108,
-      "limit": 8250912138791472019,
-      "session_id": "Et nemo quo et animi voluptas."
-   }'` + "\n" +
-		os.Args[0] + ` notifications subscribe --message '{
-      "session_id": "Neque et facilis quia similique quisquam sint."
-   }'` + "\n" +
-		os.Args[0] + ` sessions create --message '{
-      "id_token": "Repellendus doloribus consectetur."
-   }'` + "\n" +
+      "after": 178502275960762926,
+      "before": 13043671830441135493,
+      "channel_id": 1428451127207239674,
+      "limit": 4391472896458759808
+   }' --id-token "abcdef12345"` + "\n" +
+		os.Args[0] + ` notifications subscribe --id-token "abcdef12345"` + "\n" +
 		os.Args[0] + ` users list` + "\n" +
 		""
 }
@@ -62,49 +52,50 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 		channelsFlags = flag.NewFlagSet("channels", flag.ContinueOnError)
 
 		channelsListFlags       = flag.NewFlagSet("list", flag.ExitOnError)
-		channelsListMessageFlag = channelsListFlags.String("message", "", "")
+		channelsListIDTokenFlag = channelsListFlags.String("id-token", "REQUIRED", "")
 
 		channelsShowFlags       = flag.NewFlagSet("show", flag.ExitOnError)
 		channelsShowMessageFlag = channelsShowFlags.String("message", "", "")
+		channelsShowIDTokenFlag = channelsShowFlags.String("id-token", "REQUIRED", "")
 
 		channelsCreateFlags       = flag.NewFlagSet("create", flag.ExitOnError)
 		channelsCreateMessageFlag = channelsCreateFlags.String("message", "", "")
+		channelsCreateIDTokenFlag = channelsCreateFlags.String("id-token", "REQUIRED", "")
 
 		channelsUpdateFlags       = flag.NewFlagSet("update", flag.ExitOnError)
 		channelsUpdateMessageFlag = channelsUpdateFlags.String("message", "", "")
+		channelsUpdateIDTokenFlag = channelsUpdateFlags.String("id-token", "REQUIRED", "")
 
 		channelsDeleteFlags       = flag.NewFlagSet("delete", flag.ExitOnError)
 		channelsDeleteMessageFlag = channelsDeleteFlags.String("message", "", "")
+		channelsDeleteIDTokenFlag = channelsDeleteFlags.String("id-token", "REQUIRED", "")
 
 		chatMessagesFlags = flag.NewFlagSet("chat-messages", flag.ContinueOnError)
 
 		chatMessagesListFlags       = flag.NewFlagSet("list", flag.ExitOnError)
 		chatMessagesListMessageFlag = chatMessagesListFlags.String("message", "", "")
+		chatMessagesListIDTokenFlag = chatMessagesListFlags.String("id-token", "REQUIRED", "")
 
 		chatMessagesShowFlags       = flag.NewFlagSet("show", flag.ExitOnError)
 		chatMessagesShowMessageFlag = chatMessagesShowFlags.String("message", "", "")
+		chatMessagesShowIDTokenFlag = chatMessagesShowFlags.String("id-token", "REQUIRED", "")
 
 		chatMessagesCreateFlags       = flag.NewFlagSet("create", flag.ExitOnError)
 		chatMessagesCreateMessageFlag = chatMessagesCreateFlags.String("message", "", "")
+		chatMessagesCreateIDTokenFlag = chatMessagesCreateFlags.String("id-token", "REQUIRED", "")
 
 		chatMessagesUpdateFlags       = flag.NewFlagSet("update", flag.ExitOnError)
 		chatMessagesUpdateMessageFlag = chatMessagesUpdateFlags.String("message", "", "")
+		chatMessagesUpdateIDTokenFlag = chatMessagesUpdateFlags.String("id-token", "REQUIRED", "")
 
 		chatMessagesDeleteFlags       = flag.NewFlagSet("delete", flag.ExitOnError)
 		chatMessagesDeleteMessageFlag = chatMessagesDeleteFlags.String("message", "", "")
+		chatMessagesDeleteIDTokenFlag = chatMessagesDeleteFlags.String("id-token", "REQUIRED", "")
 
 		notificationsFlags = flag.NewFlagSet("notifications", flag.ContinueOnError)
 
 		notificationsSubscribeFlags       = flag.NewFlagSet("subscribe", flag.ExitOnError)
-		notificationsSubscribeMessageFlag = notificationsSubscribeFlags.String("message", "", "")
-
-		sessionsFlags = flag.NewFlagSet("sessions", flag.ContinueOnError)
-
-		sessionsCreateFlags       = flag.NewFlagSet("create", flag.ExitOnError)
-		sessionsCreateMessageFlag = sessionsCreateFlags.String("message", "", "")
-
-		sessionsDeleteFlags       = flag.NewFlagSet("delete", flag.ExitOnError)
-		sessionsDeleteMessageFlag = sessionsDeleteFlags.String("message", "", "")
+		notificationsSubscribeIDTokenFlag = notificationsSubscribeFlags.String("id-token", "REQUIRED", "")
 
 		usersFlags = flag.NewFlagSet("users", flag.ContinueOnError)
 
@@ -129,10 +120,6 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 
 	notificationsFlags.Usage = notificationsUsage
 	notificationsSubscribeFlags.Usage = notificationsSubscribeUsage
-
-	sessionsFlags.Usage = sessionsUsage
-	sessionsCreateFlags.Usage = sessionsCreateUsage
-	sessionsDeleteFlags.Usage = sessionsDeleteUsage
 
 	usersFlags.Usage = usersUsage
 	usersListFlags.Usage = usersListUsage
@@ -159,8 +146,6 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 			svcf = chatMessagesFlags
 		case "notifications":
 			svcf = notificationsFlags
-		case "sessions":
-			svcf = sessionsFlags
 		case "users":
 			svcf = usersFlags
 		default:
@@ -223,16 +208,6 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 
 			}
 
-		case "sessions":
-			switch epn {
-			case "create":
-				epf = sessionsCreateFlags
-
-			case "delete":
-				epf = sessionsDeleteFlags
-
-			}
-
 		case "users":
 			switch epn {
 			case "list":
@@ -268,55 +243,45 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 			switch epn {
 			case "list":
 				endpoint = c.List()
-				data, err = channelsc.BuildListPayload(*channelsListMessageFlag)
+				data, err = channelsc.BuildListPayload(*channelsListIDTokenFlag)
 			case "show":
 				endpoint = c.Show()
-				data, err = channelsc.BuildShowPayload(*channelsShowMessageFlag)
+				data, err = channelsc.BuildShowPayload(*channelsShowMessageFlag, *channelsShowIDTokenFlag)
 			case "create":
 				endpoint = c.Create()
-				data, err = channelsc.BuildCreatePayload(*channelsCreateMessageFlag)
+				data, err = channelsc.BuildCreatePayload(*channelsCreateMessageFlag, *channelsCreateIDTokenFlag)
 			case "update":
 				endpoint = c.Update()
-				data, err = channelsc.BuildUpdatePayload(*channelsUpdateMessageFlag)
+				data, err = channelsc.BuildUpdatePayload(*channelsUpdateMessageFlag, *channelsUpdateIDTokenFlag)
 			case "delete":
 				endpoint = c.Delete()
-				data, err = channelsc.BuildDeletePayload(*channelsDeleteMessageFlag)
+				data, err = channelsc.BuildDeletePayload(*channelsDeleteMessageFlag, *channelsDeleteIDTokenFlag)
 			}
 		case "chat-messages":
 			c := chatmessagesc.NewClient(cc, opts...)
 			switch epn {
 			case "list":
 				endpoint = c.List()
-				data, err = chatmessagesc.BuildListPayload(*chatMessagesListMessageFlag)
+				data, err = chatmessagesc.BuildListPayload(*chatMessagesListMessageFlag, *chatMessagesListIDTokenFlag)
 			case "show":
 				endpoint = c.Show()
-				data, err = chatmessagesc.BuildShowPayload(*chatMessagesShowMessageFlag)
+				data, err = chatmessagesc.BuildShowPayload(*chatMessagesShowMessageFlag, *chatMessagesShowIDTokenFlag)
 			case "create":
 				endpoint = c.Create()
-				data, err = chatmessagesc.BuildCreatePayload(*chatMessagesCreateMessageFlag)
+				data, err = chatmessagesc.BuildCreatePayload(*chatMessagesCreateMessageFlag, *chatMessagesCreateIDTokenFlag)
 			case "update":
 				endpoint = c.Update()
-				data, err = chatmessagesc.BuildUpdatePayload(*chatMessagesUpdateMessageFlag)
+				data, err = chatmessagesc.BuildUpdatePayload(*chatMessagesUpdateMessageFlag, *chatMessagesUpdateIDTokenFlag)
 			case "delete":
 				endpoint = c.Delete()
-				data, err = chatmessagesc.BuildDeletePayload(*chatMessagesDeleteMessageFlag)
+				data, err = chatmessagesc.BuildDeletePayload(*chatMessagesDeleteMessageFlag, *chatMessagesDeleteIDTokenFlag)
 			}
 		case "notifications":
 			c := notificationsc.NewClient(cc, opts...)
 			switch epn {
 			case "subscribe":
 				endpoint = c.Subscribe()
-				data, err = notificationsc.BuildSubscribePayload(*notificationsSubscribeMessageFlag)
-			}
-		case "sessions":
-			c := sessionsc.NewClient(cc, opts...)
-			switch epn {
-			case "create":
-				endpoint = c.Create()
-				data, err = sessionsc.BuildCreatePayload(*sessionsCreateMessageFlag)
-			case "delete":
-				endpoint = c.Delete()
-				data, err = sessionsc.BuildDeletePayload(*sessionsDeleteMessageFlag)
+				data, err = notificationsc.BuildSubscribePayload(*notificationsSubscribeIDTokenFlag)
 			}
 		case "users":
 			c := usersc.NewClient(cc, opts...)
@@ -355,72 +320,70 @@ Additional help:
 `, os.Args[0])
 }
 func channelsListUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels list -message JSON
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels list -id-token STRING
 
 List implements list.
-    -message JSON: 
+    -id-token STRING: 
 
 Example:
-    %[1]s channels list --message '{
-      "session_id": "Alias rem."
-   }'
+    %[1]s channels list --id-token "abcdef12345"
 `, os.Args[0])
 }
 
 func channelsShowUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels show -message JSON
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels show -message JSON -id-token STRING
 
 Show implements show.
     -message JSON: 
+    -id-token STRING: 
 
 Example:
     %[1]s channels show --message '{
-      "id": 13315485509768610097,
-      "session_id": "Tempore et minus molestias aspernatur blanditiis neque."
-   }'
+      "id": 4243154004623530542
+   }' --id-token "abcdef12345"
 `, os.Args[0])
 }
 
 func channelsCreateUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels create -message JSON
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels create -message JSON -id-token STRING
 
 Create implements create.
     -message JSON: 
+    -id-token STRING: 
 
 Example:
     %[1]s channels create --message '{
-      "name": "Consequatur consequatur doloremque assumenda sint consequuntur corrupti.",
-      "session_id": "Blanditiis molestias."
-   }'
+      "name": "Sit quos enim praesentium provident et."
+   }' --id-token "abcdef12345"
 `, os.Args[0])
 }
 
 func channelsUpdateUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels update -message JSON
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels update -message JSON -id-token STRING
 
 Update implements update.
     -message JSON: 
+    -id-token STRING: 
 
 Example:
     %[1]s channels update --message '{
-      "id": 5096907298334997690,
-      "name": "Commodi et voluptas.",
-      "session_id": "Cumque magni vitae."
-   }'
+      "id": 8845190340737756413,
+      "name": "Nihil aliquam dicta."
+   }' --id-token "abcdef12345"
 `, os.Args[0])
 }
 
 func channelsDeleteUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels delete -message JSON
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels delete -message JSON -id-token STRING
 
 Delete implements delete.
     -message JSON: 
+    -id-token STRING: 
 
 Example:
     %[1]s channels delete --message '{
-      "id": 10482655633392866197,
-      "session_id": "Fugiat laborum expedita et veritatis itaque."
-   }'
+      "id": 13886048143001497827
+   }' --id-token "abcdef12345"
 `, os.Args[0])
 }
 
@@ -443,77 +406,77 @@ Additional help:
 `, os.Args[0])
 }
 func chatMessagesListUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages list -message JSON
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages list -message JSON -id-token STRING
 
 List implements list.
     -message JSON: 
+    -id-token STRING: 
 
 Example:
     %[1]s chat-messages list --message '{
-      "after": 3544964465354554180,
-      "before": 17673947327266176618,
-      "channel_id": 15695766911067386108,
-      "limit": 8250912138791472019,
-      "session_id": "Et nemo quo et animi voluptas."
-   }'
+      "after": 178502275960762926,
+      "before": 13043671830441135493,
+      "channel_id": 1428451127207239674,
+      "limit": 4391472896458759808
+   }' --id-token "abcdef12345"
 `, os.Args[0])
 }
 
 func chatMessagesShowUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages show -message JSON
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages show -message JSON -id-token STRING
 
 Show implements show.
     -message JSON: 
+    -id-token STRING: 
 
 Example:
     %[1]s chat-messages show --message '{
-      "id": 10367661822404905433,
-      "session_id": "Pariatur itaque tempore."
-   }'
+      "id": 5488054146337984253
+   }' --id-token "abcdef12345"
 `, os.Args[0])
 }
 
 func chatMessagesCreateUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages create -message JSON
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages create -message JSON -id-token STRING
 
 Create implements create.
     -message JSON: 
+    -id-token STRING: 
 
 Example:
     %[1]s chat-messages create --message '{
-      "channel_id": 8172423812704457457,
-      "content": "Dolorum eligendi molestiae.",
-      "session_id": "Atque autem eligendi magnam dicta et."
-   }'
+      "channel_id": 4983432453251475648,
+      "content": "Doloremque vitae quo nesciunt necessitatibus hic."
+   }' --id-token "abcdef12345"
 `, os.Args[0])
 }
 
 func chatMessagesUpdateUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages update -message JSON
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages update -message JSON -id-token STRING
 
 Update implements update.
     -message JSON: 
+    -id-token STRING: 
 
 Example:
     %[1]s chat-messages update --message '{
-      "content": "Unde ipsum eaque ea ut voluptatem iste.",
-      "id": 12051398758544000342,
-      "session_id": "Neque ex exercitationem."
-   }'
+      "content": "Qui voluptatibus.",
+      "id": 12959863651503537545
+   }' --id-token "abcdef12345"
 `, os.Args[0])
 }
 
 func chatMessagesDeleteUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages delete -message JSON
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages delete -message JSON -id-token STRING
 
 Delete implements delete.
     -message JSON: 
+    -id-token STRING: 
 
 Example:
     %[1]s chat-messages delete --message '{
-      "id": 6502519870035504266,
-      "session_id": "Eos tenetur exercitationem quisquam at."
-   }'
+      "id": 6373914294829582548
+   }' --id-token "abcdef12345"
 `, os.Args[0])
 }
 
@@ -532,55 +495,13 @@ Additional help:
 `, os.Args[0])
 }
 func notificationsSubscribeUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] notifications subscribe -message JSON
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] notifications subscribe -id-token STRING
 
 Subscribe to events sent such new chat messages.
-    -message JSON: 
+    -id-token STRING: 
 
 Example:
-    %[1]s notifications subscribe --message '{
-      "session_id": "Neque et facilis quia similique quisquam sint."
-   }'
-`, os.Args[0])
-}
-
-// sessionsUsage displays the usage of the sessions command and its subcommands.
-func sessionsUsage() {
-	fmt.Fprintf(os.Stderr, `Service is the sessions service interface.
-Usage:
-    %[1]s [globalflags] sessions COMMAND [flags]
-
-COMMAND:
-    create: Create implements create.
-    delete: Delete implements delete.
-
-Additional help:
-    %[1]s sessions COMMAND --help
-`, os.Args[0])
-}
-func sessionsCreateUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] sessions create -message JSON
-
-Create implements create.
-    -message JSON: 
-
-Example:
-    %[1]s sessions create --message '{
-      "id_token": "Repellendus doloribus consectetur."
-   }'
-`, os.Args[0])
-}
-
-func sessionsDeleteUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] sessions delete -message JSON
-
-Delete implements delete.
-    -message JSON: 
-
-Example:
-    %[1]s sessions delete --message '{
-      "session_id": "Provident natus ratione voluptatum."
-   }'
+    %[1]s notifications subscribe --id-token "abcdef12345"
 `, os.Args[0])
 }
 
@@ -616,8 +537,8 @@ Create implements create.
 
 Example:
     %[1]s users create --message '{
-      "email": "Id eius omnis animi.",
-      "name": "Non quia voluptatibus repellat ipsum quas."
+      "email": "Delectus natus libero consequatur ut ad cupiditate.",
+      "name": "Est aperiam."
    }'
 `, os.Args[0])
 }

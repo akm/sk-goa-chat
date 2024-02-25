@@ -13,13 +13,13 @@ import (
 
 // BuildSubscribePayload builds the payload for the notifications subscribe
 // endpoint from CLI flags.
-func BuildSubscribePayload(notificationsSubscribeSessionID string) (*notifications.SubscribePayload, error) {
-	var sessionID string
+func BuildSubscribePayload(notificationsSubscribeIDToken string) (*notifications.SubscribePayload, error) {
+	var idToken string
 	{
-		sessionID = notificationsSubscribeSessionID
+		idToken = notificationsSubscribeIDToken
 	}
 	v := &notifications.SubscribePayload{}
-	v.SessionID = sessionID
+	v.IDToken = idToken
 
 	return v, nil
 }

@@ -13,16 +13,16 @@ paths:
             summary: list channels
             operationId: channels#list
             parameters:
-                - name: session_id
-                  in: cookie
-                  description: Session ID
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: Session ID
-                    example: At laborum non porro.
-                  example: Voluptas excepturi a.
+                    description: X-ID-TOKEN
+                    example: abcdef12345
+                  example: abcdef12345
             responses:
                 "200":
                     description: OK response.
@@ -33,20 +33,12 @@ paths:
                             example:
                                 items:
                                     - created_at: 2006-01-02T15:04:05Z07:00
-                                      id: 7271062959787804439
-                                      name: Eos et excepturi aut asperiores.
+                                      id: 14308298621592036455
+                                      name: Voluptas error.
                                       updated_at: 2006-01-02T15:04:05Z07:00
                                     - created_at: 2006-01-02T15:04:05Z07:00
-                                      id: 7271062959787804439
-                                      name: Eos et excepturi aut asperiores.
-                                      updated_at: 2006-01-02T15:04:05Z07:00
-                                    - created_at: 2006-01-02T15:04:05Z07:00
-                                      id: 7271062959787804439
-                                      name: Eos et excepturi aut asperiores.
-                                      updated_at: 2006-01-02T15:04:05Z07:00
-                                    - created_at: 2006-01-02T15:04:05Z07:00
-                                      id: 7271062959787804439
-                                      name: Eos et excepturi aut asperiores.
+                                      id: 14308298621592036455
+                                      name: Voluptas error.
                                       updated_at: 2006-01-02T15:04:05Z07:00
                                 offset: 0
                                 total: 160
@@ -56,22 +48,24 @@ paths:
                         application/vnd.goa.error:
                             schema:
                                 $ref: '#/components/schemas/Error'
+            security:
+                - api_key_header_X-ID-TOKEN: []
         post:
             tags:
                 - channels
             summary: create channels
             operationId: channels#create
             parameters:
-                - name: session_id
-                  in: cookie
-                  description: Session ID
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: Session ID
-                    example: Dignissimos nam laborum impedit consequatur.
-                  example: Nulla voluptates dolore.
+                    description: X-ID-TOKEN
+                    example: abcdef12345
+                  example: abcdef12345
             requestBody:
                 required: true
                 content:
@@ -79,7 +73,7 @@ paths:
                         schema:
                             $ref: '#/components/schemas/CreateRequestBody'
                         example:
-                            name: Recusandae quo ratione et.
+                            name: Dolorem optio consequatur est eligendi.
             responses:
                 "201":
                     description: Created response.
@@ -89,8 +83,8 @@ paths:
                                 $ref: '#/components/schemas/Channel'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 3871602425964841270
-                                name: In omnis quasi dolores non.
+                                id: 1436963588651385446
+                                name: Similique ut.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "400":
                     description: 'invalid_payload: Bad Request response.'
@@ -104,6 +98,8 @@ paths:
                         application/vnd.goa.error:
                             schema:
                                 $ref: '#/components/schemas/Error'
+            security:
+                - api_key_header_X-ID-TOKEN: []
     /api/channels/{id}:
         delete:
             tags:
@@ -118,18 +114,18 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 9167115254448531536
-                  example: 625015297926360778
-                - name: session_id
-                  in: cookie
-                  description: Session ID
+                    example: 16719644734848992631
+                  example: 3345418820542876276
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: Session ID
-                    example: Quae cum voluptatem.
-                  example: Modi commodi.
+                    description: X-ID-TOKEN
+                    example: abcdef12345
+                  example: abcdef12345
             responses:
                 "200":
                     description: OK response.
@@ -139,8 +135,8 @@ paths:
                                 $ref: '#/components/schemas/Channel'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 10066336226929949440
-                                name: Non officia dignissimos repellat at.
+                                id: 14143474729002507714
+                                name: Dignissimos aspernatur qui.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "401":
                     description: 'unauthenticated: Unauthorized response.'
@@ -154,6 +150,8 @@ paths:
                         application/vnd.goa.error:
                             schema:
                                 $ref: '#/components/schemas/Error'
+            security:
+                - api_key_header_X-ID-TOKEN: []
         get:
             tags:
                 - channels
@@ -167,18 +165,18 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 10141876062402815768
-                  example: 3948786518705749977
-                - name: session_id
-                  in: cookie
-                  description: Session ID
+                    example: 2083606697895106347
+                  example: 2135540402709782972
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: Session ID
-                    example: Odio temporibus.
-                  example: Molestiae qui nam perspiciatis recusandae.
+                    description: X-ID-TOKEN
+                    example: abcdef12345
+                  example: abcdef12345
             responses:
                 "200":
                     description: OK response.
@@ -188,8 +186,8 @@ paths:
                                 $ref: '#/components/schemas/Channel'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 3174728128026383618
-                                name: Modi ullam excepturi earum.
+                                id: 6695709217680786680
+                                name: Labore odit et reiciendis qui.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "401":
                     description: 'unauthenticated: Unauthorized response.'
@@ -203,6 +201,8 @@ paths:
                         application/vnd.goa.error:
                             schema:
                                 $ref: '#/components/schemas/Error'
+            security:
+                - api_key_header_X-ID-TOKEN: []
         put:
             tags:
                 - channels
@@ -216,18 +216,18 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 10088376289344043286
-                  example: 1715852999616860445
-                - name: session_id
-                  in: cookie
-                  description: Session ID
+                    example: 10781663784136988387
+                  example: 57829092557472515
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: Session ID
-                    example: Consequatur optio.
-                  example: Ullam officiis qui ducimus laborum.
+                    description: X-ID-TOKEN
+                    example: abcdef12345
+                  example: abcdef12345
             requestBody:
                 required: true
                 content:
@@ -235,7 +235,7 @@ paths:
                         schema:
                             $ref: '#/components/schemas/CreateRequestBody'
                         example:
-                            name: Corrupti ut deleniti consequatur voluptates ab quia.
+                            name: Animi ut aut totam.
             responses:
                 "200":
                     description: OK response.
@@ -245,8 +245,8 @@ paths:
                                 $ref: '#/components/schemas/Channel'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 15889514314966169584
-                                name: Saepe recusandae.
+                                id: 12382828252225392821
+                                name: Dolores quia est reprehenderit veritatis in.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "400":
                     description: 'invalid_payload: Bad Request response.'
@@ -266,6 +266,8 @@ paths:
                         application/vnd.goa.error:
                             schema:
                                 $ref: '#/components/schemas/Error'
+            security:
+                - api_key_header_X-ID-TOKEN: []
     /api/chat_messages:
         get:
             tags:
@@ -282,9 +284,9 @@ paths:
                     type: integer
                     description: Limit
                     default: 50
-                    example: 7727456766862902033
+                    example: 1478671026243806126
                     format: int64
-                  example: 5378726181949905906
+                  example: 1756608611783287649
                 - name: channel_id
                   in: query
                   description: Channel ID
@@ -292,8 +294,8 @@ paths:
                   schema:
                     type: integer
                     description: Channel ID
-                    example: 18401113736474264767
-                  example: 15506178172141632162
+                    example: 16006258665818006134
+                  example: 5335993148139460260
                 - name: after
                   in: query
                   description: ChatMessage ID for query to get messages after this
@@ -301,8 +303,8 @@ paths:
                   schema:
                     type: integer
                     description: ChatMessage ID for query to get messages after this
-                    example: 2298661117501232298
-                  example: 6284718171232416922
+                    example: 16168071497096569761
+                  example: 8766397724585147603
                 - name: before
                   in: query
                   description: ChatMessage ID for query to get messages before this
@@ -310,18 +312,18 @@ paths:
                   schema:
                     type: integer
                     description: ChatMessage ID for query to get messages before this
-                    example: 14876315866696930368
-                  example: 12694947601255191181
-                - name: session_id
-                  in: cookie
-                  description: Session ID
+                    example: 6636858784629839241
+                  example: 3428741854183539318
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: Session ID
-                    example: Rerum ab qui ab qui est.
-                  example: Aut facere dolorem quo dolorem.
+                    description: X-ID-TOKEN
+                    example: abcdef12345
+                  example: abcdef12345
             responses:
                 "200":
                     description: OK response.
@@ -331,49 +333,51 @@ paths:
                                 $ref: '#/components/schemas/ChatMessageList'
                             example:
                                 items:
-                                    - channel_id: 17409760595284137384
-                                      content: Et est nesciunt perspiciatis optio rerum.
+                                    - channel_id: 13959009638458441834
+                                      content: Dolore ut est.
                                       created_at: 2006-01-02T15:04:05Z07:00
-                                      id: 6470953216617523288
+                                      id: 15936474696563801806
                                       updated_at: 2006-01-02T15:04:05Z07:00
-                                      user_id: 3571536357390730231
-                                      user_name: Repudiandae consequatur officia dolores corporis asperiores.
-                                    - channel_id: 17409760595284137384
-                                      content: Et est nesciunt perspiciatis optio rerum.
+                                      user_id: 16573384439575351935
+                                      user_name: Iusto sed fugit beatae nihil.
+                                    - channel_id: 13959009638458441834
+                                      content: Dolore ut est.
                                       created_at: 2006-01-02T15:04:05Z07:00
-                                      id: 6470953216617523288
+                                      id: 15936474696563801806
                                       updated_at: 2006-01-02T15:04:05Z07:00
-                                      user_id: 3571536357390730231
-                                      user_name: Repudiandae consequatur officia dolores corporis asperiores.
-                                    - channel_id: 17409760595284137384
-                                      content: Et est nesciunt perspiciatis optio rerum.
+                                      user_id: 16573384439575351935
+                                      user_name: Iusto sed fugit beatae nihil.
+                                    - channel_id: 13959009638458441834
+                                      content: Dolore ut est.
                                       created_at: 2006-01-02T15:04:05Z07:00
-                                      id: 6470953216617523288
+                                      id: 15936474696563801806
                                       updated_at: 2006-01-02T15:04:05Z07:00
-                                      user_id: 3571536357390730231
-                                      user_name: Repudiandae consequatur officia dolores corporis asperiores.
+                                      user_id: 16573384439575351935
+                                      user_name: Iusto sed fugit beatae nihil.
                 "401":
                     description: 'unauthenticated: Unauthorized response.'
                     content:
                         application/vnd.goa.error:
                             schema:
                                 $ref: '#/components/schemas/Error'
+            security:
+                - api_key_header_X-ID-TOKEN: []
         post:
             tags:
                 - chat_messages
             summary: create chat_messages
             operationId: chat_messages#create
             parameters:
-                - name: session_id
-                  in: cookie
-                  description: Session ID
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: Session ID
-                    example: Facilis repudiandae ex.
-                  example: Quod illo fugit voluptatibus.
+                    description: X-ID-TOKEN
+                    example: abcdef12345
+                  example: abcdef12345
             requestBody:
                 required: true
                 content:
@@ -381,8 +385,8 @@ paths:
                         schema:
                             $ref: '#/components/schemas/CreateRequestBody2'
                         example:
-                            channel_id: 15556517036826360854
-                            content: Et labore.
+                            channel_id: 3412152620045203249
+                            content: Non accusantium.
             responses:
                 "201":
                     description: Created response.
@@ -391,13 +395,13 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/ChatMessage'
                             example:
-                                channel_id: 7516670838824219425
-                                content: Id labore temporibus sed.
+                                channel_id: 3575110777963091105
+                                content: Ut deleniti consequatur voluptates ab quia.
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 8845190340737756413
+                                id: 10843119116082409400
                                 updated_at: 2006-01-02T15:04:05Z07:00
-                                user_id: 4723834145395715149
-                                user_name: Dicta rerum.
+                                user_id: 13143219124840129279
+                                user_name: Ea nesciunt odit.
                 "400":
                     description: 'invalid_payload: Bad Request response.'
                     content:
@@ -410,6 +414,8 @@ paths:
                         application/vnd.goa.error:
                             schema:
                                 $ref: '#/components/schemas/Error'
+            security:
+                - api_key_header_X-ID-TOKEN: []
     /api/chat_messages/{id}:
         delete:
             tags:
@@ -424,18 +430,18 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 8633363548792342879
-                  example: 7517180322405253714
-                - name: session_id
-                  in: cookie
-                  description: Session ID
+                    example: 4238688227212468876
+                  example: 13200870719650333346
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: Session ID
-                    example: Repudiandae ut quasi.
-                  example: Quaerat ad eos.
+                    description: X-ID-TOKEN
+                    example: abcdef12345
+                  example: abcdef12345
             responses:
                 "200":
                     description: OK response.
@@ -444,13 +450,13 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/ChatMessage'
                             example:
-                                channel_id: 15406825295805531740
-                                content: Est eos atque repellendus eligendi non quis.
+                                channel_id: 7402200033726829684
+                                content: Impedit omnis doloremque.
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 16829747425762954312
+                                id: 200596950086918472
                                 updated_at: 2006-01-02T15:04:05Z07:00
-                                user_id: 2247028971569909279
-                                user_name: Adipisci laboriosam.
+                                user_id: 10093194320594121456
+                                user_name: Ex voluptas doloribus in est similique.
                 "401":
                     description: 'unauthenticated: Unauthorized response.'
                     content:
@@ -463,6 +469,8 @@ paths:
                         application/vnd.goa.error:
                             schema:
                                 $ref: '#/components/schemas/Error'
+            security:
+                - api_key_header_X-ID-TOKEN: []
         get:
             tags:
                 - chat_messages
@@ -476,18 +484,18 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 17615745738905426910
-                  example: 11669699388174061987
-                - name: session_id
-                  in: cookie
-                  description: Session ID
+                    example: 16721574290007971384
+                  example: 7640296165610347364
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: Session ID
-                    example: Dolore rerum perspiciatis delectus accusamus.
-                  example: Quis quasi atque.
+                    description: X-ID-TOKEN
+                    example: abcdef12345
+                  example: abcdef12345
             responses:
                 "200":
                     description: OK response.
@@ -496,13 +504,13 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/ChatMessage'
                             example:
-                                channel_id: 1008265692079476370
-                                content: In et modi nam.
+                                channel_id: 7911219115667954556
+                                content: Et aliquam reiciendis at officiis.
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 4436441058387454044
+                                id: 6982672112496154893
                                 updated_at: 2006-01-02T15:04:05Z07:00
-                                user_id: 12018679536742733167
-                                user_name: Facere illo nemo iusto eum.
+                                user_id: 478148405127591058
+                                user_name: Quos recusandae quo.
                 "401":
                     description: 'unauthenticated: Unauthorized response.'
                     content:
@@ -515,6 +523,8 @@ paths:
                         application/vnd.goa.error:
                             schema:
                                 $ref: '#/components/schemas/Error'
+            security:
+                - api_key_header_X-ID-TOKEN: []
         put:
             tags:
                 - chat_messages
@@ -528,18 +538,18 @@ paths:
                   schema:
                     type: integer
                     description: ID
-                    example: 17995031941397898728
-                  example: 13457396349289187745
-                - name: session_id
-                  in: cookie
-                  description: Session ID
+                    example: 6872091514831306567
+                  example: 2596968404017912684
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: Session ID
-                    example: Tempora earum aut quia nostrum earum.
-                  example: Facilis velit.
+                    description: X-ID-TOKEN
+                    example: abcdef12345
+                  example: abcdef12345
             requestBody:
                 required: true
                 content:
@@ -547,7 +557,7 @@ paths:
                         schema:
                             $ref: '#/components/schemas/UpdateRequestBody'
                         example:
-                            content: Unde voluptas voluptatem quam velit et odit.
+                            content: Qui similique dolor.
             responses:
                 "200":
                     description: OK response.
@@ -556,13 +566,13 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/ChatMessage'
                             example:
-                                channel_id: 6348962754088568460
-                                content: Voluptas consectetur suscipit quia est.
+                                channel_id: 16349860756483122524
+                                content: Dolores nesciunt architecto aut.
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 4983432453251475648
+                                id: 12776821912030001770
                                 updated_at: 2006-01-02T15:04:05Z07:00
-                                user_id: 3702135229637078762
-                                user_name: Quo nesciunt necessitatibus hic.
+                                user_id: 12661471401570279285
+                                user_name: Autem omnis beatae.
                 "400":
                     description: 'invalid_payload: Bad Request response.'
                     content:
@@ -581,70 +591,8 @@ paths:
                         application/vnd.goa.error:
                             schema:
                                 $ref: '#/components/schemas/Error'
-    /api/session:
-        delete:
-            tags:
-                - sessions
-            summary: delete sessions
-            operationId: sessions#delete
-            parameters:
-                - name: session_id
-                  in: cookie
-                  description: Session ID
-                  allowEmptyValue: true
-                  required: true
-                  schema:
-                    type: string
-                    description: Session ID
-                    example: Esse est laudantium autem.
-                  example: Officia sunt aut.
-            responses:
-                "200":
-                    description: OK response.
-                    headers:
-                        Set-Cookie:
-                            description: Session ID
-                            schema:
-                                type: string
-                                description: Session ID
-                                example: Ullam et alias aut.
-                            example: Non quo quam.
-                "400":
-                    description: 'invalid_payload: Bad Request response.'
-                    content:
-                        application/vnd.goa.error:
-                            schema:
-                                $ref: '#/components/schemas/Error'
-        post:
-            tags:
-                - sessions
-            summary: create sessions
-            operationId: sessions#create
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/CreateRequestBody3'
-                        example:
-                            id_token: Ad cupiditate non quam in nihil.
-            responses:
-                "201":
-                    description: Created response.
-                    headers:
-                        Set-Cookie:
-                            description: Session ID
-                            schema:
-                                type: string
-                                description: Session ID
-                                example: Omnis ducimus.
-                            example: Ullam in tempore aliquid ipsum.
-                "400":
-                    description: 'invalid_payload: Bad Request response.'
-                    content:
-                        application/vnd.goa.error:
-                            schema:
-                                $ref: '#/components/schemas/Error'
+            security:
+                - api_key_header_X-ID-TOKEN: []
     /api/users:
         get:
             tags:
@@ -660,10 +608,12 @@ paths:
                                 $ref: '#/components/schemas/UserList'
                             example:
                                 items:
-                                    - id: 674974725234254612
-                                      name: Veritatis in similique.
-                                    - id: 674974725234254612
-                                      name: Veritatis in similique.
+                                    - id: 12732113688530886158
+                                      name: Est voluptate et numquam quia perferendis.
+                                    - id: 12732113688530886158
+                                      name: Est voluptate et numquam quia perferendis.
+                                    - id: 12732113688530886158
+                                      name: Est voluptate et numquam quia perferendis.
                                 offset: 0
                                 total: 160
         post:
@@ -676,10 +626,10 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreateRequestBody4'
+                            $ref: '#/components/schemas/CreateRequestBody3'
                         example:
-                            email: Libero esse qui inventore culpa.
-                            name: Quo voluptatem minima ut eum.
+                            email: Vero in dolore odio quasi.
+                            name: Quo minus quas voluptatibus consequatur nemo.
             responses:
                 "201":
                     description: Created response.
@@ -689,8 +639,8 @@ paths:
                                 $ref: '#/components/schemas/User'
                             example:
                                 created_at: 2006-01-02T15:04:05Z07:00
-                                id: 5312361766264616584
-                                name: Occaecati magnam qui vel hic quo vero.
+                                id: 1008265692079476370
+                                name: Nihil facere illo nemo.
                                 updated_at: 2006-01-02T15:04:05Z07:00
                 "400":
                     description: 'invalid_payload: Bad Request response.'
@@ -706,16 +656,16 @@ paths:
             description: Subscribe to events sent such new chat messages.
             operationId: notifications#subscribe
             parameters:
-                - name: session_id
-                  in: cookie
-                  description: Session ID
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: Session ID
-                    example: Quia nemo ea modi.
-                  example: Error quia voluptas consequatur provident.
+                    description: X-ID-TOKEN
+                    example: abcdef12345
+                  example: abcdef12345
             responses:
                 "101":
                     description: Switching Protocols response.
@@ -725,14 +675,17 @@ paths:
                                 $ref: '#/components/schemas/NotificationEvent'
                             example:
                                 channel_ids:
-                                    - 6816389063924884061
-                                    - 16121517043926034447
+                                    - 11010856570215230736
+                                    - 13169732932582615688
+                                    - 10730748131142922952
                 "401":
                     description: 'unauthenticated: Unauthorized response.'
                     content:
                         application/vnd.goa.error:
                             schema:
                                 $ref: '#/components/schemas/Error'
+            security:
+                - api_key_header_X-ID-TOKEN: []
 components:
     schemas:
         Channel:
@@ -746,11 +699,11 @@ components:
                 id:
                     type: integer
                     description: ID
-                    example: 8887925703461019404
+                    example: 1806459186028017340
                 name:
                     type: string
                     description: Name
-                    example: Aut facilis itaque et a commodi nisi.
+                    example: Omnis quisquam rem qui officia.
                 updated_at:
                     type: string
                     description: UpdatedAt
@@ -758,8 +711,8 @@ components:
                     format: date-time
             example:
                 created_at: 2006-01-02T15:04:05Z07:00
-                id: 17371192142372357849
-                name: Omnis fuga ad velit.
+                id: 15377353183551012281
+                name: Eum consequatur commodi.
                 updated_at: 2006-01-02T15:04:05Z07:00
             required:
                 - id
@@ -782,20 +735,12 @@ components:
             example:
                 items:
                     - created_at: 2006-01-02T15:04:05Z07:00
-                      id: 7271062959787804439
-                      name: Eos et excepturi aut asperiores.
+                      id: 14308298621592036455
+                      name: Voluptas error.
                       updated_at: 2006-01-02T15:04:05Z07:00
                     - created_at: 2006-01-02T15:04:05Z07:00
-                      id: 7271062959787804439
-                      name: Eos et excepturi aut asperiores.
-                      updated_at: 2006-01-02T15:04:05Z07:00
-                    - created_at: 2006-01-02T15:04:05Z07:00
-                      id: 7271062959787804439
-                      name: Eos et excepturi aut asperiores.
-                      updated_at: 2006-01-02T15:04:05Z07:00
-                    - created_at: 2006-01-02T15:04:05Z07:00
-                      id: 7271062959787804439
-                      name: Eos et excepturi aut asperiores.
+                      id: 14308298621592036455
+                      name: Voluptas error.
                       updated_at: 2006-01-02T15:04:05Z07:00
                 offset: 0
                 total: 160
@@ -814,11 +759,11 @@ components:
                 id:
                     type: integer
                     description: ID
-                    example: 11229479667587510163
+                    example: 1718773759709988836
                 name:
                     type: string
                     description: Name
-                    example: Quaerat in expedita sint.
+                    example: Aut quasi ut in nihil maiores.
                 updated_at:
                     type: string
                     description: UpdatedAt
@@ -826,8 +771,8 @@ components:
                     format: date-time
             example:
                 created_at: 2006-01-02T15:04:05Z07:00
-                id: 6609809700917515800
-                name: Delectus dolores accusamus.
+                id: 6697053573302417124
+                name: Eaque reprehenderit.
                 updated_at: 2006-01-02T15:04:05Z07:00
             required:
                 - id
@@ -840,16 +785,16 @@ components:
                 $ref: '#/components/schemas/ChannelListItem'
             example:
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 7271062959787804439
-                  name: Eos et excepturi aut asperiores.
+                  id: 14308298621592036455
+                  name: Voluptas error.
                   updated_at: 2006-01-02T15:04:05Z07:00
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 7271062959787804439
-                  name: Eos et excepturi aut asperiores.
+                  id: 14308298621592036455
+                  name: Voluptas error.
                   updated_at: 2006-01-02T15:04:05Z07:00
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 7271062959787804439
-                  name: Eos et excepturi aut asperiores.
+                  id: 14308298621592036455
+                  name: Voluptas error.
                   updated_at: 2006-01-02T15:04:05Z07:00
         ChatMessage:
             type: object
@@ -857,11 +802,11 @@ components:
                 channel_id:
                     type: integer
                     description: Channel ID
-                    example: 8058313704658529066
+                    example: 16702029836893955649
                 content:
                     type: string
                     description: Content
-                    example: Sint est.
+                    example: Quisquam et fuga omnis maxime.
                 created_at:
                     type: string
                     description: CreatedAt
@@ -870,7 +815,7 @@ components:
                 id:
                     type: integer
                     description: ID
-                    example: 6896649061399434602
+                    example: 15924806015104549647
                 updated_at:
                     type: string
                     description: UpdatedAt
@@ -879,19 +824,19 @@ components:
                 user_id:
                     type: integer
                     description: User ID
-                    example: 5278770603776877049
+                    example: 1719468543456683664
                 user_name:
                     type: string
                     description: User Name
-                    example: Modi natus maiores ab vero repellat.
+                    example: Aut earum voluptas sit dolores harum quae.
             example:
-                channel_id: 288408193101281046
-                content: Quidem voluptatem voluptatem provident sunt.
+                channel_id: 1810376289941694473
+                content: Iusto ut.
                 created_at: 2006-01-02T15:04:05Z07:00
-                id: 4127618914645184117
+                id: 2549351506480365580
                 updated_at: 2006-01-02T15:04:05Z07:00
-                user_id: 15204883905590403693
-                user_name: Porro maiores consequatur.
+                user_id: 14122095824598073192
+                user_name: Consequatur similique autem voluptatem aut nihil deserunt.
             required:
                 - id
                 - created_at
@@ -906,27 +851,27 @@ components:
                     $ref: '#/components/schemas/ChatMessageListItemCollection'
             example:
                 items:
-                    - channel_id: 17409760595284137384
-                      content: Et est nesciunt perspiciatis optio rerum.
+                    - channel_id: 13959009638458441834
+                      content: Dolore ut est.
                       created_at: 2006-01-02T15:04:05Z07:00
-                      id: 6470953216617523288
+                      id: 15936474696563801806
                       updated_at: 2006-01-02T15:04:05Z07:00
-                      user_id: 3571536357390730231
-                      user_name: Repudiandae consequatur officia dolores corporis asperiores.
-                    - channel_id: 17409760595284137384
-                      content: Et est nesciunt perspiciatis optio rerum.
+                      user_id: 16573384439575351935
+                      user_name: Iusto sed fugit beatae nihil.
+                    - channel_id: 13959009638458441834
+                      content: Dolore ut est.
                       created_at: 2006-01-02T15:04:05Z07:00
-                      id: 6470953216617523288
+                      id: 15936474696563801806
                       updated_at: 2006-01-02T15:04:05Z07:00
-                      user_id: 3571536357390730231
-                      user_name: Repudiandae consequatur officia dolores corporis asperiores.
-                    - channel_id: 17409760595284137384
-                      content: Et est nesciunt perspiciatis optio rerum.
+                      user_id: 16573384439575351935
+                      user_name: Iusto sed fugit beatae nihil.
+                    - channel_id: 13959009638458441834
+                      content: Dolore ut est.
                       created_at: 2006-01-02T15:04:05Z07:00
-                      id: 6470953216617523288
+                      id: 15936474696563801806
                       updated_at: 2006-01-02T15:04:05Z07:00
-                      user_id: 3571536357390730231
-                      user_name: Repudiandae consequatur officia dolores corporis asperiores.
+                      user_id: 16573384439575351935
+                      user_name: Iusto sed fugit beatae nihil.
             required:
                 - items
         ChatMessageListItem:
@@ -935,11 +880,11 @@ components:
                 channel_id:
                     type: integer
                     description: Channel ID
-                    example: 5666922043443187171
+                    example: 2794964574277862291
                 content:
                     type: string
                     description: Content
-                    example: Quo voluptatem ab mollitia esse.
+                    example: Atque quo enim unde.
                 created_at:
                     type: string
                     description: CreatedAt
@@ -948,7 +893,7 @@ components:
                 id:
                     type: integer
                     description: ID
-                    example: 17189789645605193189
+                    example: 17851874401144339315
                 updated_at:
                     type: string
                     description: UpdatedAt
@@ -957,19 +902,19 @@ components:
                 user_id:
                     type: integer
                     description: User ID
-                    example: 5366344011041233366
+                    example: 16406711370279236100
                 user_name:
                     type: string
                     description: User Name
-                    example: Omnis modi aut necessitatibus voluptate.
+                    example: Impedit officiis omnis quia animi odit provident.
             example:
-                channel_id: 10107853787297420564
-                content: Eum facilis id.
+                channel_id: 8314486435182394555
+                content: Voluptate sint tempora.
                 created_at: 2006-01-02T15:04:05Z07:00
-                id: 8632705685696530514
+                id: 6451461773391010023
                 updated_at: 2006-01-02T15:04:05Z07:00
-                user_id: 2961889573707504792
-                user_name: Qui voluptas.
+                user_id: 6683625257867509306
+                user_name: Nulla sed.
             required:
                 - id
                 - created_at
@@ -982,29 +927,36 @@ components:
             items:
                 $ref: '#/components/schemas/ChatMessageListItem'
             example:
-                - channel_id: 17409760595284137384
-                  content: Et est nesciunt perspiciatis optio rerum.
+                - channel_id: 13959009638458441834
+                  content: Dolore ut est.
                   created_at: 2006-01-02T15:04:05Z07:00
-                  id: 6470953216617523288
+                  id: 15936474696563801806
                   updated_at: 2006-01-02T15:04:05Z07:00
-                  user_id: 3571536357390730231
-                  user_name: Repudiandae consequatur officia dolores corporis asperiores.
-                - channel_id: 17409760595284137384
-                  content: Et est nesciunt perspiciatis optio rerum.
+                  user_id: 16573384439575351935
+                  user_name: Iusto sed fugit beatae nihil.
+                - channel_id: 13959009638458441834
+                  content: Dolore ut est.
                   created_at: 2006-01-02T15:04:05Z07:00
-                  id: 6470953216617523288
+                  id: 15936474696563801806
                   updated_at: 2006-01-02T15:04:05Z07:00
-                  user_id: 3571536357390730231
-                  user_name: Repudiandae consequatur officia dolores corporis asperiores.
+                  user_id: 16573384439575351935
+                  user_name: Iusto sed fugit beatae nihil.
+                - channel_id: 13959009638458441834
+                  content: Dolore ut est.
+                  created_at: 2006-01-02T15:04:05Z07:00
+                  id: 15936474696563801806
+                  updated_at: 2006-01-02T15:04:05Z07:00
+                  user_id: 16573384439575351935
+                  user_name: Iusto sed fugit beatae nihil.
         CreateRequestBody:
             type: object
             properties:
                 name:
                     type: string
                     description: Name
-                    example: Quia officiis natus dolorem eveniet commodi et.
+                    example: Quo eum in aperiam quia nisi suscipit.
             example:
-                name: Minus reprehenderit voluptatum ducimus.
+                name: Quis ut error quia sit omnis.
             required:
                 - name
         CreateRequestBody2:
@@ -1013,42 +965,31 @@ components:
                 channel_id:
                     type: integer
                     description: Channel ID
-                    example: 13607136191731716706
+                    example: 5281351726259432104
                 content:
                     type: string
                     description: Content
-                    example: Aut doloremque inventore.
+                    example: Rerum pariatur nesciunt.
             example:
-                channel_id: 7643201742503832471
-                content: Ut cum corrupti inventore enim sed.
+                channel_id: 17976362873503885714
+                content: Dolores dolorum tempore facere occaecati sunt rerum.
             required:
                 - channel_id
                 - content
         CreateRequestBody3:
             type: object
             properties:
-                id_token:
-                    type: string
-                    description: ID Token
-                    example: Ut dolor maxime aliquid qui qui.
-            example:
-                id_token: Sapiente incidunt.
-            required:
-                - id_token
-        CreateRequestBody4:
-            type: object
-            properties:
                 email:
                     type: string
                     description: Email
-                    example: Quasi cumque facere molestias.
+                    example: Ipsum et quia est fugiat.
                 name:
                     type: string
                     description: Name
-                    example: Ea optio.
+                    example: Minima optio itaque.
             example:
-                email: Odit voluptatum et.
-                name: Quos sint autem exercitationem amet soluta.
+                email: Et quaerat aliquid enim asperiores est deserunt.
+                name: Fugiat voluptas.
             required:
                 - name
                 - email
@@ -1058,7 +999,7 @@ components:
                 fault:
                     type: boolean
                     description: Is the error a server-side fault?
-                    example: true
+                    example: false
                 id:
                     type: string
                     description: ID is a unique identifier for this particular occurrence of the problem.
@@ -1074,18 +1015,18 @@ components:
                 temporary:
                     type: boolean
                     description: Is the error temporary?
-                    example: true
+                    example: false
                 timeout:
                     type: boolean
                     description: Is the error a timeout?
                     example: true
             example:
-                fault: true
+                fault: false
                 id: 123abc
                 message: parameter 'p' must be an integer
                 name: bad_request
                 temporary: true
-                timeout: false
+                timeout: true
             required:
                 - name
                 - id
@@ -1100,17 +1041,16 @@ components:
                     type: array
                     items:
                         type: integer
-                        example: 7987123220964923734
+                        example: 14172133614644182969
                     description: IDs of channels which got new messages
                     example:
-                        - 17484182105342665397
-                        - 3183472018667960142
-                        - 14223430657308780876
+                        - 11663134532334921872
+                        - 1125975758058536908
             example:
                 channel_ids:
-                    - 5637093351032392237
-                    - 15882773370709733949
-                    - 11543648513350246683
+                    - 16695547136315716384
+                    - 17426452557373781426
+                    - 13700264418383905104
             required:
                 - channel_ids
         UpdateRequestBody:
@@ -1119,9 +1059,9 @@ components:
                 content:
                     type: string
                     description: Content
-                    example: Dolores modi perspiciatis.
+                    example: Facilis inventore ut mollitia.
             example:
-                content: Asperiores assumenda nisi dignissimos minima ducimus.
+                content: Qui non quis.
             required:
                 - content
         User:
@@ -1135,11 +1075,11 @@ components:
                 id:
                     type: integer
                     description: ID
-                    example: 819908799023234533
+                    example: 5593925075509684745
                 name:
                     type: string
                     description: Name
-                    example: Excepturi nemo architecto reprehenderit.
+                    example: Reiciendis est.
                 updated_at:
                     type: string
                     description: UpdatedAt
@@ -1147,8 +1087,8 @@ components:
                     format: date-time
             example:
                 created_at: 2006-01-02T15:04:05Z07:00
-                id: 9072987713619446296
-                name: Blanditiis voluptatum aliquid aperiam doloribus hic.
+                id: 17583520077888693414
+                name: Odit qui non.
                 updated_at: 2006-01-02T15:04:05Z07:00
             required:
                 - id
@@ -1170,10 +1110,12 @@ components:
                     example: 160
             example:
                 items:
-                    - id: 674974725234254612
-                      name: Veritatis in similique.
-                    - id: 674974725234254612
-                      name: Veritatis in similique.
+                    - id: 12732113688530886158
+                      name: Est voluptate et numquam quia perferendis.
+                    - id: 12732113688530886158
+                      name: Est voluptate et numquam quia perferendis.
+                    - id: 12732113688530886158
+                      name: Est voluptate et numquam quia perferendis.
                 offset: 0
                 total: 160
             required:
@@ -1186,14 +1128,14 @@ components:
                 id:
                     type: integer
                     description: ID
-                    example: 12813499962679180794
+                    example: 15511322544835240971
                 name:
                     type: string
                     description: Name
-                    example: Nostrum omnis quaerat voluptas et quia nisi.
+                    example: Ipsum cum accusantium.
             example:
-                id: 16675404849395530593
-                name: Dolor quibusdam.
+                id: 13456660312305149216
+                name: Quis architecto reprehenderit quae repellendus ut.
             required:
                 - id
                 - name
@@ -1202,13 +1144,19 @@ components:
             items:
                 $ref: '#/components/schemas/UserListItem'
             example:
-                - id: 674974725234254612
-                  name: Veritatis in similique.
-                - id: 674974725234254612
-                  name: Veritatis in similique.
+                - id: 12732113688530886158
+                  name: Est voluptate et numquam quia perferendis.
+                - id: 12732113688530886158
+                  name: Est voluptate et numquam quia perferendis.
+                - id: 12732113688530886158
+                  name: Est voluptate et numquam quia perferendis.
+    securitySchemes:
+        api_key_header_X-ID-TOKEN:
+            type: apiKey
+            name: X-ID-TOKEN
+            in: header
 tags:
     - name: channels
     - name: chat_messages
     - name: notifications
-    - name: sessions
     - name: users

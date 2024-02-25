@@ -16,7 +16,7 @@ import (
 
 // BuildListPayload builds the payload for the chat_messages list endpoint from
 // CLI flags.
-func BuildListPayload(chatMessagesListLimit string, chatMessagesListChannelID string, chatMessagesListAfter string, chatMessagesListBefore string, chatMessagesListSessionID string) (*chatmessages.ListPayload, error) {
+func BuildListPayload(chatMessagesListLimit string, chatMessagesListChannelID string, chatMessagesListAfter string, chatMessagesListBefore string, chatMessagesListIDToken string) (*chatmessages.ListPayload, error) {
 	var err error
 	var limit int
 	{
@@ -57,23 +57,23 @@ func BuildListPayload(chatMessagesListLimit string, chatMessagesListChannelID st
 			}
 		}
 	}
-	var sessionID string
+	var idToken string
 	{
-		sessionID = chatMessagesListSessionID
+		idToken = chatMessagesListIDToken
 	}
 	v := &chatmessages.ListPayload{}
 	v.Limit = limit
 	v.ChannelID = channelID
 	v.After = after
 	v.Before = before
-	v.SessionID = sessionID
+	v.IDToken = idToken
 
 	return v, nil
 }
 
 // BuildShowPayload builds the payload for the chat_messages show endpoint from
 // CLI flags.
-func BuildShowPayload(chatMessagesShowID string, chatMessagesShowSessionID string) (*chatmessages.ShowPayload, error) {
+func BuildShowPayload(chatMessagesShowID string, chatMessagesShowIDToken string) (*chatmessages.ShowPayload, error) {
 	var err error
 	var id uint64
 	{
@@ -82,50 +82,50 @@ func BuildShowPayload(chatMessagesShowID string, chatMessagesShowSessionID strin
 			return nil, fmt.Errorf("invalid value for id, must be UINT64")
 		}
 	}
-	var sessionID string
+	var idToken string
 	{
-		sessionID = chatMessagesShowSessionID
+		idToken = chatMessagesShowIDToken
 	}
 	v := &chatmessages.ShowPayload{}
 	v.ID = id
-	v.SessionID = sessionID
+	v.IDToken = idToken
 
 	return v, nil
 }
 
 // BuildCreatePayload builds the payload for the chat_messages create endpoint
 // from CLI flags.
-func BuildCreatePayload(chatMessagesCreateBody string, chatMessagesCreateSessionID string) (*chatmessages.ChatMessageCreatePayload, error) {
+func BuildCreatePayload(chatMessagesCreateBody string, chatMessagesCreateIDToken string) (*chatmessages.ChatMessageCreatePayload, error) {
 	var err error
 	var body CreateRequestBody
 	{
 		err = json.Unmarshal([]byte(chatMessagesCreateBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"channel_id\": 15556517036826360854,\n      \"content\": \"Et labore.\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"channel_id\": 3412152620045203249,\n      \"content\": \"Non accusantium.\"\n   }'")
 		}
 	}
-	var sessionID string
+	var idToken string
 	{
-		sessionID = chatMessagesCreateSessionID
+		idToken = chatMessagesCreateIDToken
 	}
 	v := &chatmessages.ChatMessageCreatePayload{
 		ChannelID: body.ChannelID,
 		Content:   body.Content,
 	}
-	v.SessionID = sessionID
+	v.IDToken = idToken
 
 	return v, nil
 }
 
 // BuildUpdatePayload builds the payload for the chat_messages update endpoint
 // from CLI flags.
-func BuildUpdatePayload(chatMessagesUpdateBody string, chatMessagesUpdateID string, chatMessagesUpdateSessionID string) (*chatmessages.ChatMessageUpdatePayload, error) {
+func BuildUpdatePayload(chatMessagesUpdateBody string, chatMessagesUpdateID string, chatMessagesUpdateIDToken string) (*chatmessages.ChatMessageUpdatePayload, error) {
 	var err error
 	var body UpdateRequestBody
 	{
 		err = json.Unmarshal([]byte(chatMessagesUpdateBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"content\": \"Unde voluptas voluptatem quam velit et odit.\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"content\": \"Qui similique dolor.\"\n   }'")
 		}
 	}
 	var id uint64
@@ -135,22 +135,22 @@ func BuildUpdatePayload(chatMessagesUpdateBody string, chatMessagesUpdateID stri
 			return nil, fmt.Errorf("invalid value for id, must be UINT64")
 		}
 	}
-	var sessionID string
+	var idToken string
 	{
-		sessionID = chatMessagesUpdateSessionID
+		idToken = chatMessagesUpdateIDToken
 	}
 	v := &chatmessages.ChatMessageUpdatePayload{
 		Content: body.Content,
 	}
 	v.ID = id
-	v.SessionID = sessionID
+	v.IDToken = idToken
 
 	return v, nil
 }
 
 // BuildDeletePayload builds the payload for the chat_messages delete endpoint
 // from CLI flags.
-func BuildDeletePayload(chatMessagesDeleteID string, chatMessagesDeleteSessionID string) (*chatmessages.DeletePayload, error) {
+func BuildDeletePayload(chatMessagesDeleteID string, chatMessagesDeleteIDToken string) (*chatmessages.DeletePayload, error) {
 	var err error
 	var id uint64
 	{
@@ -159,13 +159,13 @@ func BuildDeletePayload(chatMessagesDeleteID string, chatMessagesDeleteSessionID
 			return nil, fmt.Errorf("invalid value for id, must be UINT64")
 		}
 	}
-	var sessionID string
+	var idToken string
 	{
-		sessionID = chatMessagesDeleteSessionID
+		idToken = chatMessagesDeleteIDToken
 	}
 	v := &chatmessages.DeletePayload{}
 	v.ID = id
-	v.SessionID = sessionID
+	v.IDToken = idToken
 
 	return v, nil
 }
