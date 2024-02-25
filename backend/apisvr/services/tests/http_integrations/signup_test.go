@@ -3,10 +3,8 @@ package httpintegrations
 import (
 	chatapi "apisvr/services"
 	"apisvr/services/gen/http/channels/server"
-	sessionsserver "apisvr/services/gen/http/sessions/server"
 	usersserver "apisvr/services/gen/http/users/server"
 	"apisvr/services/gen/log"
-	"apisvr/services/gen/sessions"
 	"apisvr/services/gen/users"
 	"applib/database/sql/sqltest"
 	"applib/encoding/json/jsontest"
@@ -53,9 +51,9 @@ func TestSignup(t *testing.T) {
 	usersSrvc := chatapi.NewUsers(&log.Logger{Logger: logger})
 	checker.Mount(usersserver.NewCreateHandler, usersserver.MountCreateHandler, users.NewCreateEndpoint(usersSrvc))
 
-	sessionSrvc := chatapi.NewSessions(&log.Logger{Logger: logger})
-	checker.Mount(sessionsserver.NewCreateHandler, sessionsserver.MountCreateHandler, sessions.NewCreateEndpoint(sessionSrvc))
-	checker.Mount(sessionsserver.NewDeleteHandler, sessionsserver.MountDeleteHandler, sessions.NewDeleteEndpoint(sessionSrvc))
+	// sessionSrvc := chatapi.NewSessions(&log.Logger{Logger: logger})
+	// checker.Mount(sessionsserver.NewCreateHandler, sessionsserver.MountCreateHandler, sessions.NewCreateEndpoint(sessionSrvc))
+	// checker.Mount(sessionsserver.NewDeleteHandler, sessionsserver.MountDeleteHandler, sessions.NewDeleteEndpoint(sessionSrvc))
 
 	fooEmail := "foo@example.com"
 	fooName := "Foo"
