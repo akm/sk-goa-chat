@@ -95,12 +95,10 @@ var _ = Service("chat_messages", func() {
 
 	HTTP(func() {
 		Path("/api/chat_messages")
-		httpIdToken()
 		httpUnautheticated()
 	})
 
 	GRPC(func() {
-		grpcIdToken()
 		grpcUnauthenticated()
 	})
 
@@ -115,6 +113,7 @@ var _ = Service("chat_messages", func() {
 		Result(ChatMessageListRT)
 		HTTP(func() {
 			GET("")
+			httpIdToken()
 			Response(StatusOK)
 			Params(func() {
 				for _, attr := range paramsAttrs {
@@ -123,6 +122,7 @@ var _ = Service("chat_messages", func() {
 			})
 		})
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 		})
 	})
@@ -139,10 +139,12 @@ var _ = Service("chat_messages", func() {
 
 		HTTP(func() {
 			GET("/{id}")
+			httpIdToken()
 			Response(StatusOK)
 			httpNotFound()
 		})
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 			grpcNotFound()
 		})
@@ -155,10 +157,12 @@ var _ = Service("chat_messages", func() {
 
 		HTTP(func() {
 			POST("")
+			httpIdToken()
 			Response(StatusCreated)
 			httpInvalidPayload()
 		})
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 			grpcInvalidPayload()
 		})
@@ -172,11 +176,13 @@ var _ = Service("chat_messages", func() {
 
 		HTTP(func() {
 			PUT("/{id}")
+			httpIdToken()
 			Response(StatusOK)
 			httpNotFound()
 			httpInvalidPayload()
 		})
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 			grpcNotFound()
 			grpcInvalidPayload()
@@ -195,10 +201,12 @@ var _ = Service("chat_messages", func() {
 
 		HTTP(func() {
 			DELETE("/{id}")
+			httpIdToken()
 			Response(StatusOK)
 			httpNotFound()
 		})
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 			grpcNotFound()
 		})
