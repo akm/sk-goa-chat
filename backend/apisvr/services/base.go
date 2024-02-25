@@ -22,24 +22,24 @@ func SetupContext(ctx context.Context) context.Context {
 	return boil.SkipTimestamps(ctx)
 }
 
-type baseService struct {
+type BaseService struct {
 	logger *log.Logger
 }
 
-func newBaseService(logger *log.Logger) baseService {
-	return baseService{logger: logger}
+func NewBaseService(logger *log.Logger) BaseService {
+	return BaseService{logger: logger}
 }
 
-func (s *baseService) sqlOpen() (*sql.DB, error) {
+func (s *BaseService) sqlOpen() (*sql.DB, error) {
 	return sql.Open(s.logger.Logger)
 }
 
-func (s *baseService) action(ctx context.Context, name string, cb func(context.Context) error) error {
+func (s *BaseService) action(ctx context.Context, name string, cb func(context.Context) error) error {
 	s.logger.Info().Msg(name)
 	return cb(SetupContext(ctx))
 }
 
-func (s *baseService) actionWithDB(ctx context.Context, name string, cb func(context.Context, *sql.DB) error) error {
+func (s *BaseService) actionWithDB(ctx context.Context, name string, cb func(context.Context, *sql.DB) error) error {
 	s.logger.Info().Msg(name)
 	ctx = SetupContext(ctx)
 	db, err := s.sqlOpen()
@@ -50,7 +50,7 @@ func (s *baseService) actionWithDB(ctx context.Context, name string, cb func(con
 	return cb(ctx, db)
 }
 
-func (s *baseService) firebaseAuthClient(ctx context.Context) (auth.Client, error) {
+func (s *BaseService) firebaseAuthClient(ctx context.Context) (auth.Client, error) {
 	fbapp, err := firebase.NewApp(ctx, nil)
 	if err != nil {
 		return nil, errors.Wrapf(err, "firebase.NewApp")
@@ -63,13 +63,13 @@ func (s *baseService) firebaseAuthClient(ctx context.Context) (auth.Client, erro
 }
 
 type baseAuthService struct {
-	baseService
+	BaseService
 	ConvToAuthenticationError func(error) *goa.ServiceError
 }
 
 func newBaseAuthService(logger *log.Logger, convToAuthenticationError func(error) *goa.ServiceError) baseAuthService {
 	return baseAuthService{
-		baseService:               newBaseService(logger),
+		BaseService:               NewBaseService(logger),
 		ConvToAuthenticationError: convToAuthenticationError,
 	}
 }
