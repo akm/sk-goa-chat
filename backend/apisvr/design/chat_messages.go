@@ -95,7 +95,7 @@ var _ = Service("chat_messages", func() {
 
 	HTTP(func() {
 		Path("/api/chat_messages")
-		Cookie(sessionIdKey)
+		Cookie(authApiKeyName)
 		httpUnautheticated()
 	})
 
