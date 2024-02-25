@@ -39,6 +39,8 @@ func TestChannels(t *testing.T) {
 	userFoo.Setup(t, ctx, fbauth, conn)
 	idToken := userFoo.IDToken
 
+	ctx = NewContextWithUser(ctx, userFoo.Model)
+
 	t.Run("no data", func(t *testing.T) {
 		t.Run("list", func(t *testing.T) {
 			res, err := srvc.List(ctx, &channels.ListPayload{IDToken: idToken})

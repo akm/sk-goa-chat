@@ -43,6 +43,8 @@ func TestChaeMessages(t *testing.T) {
 	userBar := testuser.Bar().Setup(t, ctx, fbauth, conn)
 	idToken := userFoo.IDToken
 
+	ctx = NewContextWithUser(ctx, userFoo.Model)
+
 	t.Run("no data", func(t *testing.T) {
 		t.Run("list", func(t *testing.T) {
 			res, err := srvc.List(ctx, &chatmessages.ListPayload{IDToken: idToken})
@@ -158,6 +160,8 @@ func TestChaeMessagesList(t *testing.T) {
 	userFoo := testuser.Foo().Setup(t, ctx, fbauth, conn)
 	userBar := testuser.Bar().Setup(t, ctx, fbauth, conn)
 	idToken := userFoo.IDToken
+
+	ctx = NewContextWithUser(ctx, userFoo.Model)
 
 	ch1 := &models.Channel{Name: "general", Visibility: models.ChannelsVisibilityPublic}
 	ch2 := &models.Channel{Name: "random", Visibility: models.ChannelsVisibilityPublic}
