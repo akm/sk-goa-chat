@@ -3,7 +3,6 @@ package testuser
 import (
 	"applib/firebase/auth"
 	"applib/google/identitytoolkit/identitytoolkittest"
-	"applib/time"
 	"biz/models"
 	"context"
 	"database/sql"
@@ -24,7 +23,7 @@ type User struct {
 
 	Model *models.User
 
-	SessionID string
+	// SessionID string
 }
 
 func New(email, password, name string) *User {
@@ -59,19 +58,20 @@ func (u *User) GetIdToken(t *testing.T, ctx context.Context, fbauth auth.Client)
 	return u.IDToken
 }
 
-func (u *User) GetSessionID(t *testing.T, ctx context.Context, fbauth auth.Client) string {
-	u.GetIdToken(t, ctx, fbauth)
-	cookie, err := fbauth.SessionCookie(ctx, u.IDToken, 1*time.Hour)
-	if err != nil {
-		t.Fatal(err)
-	}
-	u.SessionID = cookie
-	return u.SessionID
-}
+// func (u *User) GetSessionID(t *testing.T, ctx context.Context, fbauth auth.Client) string {
+// 	u.GetIdToken(t, ctx, fbauth)
+// 	cookie, err := fbauth.SessionCookie(ctx, u.IDToken, 1*time.Hour)
+// 	if err != nil {
+// 		t.Fatal(err)
+// 	}
+// 	u.SessionID = cookie
+// 	return u.SessionID
+// }
 
 func (u *User) Setup(t *testing.T, ctx context.Context, fbauth auth.Client, conn *sql.DB) *User {
 	u.CreateOnFirebaseAuth(t, ctx, fbauth)
 	u.CreateOnDB(t, ctx, conn)
-	u.GetSessionID(t, ctx, fbauth)
+	// u.GetSessionID(t, ctx, fbauth)
+	u.GetIdToken(t, ctx, fbauth)
 	return u
 }
