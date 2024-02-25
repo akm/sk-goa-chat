@@ -32,7 +32,7 @@ func NewChannels(logger *log.Logger) channels.Service {
 
 // List implements list.
 func (s *channelssrvc) List(ctx context.Context, p *channels.ListPayload) (res *channels.ChannelList, err error) {
-	err = s.actionWithAuth(ctx, "channels.list", p.IDToken, func(ctx context.Context, db *sql.DB, user *models.User) error {
+	err = s.actionWithUser(ctx, "channels.list", p.IDToken, func(ctx context.Context, db *sql.DB, user *models.User) error {
 		results, err := models.Channels().All(ctx, db)
 		if err != nil {
 			return err
@@ -45,7 +45,7 @@ func (s *channelssrvc) List(ctx context.Context, p *channels.ListPayload) (res *
 
 // Show implements show.
 func (s *channelssrvc) Show(ctx context.Context, p *channels.ShowPayload) (res *channels.Channel, err error) {
-	err = s.actionWithAuth(ctx, "channels.show", p.IDToken, func(ctx context.Context, db *sql.DB, user *models.User) error {
+	err = s.actionWithUser(ctx, "channels.show", p.IDToken, func(ctx context.Context, db *sql.DB, user *models.User) error {
 		m, err := models.FindChannel(ctx, db, p.ID)
 		if err != nil {
 			if err == sql.ErrNoRows {
@@ -62,7 +62,7 @@ func (s *channelssrvc) Show(ctx context.Context, p *channels.ShowPayload) (res *
 
 // Create implements create.
 func (s *channelssrvc) Create(ctx context.Context, p *channels.ChannelCreatePayload) (res *channels.Channel, err error) {
-	err = s.actionWithAuth(ctx, "channels.create", p.IDToken, func(ctx context.Context, db *sql.DB, user *models.User) error {
+	err = s.actionWithUser(ctx, "channels.create", p.IDToken, func(ctx context.Context, db *sql.DB, user *models.User) error {
 		if p.Name == "" {
 			return channels.MakeInvalidPayload(fmt.Errorf("name is required"))
 		} else {
@@ -86,7 +86,7 @@ func (s *channelssrvc) Create(ctx context.Context, p *channels.ChannelCreatePayl
 
 // Update implements update.
 func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayload) (res *channels.Channel, err error) {
-	err = s.actionWithAuth(ctx, "channels.update", p.IDToken, func(ctx context.Context, db *sql.DB, user *models.User) error {
+	err = s.actionWithUser(ctx, "channels.update", p.IDToken, func(ctx context.Context, db *sql.DB, user *models.User) error {
 		if p.Name == "" {
 			return channels.MakeInvalidPayload(fmt.Errorf("name is required"))
 		} else {
@@ -114,7 +114,7 @@ func (s *channelssrvc) Update(ctx context.Context, p *channels.ChannelUpdatePayl
 
 // Delete implements delete.
 func (s *channelssrvc) Delete(ctx context.Context, p *channels.DeletePayload) (res *channels.Channel, err error) {
-	err = s.actionWithAuth(ctx, "channels.delete", p.IDToken, func(ctx context.Context, db *sql.DB, user *models.User) error {
+	err = s.actionWithUser(ctx, "channels.delete", p.IDToken, func(ctx context.Context, db *sql.DB, user *models.User) error {
 		m, err := models.FindChannel(ctx, db, p.ID)
 		if err != nil {
 			if err == sql.ErrNoRows {

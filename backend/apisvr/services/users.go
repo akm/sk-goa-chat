@@ -1,13 +1,13 @@
 package chatapi
 
 import (
-	"applib/errors"
-	"applib/firebase/auth"
-	"applib/database/sql"
-	"applib/time"
-	"biz/models"
 	log "apisvr/services/gen/log"
 	users "apisvr/services/gen/users"
+	"applib/database/sql"
+	"applib/errors"
+	"applib/firebase/auth"
+	"applib/time"
+	"biz/models"
 	"context"
 	"fmt"
 	"strings"
@@ -20,13 +20,13 @@ import (
 // users service example implementation.
 // The example methods log the requests and return zero values.
 type userssrvc struct {
-	baseService
+	BaseService
 	*UsersConvertor
 }
 
 // NewUsers returns the users service implementation.
 func NewUsers(logger *log.Logger) users.Service {
-	return &userssrvc{baseService: newBaseService(logger), UsersConvertor: NewUsersConvertor()}
+	return &userssrvc{BaseService: NewBaseService(logger), UsersConvertor: NewUsersConvertor()}
 }
 
 // List implements list.
