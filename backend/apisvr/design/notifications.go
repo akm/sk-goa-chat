@@ -11,7 +11,7 @@ var _ = Service("notifications", func() {
 
 	HTTP(func() {
 		Path("/ws/notifications")
-		Cookie(authApiKeyName)
+		Header(authApiKeyName + ":X-ID-TOKEN")
 		httpUnautheticated()
 	})
 
