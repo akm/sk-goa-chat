@@ -14,3 +14,10 @@ func authApiKeyField(tag any) string {
 	dsl.APIKeyField(tag, authApiKeyScheme, authApiKeyName, dsl.String, "X-ID-TOKEN", func() { dsl.Example("abcdef12345") })
 	return authApiKeyName
 }
+
+func idTokenSecurity() func() {
+	dsl.Security(authApiKeySecurity)
+	return func() {
+		dsl.Header(authApiKeyName + ":X-ID-TOKEN")
+	}
+}

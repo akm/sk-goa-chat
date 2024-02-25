@@ -5,13 +5,13 @@ import (
 )
 
 var _ = Service("notifications", func() {
-	Security(authApiKeySecurity)
+	idTokenHeader := idTokenSecurity()
 
 	httpUnautheticated, grpcUnauthenticated := unauthenticated()
 
 	HTTP(func() {
 		Path("/ws/notifications")
-		Header(authApiKeyName + ":X-ID-TOKEN")
+		idTokenHeader()
 		httpUnautheticated()
 	})
 

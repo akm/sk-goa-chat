@@ -67,13 +67,13 @@ var ChannelUpdatePayload = Type("ChannelUpdatePayload", func() {
 })
 
 var _ = Service("channels", func() {
-	Security(authApiKeySecurity)
+	idTokenHeader := idTokenSecurity()
 
 	httpUnautheticated, grpcUnauthenticated := unauthenticated()
 
 	HTTP(func() {
 		Path("/api/channels")
-		Header(authApiKeyName + ":X-ID-TOKEN")
+		idTokenHeader()
 		httpUnautheticated()
 	})
 
