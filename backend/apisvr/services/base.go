@@ -74,7 +74,7 @@ func newBaseAuthService(logger *log.Logger, convToAuthenticationError func(error
 }
 
 func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, fbauth auth.Client, idToken string) (*models.User, error) {
-	token, err := fbauth.VerifySessionCookie(ctx, idToken)
+	token, err := fbauth.VerifyIDToken(ctx, idToken)
 	if err != nil {
 		return nil, s.ConvToAuthenticationError(err)
 	}
