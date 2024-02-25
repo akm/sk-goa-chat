@@ -8,13 +8,13 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	goa "goa.design/goa/v3/pkg"
 
+	log "apisvr/services/gen/log"
+	"applib/database/sql"
 	"applib/errors"
 	"applib/firebase"
 	"applib/firebase/auth"
-	"applib/database/sql"
 	"biz/models"
 	_ "biz/models_ext"
-	log "apisvr/services/gen/log"
 )
 
 func SetupContext(ctx context.Context) context.Context {
@@ -73,8 +73,8 @@ func newBaseAuthService(logger *log.Logger, convToAuthenticationError func(error
 	}
 }
 
-func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, fbauth auth.Client, sessionID string) (*models.User, error) {
-	token, err := fbauth.VerifySessionCookie(ctx, sessionID)
+func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, fbauth auth.Client, idToken string) (*models.User, error) {
+	token, err := fbauth.VerifySessionCookie(ctx, idToken)
 	if err != nil {
 		return nil, s.ConvToAuthenticationError(err)
 	}
@@ -91,13 +91,13 @@ func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, fbauth a
 	return user, nil
 }
 
-func (s *baseAuthService) actionWithAuth(ctx context.Context, name string, sessionID string, cb func(context.Context, *sql.DB, *models.User) error) error {
+func (s *baseAuthService) actionWithAuth(ctx context.Context, name string, idToken string, cb func(context.Context, *sql.DB, *models.User) error) error {
 	return s.actionWithDB(ctx, name, func(ctx context.Context, db *sql.DB) error {
 		fbauth, err := s.firebaseAuthClient(ctx)
 		if err != nil {
 			return err
 		}
-		user, err := s.authenticate(ctx, db, fbauth, sessionID)
+		user, err := s.authenticate(ctx, db, fbauth, idToken)
 		if err != nil {
 			return err
 		}
