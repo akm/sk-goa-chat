@@ -67,7 +67,7 @@ var ChannelUpdatePayload = Type("ChannelUpdatePayload", func() {
 })
 
 var _ = Service("channels", func() {
-	// Security(sessionAuth)
+	Security(authApiKeySecurity)
 
 	httpUnautheticated, grpcUnauthenticated := unauthenticated()
 

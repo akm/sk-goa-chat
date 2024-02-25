@@ -5,7 +5,7 @@ import (
 )
 
 var _ = Service("notifications", func() {
-	// Security(sessionAuth)
+	Security(authApiKeySecurity)
 
 	httpUnautheticated, grpcUnauthenticated := unauthenticated()
 
