@@ -8,6 +8,7 @@ import (
 	"applib/database/sql/sqltest"
 	"applib/encoding/json/jsontest"
 	"applib/firebase/auth/authtest"
+	"applib/goa/goasql"
 	"applib/goa/goatest"
 	"applib/log/logtest"
 	"applib/sqlboiler/sqlboilertest"
@@ -38,12 +39,14 @@ func TestChannels(t *testing.T) {
 	srvc := chatapi.NewChannels(&log.Logger{Logger: logger})
 	conv := chatapi.NewChannelsConvertor()
 
+	epWrapper := goasql.ConnectionEndpointWrapper(logger)
+
 	checker := goahttpcheck.New()
-	checker.Mount(server.NewListHandler, server.MountListHandler, channels.NewListEndpoint(srvc))
-	checker.Mount(server.NewShowHandler, server.MountShowHandler, channels.NewShowEndpoint(srvc))
-	checker.Mount(server.NewCreateHandler, server.MountCreateHandler, channels.NewCreateEndpoint(srvc))
-	checker.Mount(server.NewUpdateHandler, server.MountUpdateHandler, channels.NewUpdateEndpoint(srvc))
-	checker.Mount(server.NewDeleteHandler, server.MountDeleteHandler, channels.NewDeleteEndpoint(srvc))
+	checker.Mount(server.NewListHandler, server.MountListHandler, epWrapper(channels.NewListEndpoint(srvc)))
+	checker.Mount(server.NewShowHandler, server.MountShowHandler, epWrapper(channels.NewShowEndpoint(srvc)))
+	checker.Mount(server.NewCreateHandler, server.MountCreateHandler, epWrapper(channels.NewCreateEndpoint(srvc)))
+	checker.Mount(server.NewUpdateHandler, server.MountUpdateHandler, epWrapper(channels.NewUpdateEndpoint(srvc)))
+	checker.Mount(server.NewDeleteHandler, server.MountDeleteHandler, epWrapper(channels.NewDeleteEndpoint(srvc)))
 
 	fbauth := authtest.Setup(t, ctx)
 
