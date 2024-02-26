@@ -26,3 +26,11 @@ func StderrErrorHandler(err error) error {
 	}
 	return err
 }
+
+func DefaultErrorHandler(logger Logger) func(error) error {
+	if os.Getenv("APP_STAGE") != "local" {
+		return LoggerErrorHandlerFunc(logger)
+	} else {
+		return StderrErrorHandler
+	}
+}
