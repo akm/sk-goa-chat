@@ -8,7 +8,9 @@ import (
 	notifications "apisvr/services/gen/notifications"
 	sessions "apisvr/services/gen/sessions"
 	users "apisvr/services/gen/users"
+	goaendpoints "applib/goa/endpoints"
 	"applib/goa/goaext"
+	"applib/goa/goasql"
 	"context"
 	"flag"
 	"fmt"
@@ -67,17 +69,15 @@ func main() {
 		usersEndpoints         *users.Endpoints
 	)
 	{
-		var eh func(err error) error
-		if os.Getenv("APP_STAGE") != "local" {
-			eh = goaext.LoggerErrorHandlerFunc(logger)
-		} else {
-			eh = goaext.StderrErrorHandler
+		wappers := goaendpoints.Wrappers{
+			goaendpoints.ErrorHandler(goaext.DefaultErrorHandler(logger)),
+			goasql.ConnectionEndpointWrapper(logger.Logger),
 		}
-		channelsEndpoints = goaext.ErrorHandledEndpoints[*channels.Endpoints](channels.NewEndpoints(channelsSvc), eh)
-		chatMessagesEndpoints = goaext.ErrorHandledEndpoints[*chatmessages.Endpoints](chatmessages.NewEndpoints(chatMessagesSvc), eh)
-		notificationsEndpoints = goaext.ErrorHandledEndpoints[*notifications.Endpoints](notifications.NewEndpoints(notificationsSvc), eh)
-		sessionsEndpoints = goaext.ErrorHandledEndpoints[*sessions.Endpoints](sessions.NewEndpoints(sessionsSvc), eh)
-		usersEndpoints = goaext.ErrorHandledEndpoints[*users.Endpoints](users.NewEndpoints(usersSvc), eh)
+		channelsEndpoints = goaendpoints.Wrap[*channels.Endpoints](channels.NewEndpoints(channelsSvc), wappers.Wrap)
+		chatMessagesEndpoints = goaendpoints.Wrap[*chatmessages.Endpoints](chatmessages.NewEndpoints(chatMessagesSvc), wappers.Wrap)
+		notificationsEndpoints = goaendpoints.Wrap[*notifications.Endpoints](notifications.NewEndpoints(notificationsSvc), wappers.Wrap)
+		sessionsEndpoints = goaendpoints.Wrap[*sessions.Endpoints](sessions.NewEndpoints(sessionsSvc), wappers.Wrap)
+		usersEndpoints = goaendpoints.Wrap[*users.Endpoints](users.NewEndpoints(usersSvc), wappers.Wrap)
 	}
 
 	// Create channel used by both the signal handler and server goroutines
