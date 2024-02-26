@@ -29,10 +29,6 @@ func newBaseService(logger *log.Logger) baseService {
 	return baseService{logger: logger}
 }
 
-func (s *baseService) sqlOpen() (*sql.DB, error) {
-	return sql.Open(s.logger.Logger)
-}
-
 func (s *baseService) action(ctx context.Context, name string, cb func(context.Context) error) error {
 	s.logger.Info().Msg(name)
 	return cb(SetupContext(ctx))
