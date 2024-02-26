@@ -29,7 +29,7 @@ func TestChannels(t *testing.T) {
 	now := time.Now()
 	defer timetest.SetNow(now)
 
-	ctx := context.Background()
+	ctx := sql.NewContextWithConnection(context.Background(), conn)
 	srvc := NewChannels(&log.Logger{Logger: logger})
 	conv := NewChannelsConvertor()
 
