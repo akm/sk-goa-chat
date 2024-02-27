@@ -3,6 +3,7 @@ package chatapi
 import (
 	log "apisvr/services/gen/log"
 	"apisvr/services/gen/users"
+	"applib/database/sql"
 	"applib/database/sql/sqltest"
 	"applib/log/logtest"
 	"applib/sqlboiler/sqlboilertest"
@@ -24,7 +25,7 @@ func TestUsers(t *testing.T) {
 	now := time.Now()
 	defer timetest.SetNow(now)
 
-	ctx := context.Background()
+	ctx := sql.NewContextWithConnection(context.Background(), conn)
 	srvc := NewUsers(&log.Logger{Logger: logger})
 	conv := NewUsersConvertor()
 

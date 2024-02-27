@@ -13,6 +13,7 @@ import (
 	"applib/firebase"
 	"applib/firebase/auth"
 	"applib/firebase/auth/authtest"
+	"applib/goa/goasql"
 	"applib/google/identitytoolkit/identitytoolkittest"
 	"applib/log/logtest"
 	"applib/time"
@@ -48,14 +49,16 @@ func TestSignup(t *testing.T) {
 		authtest.DeleteUsers(t, ctx, fbauth)
 	})
 
+	epWrapper := goasql.ConnectionEndpointWrapper(logger)
+
 	checker := goahttpcheck.New()
 	// checker.Mount(usersServer.NewListHandler, server.MountListHandler, channels.NewListEndpoint(srvc))
 	usersSrvc := chatapi.NewUsers(&log.Logger{Logger: logger})
-	checker.Mount(usersserver.NewCreateHandler, usersserver.MountCreateHandler, users.NewCreateEndpoint(usersSrvc))
+	checker.Mount(usersserver.NewCreateHandler, usersserver.MountCreateHandler, epWrapper(users.NewCreateEndpoint(usersSrvc)))
 
 	sessionSrvc := chatapi.NewSessions(&log.Logger{Logger: logger})
-	checker.Mount(sessionsserver.NewCreateHandler, sessionsserver.MountCreateHandler, sessions.NewCreateEndpoint(sessionSrvc))
-	checker.Mount(sessionsserver.NewDeleteHandler, sessionsserver.MountDeleteHandler, sessions.NewDeleteEndpoint(sessionSrvc))
+	checker.Mount(sessionsserver.NewCreateHandler, sessionsserver.MountCreateHandler, epWrapper(sessions.NewCreateEndpoint(sessionSrvc)))
+	checker.Mount(sessionsserver.NewDeleteHandler, sessionsserver.MountDeleteHandler, epWrapper(sessions.NewDeleteEndpoint(sessionSrvc)))
 
 	fooEmail := "foo@example.com"
 	fooName := "Foo"

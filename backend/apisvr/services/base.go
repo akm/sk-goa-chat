@@ -8,13 +8,13 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	goa "goa.design/goa/v3/pkg"
 
+	log "apisvr/services/gen/log"
+	"applib/database/sql"
 	"applib/errors"
 	"applib/firebase"
 	"applib/firebase/auth"
-	"applib/database/sql"
 	"biz/models"
 	_ "biz/models_ext"
-	log "apisvr/services/gen/log"
 )
 
 func SetupContext(ctx context.Context) context.Context {
@@ -29,10 +29,6 @@ func newBaseService(logger *log.Logger) baseService {
 	return baseService{logger: logger}
 }
 
-func (s *baseService) sqlOpen() (*sql.DB, error) {
-	return sql.Open(s.logger.Logger)
-}
-
 func (s *baseService) action(ctx context.Context, name string, cb func(context.Context) error) error {
 	s.logger.Info().Msg(name)
 	return cb(SetupContext(ctx))
@@ -41,11 +37,10 @@ func (s *baseService) action(ctx context.Context, name string, cb func(context.C
 func (s *baseService) actionWithDB(ctx context.Context, name string, cb func(context.Context, *sql.DB) error) error {
 	s.logger.Info().Msg(name)
 	ctx = SetupContext(ctx)
-	db, err := s.sqlOpen()
+	db, err := sql.ConnectionFromContext(ctx)
 	if err != nil {
 		return err
 	}
-	defer db.Close()
 	return cb(ctx, db)
 }
 

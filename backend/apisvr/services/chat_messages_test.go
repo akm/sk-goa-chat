@@ -4,6 +4,7 @@ import (
 	chatmessages "apisvr/services/gen/chat_messages"
 	log "apisvr/services/gen/log"
 	"applib/collection"
+	"applib/database/sql"
 	"applib/database/sql/sqltest"
 	"applib/firebase/auth/authtest"
 	"applib/goa/goatest"
@@ -32,7 +33,7 @@ func TestChaeMessages(t *testing.T) {
 	now := time.Now()
 	defer timetest.SetNow(now)
 
-	ctx := context.Background()
+	ctx := sql.NewContextWithConnection(context.Background(), conn)
 	srvc := NewChatMessages(&log.Logger{Logger: logger})
 	conv := NewChatMessageConvertor()
 
@@ -148,7 +149,7 @@ func TestChaeMessagesList(t *testing.T) {
 	now := time.Now()
 	defer timetest.SetNow(now)
 
-	ctx := context.Background()
+	ctx := sql.NewContextWithConnection(context.Background(), conn)
 	srvc := NewChatMessages(&log.Logger{Logger: logger})
 	conv := NewChatMessageConvertor()
 

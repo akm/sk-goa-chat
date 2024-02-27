@@ -9,6 +9,8 @@ import (
 	"applib/database/sql/sqltest"
 	"applib/encoding/json/jsontest"
 	"applib/firebase/auth/authtest"
+	goaendpoints "applib/goa/endpoints"
+	"applib/goa/goasql"
 	"applib/log/logtest"
 	"applib/sqlboiler/sqlboilertest"
 	"applib/time"
@@ -171,8 +173,9 @@ func setupChannelsServer(ctx context.Context, logger *log.Logger) (channelspb.Ch
 			grpcmdlwr.UnaryServerLog(adapter),
 		),
 	)
+	epWrapper := goasql.ConnectionEndpointWrapper(logger.Logger)
 	channelsSvc := chatapi.NewChannels(logger)
-	channelsEndpoints := channels.NewEndpoints(channelsSvc)
+	channelsEndpoints := goaendpoints.Wrap[*channels.Endpoints](channels.NewEndpoints(channelsSvc), epWrapper)
 	channelsServer := channelssvr.New(channelsEndpoints, nil)
 	channelspb.RegisterChannelsServer(srv, channelsServer)
 
