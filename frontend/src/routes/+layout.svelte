@@ -3,7 +3,8 @@
 
 	import '../app.pcss';
 	import { page } from '$app/stores';
-	import { deleteSession } from '$lib/session';
+	import { auth } from '$lib/firebase/auth';
+	// import { deleteSession } from '$lib/session';
 	import { closeWebSockets } from '$lib/websockets';
 	import type { Channel } from '$lib/models/channel';
 
@@ -14,9 +15,12 @@
 			console.log('failed to close websockets: ', e);
 		}
 		try {
-			await deleteSession();
+
+			// await deleteSession();
+			await auth.signOut();
 		} catch (e) {
-			console.log('failed to delete session: ', e);
+			// console.log('failed to delete session: ', e);
+			console.log('failed to signOut: ', e);
 		}
 		window.location.href = $page.url.origin + '/signin';
 	};

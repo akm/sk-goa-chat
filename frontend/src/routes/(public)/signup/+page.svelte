@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { isFirebaseError } from '$lib/firebase';
 	import { auth } from '$lib/firebase/auth';
-	import { createSession } from '$lib/session';
+	// import { createSession } from '$lib/session';
 	import { POST } from '$lib/openapi_client';
 	import { page } from '$app/stores';
 
@@ -59,8 +59,11 @@
 		}
 
 		const idToken = await userCredential.user.getIdToken();
-		await createSession(idToken);
-		console.log('createSession OK');
+		//await createSession(idToken);
+		//console.log('createSession OK');
+		sessionStorage.setItem('idToken', idToken);
+		sessionStorage.setItem('refreshToken', userCredential.user.refreshToken);
+
 		// await goto('/', { replaceState: true });
 		window.location.href = $page.url.origin + '/';
 	};
