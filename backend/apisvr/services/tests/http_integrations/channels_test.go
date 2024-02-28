@@ -39,25 +39,28 @@ func TestChannels(t *testing.T) {
 	srvc := chatapi.NewChannels(&log.Logger{Logger: logger})
 	conv := chatapi.NewChannelsConvertor()
 
-	epWrapper := goasql.ConnectionEndpointWrapper(logger)
-
-	checker := goahttpcheck.New()
-	checker.Mount(server.NewListHandler, server.MountListHandler, epWrapper(channels.NewListEndpoint(srvc)))
-	checker.Mount(server.NewShowHandler, server.MountShowHandler, epWrapper(channels.NewShowEndpoint(srvc)))
-	checker.Mount(server.NewCreateHandler, server.MountCreateHandler, epWrapper(channels.NewCreateEndpoint(srvc)))
-	checker.Mount(server.NewUpdateHandler, server.MountUpdateHandler, epWrapper(channels.NewUpdateEndpoint(srvc)))
-	checker.Mount(server.NewDeleteHandler, server.MountDeleteHandler, epWrapper(channels.NewDeleteEndpoint(srvc)))
-
 	fbauth := authtest.Setup(t, ctx)
 
 	userFoo := testuser.Foo()
 	userFoo.Setup(t, ctx, fbauth, conn)
-	sessionID := userFoo.SessionID
+	idToken := userFoo.IDToken
+
+	baseAuthSrvc := chatapi.NewBaseAuthService(&log.Logger{Logger: logger}, nil)
+	apiKeyAuth := baseAuthSrvc.APIKeyAuth
+
+	epWrapper := goasql.ConnectionEndpointWrapper(logger)
+
+	checker := goahttpcheck.New()
+	checker.Mount(server.NewListHandler, server.MountListHandler, epWrapper(channels.NewListEndpoint(srvc, apiKeyAuth)))
+	checker.Mount(server.NewShowHandler, server.MountShowHandler, epWrapper(channels.NewShowEndpoint(srvc, apiKeyAuth)))
+	checker.Mount(server.NewCreateHandler, server.MountCreateHandler, epWrapper(channels.NewCreateEndpoint(srvc, apiKeyAuth)))
+	checker.Mount(server.NewUpdateHandler, server.MountUpdateHandler, epWrapper(channels.NewUpdateEndpoint(srvc, apiKeyAuth)))
+	checker.Mount(server.NewDeleteHandler, server.MountDeleteHandler, epWrapper(channels.NewDeleteEndpoint(srvc, apiKeyAuth)))
 
 	t.Run("no data", func(t *testing.T) {
 		t.Run("list", func(t *testing.T) {
 			checker.Test(t, http.MethodGet, "/api/channels").
-				WithCookie("session_id", sessionID).
+				WithHeader("X-ID-TOKEN", idToken).
 				Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				res := jsontest.UnmarshalFrom[server.ListResponseBody](t, r.Body)
@@ -77,7 +80,7 @@ func TestChannels(t *testing.T) {
 
 	t.Run("list", func(t *testing.T) {
 		checker.Test(t, http.MethodGet, "/api/channels").
-			WithCookie("session_id", sessionID).
+			WithHeader("X-ID-TOKEN", idToken).
 			Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
 			defer r.Body.Close()
 			res := jsontest.CamelizeJsonKeysAndUnmarshalFrom[channels.ChannelList](t, r.Body)
@@ -89,7 +92,7 @@ func TestChannels(t *testing.T) {
 		for _, ch := range []*models.Channel{ch1, ch2} {
 			t.Run(ch.Name, func(t *testing.T) {
 				checker.Test(t, http.MethodGet, fmt.Sprintf("/api/channels/%d", ch.ID)).
-					WithCookie("session_id", sessionID).
+					WithHeader("X-ID-TOKEN", idToken).
 					Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
 					defer r.Body.Close()
 					res := jsontest.UnmarshalFrom[server.ShowResponseBody](t, r.Body)
@@ -100,7 +103,7 @@ func TestChannels(t *testing.T) {
 		}
 		t.Run("not found", func(t *testing.T) {
 			checker.Test(t, http.MethodGet, fmt.Sprintf("/api/channels/%d", 999)).
-				WithCookie("session_id", sessionID).
+				WithHeader("X-ID-TOKEN", idToken).
 				Check().HasStatus(http.StatusNotFound).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				goatest.ParseErrorBodyAndAssert(t, r.Body, &goatest.DefaultErrorResponseBody{
@@ -115,7 +118,7 @@ func TestChannels(t *testing.T) {
 		t.Run("valid name", func(t *testing.T) {
 			name := "test1"
 			checker.Test(t, http.MethodPost, "/api/channels").
-				WithCookie("session_id", sessionID).
+				WithHeader("X-ID-TOKEN", idToken).
 				WithJSON(map[string]any{"name": name}).Check().HasStatus(http.StatusCreated).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				res := jsontest.UnmarshalFrom[server.CreateResponseBody](t, r.Body)
@@ -125,7 +128,7 @@ func TestChannels(t *testing.T) {
 		})
 		t.Run("empty name", func(t *testing.T) {
 			checker.Test(t, http.MethodPost, "/api/channels").
-				WithCookie("session_id", sessionID).
+				WithHeader("X-ID-TOKEN", idToken).
 				WithJSON(map[string]any{"name": ""}).Check().HasStatus(http.StatusBadRequest).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				goatest.ParseErrorBodyAndAssert(t, r.Body, &goatest.DefaultErrorResponseBody{
@@ -136,7 +139,7 @@ func TestChannels(t *testing.T) {
 		})
 		t.Run("too long name", func(t *testing.T) {
 			checker.Test(t, http.MethodPost, "/api/channels").
-				WithCookie("session_id", sessionID).
+				WithHeader("X-ID-TOKEN", idToken).
 				WithJSON(map[string]any{"name": strings.Repeat("a", 256)}).Check().HasStatus(http.StatusBadRequest).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				goatest.ParseErrorBodyAndAssert(t, r.Body, &goatest.DefaultErrorResponseBody{
@@ -150,7 +153,7 @@ func TestChannels(t *testing.T) {
 	t.Run("update", func(t *testing.T) {
 		t.Run("invalid id", func(t *testing.T) {
 			checker.Test(t, http.MethodPut, fmt.Sprintf("/api/channels/%d", 999)).
-				WithCookie("session_id", sessionID).
+				WithHeader("X-ID-TOKEN", idToken).
 				WithJSON(map[string]any{"name": "test"}).Check().HasStatus(http.StatusNotFound).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				goatest.ParseErrorBodyAndAssert(t, r.Body, &goatest.DefaultErrorResponseBody{
@@ -162,7 +165,7 @@ func TestChannels(t *testing.T) {
 		t.Run("valid name", func(t *testing.T) {
 			newName := ch1.Name + "-dash"
 			checker.Test(t, http.MethodPut, fmt.Sprintf("/api/channels/%d", ch1.ID)).
-				WithCookie("session_id", sessionID).
+				WithHeader("X-ID-TOKEN", idToken).
 				WithJSON(map[string]any{"name": newName}).Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				res := jsontest.UnmarshalFrom[server.UpdateResponseBody](t, r.Body)
@@ -172,7 +175,7 @@ func TestChannels(t *testing.T) {
 		})
 		t.Run("empty name", func(t *testing.T) {
 			checker.Test(t, http.MethodPut, fmt.Sprintf("/api/channels/%d", ch1.ID)).
-				WithCookie("session_id", sessionID).
+				WithHeader("X-ID-TOKEN", idToken).
 				WithJSON(map[string]any{"name": ""}).Check().HasStatus(http.StatusBadRequest).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				goatest.ParseErrorBodyAndAssert(t, r.Body, &goatest.DefaultErrorResponseBody{
@@ -183,7 +186,7 @@ func TestChannels(t *testing.T) {
 		})
 		t.Run("too long name", func(t *testing.T) {
 			checker.Test(t, http.MethodPut, fmt.Sprintf("/api/channels/%d", ch1.ID)).
-				WithCookie("session_id", sessionID).
+				WithHeader("X-ID-TOKEN", idToken).
 				WithJSON(map[string]any{"name": strings.Repeat("a", 256)}).Check().HasStatus(http.StatusBadRequest).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				goatest.ParseErrorBodyAndAssert(t, r.Body, &goatest.DefaultErrorResponseBody{
@@ -197,7 +200,7 @@ func TestChannels(t *testing.T) {
 	t.Run("delete", func(t *testing.T) {
 		t.Run("invalid id", func(t *testing.T) {
 			checker.Test(t, http.MethodDelete, fmt.Sprintf("/api/channels/%d", 999)).
-				WithCookie("session_id", sessionID).
+				WithHeader("X-ID-TOKEN", idToken).
 				Check().HasStatus(http.StatusNotFound).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				goatest.ParseErrorBodyAndAssert(t, r.Body, &goatest.DefaultErrorResponseBody{
@@ -210,7 +213,7 @@ func TestChannels(t *testing.T) {
 			ch1Loaded, err := models.FindChannel(ctx, conn, ch1.ID)
 			assert.NoError(t, err)
 			checker.Test(t, http.MethodDelete, fmt.Sprintf("/api/channels/%d", ch1.ID)).
-				WithCookie("session_id", sessionID).
+				WithHeader("X-ID-TOKEN", idToken).
 				Check().HasStatus(http.StatusOK).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				res := jsontest.UnmarshalFrom[server.UpdateResponseBody](t, r.Body)
@@ -219,7 +222,7 @@ func TestChannels(t *testing.T) {
 			})
 			//  削除後は 404 Not Found
 			checker.Test(t, http.MethodGet, fmt.Sprintf("/api/channels/%d", ch1.ID)).
-				WithCookie("session_id", sessionID).
+				WithHeader("X-ID-TOKEN", idToken).
 				Check().HasStatus(http.StatusNotFound).Cb(func(r *http.Response) {
 				defer r.Body.Close()
 				goatest.ParseErrorBodyAndAssert(t, r.Body, &goatest.DefaultErrorResponseBody{
