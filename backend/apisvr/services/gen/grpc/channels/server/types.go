@@ -15,9 +15,10 @@ import (
 
 // NewListPayload builds the payload of the "list" endpoint of the "channels"
 // service from the gRPC request type.
-func NewListPayload(idToken string) *channels.ListPayload {
-	v := &channels.ListPayload{}
-	v.IDToken = idToken
+func NewListPayload(message *channelspb.ListRequest) *channels.ListPayload {
+	v := &channels.ListPayload{
+		IDToken: message.IdToken,
+	}
 	return v
 }
 
@@ -45,11 +46,11 @@ func NewProtoListResponse(result *channelsviews.ChannelListView) *channelspb.Lis
 
 // NewShowPayload builds the payload of the "show" endpoint of the "channels"
 // service from the gRPC request type.
-func NewShowPayload(message *channelspb.ShowRequest, idToken string) *channels.ShowPayload {
+func NewShowPayload(message *channelspb.ShowRequest) *channels.ShowPayload {
 	v := &channels.ShowPayload{
-		ID: message.Id,
+		IDToken: message.IdToken,
+		ID:      message.Id,
 	}
-	v.IDToken = idToken
 	return v
 }
 
@@ -67,11 +68,11 @@ func NewProtoShowResponse(result *channelsviews.ChannelView) *channelspb.ShowRes
 
 // NewCreatePayload builds the payload of the "create" endpoint of the
 // "channels" service from the gRPC request type.
-func NewCreatePayload(message *channelspb.CreateRequest, idToken string) *channels.ChannelCreatePayload {
+func NewCreatePayload(message *channelspb.CreateRequest) *channels.ChannelCreatePayload {
 	v := &channels.ChannelCreatePayload{
-		Name: message.Name,
+		IDToken: message.IdToken,
+		Name:    message.Name,
 	}
-	v.IDToken = idToken
 	return v
 }
 
@@ -89,12 +90,12 @@ func NewProtoCreateResponse(result *channelsviews.ChannelView) *channelspb.Creat
 
 // NewUpdatePayload builds the payload of the "update" endpoint of the
 // "channels" service from the gRPC request type.
-func NewUpdatePayload(message *channelspb.UpdateRequest, idToken string) *channels.ChannelUpdatePayload {
+func NewUpdatePayload(message *channelspb.UpdateRequest) *channels.ChannelUpdatePayload {
 	v := &channels.ChannelUpdatePayload{
-		ID:   message.Id,
-		Name: message.Name,
+		IDToken: message.IdToken,
+		ID:      message.Id,
+		Name:    message.Name,
 	}
-	v.IDToken = idToken
 	return v
 }
 
@@ -112,11 +113,11 @@ func NewProtoUpdateResponse(result *channelsviews.ChannelView) *channelspb.Updat
 
 // NewDeletePayload builds the payload of the "delete" endpoint of the
 // "channels" service from the gRPC request type.
-func NewDeletePayload(message *channelspb.DeleteRequest, idToken string) *channels.DeletePayload {
+func NewDeletePayload(message *channelspb.DeleteRequest) *channels.DeletePayload {
 	v := &channels.DeletePayload{
-		ID: message.Id,
+		IDToken: message.IdToken,
+		ID:      message.Id,
 	}
-	v.IDToken = idToken
 	return v
 }
 

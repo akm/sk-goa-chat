@@ -33,14 +33,19 @@ users (list|create)
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
-	return os.Args[0] + ` channels list --id-token "abcdef12345"` + "\n" +
+	return os.Args[0] + ` channels list --message '{
+      "id_token": "abcdef12345"
+   }'` + "\n" +
 		os.Args[0] + ` chat-messages list --message '{
       "after": 178502275960762926,
       "before": 13043671830441135493,
       "channel_id": 1428451127207239674,
+      "id_token": "abcdef12345",
       "limit": 4391472896458759808
-   }' --id-token "abcdef12345"` + "\n" +
-		os.Args[0] + ` notifications subscribe --id-token "abcdef12345"` + "\n" +
+   }'` + "\n" +
+		os.Args[0] + ` notifications subscribe --message '{
+      "id_token": "abcdef12345"
+   }'` + "\n" +
 		os.Args[0] + ` users list` + "\n" +
 		""
 }
@@ -52,50 +57,41 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 		channelsFlags = flag.NewFlagSet("channels", flag.ContinueOnError)
 
 		channelsListFlags       = flag.NewFlagSet("list", flag.ExitOnError)
-		channelsListIDTokenFlag = channelsListFlags.String("id-token", "REQUIRED", "")
+		channelsListMessageFlag = channelsListFlags.String("message", "", "")
 
 		channelsShowFlags       = flag.NewFlagSet("show", flag.ExitOnError)
 		channelsShowMessageFlag = channelsShowFlags.String("message", "", "")
-		channelsShowIDTokenFlag = channelsShowFlags.String("id-token", "REQUIRED", "")
 
 		channelsCreateFlags       = flag.NewFlagSet("create", flag.ExitOnError)
 		channelsCreateMessageFlag = channelsCreateFlags.String("message", "", "")
-		channelsCreateIDTokenFlag = channelsCreateFlags.String("id-token", "REQUIRED", "")
 
 		channelsUpdateFlags       = flag.NewFlagSet("update", flag.ExitOnError)
 		channelsUpdateMessageFlag = channelsUpdateFlags.String("message", "", "")
-		channelsUpdateIDTokenFlag = channelsUpdateFlags.String("id-token", "REQUIRED", "")
 
 		channelsDeleteFlags       = flag.NewFlagSet("delete", flag.ExitOnError)
 		channelsDeleteMessageFlag = channelsDeleteFlags.String("message", "", "")
-		channelsDeleteIDTokenFlag = channelsDeleteFlags.String("id-token", "REQUIRED", "")
 
 		chatMessagesFlags = flag.NewFlagSet("chat-messages", flag.ContinueOnError)
 
 		chatMessagesListFlags       = flag.NewFlagSet("list", flag.ExitOnError)
 		chatMessagesListMessageFlag = chatMessagesListFlags.String("message", "", "")
-		chatMessagesListIDTokenFlag = chatMessagesListFlags.String("id-token", "REQUIRED", "")
 
 		chatMessagesShowFlags       = flag.NewFlagSet("show", flag.ExitOnError)
 		chatMessagesShowMessageFlag = chatMessagesShowFlags.String("message", "", "")
-		chatMessagesShowIDTokenFlag = chatMessagesShowFlags.String("id-token", "REQUIRED", "")
 
 		chatMessagesCreateFlags       = flag.NewFlagSet("create", flag.ExitOnError)
 		chatMessagesCreateMessageFlag = chatMessagesCreateFlags.String("message", "", "")
-		chatMessagesCreateIDTokenFlag = chatMessagesCreateFlags.String("id-token", "REQUIRED", "")
 
 		chatMessagesUpdateFlags       = flag.NewFlagSet("update", flag.ExitOnError)
 		chatMessagesUpdateMessageFlag = chatMessagesUpdateFlags.String("message", "", "")
-		chatMessagesUpdateIDTokenFlag = chatMessagesUpdateFlags.String("id-token", "REQUIRED", "")
 
 		chatMessagesDeleteFlags       = flag.NewFlagSet("delete", flag.ExitOnError)
 		chatMessagesDeleteMessageFlag = chatMessagesDeleteFlags.String("message", "", "")
-		chatMessagesDeleteIDTokenFlag = chatMessagesDeleteFlags.String("id-token", "REQUIRED", "")
 
 		notificationsFlags = flag.NewFlagSet("notifications", flag.ContinueOnError)
 
 		notificationsSubscribeFlags       = flag.NewFlagSet("subscribe", flag.ExitOnError)
-		notificationsSubscribeIDTokenFlag = notificationsSubscribeFlags.String("id-token", "REQUIRED", "")
+		notificationsSubscribeMessageFlag = notificationsSubscribeFlags.String("message", "", "")
 
 		usersFlags = flag.NewFlagSet("users", flag.ContinueOnError)
 
@@ -243,45 +239,45 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 			switch epn {
 			case "list":
 				endpoint = c.List()
-				data, err = channelsc.BuildListPayload(*channelsListIDTokenFlag)
+				data, err = channelsc.BuildListPayload(*channelsListMessageFlag)
 			case "show":
 				endpoint = c.Show()
-				data, err = channelsc.BuildShowPayload(*channelsShowMessageFlag, *channelsShowIDTokenFlag)
+				data, err = channelsc.BuildShowPayload(*channelsShowMessageFlag)
 			case "create":
 				endpoint = c.Create()
-				data, err = channelsc.BuildCreatePayload(*channelsCreateMessageFlag, *channelsCreateIDTokenFlag)
+				data, err = channelsc.BuildCreatePayload(*channelsCreateMessageFlag)
 			case "update":
 				endpoint = c.Update()
-				data, err = channelsc.BuildUpdatePayload(*channelsUpdateMessageFlag, *channelsUpdateIDTokenFlag)
+				data, err = channelsc.BuildUpdatePayload(*channelsUpdateMessageFlag)
 			case "delete":
 				endpoint = c.Delete()
-				data, err = channelsc.BuildDeletePayload(*channelsDeleteMessageFlag, *channelsDeleteIDTokenFlag)
+				data, err = channelsc.BuildDeletePayload(*channelsDeleteMessageFlag)
 			}
 		case "chat-messages":
 			c := chatmessagesc.NewClient(cc, opts...)
 			switch epn {
 			case "list":
 				endpoint = c.List()
-				data, err = chatmessagesc.BuildListPayload(*chatMessagesListMessageFlag, *chatMessagesListIDTokenFlag)
+				data, err = chatmessagesc.BuildListPayload(*chatMessagesListMessageFlag)
 			case "show":
 				endpoint = c.Show()
-				data, err = chatmessagesc.BuildShowPayload(*chatMessagesShowMessageFlag, *chatMessagesShowIDTokenFlag)
+				data, err = chatmessagesc.BuildShowPayload(*chatMessagesShowMessageFlag)
 			case "create":
 				endpoint = c.Create()
-				data, err = chatmessagesc.BuildCreatePayload(*chatMessagesCreateMessageFlag, *chatMessagesCreateIDTokenFlag)
+				data, err = chatmessagesc.BuildCreatePayload(*chatMessagesCreateMessageFlag)
 			case "update":
 				endpoint = c.Update()
-				data, err = chatmessagesc.BuildUpdatePayload(*chatMessagesUpdateMessageFlag, *chatMessagesUpdateIDTokenFlag)
+				data, err = chatmessagesc.BuildUpdatePayload(*chatMessagesUpdateMessageFlag)
 			case "delete":
 				endpoint = c.Delete()
-				data, err = chatmessagesc.BuildDeletePayload(*chatMessagesDeleteMessageFlag, *chatMessagesDeleteIDTokenFlag)
+				data, err = chatmessagesc.BuildDeletePayload(*chatMessagesDeleteMessageFlag)
 			}
 		case "notifications":
 			c := notificationsc.NewClient(cc, opts...)
 			switch epn {
 			case "subscribe":
 				endpoint = c.Subscribe()
-				data, err = notificationsc.BuildSubscribePayload(*notificationsSubscribeIDTokenFlag)
+				data, err = notificationsc.BuildSubscribePayload(*notificationsSubscribeMessageFlag)
 			}
 		case "users":
 			c := usersc.NewClient(cc, opts...)
@@ -320,70 +316,72 @@ Additional help:
 `, os.Args[0])
 }
 func channelsListUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels list -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels list -message JSON
 
 List implements list.
-    -id-token STRING: 
+    -message JSON: 
 
 Example:
-    %[1]s channels list --id-token "abcdef12345"
+    %[1]s channels list --message '{
+      "id_token": "abcdef12345"
+   }'
 `, os.Args[0])
 }
 
 func channelsShowUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels show -message JSON -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels show -message JSON
 
 Show implements show.
     -message JSON: 
-    -id-token STRING: 
 
 Example:
     %[1]s channels show --message '{
-      "id": 4243154004623530542
-   }' --id-token "abcdef12345"
+      "id": 4243154004623530542,
+      "id_token": "abcdef12345"
+   }'
 `, os.Args[0])
 }
 
 func channelsCreateUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels create -message JSON -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels create -message JSON
 
 Create implements create.
     -message JSON: 
-    -id-token STRING: 
 
 Example:
     %[1]s channels create --message '{
+      "id_token": "abcdef12345",
       "name": "Sit quos enim praesentium provident et."
-   }' --id-token "abcdef12345"
+   }'
 `, os.Args[0])
 }
 
 func channelsUpdateUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels update -message JSON -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels update -message JSON
 
 Update implements update.
     -message JSON: 
-    -id-token STRING: 
 
 Example:
     %[1]s channels update --message '{
       "id": 8845190340737756413,
+      "id_token": "abcdef12345",
       "name": "Nihil aliquam dicta."
-   }' --id-token "abcdef12345"
+   }'
 `, os.Args[0])
 }
 
 func channelsDeleteUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels delete -message JSON -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels delete -message JSON
 
 Delete implements delete.
     -message JSON: 
-    -id-token STRING: 
 
 Example:
     %[1]s channels delete --message '{
-      "id": 13886048143001497827
-   }' --id-token "abcdef12345"
+      "id": 13886048143001497827,
+      "id_token": "abcdef12345"
+   }'
 `, os.Args[0])
 }
 
@@ -406,77 +404,77 @@ Additional help:
 `, os.Args[0])
 }
 func chatMessagesListUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages list -message JSON -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages list -message JSON
 
 List implements list.
     -message JSON: 
-    -id-token STRING: 
 
 Example:
     %[1]s chat-messages list --message '{
       "after": 178502275960762926,
       "before": 13043671830441135493,
       "channel_id": 1428451127207239674,
+      "id_token": "abcdef12345",
       "limit": 4391472896458759808
-   }' --id-token "abcdef12345"
+   }'
 `, os.Args[0])
 }
 
 func chatMessagesShowUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages show -message JSON -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages show -message JSON
 
 Show implements show.
     -message JSON: 
-    -id-token STRING: 
 
 Example:
     %[1]s chat-messages show --message '{
-      "id": 5488054146337984253
-   }' --id-token "abcdef12345"
+      "id": 5488054146337984253,
+      "id_token": "abcdef12345"
+   }'
 `, os.Args[0])
 }
 
 func chatMessagesCreateUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages create -message JSON -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages create -message JSON
 
 Create implements create.
     -message JSON: 
-    -id-token STRING: 
 
 Example:
     %[1]s chat-messages create --message '{
       "channel_id": 4983432453251475648,
-      "content": "Doloremque vitae quo nesciunt necessitatibus hic."
-   }' --id-token "abcdef12345"
+      "content": "Doloremque vitae quo nesciunt necessitatibus hic.",
+      "id_token": "abcdef12345"
+   }'
 `, os.Args[0])
 }
 
 func chatMessagesUpdateUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages update -message JSON -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages update -message JSON
 
 Update implements update.
     -message JSON: 
-    -id-token STRING: 
 
 Example:
     %[1]s chat-messages update --message '{
       "content": "Qui voluptatibus.",
-      "id": 12959863651503537545
-   }' --id-token "abcdef12345"
+      "id": 12959863651503537545,
+      "id_token": "abcdef12345"
+   }'
 `, os.Args[0])
 }
 
 func chatMessagesDeleteUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages delete -message JSON -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages delete -message JSON
 
 Delete implements delete.
     -message JSON: 
-    -id-token STRING: 
 
 Example:
     %[1]s chat-messages delete --message '{
-      "id": 6373914294829582548
-   }' --id-token "abcdef12345"
+      "id": 6373914294829582548,
+      "id_token": "abcdef12345"
+   }'
 `, os.Args[0])
 }
 
@@ -495,13 +493,15 @@ Additional help:
 `, os.Args[0])
 }
 func notificationsSubscribeUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] notifications subscribe -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] notifications subscribe -message JSON
 
 Subscribe to events sent such new chat messages.
-    -id-token STRING: 
+    -message JSON: 
 
 Example:
-    %[1]s notifications subscribe --id-token "abcdef12345"
+    %[1]s notifications subscribe --message '{
+      "id_token": "abcdef12345"
+   }'
 `, os.Args[0])
 }
 

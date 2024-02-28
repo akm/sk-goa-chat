@@ -18,6 +18,8 @@ service Notifications {
 }
 
 message SubscribeRequest {
+	// X-ID-TOKEN
+	string id_token = 1;
 }
 
 message SubscribeResponse {

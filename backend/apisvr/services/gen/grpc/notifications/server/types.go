@@ -14,9 +14,10 @@ import (
 
 // NewSubscribePayload builds the payload of the "subscribe" endpoint of the
 // "notifications" service from the gRPC request type.
-func NewSubscribePayload(idToken string) *notifications.SubscribePayload {
-	v := &notifications.SubscribePayload{}
-	v.IDToken = idToken
+func NewSubscribePayload(message *notificationspb.SubscribeRequest) *notifications.SubscribePayload {
+	v := &notifications.SubscribePayload{
+		IDToken: message.IdToken,
+	}
 	return v
 }
 
