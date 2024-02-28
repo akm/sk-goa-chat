@@ -26,8 +26,6 @@ service ChatMessages {
 }
 
 message ListRequest {
-	// Session ID
-	string session_id = 1;
 	// Limit
 	sint32 limit = 2;
 	// Channel ID
@@ -65,8 +63,6 @@ message ChatMessageListItem {
 }
 
 message ShowRequest {
-	// Session ID
-	string session_id = 1;
 	// ID
 	uint64 id = 2;
 }
@@ -89,8 +85,6 @@ message ShowResponse {
 }
 
 message CreateRequest {
-	// Session ID
-	string session_id = 1;
 	// Channel ID
 	uint64 channel_id = 5;
 	// Content
@@ -115,8 +109,6 @@ message CreateResponse {
 }
 
 message UpdateRequest {
-	// Session ID
-	string session_id = 1;
 	// ID
 	uint64 id = 2;
 	// Content
@@ -141,8 +133,6 @@ message UpdateResponse {
 }
 
 message DeleteRequest {
-	// Session ID
-	string session_id = 1;
 	// ID
 	uint64 id = 2;
 }

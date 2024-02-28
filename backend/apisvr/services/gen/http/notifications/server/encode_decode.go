@@ -11,6 +11,7 @@ import (
 	"context"
 	"errors"
 	"net/http"
+	"strings"
 
 	goahttp "goa.design/goa/v3/http"
 	goa "goa.design/goa/v3/pkg"
@@ -21,20 +22,22 @@ import (
 func DecodeSubscribeRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (any, error) {
 	return func(r *http.Request) (any, error) {
 		var (
-			sessionID string
-			err       error
-			c         *http.Cookie
+			idToken string
+			err     error
 		)
-		c, err = r.Cookie("session_id")
-		if err == http.ErrNoCookie {
-			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "cookie"))
-		} else {
-			sessionID = c.Value
+		idToken = r.Header.Get("X-ID-TOKEN")
+		if idToken == "" {
+			err = goa.MergeErrors(err, goa.MissingFieldError("id_token", "header"))
 		}
 		if err != nil {
 			return nil, err
 		}
-		payload := NewSubscribePayload(sessionID)
+		payload := NewSubscribePayload(idToken)
+		if strings.Contains(payload.IDToken, " ") {
+			// Remove authorization scheme prefix (e.g. "Bearer")
+			cred := strings.SplitN(payload.IDToken, " ", 2)[1]
+			payload.IDToken = cred
+		}
 
 		return payload, nil
 	}

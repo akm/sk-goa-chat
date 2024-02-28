@@ -26,8 +26,6 @@ service Channels {
 }
 
 message ListRequest {
-	// Session ID
-	string session_id = 1;
 }
 
 message ListResponse {
@@ -55,8 +53,6 @@ message ChannelListItem {
 }
 
 message ShowRequest {
-	// Session ID
-	string session_id = 1;
 	// ID
 	uint64 id = 2;
 }
@@ -73,8 +69,6 @@ message ShowResponse {
 }
 
 message CreateRequest {
-	// Session ID
-	string session_id = 1;
 	// Name
 	string name = 5;
 }
@@ -91,8 +85,6 @@ message CreateResponse {
 }
 
 message UpdateRequest {
-	// Session ID
-	string session_id = 1;
 	// ID
 	uint64 id = 2;
 	// Name
@@ -111,8 +103,6 @@ message UpdateResponse {
 }
 
 message DeleteRequest {
-	// Session ID
-	string session_id = 1;
 	// ID
 	uint64 id = 2;
 }

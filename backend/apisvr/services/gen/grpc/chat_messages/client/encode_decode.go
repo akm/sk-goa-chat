@@ -38,6 +38,7 @@ func EncodeListRequest(ctx context.Context, v any, md *metadata.MD) (any, error)
 	if !ok {
 		return nil, goagrpc.ErrInvalidType("chat_messages", "list", "*chatmessages.ListPayload", v)
 	}
+	(*md).Append("authorization", payload.IDToken)
 	return NewProtoListRequest(payload), nil
 }
 
@@ -81,6 +82,7 @@ func EncodeShowRequest(ctx context.Context, v any, md *metadata.MD) (any, error)
 	if !ok {
 		return nil, goagrpc.ErrInvalidType("chat_messages", "show", "*chatmessages.ShowPayload", v)
 	}
+	(*md).Append("authorization", payload.IDToken)
 	return NewProtoShowRequest(payload), nil
 }
 
@@ -124,6 +126,7 @@ func EncodeCreateRequest(ctx context.Context, v any, md *metadata.MD) (any, erro
 	if !ok {
 		return nil, goagrpc.ErrInvalidType("chat_messages", "create", "*chatmessages.ChatMessageCreatePayload", v)
 	}
+	(*md).Append("authorization", payload.IDToken)
 	return NewProtoCreateRequest(payload), nil
 }
 
@@ -168,6 +171,7 @@ func EncodeUpdateRequest(ctx context.Context, v any, md *metadata.MD) (any, erro
 	if !ok {
 		return nil, goagrpc.ErrInvalidType("chat_messages", "update", "*chatmessages.ChatMessageUpdatePayload", v)
 	}
+	(*md).Append("authorization", payload.IDToken)
 	return NewProtoUpdateRequest(payload), nil
 }
 
@@ -212,6 +216,7 @@ func EncodeDeleteRequest(ctx context.Context, v any, md *metadata.MD) (any, erro
 	if !ok {
 		return nil, goagrpc.ErrInvalidType("chat_messages", "delete", "*chatmessages.DeletePayload", v)
 	}
+	(*md).Append("authorization", payload.IDToken)
 	return NewProtoDeleteRequest(payload), nil
 }
 

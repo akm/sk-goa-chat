@@ -70,9 +70,9 @@ func NewSubscribeUnauthenticatedResponseBody(res *goa.ServiceError) *SubscribeUn
 
 // NewSubscribePayload builds a notifications service subscribe endpoint
 // payload.
-func NewSubscribePayload(sessionID string) *notifications.SubscribePayload {
+func NewSubscribePayload(idToken string) *notifications.SubscribePayload {
 	v := &notifications.SubscribePayload{}
-	v.SessionID = sessionID
+	v.IDToken = idToken
 
 	return v
 }

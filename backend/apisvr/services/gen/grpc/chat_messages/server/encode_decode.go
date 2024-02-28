@@ -12,8 +12,10 @@ import (
 	chatmessagesviews "apisvr/services/gen/chat_messages/views"
 	chat_messagespb "apisvr/services/gen/grpc/chat_messages/pb"
 	"context"
+	"strings"
 
 	goagrpc "goa.design/goa/v3/grpc"
+	goa "goa.design/goa/v3/pkg"
 	"google.golang.org/grpc/metadata"
 )
 
@@ -34,6 +36,20 @@ func EncodeListResponse(ctx context.Context, v any, hdr, trlr *metadata.MD) (any
 // endpoint.
 func DecodeListRequest(ctx context.Context, v any, md metadata.MD) (any, error) {
 	var (
+		idToken string
+		err     error
+	)
+	{
+		if vals := md.Get("authorization"); len(vals) == 0 {
+			err = goa.MergeErrors(err, goa.MissingFieldError("authorization", "metadata"))
+		} else {
+			idToken = vals[0]
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	var (
 		message *chat_messagespb.ListRequest
 		ok      bool
 	)
@@ -44,7 +60,12 @@ func DecodeListRequest(ctx context.Context, v any, md metadata.MD) (any, error) 
 	}
 	var payload *chatmessages.ListPayload
 	{
-		payload = NewListPayload(message)
+		payload = NewListPayload(message, idToken)
+		if strings.Contains(payload.IDToken, " ") {
+			// Remove authorization scheme prefix (e.g. "Bearer")
+			cred := strings.SplitN(payload.IDToken, " ", 2)[1]
+			payload.IDToken = cred
+		}
 	}
 	return payload, nil
 }
@@ -66,6 +87,20 @@ func EncodeShowResponse(ctx context.Context, v any, hdr, trlr *metadata.MD) (any
 // endpoint.
 func DecodeShowRequest(ctx context.Context, v any, md metadata.MD) (any, error) {
 	var (
+		idToken string
+		err     error
+	)
+	{
+		if vals := md.Get("authorization"); len(vals) == 0 {
+			err = goa.MergeErrors(err, goa.MissingFieldError("authorization", "metadata"))
+		} else {
+			idToken = vals[0]
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	var (
 		message *chat_messagespb.ShowRequest
 		ok      bool
 	)
@@ -76,7 +111,12 @@ func DecodeShowRequest(ctx context.Context, v any, md metadata.MD) (any, error) 
 	}
 	var payload *chatmessages.ShowPayload
 	{
-		payload = NewShowPayload(message)
+		payload = NewShowPayload(message, idToken)
+		if strings.Contains(payload.IDToken, " ") {
+			// Remove authorization scheme prefix (e.g. "Bearer")
+			cred := strings.SplitN(payload.IDToken, " ", 2)[1]
+			payload.IDToken = cred
+		}
 	}
 	return payload, nil
 }
@@ -98,6 +138,20 @@ func EncodeCreateResponse(ctx context.Context, v any, hdr, trlr *metadata.MD) (a
 // "create" endpoint.
 func DecodeCreateRequest(ctx context.Context, v any, md metadata.MD) (any, error) {
 	var (
+		idToken string
+		err     error
+	)
+	{
+		if vals := md.Get("authorization"); len(vals) == 0 {
+			err = goa.MergeErrors(err, goa.MissingFieldError("authorization", "metadata"))
+		} else {
+			idToken = vals[0]
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	var (
 		message *chat_messagespb.CreateRequest
 		ok      bool
 	)
@@ -108,7 +162,12 @@ func DecodeCreateRequest(ctx context.Context, v any, md metadata.MD) (any, error
 	}
 	var payload *chatmessages.ChatMessageCreatePayload
 	{
-		payload = NewCreatePayload(message)
+		payload = NewCreatePayload(message, idToken)
+		if strings.Contains(payload.IDToken, " ") {
+			// Remove authorization scheme prefix (e.g. "Bearer")
+			cred := strings.SplitN(payload.IDToken, " ", 2)[1]
+			payload.IDToken = cred
+		}
 	}
 	return payload, nil
 }
@@ -130,6 +189,20 @@ func EncodeUpdateResponse(ctx context.Context, v any, hdr, trlr *metadata.MD) (a
 // "update" endpoint.
 func DecodeUpdateRequest(ctx context.Context, v any, md metadata.MD) (any, error) {
 	var (
+		idToken string
+		err     error
+	)
+	{
+		if vals := md.Get("authorization"); len(vals) == 0 {
+			err = goa.MergeErrors(err, goa.MissingFieldError("authorization", "metadata"))
+		} else {
+			idToken = vals[0]
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	var (
 		message *chat_messagespb.UpdateRequest
 		ok      bool
 	)
@@ -140,7 +213,12 @@ func DecodeUpdateRequest(ctx context.Context, v any, md metadata.MD) (any, error
 	}
 	var payload *chatmessages.ChatMessageUpdatePayload
 	{
-		payload = NewUpdatePayload(message)
+		payload = NewUpdatePayload(message, idToken)
+		if strings.Contains(payload.IDToken, " ") {
+			// Remove authorization scheme prefix (e.g. "Bearer")
+			cred := strings.SplitN(payload.IDToken, " ", 2)[1]
+			payload.IDToken = cred
+		}
 	}
 	return payload, nil
 }
@@ -162,6 +240,20 @@ func EncodeDeleteResponse(ctx context.Context, v any, hdr, trlr *metadata.MD) (a
 // "delete" endpoint.
 func DecodeDeleteRequest(ctx context.Context, v any, md metadata.MD) (any, error) {
 	var (
+		idToken string
+		err     error
+	)
+	{
+		if vals := md.Get("authorization"); len(vals) == 0 {
+			err = goa.MergeErrors(err, goa.MissingFieldError("authorization", "metadata"))
+		} else {
+			idToken = vals[0]
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	var (
 		message *chat_messagespb.DeleteRequest
 		ok      bool
 	)
@@ -172,7 +264,12 @@ func DecodeDeleteRequest(ctx context.Context, v any, md metadata.MD) (any, error
 	}
 	var payload *chatmessages.DeletePayload
 	{
-		payload = NewDeletePayload(message)
+		payload = NewDeletePayload(message, idToken)
+		if strings.Contains(payload.IDToken, " ") {
+			// Remove authorization scheme prefix (e.g. "Bearer")
+			cred := strings.SplitN(payload.IDToken, " ", 2)[1]
+			payload.IDToken = cred
+		}
 	}
 	return payload, nil
 }

@@ -8,28 +8,18 @@
 package client
 
 import (
-	notificationspb "apisvr/services/gen/grpc/notifications/pb"
 	notifications "apisvr/services/gen/notifications"
-	"encoding/json"
-	"fmt"
 )
 
 // BuildSubscribePayload builds the payload for the notifications subscribe
 // endpoint from CLI flags.
-func BuildSubscribePayload(notificationsSubscribeMessage string) (*notifications.SubscribePayload, error) {
-	var err error
-	var message notificationspb.SubscribeRequest
+func BuildSubscribePayload(notificationsSubscribeIDToken string) (*notifications.SubscribePayload, error) {
+	var idToken string
 	{
-		if notificationsSubscribeMessage != "" {
-			err = json.Unmarshal([]byte(notificationsSubscribeMessage), &message)
-			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"session_id\": \"Neque et facilis quia similique quisquam sint.\"\n   }'")
-			}
-		}
+		idToken = notificationsSubscribeIDToken
 	}
-	v := &notifications.SubscribePayload{
-		SessionID: message.SessionId,
-	}
+	v := &notifications.SubscribePayload{}
+	v.IDToken = idToken
 
 	return v, nil
 }
