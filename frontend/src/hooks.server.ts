@@ -36,6 +36,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 		if (isFirebaseError(err)) {
 			if (isMessageKey(err.code)) {
 				switch (err.code) {
+					case 'auth/id-token-expired':
+					case 'auth/id-token-revoked':
+					case 'auth/invalid-id-token':
 					case 'auth/session-cookie-revoked':
 					case 'auth/user-not-found':
 						event.locals.user = undefined;
@@ -44,7 +47,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 				}
 			}
 		}
-		console.error('verifySessionCookie error', err);
+		console.error('verifyIdToken error', err);
 		throw err;
 	}
 
