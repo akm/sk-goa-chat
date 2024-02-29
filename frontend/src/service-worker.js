@@ -40,7 +40,8 @@ self.addEventListener('fetch', (event) => {
 				headers.append(key, val);
 			});
 			// Add ID token to header.
-			headers.append('Authorization', 'Bearer ' + idToken);
+			// headers.append('Authorization', 'Bearer ' + idToken);
+			headers.append('X-ID-TOKEN', idToken);
 			processRequestPromise = getBodyContent(req).then((body) => {
 				try {
 					req = new Request(req.url, {
