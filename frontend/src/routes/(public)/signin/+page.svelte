@@ -29,11 +29,21 @@
 			}
 			throw err;
 		}
-		const idToken = await userCredential.user.getIdToken();
+
+		let idToken: string;
+		try {
+			idToken = await userCredential.user.getIdToken();
+			console.log('after getIdToken: idToken', idToken);
+			localStorage.setItem('idToken', idToken);
+			localStorage.setItem('refreshToken', userCredential.user.refreshToken);
+		} catch (err) {
+			console.error(err);
+			errorMessage = 'failed to get token';
+			throw err;
+		}
+
 		// await createSession(idToken);
 		// console.log('createSession OK');
-		sessionStorage.setItem('idToken', idToken);
-		sessionStorage.setItem('refreshToken', userCredential.user.refreshToken);
 
 		// await goto('/', { replaceState: true });
 		window.location.href = $page.url.origin + '/';
