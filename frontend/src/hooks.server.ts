@@ -2,23 +2,20 @@ import type { Handle } from '@sveltejs/kit';
 // import { FirebaseError } from 'firebase-admin';
 
 import { auth } from '$lib/server/firebase-admin';
-import type { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
+import type { DecodedIdToken } from 'firebase-admin/auth';
 import { isFirebaseError } from '$lib/firebase';
 import { isMessageKey } from '$lib/firebase/auth';
 
 export const handle: Handle = async ({ event, resolve }) => {
-	// get cookies from browser
-	const sessionID = event.cookies.get('session_id');
-
-	if (!sessionID) {
-		// if there is no session load page as normal
+	const idToken = event.request.headers.get('X-ID-TOKEN');
+	if (!idToken) {
 		return await resolve(event);
 	}
-	event.locals.sessionID = sessionID;
+	event.locals.idToken = idToken;
 
-	let decoded: DecodedIdToken;
+	let decodedToken: DecodedIdToken;
 	try {
-		decoded = await auth.verifySessionCookie(sessionID, true);
+		decodedToken = await auth.verifyIdToken(idToken);
 		// decoded の中身の例
 		// {
 		// 	email: 'foo1@example.com',
@@ -42,7 +39,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 					case 'auth/session-cookie-revoked':
 					case 'auth/user-not-found':
 						event.locals.user = undefined;
-						event.locals.sessionID = undefined;
+						event.locals.idToken = undefined;
 						return await resolve(event);
 				}
 			}
@@ -50,7 +47,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 		console.error('verifySessionCookie error', err);
 		throw err;
 	}
-	const user = await auth.getUser(decoded.uid);
+
+	const user = await auth.getUser(decodedToken.uid);
 	event.locals.user = {
 		id: user.uid,
 		name: user.displayName,
