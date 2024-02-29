@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { createSession } from '$lib/session';
 	import { isFirebaseError } from '$lib/firebase';
 	import { auth } from '$lib/firebase/auth';
 	import { page } from '$app/stores';
@@ -41,9 +40,6 @@
 			errorMessage = 'failed to get token';
 			throw err;
 		}
-
-		// await createSession(idToken);
-		// console.log('createSession OK');
 
 		// await goto('/', { replaceState: true });
 		window.location.href = $page.url.origin + '/';
