@@ -13,9 +13,9 @@ const transport = new GrpcTransport({
 
 const client: IChannelsClient = new ChannelsClient(transport);
 
-export const listChannels = async (arg: { sessionId: string }): Promise<Channel[]> => {
-	const { sessionId } = arg;
-	const { response } = await client.list({ sessionId });
+export const listChannels = async (arg: { idToken: string }): Promise<Channel[]> => {
+	const { idToken } = arg;
+	const { response } = await client.list({ idToken });
 	return (
 		response.items?.field.map((item) => {
 			return {
@@ -26,33 +26,33 @@ export const listChannels = async (arg: { sessionId: string }): Promise<Channel[
 	);
 };
 
-export const showChannel = async (arg: { sessionId: string; id: bigint }): Promise<Channel> => {
-	const { sessionId, id } = arg;
-	const { response } = await client.show({ sessionId, id });
+export const showChannel = async (arg: { idToken: string; id: bigint }): Promise<Channel> => {
+	const { idToken, id } = arg;
+	const { response } = await client.show({ idToken, id });
 	return response;
 };
 
 export const createChannel = async (arg: {
-	sessionId: string;
+	idToken: string;
 	name: string;
 }): Promise<{ id: string }> => {
-	const { sessionId, name } = arg;
-	const { response } = await client.create({ sessionId, name });
+	const { idToken, name } = arg;
+	const { response } = await client.create({ idToken, name });
 	return { id: response.id.toString() };
 };
 
 export const updateChannel = async (arg: {
-	sessionId: string;
+	idToken: string;
 	id: bigint;
 	name: string;
 }): Promise<void> => {
-	const { sessionId, id, name } = arg;
+	const { idToken, id, name } = arg;
 	if (!id) return;
-	await client.update({ sessionId, id, name });
+	await client.update({ idToken, id, name });
 };
 
-export const deleteChannel = async (arg: { sessionId: string; id: bigint }): Promise<void> => {
+export const deleteChannel = async (arg: { idToken: string; id: bigint }): Promise<void> => {
 	if (!arg.id) return;
-	const { sessionId, id } = arg;
-	await client.delete({ sessionId, id });
+	const { idToken, id } = arg;
+	await client.delete({ idToken, id });
 };

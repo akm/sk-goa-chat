@@ -11,18 +11,18 @@ export async function load(
 	if (!event.params.id) {
 		throw redirect(304, '/');
 	}
-	if (!event.locals.sessionID) {
+	if (!event.locals.idToken) {
 		throw redirect(304, '/');
 	}
 	const channelID = BigInt(event.params.id);
 	if (!channelID) {
 		throw redirect(304, '/');
 	}
-	const channel = await showChannel({ sessionId: event.locals.sessionID, id: channelID });
+	const channel = await showChannel({ idToken: event.locals.idToken, id: channelID });
 	// return { channel }; // Error: Data returned from `load` while rendering /channels/[channel_id] is not serializable: Cannot stringify arbitrary non-POJOs (data.channel) というエラーが。
 
 	const messages = await listChatMessages({
-		sessionId: event.locals.sessionID,
+		idToken: event.locals.idToken,
 		channelId: channelID
 	});
 
