@@ -7,7 +7,7 @@ import type { ServerLoadEvent } from '@sveltejs/kit';
 
 export async function load(
 	event: ServerLoadEvent
-): Promise<{ channel: Channel; messages: ChatMessage[] }> {
+): Promise<{ channel: Channel; messages: ChatMessage[]; lastMessageId: bigint | 0 }> {
 	if (!event.params.id) {
 		throw redirect(304, '/');
 	}
