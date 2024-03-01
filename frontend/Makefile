@@ -11,6 +11,7 @@ $(NODE_MODULES):
 install:
 	npm install
 
+# TODO npm run build ではなく npm run check を使うように変更
 .PHONY: build
 build: setup
 	npm run build
