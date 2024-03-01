@@ -124,8 +124,8 @@
 			id: BigInt(msg.id), // OpenAPI では number で返ってくるので BigInt に変換しておく
 			createdAt: msg.created_at,
 			updatedAt: msg.updated_at,
-			channelId: msg.channel_id,
-			userId: msg.user_id,
+			channelId: BigInt(msg.channel_id),
+			userId: (msg.user_id ? BigInt(msg.user_id) : undefined),
 			userName: msg.user_name,
 			content: msg.content
 		}));
