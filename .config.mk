@@ -80,6 +80,9 @@ APP_PORT_SWAGGERUI_dev?=8090
 
 APP_MYSQL_DATABASE_NAME?=sk_goa_chat_db
 
+## gcloud の設定
+
+GOOGLE_CLOUD_PROJECT=sk-goa-chat
 
 ## Firebase の設定
 
