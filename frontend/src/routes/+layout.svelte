@@ -15,6 +15,8 @@
 		}
 		try {
 			await auth.signOut();
+			localStorage.removeItem('idToken');
+			localStorage.removeItem('refreshToken');
 		} catch (e) {
 			console.log('failed to signOut: ', e);
 		}
