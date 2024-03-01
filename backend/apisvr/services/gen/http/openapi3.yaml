@@ -656,8 +656,8 @@ paths:
             description: Subscribe to events sent such new chat messages.
             operationId: notifications#subscribe
             parameters:
-                - name: X-ID-TOKEN
-                  in: header
+                - name: token
+                  in: query
                   description: X-ID-TOKEN
                   allowEmptyValue: true
                   required: true
@@ -685,7 +685,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - api_key_query_token: []
 components:
     schemas:
         Channel:
@@ -1155,6 +1155,10 @@ components:
             type: apiKey
             name: X-ID-TOKEN
             in: header
+        api_key_query_token:
+            type: apiKey
+            name: token
+            in: query
 tags:
     - name: channels
     - name: chat_messages

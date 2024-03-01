@@ -48,10 +48,9 @@ func EncodeSubscribeRequest(encoder func(*http.Request) goahttp.Encoder) func(*h
 		if !ok {
 			return goahttp.ErrInvalidType("notifications", "subscribe", "*notifications.SubscribePayload", v)
 		}
-		{
-			head := p.IDToken
-			req.Header.Set("X-ID-TOKEN", head)
-		}
+		values := req.URL.Query()
+		values.Add("token", p.IDToken)
+		req.URL.RawQuery = values.Encode()
 		return nil
 	}
 }

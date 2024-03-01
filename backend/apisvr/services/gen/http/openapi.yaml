@@ -424,8 +424,8 @@ paths:
             description: Subscribe to events sent such new chat messages.
             operationId: notifications#subscribe
             parameters:
-                - name: X-ID-TOKEN
-                  in: header
+                - name: token
+                  in: query
                   description: X-ID-TOKEN
                   required: true
                   type: string
@@ -443,7 +443,7 @@ paths:
             schemes:
                 - ws
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - api_key_query_token: []
 definitions:
     ChannelListItemResponseBody:
         title: 'Mediatype identifier: application/vnd.channel-list-item; view=default'
@@ -2141,3 +2141,7 @@ securityDefinitions:
         type: apiKey
         name: X-ID-TOKEN
         in: header
+    api_key_query_token:
+        type: apiKey
+        name: token
+        in: query

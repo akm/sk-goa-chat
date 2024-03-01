@@ -11,7 +11,6 @@ import (
 	"context"
 	"errors"
 	"net/http"
-	"strings"
 
 	goahttp "goa.design/goa/v3/http"
 	goa "goa.design/goa/v3/pkg"
@@ -25,19 +24,14 @@ func DecodeSubscribeRequest(mux goahttp.Muxer, decoder func(*http.Request) goaht
 			idToken string
 			err     error
 		)
-		idToken = r.Header.Get("X-ID-TOKEN")
+		idToken = r.URL.Query().Get("token")
 		if idToken == "" {
-			err = goa.MergeErrors(err, goa.MissingFieldError("id_token", "header"))
+			err = goa.MergeErrors(err, goa.MissingFieldError("id_token", "query string"))
 		}
 		if err != nil {
 			return nil, err
 		}
 		payload := NewSubscribePayload(idToken)
-		if strings.Contains(payload.IDToken, " ") {
-			// Remove authorization scheme prefix (e.g. "Bearer")
-			cred := strings.SplitN(payload.IDToken, " ", 2)[1]
-			payload.IDToken = cred
-		}
 
 		return payload, nil
 	}
