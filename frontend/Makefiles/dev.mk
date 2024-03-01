@@ -16,7 +16,7 @@ dev_backend:
 
 .PHONY: dev_run
 dev_run:
-	$(DEV_ENVS) vite dev
+	$(DEV_ENVS) npx vite dev
 
 .PHONY: dev_containers_up_with_migration
 dev_containers_up_with_migration:
