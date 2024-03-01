@@ -13,5 +13,7 @@ package-lock.json
 yarn.lock
 
 /src/lib/server/protos
+/src/lib/openapi.d.ts
+
 /tmp
 /tests/integration/tmp
