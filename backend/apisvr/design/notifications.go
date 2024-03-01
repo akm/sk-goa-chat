@@ -5,7 +5,7 @@ import (
 )
 
 var _ = Service("notifications", func() {
-	httpIdToken, grpcIdToken := idTokenSecurity()
+	_, grpcIdToken := idTokenSecurity()
 
 	httpUnautheticated, grpcUnauthenticated := unauthenticated()
 
@@ -31,7 +31,11 @@ var _ = Service("notifications", func() {
 
 		HTTP(func() {
 			GET("/subscribe")
-			httpIdToken()
+			// httpIdToken()
+			Params(func() {
+				Param(authApiKeyName + ":token")
+			})
+
 			Response(StatusOK)
 		})
 
