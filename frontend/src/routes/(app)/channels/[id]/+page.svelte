@@ -57,7 +57,7 @@
 		console.log('updateChannel', data);
 		const result = await PUT('/api/channels/{id}', {
 			params: {
-				header: {"X-ID-TOKEN": localStorage.getItem('idToken') || ''},
+				header: { 'X-ID-TOKEN': localStorage.getItem('idToken') || '' },
 				path: { id: Number(data.channel.id) }
 			},
 			body: { name }
@@ -73,7 +73,7 @@
 	const deleteChannel = async () => {
 		const result = await DELETE('/api/channels/{id}', {
 			params: {
-				header: {"X-ID-TOKEN": localStorage.getItem('idToken') || ''},
+				header: { 'X-ID-TOKEN': localStorage.getItem('idToken') || '' },
 				path: { id: Number(data.channel.id) }
 			}
 		});
@@ -88,7 +88,7 @@
 	let textarea: HTMLTextAreaElement;
 	const postMessage = async () => {
 		const result = await POST('/api/chat_messages', {
-			params: { header: {"X-ID-TOKEN": localStorage.getItem('idToken') || ''}},
+			params: { header: { 'X-ID-TOKEN': localStorage.getItem('idToken') || '' } },
 			body: { channel_id: Number(data.channel.id), content: textarea.value }
 		});
 		if (result.error) {
@@ -106,7 +106,7 @@
 	}): Promise<ChatMessage[]> => {
 		const result = await GET('/api/chat_messages', {
 			params: {
-				header: {"X-ID-TOKEN": localStorage.getItem('idToken') || ''},
+				header: { 'X-ID-TOKEN': localStorage.getItem('idToken') || '' },
 				query: {
 					channel_id: Number(data.channel.id),
 					before: options.before,
@@ -125,7 +125,7 @@
 			createdAt: msg.created_at,
 			updatedAt: msg.updated_at,
 			channelId: BigInt(msg.channel_id),
-			userId: (msg.user_id ? BigInt(msg.user_id) : undefined),
+			userId: msg.user_id ? BigInt(msg.user_id) : undefined,
 			userName: msg.user_name,
 			content: msg.content
 		}));
