@@ -21,7 +21,7 @@
 
 	let settingVisible = false;
 
-	const nofiticationHandler = (event) => {
+	const nofiticationHandler = (event: MessageEvent) => {
 		// console.log('event', event);
 		// console.log('event.data', event.data);
 		const notification = JSON.parse(event.data);
