@@ -13,13 +13,18 @@
 		} catch (e) {
 			console.log('failed to close websockets: ', e);
 		}
+		console.log('+layout.svelte signOut calling');
 		try {
+			// https://firebase.google.com/docs/reference/js/auth.auth.md#authsignout
 			await auth.signOut();
+			console.log('+layout.svelte signOut called');
 			localStorage.removeItem('idToken');
 			localStorage.removeItem('refreshToken');
 		} catch (e) {
 			console.log('failed to signOut: ', e);
 		}
+
+		console.log('+layout.svelte setting window.location.href');
 		window.location.href = $page.url.origin + '/signin';
 	};
 
