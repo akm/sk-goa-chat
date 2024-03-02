@@ -9,6 +9,7 @@
 	import { onDestroy, onMount } from 'svelte';
 
 	import { GET, POST, PUT, DELETE } from '$lib/openapi_client';
+	import { auth, waitAuthReady } from '$lib/firebase/auth';
 
 	export let data: {
 		channel: Channel;
@@ -44,8 +45,15 @@
 	};
 
 	let ws: WebSocket;
-	onMount(() => {
-		ws = notificationsSocket();
+	onMount(async () => {
+		await waitAuthReady();
+		const idToken = await auth.currentUser?.getIdToken();
+		if (!idToken) {
+			console.error('notificationsSocket idToken is not valid', idToken);
+			throw new Error('notificationsSocket idToken is not valid');
+		}
+
+		ws = notificationsSocket(idToken);
 		ws.addEventListener('message', nofiticationHandler);
 		scrollToLatestChat('instant');
 	});

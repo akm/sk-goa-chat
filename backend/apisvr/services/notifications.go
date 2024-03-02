@@ -34,6 +34,7 @@ func (s *notificationssrvc) Subscribe(ctx context.Context, p *notifications.Subs
 	}()
 
 	err = s.actionWithDB(ctx, "notifications.subscribe", func(ctx context.Context, db *sql.DB) error {
+		defer s.logger.Printf("notifications.subscribe quit")
 		fbauth, err := s.firebaseAuthClient(ctx)
 		if err != nil {
 			return err
@@ -71,7 +72,6 @@ func (s *notificationssrvc) Subscribe(ctx context.Context, p *notifications.Subs
 				break
 			}
 		}
-		s.logger.Printf("subscription ended")
 		return nil
 	})
 

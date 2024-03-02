@@ -2,16 +2,15 @@ import 'websocket-polyfill';
 
 let _notificationsSocket: WebSocket;
 
-export const notificationsSocket = (): WebSocket => {
+// 呼び出す方が authReady を確認すること
+export const notificationsSocket = (idToken: string): WebSocket => {
 	console.log('notificationsSocket ');
-
-	if (_notificationsSocket) return _notificationsSocket;
 
 	const apisvrOrigin = import.meta.env.VITE_UISVR_ORIGIN as string;
 	const wsOrigin = apisvrOrigin.includes('https://')
 		? apisvrOrigin.replace('https://', 'wss://')
 		: apisvrOrigin.replace('http://', 'ws://');
-	const wsUrl = `${wsOrigin}/ws/notifications/subscribe`;
+	const wsUrl = `${wsOrigin}/ws/notifications/subscribe?token=${idToken}`;
 
 	console.log('notificationsSocket wsUrl', wsUrl);
 
