@@ -52,11 +52,7 @@ self.addEventListener('fetch', (event) => {
 		let req = evt.request;
 		let processRequestPromise; //: Promise<void>
 		// For same origin https requests, append idToken to header.
-		if (
-			self.location.origin == getOriginFromUrl(evt.request.url) &&
-			(self.location.protocol == 'https:' || self.location.hostname == 'localhost') &&
-			idToken
-		) {
+		if (idToken && credentialRequired(evt)) {
 			// Clone headers as request headers are immutable.
 			const headers = new Headers();
 			req.headers.forEach((val, key) => {
@@ -97,12 +93,60 @@ self.addEventListener('fetch', (event) => {
 	evt.respondWith(getIdTokenPromise().then(requestProcessor, requestProcessor));
 });
 
-const getOriginFromUrl = (url) => {
+const credentialRequired = (evt) => {
 	// https://stackoverflow.com/questions/1420881/how-to-extract-base-url-from-a-string-in-javascript
-	const pathArray = url.split('/');
+	const pathArray = evt.request.url.split('/', 4);
 	const protocol = pathArray[0];
 	const host = pathArray[2];
-	return protocol + '//' + host;
+	const reqOrigin = protocol + '//' + host;
+
+	if (self.location.origin != reqOrigin) return false;
+	switch (evt.request.method.toUpperCase()) {
+		case 'POST':
+		case 'PUT':
+		case 'PATCH':
+		case 'DELETE':
+			return true;
+	}
+
+	// const reqPath = pathArray.slice(3).join('/');
+	const firstPathPart = pathArray[3];
+	const lastPathPart = pathArray[pathArray.length - 1];
+
+	if (!(self.location.protocol == 'https:' || self.location.hostname == 'localhost')) return false;
+	switch (firstPathPart) {
+		case 'manifest.json':
+		case 'favicon.ico':
+		case 'node_modules':
+		case 'src':
+		case '.svelte-kit':
+		case '@fs':
+		case '@id':
+		case '@vite':
+			return false;
+		case '':
+		case 'api':
+			return true;
+	}
+
+	// リクエストの Content-Type で判断しようとしましたが、取得できなかったので拡張子で判断します
+	const baseName = lastPathPart.split('?', 2)[0];
+	const nameParts = baseName.split('.');
+	if (nameParts.length < 2) return true;
+	const ext = nameParts[nameParts.length - 1].toLowerCase();
+	switch (ext) {
+		case 'png':
+		case 'jpg':
+		case 'jpeg':
+		case 'gif':
+		case 'webp':
+		case 'svg':
+		case 'ico':
+		case 'css':
+		case 'js':
+			return false;
+	}
+	return true;
 };
 
 // Get underlying body if available. Works for text and json bodies.
