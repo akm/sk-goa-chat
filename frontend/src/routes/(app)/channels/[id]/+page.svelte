@@ -9,7 +9,7 @@
 	import { onDestroy, onMount } from 'svelte';
 
 	import { GET, POST, PUT, DELETE } from '$lib/openapi_client';
-	import { auth, waitAuthReady } from '$lib/firebase/auth';
+	import { auth, waitUntilSignedIn } from '$lib/firebase/auth';
 
 	export let data: {
 		channel: Channel;
@@ -46,7 +46,7 @@
 
 	let ws: WebSocket;
 	onMount(async () => {
-		await waitAuthReady();
+		await waitUntilSignedIn();
 		const idToken = await auth.currentUser?.getIdToken();
 		if (!idToken) {
 			console.error('notificationsSocket idToken is not valid', idToken);

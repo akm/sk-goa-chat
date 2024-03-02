@@ -22,18 +22,19 @@ auth.onAuthStateChanged((user) => {
 	console.log('src/lib/firebase/auth/index.ts/auth.onAuthStateChanged user: ', user);
 });
 
-export const waitAuthReady = async (opts?: {
-	attempts?: number;
-	interval?: number;
-}): Promise<void> => {
-	const attempts = opts?.attempts ?? 30;
-	const interval = opts?.interval ?? 100;
-	for (let i = 0; i < attempts; i++) {
-		if (authReady) return;
-		await new Promise((resolve) => setTimeout(resolve, interval));
-	}
-	throw new Error('authReady timeout');
-};
+const waitAuth =
+	(ready: boolean) =>
+	async (opts?: { attempts?: number; interval?: number }): Promise<void> => {
+		const attempts = opts?.attempts ?? 30;
+		const interval = opts?.interval ?? 100;
+		for (let i = 0; i < attempts; i++) {
+			if (authReady === ready) return;
+			await new Promise((resolve) => setTimeout(resolve, interval));
+		}
+		throw new Error('authReady timeout');
+	};
+
+export const waitUntilSignedIn = waitAuth(true);
 
 // https://firebase.google.com/docs/emulator-suite/connect_auth?hl=ja#web-modular-api
 if (import.meta.env.VITE_FIREBASE_AUTH_EMULATOR_HOST) {
