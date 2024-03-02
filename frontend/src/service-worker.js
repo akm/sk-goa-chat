@@ -5,12 +5,26 @@
 // すべてのリクエストに ID トークンを含める
 // See https://firebase.google.com/docs/auth/web/service-worker-sessions?hl=ja
 
-import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, getIdToken } from 'firebase/auth';
-import { firebaseConfig } from '$lib/firebase/firebaseconfig';
+// import { initializeApp } from 'firebase/app';
+// import { getAuth, } from 'firebase/auth';
+import { getIdToken, onAuthStateChanged } from 'firebase/auth';
+// import { firebaseConfig } from '$lib/firebase/firebaseconfig';
 
-// Initialize the Firebase app in the service worker script.
-initializeApp(firebaseConfig);
+import { auth } from '$lib/firebase/auth';
+
+auth.onAuthStateChanged((user) => {
+	if (!user) {
+		console.log('service-worker/auth.onAuthStateChanged no user');
+		return;
+	}
+	console.log('service-worker/auth.onAuthStateChanged user.uid', user.uid);
+
+	// https://developer.mozilla.org/ja/docs/Web/API/Clients
+	self.clients.matchAll().then((clients) => {
+		// https://developer.mozilla.org/ja/docs/Web/API/Client/postMessage
+		clients.forEach((client) => client.postMessage({ uid: user.uid }));
+	});
+});
 
 // Types:
 //
@@ -22,14 +36,16 @@ initializeApp(firebaseConfig);
 //
 // FetchEvent: https://developer.mozilla.org/ja/docs/Web/API/FetchEvent
 self.addEventListener('fetch', (event) => {
-	console.log('fetch event:', event);
+	console.log('service-worker/fetch event:', event);
 
 	/** @type {FetchEvent} */
 	const evt = event;
 
 	const requestProcessor = (idToken) => {
+		console.log('service-worker/fetch/requestProcessor idToken:', idToken);
+
 		let req = evt.request;
-		let processRequestPromise = Promise.resolve();
+		let processRequestPromise; //: Promise<void>
 		// For same origin https requests, append idToken to header.
 		if (
 			self.location.origin == getOriginFromUrl(evt.request.url) &&
@@ -43,7 +59,7 @@ self.addEventListener('fetch', (event) => {
 			});
 			// Add ID token to header.
 			// headers.append('Authorization', 'Bearer ' + idToken);
-			headers.append('X-ID-TOKEN', idToken);
+			headers.append('X-ID-TOKEN', idToken || '');
 			processRequestPromise = getBodyContent(req).then((body) => {
 				try {
 					req = new Request(req.url, {
@@ -63,6 +79,8 @@ self.addEventListener('fetch', (event) => {
 					// fetch caching logic below and do not pass the ID token.
 				}
 			});
+		} else {
+			processRequestPromise = Promise.resolve();
 		}
 		return processRequestPromise.then(() => {
 			return fetch(req);
@@ -106,16 +124,18 @@ const getBodyContent = (req) => {
  * @return {!Promise<?string>} The promise that resolves with an ID token if
  *     available. Otherwise, the promise resolves with null.
  */
-const auth = getAuth();
 const getIdTokenPromise = () => {
 	return new Promise((resolve, reject) => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
-			console.log('getIdTokenPromise/onAuthStateChanged user:', user);
+			console.log('service-worker/getIdTokenPromise/onAuthStateChanged user:', user);
 			unsubscribe();
 			if (user) {
 				getIdToken(user).then(
 					(idToken) => {
-						console.log('getIdTokenPromise/onAuthStateChanged/getIdToken idToken:', idToken);
+						console.log(
+							'service-worker/getIdTokenPromise/onAuthStateChanged/getIdToken idToken:',
+							idToken
+						);
 						resolve(idToken);
 					},
 					(error) => {

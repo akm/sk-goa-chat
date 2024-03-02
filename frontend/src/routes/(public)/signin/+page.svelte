@@ -18,15 +18,37 @@
 
 	const signin = async () => {
 		let userCredential: UserCredential;
+
+		let serviceWorkerUID: string | undefined;
+		const swMessageHandler = (event: MessageEvent) => {	
+			console.log("swMessageHandler event:", event.data);
+			serviceWorkerUID = event.data.uid;
+		};
+		navigator.serviceWorker.addEventListener("message", swMessageHandler);
 		try {
-			userCredential = await signInWithEmailAndPassword(auth, email, password);
-			console.log('userCredential', userCredential);
-		} catch (err) {
-			if (isFirebaseError(err)) {
-				errorMessage = `[${err.code}] ${err.message}`;
+			try {
+				userCredential = await signInWithEmailAndPassword(auth, email, password);
+				console.log('userCredential', userCredential);
+			} catch (err) {
+				if (isFirebaseError(err)) {
+					errorMessage = `[${err.code}] ${err.message}`;
+					return;
+				}
+				throw err;
+			}
+
+			for (let i = 0; i < 30; i++) {
+				await new Promise((resolve) => setTimeout(resolve, 100));
+				if (serviceWorkerUID === userCredential.user.uid) {
+					break;
+				}
+			}
+			if (serviceWorkerUID !== userCredential.user.uid) {
+				errorMessage = 'failed to get uid from service-worker';
 				return;
 			}
-			throw err;
+		} finally {
+			navigator.serviceWorker.removeEventListener("message", swMessageHandler);
 		}
 
 		let idToken: string;
