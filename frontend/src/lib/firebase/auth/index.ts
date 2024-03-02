@@ -23,15 +23,19 @@ auth.onAuthStateChanged((user) => {
 });
 
 const waitAuth =
-	(ready: boolean) =>
+	(expected: boolean) =>
 	async (opts?: { attempts?: number; interval?: number }): Promise<void> => {
 		const attempts = opts?.attempts ?? 30;
 		const interval = opts?.interval ?? 100;
 		for (let i = 0; i < attempts; i++) {
-			if (authReady === ready) return;
+			if (authReady === expected) {
+				const name = expected ? 'waitUntilSignedIn' : 'waitUntilSignedOut';
+				console.log(`${name} success`);
+				return;
+			}
 			await new Promise((resolve) => setTimeout(resolve, interval));
 		}
-		throw new Error('authReady timeout');
+		throw new Error(`authReady timeout expected: ${expected}`);
 	};
 
 export const waitUntilSignedIn = waitAuth(true);
