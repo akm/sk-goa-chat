@@ -14,16 +14,16 @@ import { auth } from '$lib/firebase/auth';
 
 auth.onAuthStateChanged((user) => {
 	if (!user) {
-		console.log('service-worker/auth.onAuthStateChanged no user');
+		// console.log('service-worker/auth.onAuthStateChanged no user');
 		return;
 	}
-	console.log('service-worker/auth.onAuthStateChanged user.uid', user.uid);
+	// console.log('service-worker/auth.onAuthStateChanged user.uid', user.uid);
 
 	// https://developer.mozilla.org/ja/docs/Web/API/Clients/claim
 	self.clients.claim().then(() => {
 		// https://developer.mozilla.org/ja/docs/Web/API/Clients
 		self.clients.matchAll().then((clients) => {
-			console.log('service-worker/auth.onAuthStateChanged clients', clients);
+			// console.log('service-worker/auth.onAuthStateChanged clients', clients);
 
 			// https://developer.mozilla.org/ja/docs/Web/API/Client/postMessage
 			clients.forEach((client) => client.postMessage({ uid: user.uid }));
@@ -41,13 +41,13 @@ auth.onAuthStateChanged((user) => {
 //
 // FetchEvent: https://developer.mozilla.org/ja/docs/Web/API/FetchEvent
 self.addEventListener('fetch', (event) => {
-	console.log('service-worker/fetch event:', event);
+	// console.log('service-worker/fetch event:', event);
 
 	/** @type {FetchEvent} */
 	const evt = event;
 
 	const requestProcessor = (idToken) => {
-		console.log('service-worker/fetch/requestProcessor idToken:', idToken);
+		// console.log('service-worker/fetch/requestProcessor idToken:', idToken);
 
 		let req = evt.request;
 		let processRequestPromise; //: Promise<void>
@@ -176,15 +176,15 @@ const getBodyContent = (req) => {
 const getIdTokenPromise = () => {
 	return new Promise((resolve, reject) => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
-			console.log('service-worker/getIdTokenPromise/onAuthStateChanged user:', user);
+			// console.log('service-worker/getIdTokenPromise/onAuthStateChanged user:', user);
 			unsubscribe();
 			if (user) {
 				getIdToken(user).then(
 					(idToken) => {
-						console.log(
-							'service-worker/getIdTokenPromise/onAuthStateChanged/getIdToken idToken:',
-							idToken
-						);
+						// console.log(
+						// 	'service-worker/getIdTokenPromise/onAuthStateChanged/getIdToken idToken:',
+						// 	idToken
+						// );
 						resolve(idToken);
 					},
 					(error) => {
