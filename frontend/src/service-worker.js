@@ -19,10 +19,15 @@ auth.onAuthStateChanged((user) => {
 	}
 	console.log('service-worker/auth.onAuthStateChanged user.uid', user.uid);
 
-	// https://developer.mozilla.org/ja/docs/Web/API/Clients
-	self.clients.matchAll().then((clients) => {
-		// https://developer.mozilla.org/ja/docs/Web/API/Client/postMessage
-		clients.forEach((client) => client.postMessage({ uid: user.uid }));
+	// https://developer.mozilla.org/ja/docs/Web/API/Clients/claim
+	self.clients.claim().then(() => {
+		// https://developer.mozilla.org/ja/docs/Web/API/Clients
+		self.clients.matchAll().then((clients) => {
+			console.log('service-worker/auth.onAuthStateChanged clients', clients);
+
+			// https://developer.mozilla.org/ja/docs/Web/API/Client/postMessage
+			clients.forEach((client) => client.postMessage({ uid: user.uid }));
+		});
 	});
 });
 
