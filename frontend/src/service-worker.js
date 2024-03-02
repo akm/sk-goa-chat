@@ -22,6 +22,8 @@ initializeApp(firebaseConfig);
 //
 // FetchEvent: https://developer.mozilla.org/ja/docs/Web/API/FetchEvent
 self.addEventListener('fetch', (event) => {
+	console.log('fetch event:', event);
+
 	/** @type {FetchEvent} */
 	const evt = event;
 
@@ -108,10 +110,12 @@ const auth = getAuth();
 const getIdTokenPromise = () => {
 	return new Promise((resolve, reject) => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
+			console.log('getIdTokenPromise/onAuthStateChanged user:', user);
 			unsubscribe();
 			if (user) {
 				getIdToken(user).then(
 					(idToken) => {
+						console.log('getIdTokenPromise/onAuthStateChanged/getIdToken idToken:', idToken);
 						resolve(idToken);
 					},
 					(error) => {

@@ -25,7 +25,7 @@
 
 	// user の例: {id: 'nUhxKTpuXq4phNaBp1NF6Vp605wJ', name: 'Foo', email: 'foo@example.com'}
 	const user = $page.data.user;
-	console.log('user', user);
+	console.log('+layout.svelte script user:', user);
 
 	const channelLinks = $page.data.channels
 		? ($page.data.channels as Channel[]).map((channel) => ({
