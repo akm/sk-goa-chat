@@ -35,6 +35,7 @@ const waitAuth =
 	};
 
 export const waitUntilSignedIn = waitAuth(true);
+export const waitUntilSignedOut = waitAuth(false);
 
 // https://firebase.google.com/docs/emulator-suite/connect_auth?hl=ja#web-modular-api
 if (import.meta.env.VITE_FIREBASE_AUTH_EMULATOR_HOST) {

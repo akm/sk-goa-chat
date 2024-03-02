@@ -3,7 +3,7 @@
 
 	import '../app.pcss';
 	import { page } from '$app/stores';
-	import { auth } from '$lib/firebase/auth';
+	import { auth, waitUntilSignedOut } from '$lib/firebase/auth';
 	import { closeWebSockets } from '$lib/websockets';
 	import type { Channel } from '$lib/models/channel';
 
@@ -23,6 +23,7 @@
 		} catch (e) {
 			console.log('failed to signOut: ', e);
 		}
+		await waitUntilSignedOut()
 
 		console.log('+layout.svelte setting window.location.href');
 		window.location.href = $page.url.origin + '/signin';
