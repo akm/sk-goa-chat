@@ -27,6 +27,9 @@ test('show signin page when go to root', async ({ page, browser }) => {
 	const chatPage2 = new ChatPage(page2);
 	await test.step('デフォルトのチャンネルの確認', async () => {
 		await page2.goto('/');
+
+		await page.waitForTimeout(1_000); // TODO このスリープを除去
+
 		await expect(channelList.list.itemByName('general')).toBeVisible();
 		await expect(channelList.list.itemByName('random')).toBeVisible();
 		await expect(chatPage2.title('general')).toBeVisible();
