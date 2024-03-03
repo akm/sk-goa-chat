@@ -1,14 +1,16 @@
 import { expect, test } from '@playwright/test';
-import { loadCookiesFrom } from '../steps/cookie';
-import { foo } from './config';
+import { foo, firebaseIndexedDBConfig } from './config';
 
 import { ChannelListPane } from '../pom/panes/channel_list';
 import { NewChannelPage } from '../pom/pages/new_channel_page';
 import { ChatPage } from '../pom/pages/chat_page';
 import { ChannelSettingDialog } from '../pom/dialogs/channel_setting_dialog';
+import { loadIndexedDBDataFrom } from '../steps/indexeddb';
 
-test('operate channels', async ({ page, context }) => {
-	await loadCookiesFrom(context, foo.cookieFile);
+test('operate channels', async ({ page }) => {
+	await page.pause();
+	const { dbName, objectStoreName, keyPath } = firebaseIndexedDBConfig;
+	await loadIndexedDBDataFrom(page, dbName, objectStoreName, keyPath, foo.credentialFilePath);
 	const channelList = new ChannelListPane(page);
 
 	await test.step('デフォルトのチャンネルの確認', async () => {

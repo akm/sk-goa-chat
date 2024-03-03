@@ -1,14 +1,17 @@
 import { test, expect } from '@playwright/test';
 
-import { loadCookiesFrom } from '../steps/cookie';
-import { foo, bar } from './config';
+import { loadIndexedDBDataFrom } from '../steps/indexeddb';
+import { foo, bar, firebaseIndexedDBConfig } from './config';
 
 import { signup } from '../steps/signup';
 import { ChannelListPane } from '../pom/panes/channel_list';
 import { ChatPage } from '../pom/pages/chat_page';
 
-test('show signin page when go to root', async ({ page, context, browser }) => {
-	await loadCookiesFrom(context, foo.cookieFile);
+test('show signin page when go to root', async ({ page, browser }) => {
+	await page.pause();
+
+	const { dbName, objectStoreName, keyPath } = firebaseIndexedDBConfig;
+	await loadIndexedDBDataFrom(page, dbName, objectStoreName, keyPath, foo.credentialFilePath);
 	const channelList = new ChannelListPane(page);
 
 	const chatPage1 = new ChatPage(page);
