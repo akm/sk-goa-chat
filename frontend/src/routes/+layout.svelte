@@ -23,7 +23,7 @@
 		} catch (e) {
 			console.log('failed to signOut: ', e);
 		}
-		await waitUntilSignedOut()
+		await waitUntilSignedOut();
 		await new Promise((resolve) => setTimeout(resolve, 1_000));
 
 		console.log('+layout.svelte setting window.location.href');

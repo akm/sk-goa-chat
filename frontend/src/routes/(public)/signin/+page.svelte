@@ -20,11 +20,11 @@
 		let userCredential: UserCredential;
 
 		let serviceWorkerUID: string | undefined;
-		const swMessageHandler = (event: MessageEvent) => {	
-			console.log("swMessageHandler event:", event.data);
+		const swMessageHandler = (event: MessageEvent) => {
+			console.log('swMessageHandler event:', event.data);
 			serviceWorkerUID = event.data.uid;
 		};
-		navigator.serviceWorker.addEventListener("message", swMessageHandler);
+		navigator.serviceWorker.addEventListener('message', swMessageHandler);
 		try {
 			try {
 				userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -48,7 +48,7 @@
 				return;
 			}
 		} finally {
-			navigator.serviceWorker.removeEventListener("message", swMessageHandler);
+			navigator.serviceWorker.removeEventListener('message', swMessageHandler);
 		}
 
 		let idToken: string;
