@@ -53,7 +53,7 @@
 			throw new Error('notificationsSocket idToken is not valid');
 		}
 
-		ws = notificationsSocket(idToken);
+		ws = await notificationsSocket(idToken);
 		ws.addEventListener('message', nofiticationHandler);
 		scrollToLatestChat('instant');
 	});
