@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
 import { signup } from '../steps/signup';
 import { signin, signout } from '../steps/signin';
-import { saveCookiesTo } from '../steps/auth';
+import { saveCookiesTo } from '../steps/cookie';
 import { foo } from './config';
 
 test('show signin page when go to root', async ({ page, context }) => {

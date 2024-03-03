@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-import { loadCookiesFrom } from '../steps/auth';
+import { loadCookiesFrom } from '../steps/cookie';
 import { foo, bar } from './config';
 
 import { signup } from '../steps/signup';

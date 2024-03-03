@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { loadCookiesFrom } from '../steps/auth';
+import { loadCookiesFrom } from '../steps/cookie';
 import { foo } from './config';
 
 import { ChannelListPane } from '../pom/panes/channel_list';
