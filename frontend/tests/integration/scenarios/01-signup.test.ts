@@ -11,5 +11,4 @@ test('show signin page when go to root', async ({ page }) => {
 
 	const { dbName, objectStoreName } = firebaseIndexedDBConfig;
 	await saveIndexedDBDataTo(page, dbName, objectStoreName, foo.credentialFilePath);
-	await page.pause();
 });

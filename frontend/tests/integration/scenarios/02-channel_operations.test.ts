@@ -8,13 +8,23 @@ import { ChannelSettingDialog } from '../pom/dialogs/channel_setting_dialog';
 import { loadIndexedDBDataFrom } from '../steps/indexeddb';
 
 test('operate channels', async ({ page }) => {
+	await page.route('/page-without-firebase-auth', async (route) => {
+		await route.fulfill({ body: '<html><body><h1>Page without Firebase Auth</h1></body></html>' });
+	});
+	await page.goto('/page-without-firebase-auth'); // ブラウザで対象のページを開かないと、ドメインごとに分けられる indexedDB が使えない
+
 	await page.pause();
 	const { dbName, objectStoreName, keyPath } = firebaseIndexedDBConfig;
 	await loadIndexedDBDataFrom(page, dbName, objectStoreName, keyPath, foo.credentialFilePath);
+	await page.pause();
+
 	const channelList = new ChannelListPane(page);
 
 	await test.step('デフォルトのチャンネルの確認', async () => {
 		await page.goto('/');
+
+		await page.pause();
+
 		await expect(channelList.list.itemByName('general')).toBeVisible();
 		await expect(channelList.list.itemByName('random')).toBeVisible();
 	});

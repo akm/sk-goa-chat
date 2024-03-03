@@ -8,15 +8,19 @@ import { ChannelListPane } from '../pom/panes/channel_list';
 import { ChatPage } from '../pom/pages/chat_page';
 
 test('show signin page when go to root', async ({ page, browser }) => {
+	await page.goto('/'); // ブラウザで対象のページを開かないと、ドメインごとに分けられる indexedDB が使えない
+
 	await page.pause();
 
 	const { dbName, objectStoreName, keyPath } = firebaseIndexedDBConfig;
 	await loadIndexedDBDataFrom(page, dbName, objectStoreName, keyPath, foo.credentialFilePath);
 	const channelList = new ChannelListPane(page);
 
+	await page.pause();
+
 	const chatPage1 = new ChatPage(page);
 	await test.step('デフォルトのチャンネルの確認', async () => {
-		await page.goto('/');
+		// await page.goto('/');
 		await expect(channelList.list.itemByName('general')).toBeVisible();
 		await expect(channelList.list.itemByName('random')).toBeVisible();
 		await expect(chatPage1.title('general')).toBeVisible();
