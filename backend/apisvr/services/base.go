@@ -116,20 +116,6 @@ func (s *BaseAuthService) APIKeyAuth(ctx context.Context, key string, schema *se
 	return
 }
 
-// func (s *baseAuthService) actionWithAuth(ctx context.Context, name string, idToken string, cb func(context.Context, *sql.DB, *models.User) error) error {
-// 	return s.actionWithDB(ctx, name, func(ctx context.Context, db *sql.DB) error {
-// 		fbauth, err := s.firebaseAuthClient(ctx)
-// 		if err != nil {
-// 			return err
-// 		}
-// 		user, err := s.authenticate(ctx, db, fbauth, idToken)
-// 		if err != nil {
-// 			return err
-// 		}
-// 		return cb(ctx, db, user)
-// 	})
-// }
-
 func (s *BaseAuthService) actionWithUser(ctx context.Context, name string, idToken string, cb func(context.Context, *sql.DB, *models.User) error) error {
 	return s.actionWithDB(ctx, name, func(ctx context.Context, db *sql.DB) error {
 		u, err := UserFromContext(ctx)
