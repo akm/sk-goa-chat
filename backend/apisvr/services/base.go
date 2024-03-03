@@ -40,13 +40,13 @@ func (s *BaseService) sqlOpen() (*sql.DB, error) {
 }
 
 func (s *BaseService) actionWithDB(ctx context.Context, name string, cb func(context.Context, *sql.DB) error) error {
-	s.logger.Info().Msg(name)
-	ctx = SetupContext(ctx)
-	db, err := sql.ConnectionFromContext(ctx)
-	if err != nil {
-		return err
-	}
-	return cb(ctx, db)
+	return s.action(ctx, name, func(ctx context.Context) error {
+		db, err := sql.ConnectionFromContext(ctx)
+		if err != nil {
+			return err
+		}
+		return cb(ctx, db)
+	})
 }
 
 func (s *BaseService) firebaseAuthClient(ctx context.Context) (auth.Client, error) {
