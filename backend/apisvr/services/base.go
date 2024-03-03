@@ -7,6 +7,7 @@ import (
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	goa "goa.design/goa/v3/pkg"
+	"goa.design/goa/v3/security"
 
 	log "apisvr/services/gen/log"
 	"applib/database/sql"
@@ -21,30 +22,34 @@ func SetupContext(ctx context.Context) context.Context {
 	return boil.SkipTimestamps(ctx)
 }
 
-type baseService struct {
+type BaseService struct {
 	logger *log.Logger
 }
 
-func newBaseService(logger *log.Logger) baseService {
-	return baseService{logger: logger}
+func NewBaseService(logger *log.Logger) BaseService {
+	return BaseService{logger: logger}
 }
 
-func (s *baseService) action(ctx context.Context, name string, cb func(context.Context) error) error {
+func (s *BaseService) action(ctx context.Context, name string, cb func(context.Context) error) error {
 	s.logger.Info().Msg(name)
 	return cb(SetupContext(ctx))
 }
 
-func (s *baseService) actionWithDB(ctx context.Context, name string, cb func(context.Context, *sql.DB) error) error {
-	s.logger.Info().Msg(name)
-	ctx = SetupContext(ctx)
-	db, err := sql.ConnectionFromContext(ctx)
-	if err != nil {
-		return err
-	}
-	return cb(ctx, db)
+func (s *BaseService) sqlOpen() (*sql.DB, error) {
+	return sql.Open(s.logger.Logger)
 }
 
-func (s *baseService) firebaseAuthClient(ctx context.Context) (auth.Client, error) {
+func (s *BaseService) actionWithDB(ctx context.Context, name string, cb func(context.Context, *sql.DB) error) error {
+	return s.action(ctx, name, func(ctx context.Context) error {
+		db, err := sql.ConnectionFromContext(ctx)
+		if err != nil {
+			return err
+		}
+		return cb(ctx, db)
+	})
+}
+
+func (s *BaseService) firebaseAuthClient(ctx context.Context) (auth.Client, error) {
 	fbapp, err := firebase.NewApp(ctx, nil)
 	if err != nil {
 		return nil, errors.Wrapf(err, "firebase.NewApp")
@@ -56,20 +61,20 @@ func (s *baseService) firebaseAuthClient(ctx context.Context) (auth.Client, erro
 	return fbauth, nil
 }
 
-type baseAuthService struct {
-	baseService
+type BaseAuthService struct {
+	BaseService
 	ConvToAuthenticationError func(error) *goa.ServiceError
 }
 
-func newBaseAuthService(logger *log.Logger, convToAuthenticationError func(error) *goa.ServiceError) baseAuthService {
-	return baseAuthService{
-		baseService:               newBaseService(logger),
+func NewBaseAuthService(logger *log.Logger, convToAuthenticationError func(error) *goa.ServiceError) BaseAuthService {
+	return BaseAuthService{
+		BaseService:               NewBaseService(logger),
 		ConvToAuthenticationError: convToAuthenticationError,
 	}
 }
 
-func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, fbauth auth.Client, sessionID string) (*models.User, error) {
-	token, err := fbauth.VerifySessionCookie(ctx, sessionID)
+func (s *BaseAuthService) authenticate(ctx context.Context, db *sql.DB, fbauth auth.Client, idToken string) (*models.User, error) {
+	token, err := fbauth.VerifyIDToken(ctx, idToken)
 	if err != nil {
 		return nil, s.ConvToAuthenticationError(err)
 	}
@@ -86,16 +91,37 @@ func (s *baseAuthService) authenticate(ctx context.Context, db *sql.DB, fbauth a
 	return user, nil
 }
 
-func (s *baseAuthService) actionWithAuth(ctx context.Context, name string, sessionID string, cb func(context.Context, *sql.DB, *models.User) error) error {
-	return s.actionWithDB(ctx, name, func(ctx context.Context, db *sql.DB) error {
+func (s *BaseAuthService) APIKeyAuth(ctx context.Context, key string, schema *security.APIKeyScheme) (newCtx context.Context, err error) {
+	newCtx = ctx
+	err = func() error {
+		// TODO Get db from context for message processing
+		db, err := s.sqlOpen()
+		if err != nil {
+			return err
+		}
+		defer db.Close()
+
 		fbauth, err := s.firebaseAuthClient(ctx)
 		if err != nil {
 			return err
 		}
-		user, err := s.authenticate(ctx, db, fbauth, sessionID)
+
+		u, err := s.authenticate(ctx, db, fbauth, key)
 		if err != nil {
 			return err
 		}
-		return cb(ctx, db, user)
+		newCtx = NewContextWithUser(ctx, u)
+		return nil
+	}()
+	return
+}
+
+func (s *BaseAuthService) actionWithUser(ctx context.Context, name string, idToken string, cb func(context.Context, *sql.DB, *models.User) error) error {
+	return s.actionWithDB(ctx, name, func(ctx context.Context, db *sql.DB) error {
+		u, err := UserFromContext(ctx)
+		if err != nil {
+			return err
+		}
+		return cb(ctx, db, u)
 	})
 }

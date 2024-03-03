@@ -18,8 +18,8 @@ service Notifications {
 }
 
 message SubscribeRequest {
-	// Session ID
-	string session_id = 1;
+	// X-ID-TOKEN
+	string id_token = 1;
 }
 
 message SubscribeResponse {

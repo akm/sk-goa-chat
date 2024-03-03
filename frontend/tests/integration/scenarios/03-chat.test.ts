@@ -1,14 +1,16 @@
 import { test, expect } from '@playwright/test';
 
-import { loadCookiesFrom } from '../steps/auth';
 import { foo, bar } from './config';
 
 import { signup } from '../steps/signup';
 import { ChannelListPane } from '../pom/panes/channel_list';
 import { ChatPage } from '../pom/pages/chat_page';
+import { signin } from '../steps/signin';
 
-test('show signin page when go to root', async ({ page, context, browser }) => {
-	await loadCookiesFrom(context, foo.cookieFile);
+test('show signin page when go to root', async ({ page, browser }) => {
+	await page.goto('/');
+	await signin(page, foo);
+
 	const channelList = new ChannelListPane(page);
 
 	const chatPage1 = new ChatPage(page);
@@ -25,6 +27,9 @@ test('show signin page when go to root', async ({ page, context, browser }) => {
 	const chatPage2 = new ChatPage(page2);
 	await test.step('デフォルトのチャンネルの確認', async () => {
 		await page2.goto('/');
+
+		await page.waitForTimeout(1_000); // TODO このスリープを除去
+
 		await expect(channelList.list.itemByName('general')).toBeVisible();
 		await expect(channelList.list.itemByName('random')).toBeVisible();
 		await expect(chatPage2.title('general')).toBeVisible();

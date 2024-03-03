@@ -24,11 +24,11 @@ import { MessageType } from "@protobuf-ts/runtime";
  */
 export interface ListRequest {
     /**
-     * Session ID
+     * X-ID-TOKEN
      *
-     * @generated from protobuf field: string session_id = 1;
+     * @generated from protobuf field: string id_token = 1;
      */
-    sessionId: string;
+    idToken: string;
     /**
      * Limit
      *
@@ -126,11 +126,11 @@ export interface ChatMessageListItem {
  */
 export interface ShowRequest {
     /**
-     * Session ID
+     * X-ID-TOKEN
      *
-     * @generated from protobuf field: string session_id = 1;
+     * @generated from protobuf field: string id_token = 1;
      */
-    sessionId: string;
+    idToken: string;
     /**
      * ID
      *
@@ -190,11 +190,11 @@ export interface ShowResponse {
  */
 export interface CreateRequest {
     /**
-     * Session ID
+     * X-ID-TOKEN
      *
-     * @generated from protobuf field: string session_id = 1;
+     * @generated from protobuf field: string id_token = 1;
      */
-    sessionId: string;
+    idToken: string;
     /**
      * Channel ID
      *
@@ -260,11 +260,11 @@ export interface CreateResponse {
  */
 export interface UpdateRequest {
     /**
-     * Session ID
+     * X-ID-TOKEN
      *
-     * @generated from protobuf field: string session_id = 1;
+     * @generated from protobuf field: string id_token = 1;
      */
-    sessionId: string;
+    idToken: string;
     /**
      * ID
      *
@@ -330,11 +330,11 @@ export interface UpdateResponse {
  */
 export interface DeleteRequest {
     /**
-     * Session ID
+     * X-ID-TOKEN
      *
-     * @generated from protobuf field: string session_id = 1;
+     * @generated from protobuf field: string id_token = 1;
      */
-    sessionId: string;
+    idToken: string;
     /**
      * ID
      *
@@ -393,7 +393,7 @@ export interface DeleteResponse {
 class ListRequest$Type extends MessageType<ListRequest> {
     constructor() {
         super("chat_messages.ListRequest", [
-            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 1, name: "id_token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "limit", kind: "scalar", T: 17 /*ScalarType.SINT32*/ },
             { no: 3, name: "channel_id", kind: "scalar", opt: true, T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
             { no: 4, name: "after", kind: "scalar", opt: true, T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
@@ -402,7 +402,7 @@ class ListRequest$Type extends MessageType<ListRequest> {
     }
     create(value?: PartialMessage<ListRequest>): ListRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.sessionId = "";
+        message.idToken = "";
         message.limit = 0;
         if (value !== undefined)
             reflectionMergePartial<ListRequest>(this, message, value);
@@ -413,8 +413,8 @@ class ListRequest$Type extends MessageType<ListRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string session_id */ 1:
-                    message.sessionId = reader.string();
+                case /* string id_token */ 1:
+                    message.idToken = reader.string();
                     break;
                 case /* sint32 limit */ 2:
                     message.limit = reader.sint32();
@@ -440,9 +440,9 @@ class ListRequest$Type extends MessageType<ListRequest> {
         return message;
     }
     internalBinaryWrite(message: ListRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string session_id = 1; */
-        if (message.sessionId !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.sessionId);
+        /* string id_token = 1; */
+        if (message.idToken !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.idToken);
         /* sint32 limit = 2; */
         if (message.limit !== 0)
             writer.tag(2, WireType.Varint).sint32(message.limit);
@@ -656,13 +656,13 @@ export const ChatMessageListItem = new ChatMessageListItem$Type();
 class ShowRequest$Type extends MessageType<ShowRequest> {
     constructor() {
         super("chat_messages.ShowRequest", [
-            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 1, name: "id_token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ }
         ]);
     }
     create(value?: PartialMessage<ShowRequest>): ShowRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.sessionId = "";
+        message.idToken = "";
         message.id = 0n;
         if (value !== undefined)
             reflectionMergePartial<ShowRequest>(this, message, value);
@@ -673,8 +673,8 @@ class ShowRequest$Type extends MessageType<ShowRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string session_id */ 1:
-                    message.sessionId = reader.string();
+                case /* string id_token */ 1:
+                    message.idToken = reader.string();
                     break;
                 case /* uint64 id */ 2:
                     message.id = reader.uint64().toBigInt();
@@ -691,9 +691,9 @@ class ShowRequest$Type extends MessageType<ShowRequest> {
         return message;
     }
     internalBinaryWrite(message: ShowRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string session_id = 1; */
-        if (message.sessionId !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.sessionId);
+        /* string id_token = 1; */
+        if (message.idToken !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.idToken);
         /* uint64 id = 2; */
         if (message.id !== 0n)
             writer.tag(2, WireType.Varint).uint64(message.id);
@@ -805,14 +805,14 @@ export const ShowResponse = new ShowResponse$Type();
 class CreateRequest$Type extends MessageType<CreateRequest> {
     constructor() {
         super("chat_messages.CreateRequest", [
-            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 1, name: "id_token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "channel_id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
             { no: 8, name: "content", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<CreateRequest>): CreateRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.sessionId = "";
+        message.idToken = "";
         message.channelId = 0n;
         message.content = "";
         if (value !== undefined)
@@ -824,8 +824,8 @@ class CreateRequest$Type extends MessageType<CreateRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string session_id */ 1:
-                    message.sessionId = reader.string();
+                case /* string id_token */ 1:
+                    message.idToken = reader.string();
                     break;
                 case /* uint64 channel_id */ 5:
                     message.channelId = reader.uint64().toBigInt();
@@ -845,9 +845,9 @@ class CreateRequest$Type extends MessageType<CreateRequest> {
         return message;
     }
     internalBinaryWrite(message: CreateRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string session_id = 1; */
-        if (message.sessionId !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.sessionId);
+        /* string id_token = 1; */
+        if (message.idToken !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.idToken);
         /* uint64 channel_id = 5; */
         if (message.channelId !== 0n)
             writer.tag(5, WireType.Varint).uint64(message.channelId);
@@ -962,14 +962,14 @@ export const CreateResponse = new CreateResponse$Type();
 class UpdateRequest$Type extends MessageType<UpdateRequest> {
     constructor() {
         super("chat_messages.UpdateRequest", [
-            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 1, name: "id_token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
             { no: 8, name: "content", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<UpdateRequest>): UpdateRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.sessionId = "";
+        message.idToken = "";
         message.id = 0n;
         message.content = "";
         if (value !== undefined)
@@ -981,8 +981,8 @@ class UpdateRequest$Type extends MessageType<UpdateRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string session_id */ 1:
-                    message.sessionId = reader.string();
+                case /* string id_token */ 1:
+                    message.idToken = reader.string();
                     break;
                 case /* uint64 id */ 2:
                     message.id = reader.uint64().toBigInt();
@@ -1002,9 +1002,9 @@ class UpdateRequest$Type extends MessageType<UpdateRequest> {
         return message;
     }
     internalBinaryWrite(message: UpdateRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string session_id = 1; */
-        if (message.sessionId !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.sessionId);
+        /* string id_token = 1; */
+        if (message.idToken !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.idToken);
         /* uint64 id = 2; */
         if (message.id !== 0n)
             writer.tag(2, WireType.Varint).uint64(message.id);
@@ -1119,13 +1119,13 @@ export const UpdateResponse = new UpdateResponse$Type();
 class DeleteRequest$Type extends MessageType<DeleteRequest> {
     constructor() {
         super("chat_messages.DeleteRequest", [
-            { no: 1, name: "session_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 1, name: "id_token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "id", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ }
         ]);
     }
     create(value?: PartialMessage<DeleteRequest>): DeleteRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.sessionId = "";
+        message.idToken = "";
         message.id = 0n;
         if (value !== undefined)
             reflectionMergePartial<DeleteRequest>(this, message, value);
@@ -1136,8 +1136,8 @@ class DeleteRequest$Type extends MessageType<DeleteRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string session_id */ 1:
-                    message.sessionId = reader.string();
+                case /* string id_token */ 1:
+                    message.idToken = reader.string();
                     break;
                 case /* uint64 id */ 2:
                     message.id = reader.uint64().toBigInt();
@@ -1154,9 +1154,9 @@ class DeleteRequest$Type extends MessageType<DeleteRequest> {
         return message;
     }
     internalBinaryWrite(message: DeleteRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string session_id = 1; */
-        if (message.sessionId !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.sessionId);
+        /* string id_token = 1; */
+        if (message.idToken !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.idToken);
         /* uint64 id = 2; */
         if (message.id !== 0n)
             writer.tag(2, WireType.Varint).uint64(message.id);

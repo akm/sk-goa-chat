@@ -16,7 +16,7 @@ import (
 // "notifications" service from the gRPC request type.
 func NewSubscribePayload(message *notificationspb.SubscribeRequest) *notifications.SubscribePayload {
 	v := &notifications.SubscribePayload{
-		SessionID: message.SessionId,
+		IDToken: message.IdToken,
 	}
 	return v
 }

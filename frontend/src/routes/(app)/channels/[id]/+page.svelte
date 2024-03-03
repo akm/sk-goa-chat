@@ -9,6 +9,7 @@
 	import { onDestroy, onMount } from 'svelte';
 
 	import { GET, POST, PUT, DELETE } from '$lib/openapi_client';
+	import { auth, waitUntilSignedIn } from '$lib/firebase/auth';
 
 	export let data: {
 		channel: Channel;
@@ -21,7 +22,7 @@
 
 	let settingVisible = false;
 
-	const nofiticationHandler = (event) => {
+	const nofiticationHandler = (event: MessageEvent) => {
 		// console.log('event', event);
 		// console.log('event.data', event.data);
 		const notification = JSON.parse(event.data);
@@ -44,8 +45,15 @@
 	};
 
 	let ws: WebSocket;
-	onMount(() => {
-		ws = notificationsSocket();
+	onMount(async () => {
+		await waitUntilSignedIn();
+		const idToken = await auth.currentUser?.getIdToken();
+		if (!idToken) {
+			console.error('notificationsSocket idToken is not valid', idToken);
+			throw new Error('notificationsSocket idToken is not valid');
+		}
+
+		ws = await notificationsSocket(idToken);
 		ws.addEventListener('message', nofiticationHandler);
 		scrollToLatestChat('instant');
 	});
@@ -57,7 +65,8 @@
 		console.log('updateChannel', data);
 		const result = await PUT('/api/channels/{id}', {
 			params: {
-				path: { id: data.channel.id }
+				header: { 'X-ID-TOKEN': localStorage.getItem('idToken') || '' },
+				path: { id: Number(data.channel.id) }
 			},
 			body: { name }
 		});
@@ -72,6 +81,7 @@
 	const deleteChannel = async () => {
 		const result = await DELETE('/api/channels/{id}', {
 			params: {
+				header: { 'X-ID-TOKEN': localStorage.getItem('idToken') || '' },
 				path: { id: Number(data.channel.id) }
 			}
 		});
@@ -86,6 +96,7 @@
 	let textarea: HTMLTextAreaElement;
 	const postMessage = async () => {
 		const result = await POST('/api/chat_messages', {
+			params: { header: { 'X-ID-TOKEN': localStorage.getItem('idToken') || '' } },
 			body: { channel_id: Number(data.channel.id), content: textarea.value }
 		});
 		if (result.error) {
@@ -103,6 +114,7 @@
 	}): Promise<ChatMessage[]> => {
 		const result = await GET('/api/chat_messages', {
 			params: {
+				header: { 'X-ID-TOKEN': localStorage.getItem('idToken') || '' },
 				query: {
 					channel_id: Number(data.channel.id),
 					before: options.before,
@@ -120,8 +132,8 @@
 			id: BigInt(msg.id), // OpenAPI では number で返ってくるので BigInt に変換しておく
 			createdAt: msg.created_at,
 			updatedAt: msg.updated_at,
-			channelId: msg.channel_id,
-			userId: msg.user_id,
+			channelId: BigInt(msg.channel_id),
+			userId: msg.user_id ? BigInt(msg.user_id) : undefined,
 			userName: msg.user_name,
 			content: msg.content
 		}));

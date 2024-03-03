@@ -43,11 +43,8 @@ func EncodeListRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.R
 			return goahttp.ErrInvalidType("channels", "list", "*channels.ListPayload", v)
 		}
 		{
-			v := p.SessionID
-			req.AddCookie(&http.Cookie{
-				Name:  "session_id",
-				Value: v,
-			})
+			head := p.IDToken
+			req.Header.Set("X-ID-TOKEN", head)
 		}
 		return nil
 	}
@@ -146,11 +143,8 @@ func EncodeShowRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.R
 			return goahttp.ErrInvalidType("channels", "show", "*channels.ShowPayload", v)
 		}
 		{
-			v := p.SessionID
-			req.AddCookie(&http.Cookie{
-				Name:  "session_id",
-				Value: v,
-			})
+			head := p.IDToken
+			req.Header.Set("X-ID-TOKEN", head)
 		}
 		return nil
 	}
@@ -254,11 +248,8 @@ func EncodeCreateRequest(encoder func(*http.Request) goahttp.Encoder) func(*http
 			return goahttp.ErrInvalidType("channels", "create", "*channels.ChannelCreatePayload", v)
 		}
 		{
-			v := p.SessionID
-			req.AddCookie(&http.Cookie{
-				Name:  "session_id",
-				Value: v,
-			})
+			head := p.IDToken
+			req.Header.Set("X-ID-TOKEN", head)
 		}
 		body := NewCreateRequestBody(p)
 		if err := encoder(req).Encode(&body); err != nil {
@@ -376,11 +367,8 @@ func EncodeUpdateRequest(encoder func(*http.Request) goahttp.Encoder) func(*http
 			return goahttp.ErrInvalidType("channels", "update", "*channels.ChannelUpdatePayload", v)
 		}
 		{
-			v := p.SessionID
-			req.AddCookie(&http.Cookie{
-				Name:  "session_id",
-				Value: v,
-			})
+			head := p.IDToken
+			req.Header.Set("X-ID-TOKEN", head)
 		}
 		body := NewUpdateRequestBody(p)
 		if err := encoder(req).Encode(&body); err != nil {
@@ -513,11 +501,8 @@ func EncodeDeleteRequest(encoder func(*http.Request) goahttp.Encoder) func(*http
 			return goahttp.ErrInvalidType("channels", "delete", "*channels.DeletePayload", v)
 		}
 		{
-			v := p.SessionID
-			req.AddCookie(&http.Cookie{
-				Name:  "session_id",
-				Value: v,
-			})
+			head := p.IDToken
+			req.Header.Set("X-ID-TOKEN", head)
 		}
 		return nil
 	}

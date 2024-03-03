@@ -17,14 +17,16 @@ const config: PlaywrightTestConfig = {
 	// https://playwright.dev/docs/api/class-testconfig#test-config-web-server
 	webServer: [
 		{
-			command: 'make -C tests/integration apisvr_run',
+			command: `make -C tests/integration apisvr_run`,
 			port: Number(process.env.APP_APISVR_HTTP_PORT ?? 4173),
-			reuseExistingServer: !process.env.CI
+			reuseExistingServer: !process.env.CI,
+			stdout: 'pipe'
 		},
 		{
-			command: 'make -C tests/integration uisvr_run',
+			command: `make -C tests/integration uisvr_run`,
 			port: Number(process.env.APP_UISVR_HTTP_PORT ?? 4173),
-			reuseExistingServer: !process.env.CI
+			reuseExistingServer: !process.env.CI,
+			stdout: 'pipe'
 		}
 	],
 

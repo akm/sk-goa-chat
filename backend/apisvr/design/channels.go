@@ -23,7 +23,7 @@ func channelFields(action string) []string {
 	r := []string{}
 
 	if InPayload() {
-		r = append(r, fieldSessionID(1))
+		r = append(r, authApiKeyField(1))
 	}
 
 	if InRT() || action == "update" {
@@ -67,13 +67,12 @@ var ChannelUpdatePayload = Type("ChannelUpdatePayload", func() {
 })
 
 var _ = Service("channels", func() {
-	// Security(sessionAuth)
+	httpIdToken, grpcIdToken := idTokenSecurity()
 
 	httpUnautheticated, grpcUnauthenticated := unauthenticated()
 
 	HTTP(func() {
 		Path("/api/channels")
-		Cookie(sessionIdKey)
 		httpUnautheticated()
 	})
 
@@ -82,13 +81,15 @@ var _ = Service("channels", func() {
 	})
 
 	Method("list", func() {
-		Payload(func() { Required(fieldSessionID(1)) })
+		Payload(func() { Required(authApiKeyField(1)) })
 		Result(ChannelListRT)
 		HTTP(func() {
 			GET("")
+			httpIdToken()
 			Response(StatusOK)
 		})
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 		})
 	})
@@ -96,7 +97,7 @@ var _ = Service("channels", func() {
 	Method("show", func() {
 		Payload(func() {
 			Required(
-				fieldSessionID(1),
+				authApiKeyField(1),
 				field(2, "id", UInt64, "ID"),
 			)
 		})
@@ -105,10 +106,12 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			GET("/{id}")
+			httpIdToken()
 			Response(StatusOK)
 			httpNotFound()
 		})
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 			grpcNotFound()
 		})
@@ -121,10 +124,12 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			POST("")
+			httpIdToken()
 			Response(StatusCreated)
 			httpInvalidPayload()
 		})
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 			grpcInvalidPayload()
 		})
@@ -138,11 +143,13 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			PUT("/{id}")
+			httpIdToken()
 			Response(StatusOK)
 			httpNotFound()
 			httpInvalidPayload()
 		})
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 			grpcNotFound()
 			grpcInvalidPayload()
@@ -152,7 +159,7 @@ var _ = Service("channels", func() {
 	Method("delete", func() {
 		Payload(func() {
 			Required(
-				fieldSessionID(1),
+				authApiKeyField(1),
 				field(2, "id", UInt64, "ID"),
 			)
 		})
@@ -161,10 +168,12 @@ var _ = Service("channels", func() {
 
 		HTTP(func() {
 			DELETE("/{id}")
+			httpIdToken()
 			Response(StatusOK)
 			httpNotFound()
 		})
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 			grpcNotFound()
 		})

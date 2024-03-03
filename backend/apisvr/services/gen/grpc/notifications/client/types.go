@@ -18,7 +18,7 @@ import (
 // the "subscribe" endpoint of the "notifications" service.
 func NewProtoSubscribeRequest(payload *notifications.SubscribePayload) *notificationspb.SubscribeRequest {
 	message := &notificationspb.SubscribeRequest{
-		SessionId: payload.SessionID,
+		IdToken: payload.IDToken,
 	}
 	return message
 }

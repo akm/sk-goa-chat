@@ -23,12 +23,12 @@ func BuildListPayload(channelsListMessage string) (*channels.ListPayload, error)
 		if channelsListMessage != "" {
 			err = json.Unmarshal([]byte(channelsListMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"session_id\": \"Alias rem.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id_token\": \"abcdef12345\"\n   }'")
 			}
 		}
 	}
 	v := &channels.ListPayload{
-		SessionID: message.SessionId,
+		IDToken: message.IdToken,
 	}
 
 	return v, nil
@@ -43,13 +43,13 @@ func BuildShowPayload(channelsShowMessage string) (*channels.ShowPayload, error)
 		if channelsShowMessage != "" {
 			err = json.Unmarshal([]byte(channelsShowMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 13315485509768610097,\n      \"session_id\": \"Tempore et minus molestias aspernatur blanditiis neque.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 4243154004623530542,\n      \"id_token\": \"abcdef12345\"\n   }'")
 			}
 		}
 	}
 	v := &channels.ShowPayload{
-		SessionID: message.SessionId,
-		ID:        message.Id,
+		IDToken: message.IdToken,
+		ID:      message.Id,
 	}
 
 	return v, nil
@@ -64,13 +64,13 @@ func BuildCreatePayload(channelsCreateMessage string) (*channels.ChannelCreatePa
 		if channelsCreateMessage != "" {
 			err = json.Unmarshal([]byte(channelsCreateMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"name\": \"Consequatur consequatur doloremque assumenda sint consequuntur corrupti.\",\n      \"session_id\": \"Blanditiis molestias.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id_token\": \"abcdef12345\",\n      \"name\": \"Sit quos enim praesentium provident et.\"\n   }'")
 			}
 		}
 	}
 	v := &channels.ChannelCreatePayload{
-		SessionID: message.SessionId,
-		Name:      message.Name,
+		IDToken: message.IdToken,
+		Name:    message.Name,
 	}
 
 	return v, nil
@@ -85,14 +85,14 @@ func BuildUpdatePayload(channelsUpdateMessage string) (*channels.ChannelUpdatePa
 		if channelsUpdateMessage != "" {
 			err = json.Unmarshal([]byte(channelsUpdateMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 5096907298334997690,\n      \"name\": \"Commodi et voluptas.\",\n      \"session_id\": \"Cumque magni vitae.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 8845190340737756413,\n      \"id_token\": \"abcdef12345\",\n      \"name\": \"Nihil aliquam dicta.\"\n   }'")
 			}
 		}
 	}
 	v := &channels.ChannelUpdatePayload{
-		SessionID: message.SessionId,
-		ID:        message.Id,
-		Name:      message.Name,
+		IDToken: message.IdToken,
+		ID:      message.Id,
+		Name:    message.Name,
 	}
 
 	return v, nil
@@ -107,13 +107,13 @@ func BuildDeletePayload(channelsDeleteMessage string) (*channels.DeletePayload, 
 		if channelsDeleteMessage != "" {
 			err = json.Unmarshal([]byte(channelsDeleteMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 10482655633392866197,\n      \"session_id\": \"Fugiat laborum expedita et veritatis itaque.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 13886048143001497827,\n      \"id_token\": \"abcdef12345\"\n   }'")
 			}
 		}
 	}
 	v := &channels.DeletePayload{
-		SessionID: message.SessionId,
-		ID:        message.Id,
+		IDToken: message.IdToken,
+		ID:      message.Id,
 	}
 
 	return v, nil

@@ -3,15 +3,26 @@ package design
 import "goa.design/goa/v3/dsl"
 
 //nolint:unused
-const sessionIdScheme = "api_key"
-const sessionIdKey = "session_id"
+const authApiKeyScheme = "api_key"
+const authApiKeyName = "id_token"
 
 //nolint:unused
-var sessionAuth = dsl.APIKeySecurity(sessionIdScheme, func() {
+var authApiKeySecurity = dsl.APIKeySecurity(authApiKeyScheme, func() {
 })
 
-func fieldSessionID(tag any) string {
-	// dsl.APIKeyField(tag, sessionIdScheme, sessionIdKey, dsl.String, "Session ID")
-	dsl.Field(tag, sessionIdKey, dsl.String, "Session ID")
-	return sessionIdKey
+func authApiKeyField(tag any) string {
+	dsl.APIKeyField(tag, authApiKeyScheme, authApiKeyName, dsl.String, "X-ID-TOKEN", func() { dsl.Example("abcdef12345") })
+	return authApiKeyName
+}
+
+func idTokenSecurity() (func(), func()) {
+	dsl.Security(authApiKeySecurity)
+	return func() {
+			dsl.Header(authApiKeyName + ":X-ID-TOKEN")
+		},
+		func() {
+			dsl.Message(func() {
+				dsl.Attribute(authApiKeyName)
+			})
+		}
 }

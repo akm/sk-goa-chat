@@ -3,7 +3,7 @@ dev: setup
 	npm run dev
 
 DEV_ENVS=\
-	GOOGLE_CLOUD_PROJECT=sk-goa-chat \
+	GOOGLE_CLOUD_PROJECT=$(GOOGLE_CLOUD_PROJECT) \
 	APP_FIREBASE_API_KEY=$(APP_FIREBASE_API_KEY) \
 	FIREBASE_AUTH_EMULATOR_HOST="127.0.0.1:$(APP_PORT_FIREBASE_AUTH_dev)" \
 	VITE_FIREBASE_AUTH_EMULATOR_HOST="127.0.0.1:$(APP_PORT_FIREBASE_AUTH_dev)" \
@@ -16,7 +16,7 @@ dev_backend:
 
 .PHONY: dev_run
 dev_run:
-	$(DEV_ENVS) vite dev
+	$(DEV_ENVS) npx vite dev
 
 .PHONY: dev_containers_up_with_migration
 dev_containers_up_with_migration:

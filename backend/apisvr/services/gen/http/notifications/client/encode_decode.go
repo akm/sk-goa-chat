@@ -48,13 +48,9 @@ func EncodeSubscribeRequest(encoder func(*http.Request) goahttp.Encoder) func(*h
 		if !ok {
 			return goahttp.ErrInvalidType("notifications", "subscribe", "*notifications.SubscribePayload", v)
 		}
-		{
-			v := p.SessionID
-			req.AddCookie(&http.Cookie{
-				Name:  "session_id",
-				Value: v,
-			})
-		}
+		values := req.URL.Query()
+		values.Add("token", p.IDToken)
+		req.URL.RawQuery = values.Encode()
 		return nil
 	}
 }

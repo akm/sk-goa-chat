@@ -7,7 +7,10 @@
 	let errorMessage = '';
 
 	const createChannel = async () => {
-		const result = await POST('/api/channels', { body: { name } });
+		const result = await POST('/api/channels', {
+			params: { header: { 'X-ID-TOKEN': localStorage.getItem('idToken') || '' } },
+			body: { name }
+		});
 		if (result.error) {
 			errorMessage = result.error.message;
 			return;

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { isFirebaseError } from '$lib/firebase';
 	import { auth } from '$lib/firebase/auth';
-	import { createSession } from '$lib/session';
 	import { POST } from '$lib/openapi_client';
 	import { page } from '$app/stores';
 
@@ -27,15 +26,37 @@
 
 	const signup = async () => {
 		let userCredential: UserCredential;
+
+		let serviceWorkerUID: string | undefined;
+		const swMessageHandler = (event: MessageEvent) => {
+			console.log('swMessageHandler event:', event.data);
+			serviceWorkerUID = event.data.uid;
+		};
+
+		navigator.serviceWorker.addEventListener('message', swMessageHandler);
 		try {
-			userCredential = await createUserWithEmailAndPassword(auth, email, password);
-			console.log('userCredential', userCredential);
-		} catch (err) {
-			if (isFirebaseError(err)) {
-				errorMessage = `[${err.code}] ${err.message}`;
+			try {
+				userCredential = await createUserWithEmailAndPassword(auth, email, password);
+				console.log('userCredential', userCredential);
+			} catch (err) {
+				if (isFirebaseError(err)) {
+					errorMessage = `[${err.code}] ${err.message}`;
+					return;
+				}
+				throw err;
+			}
+			for (let i = 0; i < 30; i++) {
+				await new Promise((resolve) => setTimeout(resolve, 100));
+				if (serviceWorkerUID === userCredential.user.uid) {
+					break;
+				}
+			}
+			if (serviceWorkerUID !== userCredential.user.uid) {
+				errorMessage = 'failed to get uid from service-worker';
 				return;
 			}
-			throw err;
+		} finally {
+			navigator.serviceWorker.removeEventListener('message', swMessageHandler);
 		}
 
 		const result = await POST('/api/users', { body: { email: email, name: accountName } });
@@ -59,8 +80,9 @@
 		}
 
 		const idToken = await userCredential.user.getIdToken();
-		await createSession(idToken);
-		console.log('createSession OK');
+		localStorage.setItem('idToken', idToken);
+		localStorage.setItem('refreshToken', userCredential.user.refreshToken);
+
 		// await goto('/', { replaceState: true });
 		window.location.href = $page.url.origin + '/';
 	};

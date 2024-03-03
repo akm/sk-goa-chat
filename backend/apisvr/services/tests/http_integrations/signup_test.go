@@ -3,10 +3,8 @@ package httpintegrations
 import (
 	chatapi "apisvr/services"
 	"apisvr/services/gen/http/channels/server"
-	sessionsserver "apisvr/services/gen/http/sessions/server"
 	usersserver "apisvr/services/gen/http/users/server"
 	"apisvr/services/gen/log"
-	"apisvr/services/gen/sessions"
 	"apisvr/services/gen/users"
 	"applib/database/sql/sqltest"
 	"applib/encoding/json/jsontest"
@@ -56,9 +54,9 @@ func TestSignup(t *testing.T) {
 	usersSrvc := chatapi.NewUsers(&log.Logger{Logger: logger})
 	checker.Mount(usersserver.NewCreateHandler, usersserver.MountCreateHandler, epWrapper(users.NewCreateEndpoint(usersSrvc)))
 
-	sessionSrvc := chatapi.NewSessions(&log.Logger{Logger: logger})
-	checker.Mount(sessionsserver.NewCreateHandler, sessionsserver.MountCreateHandler, epWrapper(sessions.NewCreateEndpoint(sessionSrvc)))
-	checker.Mount(sessionsserver.NewDeleteHandler, sessionsserver.MountDeleteHandler, epWrapper(sessions.NewDeleteEndpoint(sessionSrvc)))
+	// sessionSrvc := chatapi.NewSessions(&log.Logger{Logger: logger})
+	// checker.Mount(sessionsserver.NewCreateHandler, sessionsserver.MountCreateHandler, epWrapper(sessions.NewCreateEndpoint(sessionSrvc)))
+	// checker.Mount(sessionsserver.NewDeleteHandler, sessionsserver.MountDeleteHandler, epWrapper(sessions.NewDeleteEndpoint(sessionSrvc)))
 
 	fooEmail := "foo@example.com"
 	fooName := "Foo"
@@ -107,27 +105,27 @@ func TestSignup(t *testing.T) {
 		})
 	})
 
-	var fooSessionID string
-	t.Run("create session", func(t *testing.T) {
-		checker.Test(t, http.MethodPost, "/api/session").
-			WithJSON(map[string]any{"id_token": fooIDToken}).
-			Check().HasStatus(http.StatusCreated).Cb(
-			func(r *http.Response) {
-				defer r.Body.Close()
+	// var fooSessionID string
+	// t.Run("create session", func(t *testing.T) {
+	// 	checker.Test(t, http.MethodPost, "/api/session").
+	// 		WithJSON(map[string]any{"id_token": fooIDToken}).
+	// 		Check().HasStatus(http.StatusCreated).Cb(
+	// 		func(r *http.Response) {
+	// 			defer r.Body.Close()
 
-				cookieMap := map[string]string{}
-				for _, c := range r.Cookies() {
-					cookieMap[c.Name] = c.Value
-				}
-				assert.NotEmpty(t, cookieMap["session_id"])
-				fooSessionID = cookieMap["session_id"]
-				assert.NotEmpty(t, fooSessionID)
-			})
-	})
+	// 			cookieMap := map[string]string{}
+	// 			for _, c := range r.Cookies() {
+	// 				cookieMap[c.Name] = c.Value
+	// 			}
+	// 			assert.NotEmpty(t, cookieMap["session_id"])
+	// 			fooSessionID = cookieMap["session_id"]
+	// 			assert.NotEmpty(t, fooSessionID)
+	// 		})
+	// })
 
-	t.Run("delete session", func(t *testing.T) {
-		checker.Test(t, http.MethodDelete, "/api/session").
-			WithCookie("session_id", fooSessionID).
-			Check().HasStatus(http.StatusOK)
-	})
+	// t.Run("delete session", func(t *testing.T) {
+	// 	checker.Test(t, http.MethodDelete, "/api/session").
+	// 		WithCookie("session_id", fooSessionID).
+	// 		Check().HasStatus(http.StatusOK)
+	// })
 }

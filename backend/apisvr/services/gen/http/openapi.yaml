@@ -20,6 +20,12 @@ paths:
                 - channels
             summary: list channels
             operationId: channels#list
+            parameters:
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
+                  required: true
+                  type: string
             responses:
                 "200":
                     description: OK response.
@@ -31,12 +37,19 @@ paths:
                         $ref: '#/definitions/ChannelsListUnauthenticatedResponseBody'
             schemes:
                 - http
+            security:
+                - api_key_header_X-ID-TOKEN: []
         post:
             tags:
                 - channels
             summary: create channels
             operationId: channels#create
             parameters:
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
+                  required: true
+                  type: string
                 - name: CreateRequestBody
                   in: body
                   required: true
@@ -59,6 +72,8 @@ paths:
                         $ref: '#/definitions/ChannelsCreateUnauthenticatedResponseBody'
             schemes:
                 - http
+            security:
+                - api_key_header_X-ID-TOKEN: []
     /api/channels/{id}:
         get:
             tags:
@@ -71,6 +86,11 @@ paths:
                   description: ID
                   required: true
                   type: integer
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
+                  required: true
+                  type: string
             responses:
                 "200":
                     description: OK response.
@@ -86,6 +106,8 @@ paths:
                         $ref: '#/definitions/ChannelsShowNotFoundResponseBody'
             schemes:
                 - http
+            security:
+                - api_key_header_X-ID-TOKEN: []
         put:
             tags:
                 - channels
@@ -97,6 +119,11 @@ paths:
                   description: ID
                   required: true
                   type: integer
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
+                  required: true
+                  type: string
                 - name: UpdateRequestBody
                   in: body
                   required: true
@@ -123,6 +150,8 @@ paths:
                         $ref: '#/definitions/ChannelsUpdateNotFoundResponseBody'
             schemes:
                 - http
+            security:
+                - api_key_header_X-ID-TOKEN: []
         delete:
             tags:
                 - channels
@@ -134,6 +163,11 @@ paths:
                   description: ID
                   required: true
                   type: integer
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
+                  required: true
+                  type: string
             responses:
                 "200":
                     description: OK response.
@@ -149,6 +183,8 @@ paths:
                         $ref: '#/definitions/ChannelsDeleteNotFoundResponseBody'
             schemes:
                 - http
+            security:
+                - api_key_header_X-ID-TOKEN: []
     /api/chat_messages:
         get:
             tags:
@@ -177,6 +213,11 @@ paths:
                   description: ChatMessage ID for query to get messages before this
                   required: false
                   type: integer
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
+                  required: true
+                  type: string
             responses:
                 "200":
                     description: OK response.
@@ -188,12 +229,19 @@ paths:
                         $ref: '#/definitions/ChatMessagesListUnauthenticatedResponseBody'
             schemes:
                 - http
+            security:
+                - api_key_header_X-ID-TOKEN: []
         post:
             tags:
                 - chat_messages
             summary: create chat_messages
             operationId: chat_messages#create
             parameters:
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
+                  required: true
+                  type: string
                 - name: CreateRequestBody
                   in: body
                   required: true
@@ -217,6 +265,8 @@ paths:
                         $ref: '#/definitions/ChatMessagesCreateUnauthenticatedResponseBody'
             schemes:
                 - http
+            security:
+                - api_key_header_X-ID-TOKEN: []
     /api/chat_messages/{id}:
         get:
             tags:
@@ -229,6 +279,11 @@ paths:
                   description: ID
                   required: true
                   type: integer
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
+                  required: true
+                  type: string
             responses:
                 "200":
                     description: OK response.
@@ -244,6 +299,8 @@ paths:
                         $ref: '#/definitions/ChatMessagesShowNotFoundResponseBody'
             schemes:
                 - http
+            security:
+                - api_key_header_X-ID-TOKEN: []
         put:
             tags:
                 - chat_messages
@@ -255,6 +312,11 @@ paths:
                   description: ID
                   required: true
                   type: integer
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
+                  required: true
+                  type: string
                 - name: UpdateRequestBody
                   in: body
                   required: true
@@ -281,6 +343,8 @@ paths:
                         $ref: '#/definitions/ChatMessagesUpdateNotFoundResponseBody'
             schemes:
                 - http
+            security:
+                - api_key_header_X-ID-TOKEN: []
         delete:
             tags:
                 - chat_messages
@@ -292,6 +356,11 @@ paths:
                   description: ID
                   required: true
                   type: integer
+                - name: X-ID-TOKEN
+                  in: header
+                  description: X-ID-TOKEN
+                  required: true
+                  type: string
             responses:
                 "200":
                     description: OK response.
@@ -307,43 +376,8 @@ paths:
                         $ref: '#/definitions/ChatMessagesDeleteNotFoundResponseBody'
             schemes:
                 - http
-    /api/session:
-        post:
-            tags:
-                - sessions
-            summary: create sessions
-            operationId: sessions#create
-            parameters:
-                - name: CreateRequestBody
-                  in: body
-                  required: true
-                  schema:
-                    $ref: '#/definitions/SessionsCreateRequestBody'
-                    required:
-                        - id_token
-            responses:
-                "201":
-                    description: Created response.
-                "400":
-                    description: Bad Request response.
-                    schema:
-                        $ref: '#/definitions/SessionsCreateInvalidPayloadResponseBody'
-            schemes:
-                - http
-        delete:
-            tags:
-                - sessions
-            summary: delete sessions
-            operationId: sessions#delete
-            responses:
-                "200":
-                    description: OK response.
-                "400":
-                    description: Bad Request response.
-                    schema:
-                        $ref: '#/definitions/SessionsDeleteInvalidPayloadResponseBody'
-            schemes:
-                - http
+            security:
+                - api_key_header_X-ID-TOKEN: []
     /api/users:
         get:
             tags:
@@ -389,6 +423,12 @@ paths:
             summary: subscribe notifications
             description: Subscribe to events sent such new chat messages.
             operationId: notifications#subscribe
+            parameters:
+                - name: token
+                  in: query
+                  description: X-ID-TOKEN
+                  required: true
+                  type: string
             responses:
                 "101":
                     description: Switching Protocols response.
@@ -402,6 +442,8 @@ paths:
                         $ref: '#/definitions/NotificationsSubscribeUnauthenticatedResponseBody'
             schemes:
                 - ws
+            security:
+                - api_key_query_token: []
 definitions:
     ChannelListItemResponseBody:
         title: 'Mediatype identifier: application/vnd.channel-list-item; view=default'
@@ -415,12 +457,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 11623305250364070155
+                example: 14785773386673925330
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Fugit sit.
+                example: Et id ratione quia aut voluptatum expedita.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -429,8 +471,8 @@ definitions:
         description: Channel-List-ItemResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 15650313744900182583
-            name: Porro sapiente sit autem accusantium.
+            id: 16070863401070662169
+            name: Et aliquam sit numquam unde voluptatem sit.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id
@@ -445,20 +487,16 @@ definitions:
         description: Channel-List-ItemCollectionResponseBody is the result type for an array of Channel-List-ItemResponseBody (default view)
         example:
             - created_at: 2006-01-02T15:04:05Z07:00
-              id: 11502104032657031607
-              name: Voluptatem sit aut quia quas.
+              id: 9711026083579382729
+              name: Sunt qui.
               updated_at: 2006-01-02T15:04:05Z07:00
             - created_at: 2006-01-02T15:04:05Z07:00
-              id: 11502104032657031607
-              name: Voluptatem sit aut quia quas.
+              id: 9711026083579382729
+              name: Sunt qui.
               updated_at: 2006-01-02T15:04:05Z07:00
             - created_at: 2006-01-02T15:04:05Z07:00
-              id: 11502104032657031607
-              name: Voluptatem sit aut quia quas.
-              updated_at: 2006-01-02T15:04:05Z07:00
-            - created_at: 2006-01-02T15:04:05Z07:00
-              id: 11502104032657031607
-              name: Voluptatem sit aut quia quas.
+              id: 9711026083579382729
+              name: Sunt qui.
               updated_at: 2006-01-02T15:04:05Z07:00
     ChannelsCreateInvalidPayloadResponseBody:
         title: 'Mediatype identifier: application/vnd.goa.error; view=default'
@@ -467,7 +505,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: false
+                example: true
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -483,19 +521,19 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: true
+                example: false
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: false
+                example: true
         description: create_invalid_payload_response_body result type (default view)
         example:
             fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: true
-            timeout: false
+            temporary: false
+            timeout: true
         required:
             - name
             - id
@@ -510,9 +548,9 @@ definitions:
             name:
                 type: string
                 description: Name
-                example: In eos quisquam dolorem.
+                example: Sint consequuntur corrupti est.
         example:
-            name: Eum at.
+            name: Praesentium qui quisquam officia ab sequi voluptatibus.
         required:
             - name
     ChannelsCreateResponseBody:
@@ -527,12 +565,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 6120918097187545825
+                example: 14747453106716036394
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Accusamus inventore perspiciatis optio voluptas reiciendis.
+                example: Expedita sit in alias.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -541,8 +579,8 @@ definitions:
         description: CreateResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 649909262423554852
-            name: Consequatur dolor deleniti consectetur natus.
+            id: 7961332933166854530
+            name: Tempore et minus molestias aspernatur blanditiis neque.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id
@@ -556,7 +594,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: true
+                example: false
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -572,14 +610,14 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: true
+                example: false
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: true
+                example: false
         description: create_unauthenticated_response_body result type (default view)
         example:
-            fault: false
+            fault: true
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
@@ -599,7 +637,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: false
+                example: true
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -615,19 +653,19 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: false
+                example: true
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: true
+                example: false
         description: delete_not_found_response_body result type (default view)
         example:
-            fault: true
+            fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
             temporary: true
-            timeout: true
+            timeout: false
         required:
             - name
             - id
@@ -647,12 +685,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 14437065215982481763
+                example: 16783843633629598315
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Reiciendis iste necessitatibus eligendi atque quia.
+                example: Voluptas quia in adipisci.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -661,8 +699,8 @@ definitions:
         description: DeleteResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 11689011503506975496
-            name: Et magnam reiciendis voluptatibus aut.
+            id: 4901735673786128432
+            name: Dolorem reprehenderit quisquam.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id
@@ -692,19 +730,19 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: false
+                example: true
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: false
+                example: true
         description: delete_unauthenticated_response_body result type (default view)
         example:
             fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: true
-            timeout: false
+            temporary: false
+            timeout: true
         required:
             - name
             - id
@@ -732,16 +770,20 @@ definitions:
         example:
             items:
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 11502104032657031607
-                  name: Voluptatem sit aut quia quas.
+                  id: 9711026083579382729
+                  name: Sunt qui.
                   updated_at: 2006-01-02T15:04:05Z07:00
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 11502104032657031607
-                  name: Voluptatem sit aut quia quas.
+                  id: 9711026083579382729
+                  name: Sunt qui.
                   updated_at: 2006-01-02T15:04:05Z07:00
                 - created_at: 2006-01-02T15:04:05Z07:00
-                  id: 11502104032657031607
-                  name: Voluptatem sit aut quia quas.
+                  id: 9711026083579382729
+                  name: Sunt qui.
+                  updated_at: 2006-01-02T15:04:05Z07:00
+                - created_at: 2006-01-02T15:04:05Z07:00
+                  id: 9711026083579382729
+                  name: Sunt qui.
                   updated_at: 2006-01-02T15:04:05Z07:00
             offset: 0
             total: 160
@@ -772,7 +814,7 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: false
+                example: true
             timeout:
                 type: boolean
                 description: Is the error a timeout?
@@ -783,7 +825,7 @@ definitions:
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: false
+            temporary: true
             timeout: true
         required:
             - name
@@ -815,19 +857,19 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: true
+                example: false
             timeout:
                 type: boolean
                 description: Is the error a timeout?
                 example: true
         description: show_not_found_response_body result type (default view)
         example:
-            fault: true
+            fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: false
-            timeout: false
+            temporary: true
+            timeout: true
         required:
             - name
             - id
@@ -847,12 +889,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 8347438538001467545
+                example: 8404284178508345364
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Nihil expedita omnis ut aperiam ea quae.
+                example: Minima ut eum placeat libero esse qui.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -861,8 +903,8 @@ definitions:
         description: ShowResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 6614625351227111381
-            name: Quos ut dolor.
+            id: 7260517550016135262
+            name: Dolor quam ut minus id.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id
@@ -896,14 +938,14 @@ definitions:
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: false
+                example: true
         description: show_unauthenticated_response_body result type (default view)
         example:
-            fault: true
+            fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: true
+            temporary: false
             timeout: false
         required:
             - name
@@ -942,11 +984,11 @@ definitions:
                 example: true
         description: update_invalid_payload_response_body result type (default view)
         example:
-            fault: true
+            fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: false
+            temporary: true
             timeout: true
         required:
             - name
@@ -978,14 +1020,14 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: false
+                example: true
             timeout:
                 type: boolean
                 description: Is the error a timeout?
                 example: false
         description: update_not_found_response_body result type (default view)
         example:
-            fault: true
+            fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
@@ -1005,9 +1047,9 @@ definitions:
             name:
                 type: string
                 description: Name
-                example: Libero corrupti qui sint.
+                example: Voluptatibus et nemo quo et.
         example:
-            name: Ullam est nulla.
+            name: Voluptas modi voluptas quos vel eveniet pariatur.
         required:
             - name
     ChannelsUpdateResponseBody:
@@ -1022,12 +1064,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 10549463774513912200
+                example: 3501237355225240935
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Voluptas unde quibusdam quo quia.
+                example: Magni vitae.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -1036,8 +1078,8 @@ definitions:
         description: UpdateResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 6933391075841870615
-            name: Itaque aliquam corrupti.
+            id: 5096907298334997690
+            name: Commodi et voluptas.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id
@@ -1067,19 +1109,19 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: false
+                example: true
             timeout:
                 type: boolean
                 description: Is the error a timeout?
                 example: true
         description: update_unauthenticated_response_body result type (default view)
         example:
-            fault: true
+            fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: true
-            timeout: false
+            temporary: false
+            timeout: true
         required:
             - name
             - id
@@ -1094,12 +1136,12 @@ definitions:
             channel_id:
                 type: integer
                 description: Channel ID
-                example: 2207379066178238260
+                example: 3612860576423757316
                 format: int64
             content:
                 type: string
                 description: Content
-                example: Velit illo repellendus.
+                example: Similique quia nesciunt amet dolorum veniam qui.
             created_at:
                 type: string
                 description: CreatedAt
@@ -1108,7 +1150,7 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 8945347507995693160
+                example: 16215855587583852486
                 format: int64
             updated_at:
                 type: string
@@ -1118,21 +1160,21 @@ definitions:
             user_id:
                 type: integer
                 description: User ID
-                example: 2444548220762119191
+                example: 16171554033865742650
                 format: int64
             user_name:
                 type: string
                 description: User Name
-                example: Ad porro.
+                example: Eius quidem reiciendis neque velit reiciendis.
         description: Chat-Message-List-ItemResponseBody result type (default view)
         example:
-            channel_id: 14649195894156679666
-            content: Quia aut quia.
+            channel_id: 13859554807422678484
+            content: Voluptatem iste praesentium nulla et deserunt quo.
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 1589738909246478529
+            id: 15282677622203160160
             updated_at: 2006-01-02T15:04:05Z07:00
-            user_id: 7398809698344564991
-            user_name: Qui nisi veniam perferendis ea assumenda.
+            user_id: 13852683817499442838
+            user_name: Expedita sed unde ipsum eaque ea.
         required:
             - id
             - created_at
@@ -1147,27 +1189,34 @@ definitions:
             $ref: '#/definitions/ChatMessageListItemResponseBody'
         description: Chat-Message-List-ItemCollectionResponseBody is the result type for an array of Chat-Message-List-ItemResponseBody (default view)
         example:
-            - channel_id: 16745655493437049139
-              content: Aliquid ea nulla fugit porro recusandae velit.
+            - channel_id: 2068580801514675575
+              content: Alias quia et consequatur ex cumque et.
               created_at: 2006-01-02T15:04:05Z07:00
-              id: 8540934157469163099
+              id: 2302886256275366680
               updated_at: 2006-01-02T15:04:05Z07:00
-              user_id: 2870506425202616594
-              user_name: Fugit ex possimus soluta laboriosam.
-            - channel_id: 16745655493437049139
-              content: Aliquid ea nulla fugit porro recusandae velit.
+              user_id: 12524187808354141556
+              user_name: Et dolorum est qui.
+            - channel_id: 2068580801514675575
+              content: Alias quia et consequatur ex cumque et.
               created_at: 2006-01-02T15:04:05Z07:00
-              id: 8540934157469163099
+              id: 2302886256275366680
               updated_at: 2006-01-02T15:04:05Z07:00
-              user_id: 2870506425202616594
-              user_name: Fugit ex possimus soluta laboriosam.
-            - channel_id: 16745655493437049139
-              content: Aliquid ea nulla fugit porro recusandae velit.
+              user_id: 12524187808354141556
+              user_name: Et dolorum est qui.
+            - channel_id: 2068580801514675575
+              content: Alias quia et consequatur ex cumque et.
               created_at: 2006-01-02T15:04:05Z07:00
-              id: 8540934157469163099
+              id: 2302886256275366680
               updated_at: 2006-01-02T15:04:05Z07:00
-              user_id: 2870506425202616594
-              user_name: Fugit ex possimus soluta laboriosam.
+              user_id: 12524187808354141556
+              user_name: Et dolorum est qui.
+            - channel_id: 2068580801514675575
+              content: Alias quia et consequatur ex cumque et.
+              created_at: 2006-01-02T15:04:05Z07:00
+              id: 2302886256275366680
+              updated_at: 2006-01-02T15:04:05Z07:00
+              user_id: 12524187808354141556
+              user_name: Et dolorum est qui.
     ChatMessagesCreateInvalidPayloadResponseBody:
         title: 'Mediatype identifier: application/vnd.goa.error; view=default'
         type: object
@@ -1191,19 +1240,19 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: true
+                example: false
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: true
+                example: false
         description: create_invalid_payload_response_body result type (default view)
         example:
-            fault: true
+            fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
             temporary: false
-            timeout: true
+            timeout: false
         required:
             - name
             - id
@@ -1218,15 +1267,15 @@ definitions:
             channel_id:
                 type: integer
                 description: Channel ID
-                example: 16017822382976298047
+                example: 11623305250364070155
                 format: int64
             content:
                 type: string
                 description: Content
-                example: Sit dolores.
+                example: Fugit sit.
         example:
-            channel_id: 8355076701230840743
-            content: Consequatur quisquam et fuga.
+            channel_id: 15650313744900182583
+            content: Porro sapiente sit autem accusantium.
         required:
             - channel_id
             - content
@@ -1237,12 +1286,12 @@ definitions:
             channel_id:
                 type: integer
                 description: Channel ID
-                example: 5892988352694112748
+                example: 2290344271395044605
                 format: int64
             content:
                 type: string
                 description: Content
-                example: Rem in maiores impedit officiis omnis quia.
+                example: Voluptatum magni.
             created_at:
                 type: string
                 description: CreatedAt
@@ -1251,7 +1300,7 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 1753483434617476050
+                example: 10233866118905962629
                 format: int64
             updated_at:
                 type: string
@@ -1261,21 +1310,21 @@ definitions:
             user_id:
                 type: integer
                 description: User ID
-                example: 12644352154111361221
+                example: 18272506228420178764
                 format: int64
             user_name:
                 type: string
                 description: User Name
-                example: Quis ut error quia sit omnis.
+                example: Voluptatem et et assumenda impedit provident natus.
         description: CreateResponseBody result type (default view)
         example:
-            channel_id: 17144927572662953425
-            content: Sit occaecati voluptas.
+            channel_id: 8696278332068442646
+            content: Ipsum quas blanditiis id.
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 2869614241638890554
+            id: 15616768515337038939
             updated_at: 2006-01-02T15:04:05Z07:00
-            user_id: 777144073516641393
-            user_name: Atque quo enim unde.
+            user_id: 5496687662757710204
+            user_name: Hic enim aut recusandae non quia voluptatibus.
         required:
             - id
             - created_at
@@ -1290,7 +1339,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: false
+                example: true
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -1306,18 +1355,18 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: true
+                example: false
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: false
+                example: true
         description: create_unauthenticated_response_body result type (default view)
         example:
             fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: true
+            temporary: false
             timeout: false
         required:
             - name
@@ -1333,7 +1382,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: false
+                example: true
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -1349,19 +1398,19 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: false
+                example: true
             timeout:
                 type: boolean
                 description: Is the error a timeout?
                 example: false
         description: delete_not_found_response_body result type (default view)
         example:
-            fault: false
+            fault: true
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
             temporary: true
-            timeout: true
+            timeout: false
         required:
             - name
             - id
@@ -1376,12 +1425,12 @@ definitions:
             channel_id:
                 type: integer
                 description: Channel ID
-                example: 8966191838145365314
+                example: 11563761729289066776
                 format: int64
             content:
                 type: string
                 description: Content
-                example: Ut accusantium ex minima optio.
+                example: Quibusdam quo quia magnam eos itaque.
             created_at:
                 type: string
                 description: CreatedAt
@@ -1390,7 +1439,7 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 11634669020953908537
+                example: 7535419842506816612
                 format: int64
             updated_at:
                 type: string
@@ -1400,21 +1449,21 @@ definitions:
             user_id:
                 type: integer
                 description: User ID
-                example: 15411372315568984746
+                example: 9777712478049376612
                 format: int64
             user_name:
                 type: string
                 description: User Name
-                example: Eveniet quis architecto reprehenderit quae.
+                example: Dolorem quo eum at dicta veritatis voluptas.
         description: DeleteResponseBody result type (default view)
         example:
-            channel_id: 7778445154043401794
-            content: Fugiat voluptas.
+            channel_id: 8913590889844326726
+            content: Esse reprehenderit eveniet.
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 3109647669008047094
+            id: 12511109685356926321
             updated_at: 2006-01-02T15:04:05Z07:00
-            user_id: 15162846922983830138
-            user_name: Quia est fugiat.
+            user_id: 7810231180067363399
+            user_name: Sunt fugiat.
         required:
             - id
             - created_at
@@ -1449,7 +1498,7 @@ definitions:
             timeout:
                 type: boolean
                 description: Is the error a timeout?
-                example: false
+                example: true
         description: delete_unauthenticated_response_body result type (default view)
         example:
             fault: true
@@ -1474,20 +1523,20 @@ definitions:
         description: ListResponseBody result type (default view)
         example:
             items:
-                - channel_id: 16745655493437049139
-                  content: Aliquid ea nulla fugit porro recusandae velit.
+                - channel_id: 2068580801514675575
+                  content: Alias quia et consequatur ex cumque et.
                   created_at: 2006-01-02T15:04:05Z07:00
-                  id: 8540934157469163099
+                  id: 2302886256275366680
                   updated_at: 2006-01-02T15:04:05Z07:00
-                  user_id: 2870506425202616594
-                  user_name: Fugit ex possimus soluta laboriosam.
-                - channel_id: 16745655493437049139
-                  content: Aliquid ea nulla fugit porro recusandae velit.
+                  user_id: 12524187808354141556
+                  user_name: Et dolorum est qui.
+                - channel_id: 2068580801514675575
+                  content: Alias quia et consequatur ex cumque et.
                   created_at: 2006-01-02T15:04:05Z07:00
-                  id: 8540934157469163099
+                  id: 2302886256275366680
                   updated_at: 2006-01-02T15:04:05Z07:00
-                  user_id: 2870506425202616594
-                  user_name: Fugit ex possimus soluta laboriosam.
+                  user_id: 12524187808354141556
+                  user_name: Et dolorum est qui.
         required:
             - items
     ChatMessagesListUnauthenticatedResponseBody:
@@ -1513,7 +1562,7 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: true
+                example: false
             timeout:
                 type: boolean
                 description: Is the error a timeout?
@@ -1524,8 +1573,8 @@ definitions:
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: true
-            timeout: false
+            temporary: false
+            timeout: true
         required:
             - name
             - id
@@ -1556,7 +1605,7 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: true
+                example: false
             timeout:
                 type: boolean
                 description: Is the error a timeout?
@@ -1567,8 +1616,8 @@ definitions:
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: false
-            timeout: true
+            temporary: true
+            timeout: false
         required:
             - name
             - id
@@ -1583,12 +1632,12 @@ definitions:
             channel_id:
                 type: integer
                 description: Channel ID
-                example: 10492782682433369353
+                example: 10530043637831049697
                 format: int64
             content:
                 type: string
                 description: Content
-                example: In nihil maiores voluptas fugiat eaque reprehenderit.
+                example: Id error sed quis.
             created_at:
                 type: string
                 description: CreatedAt
@@ -1597,7 +1646,7 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 9402343312614956937
+                example: 9468429416939035942
                 format: int64
             updated_at:
                 type: string
@@ -1607,21 +1656,21 @@ definitions:
             user_id:
                 type: integer
                 description: User ID
-                example: 6460705233012103113
+                example: 15816762201350114912
                 format: int64
             user_name:
                 type: string
                 description: User Name
-                example: Est ducimus qui aut quasi.
+                example: Tenetur exercitationem quisquam.
         description: ShowResponseBody result type (default view)
         example:
-            channel_id: 17165330382076461655
-            content: Quisquam rem.
+            channel_id: 5832825452562137998
+            content: Doloribus pariatur.
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 4070052018780334675
+            id: 117677903778153484
             updated_at: 2006-01-02T15:04:05Z07:00
-            user_id: 2425185173518162220
-            user_name: Voluptates similique vel fugiat et.
+            user_id: 14720286358266945695
+            user_name: Asperiores et.
         required:
             - id
             - created_at
@@ -1636,7 +1685,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: false
+                example: true
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -1659,12 +1708,12 @@ definitions:
                 example: true
         description: show_unauthenticated_response_body result type (default view)
         example:
-            fault: false
+            fault: true
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: false
-            timeout: true
+            temporary: true
+            timeout: false
         required:
             - name
             - id
@@ -1702,11 +1751,11 @@ definitions:
                 example: true
         description: update_invalid_payload_response_body result type (default view)
         example:
-            fault: false
+            fault: true
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: false
+            temporary: true
             timeout: true
         required:
             - name
@@ -1722,7 +1771,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: true
+                example: false
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -1738,7 +1787,7 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: true
+                example: false
             timeout:
                 type: boolean
                 description: Is the error a timeout?
@@ -1749,7 +1798,7 @@ definitions:
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: true
+            temporary: false
             timeout: true
         required:
             - name
@@ -1765,9 +1814,9 @@ definitions:
             content:
                 type: string
                 description: Content
-                example: Maiores consectetur numquam architecto amet neque et.
+                example: Voluptas similique ex iusto et cum.
         example:
-            content: Est non.
+            content: Non possimus rem.
         required:
             - content
     ChatMessagesUpdateResponseBody:
@@ -1777,12 +1826,12 @@ definitions:
             channel_id:
                 type: integer
                 description: Channel ID
-                example: 2735735690551601411
+                example: 9363010731746488461
                 format: int64
             content:
                 type: string
                 description: Content
-                example: Similique autem voluptatem.
+                example: Nihil expedita omnis ut aperiam ea quae.
             created_at:
                 type: string
                 description: CreatedAt
@@ -1791,7 +1840,7 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 10500395066691218841
+                example: 1173329984290139054
                 format: int64
             updated_at:
                 type: string
@@ -1801,21 +1850,21 @@ definitions:
             user_id:
                 type: integer
                 description: User ID
-                example: 2549351506480365580
+                example: 12462908506952074318
                 format: int64
             user_name:
                 type: string
                 description: User Name
-                example: Molestias at.
+                example: Aut laborum quasi totam.
         description: UpdateResponseBody result type (default view)
         example:
-            channel_id: 1506926235920999719
-            content: Velit rerum pariatur.
+            channel_id: 17645440191595656558
+            content: Consequatur voluptas ipsam alias quibusdam dolorum.
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 7321184008601894408
+            id: 6614625351227111381
             updated_at: 2006-01-02T15:04:05Z07:00
-            user_id: 5623767137454354257
-            user_name: Iusto ut.
+            user_id: 15604101038247414228
+            user_name: Dolor voluptatibus quasi rerum.
         required:
             - id
             - created_at
@@ -1853,12 +1902,12 @@ definitions:
                 example: true
         description: update_unauthenticated_response_body result type (default view)
         example:
-            fault: false
+            fault: true
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
-            temporary: false
-            timeout: true
+            temporary: true
+            timeout: false
         required:
             - name
             - id
@@ -1874,17 +1923,17 @@ definitions:
                 type: array
                 items:
                     type: integer
-                    example: 17583520077888693414
+                    example: 7393051348533329990
                     format: int64
                 description: IDs of channels which got new messages
                 example:
-                    - 15942872516376376308
-                    - 8230033243279029110
-                    - 8305114174936933837
+                    - 17278612509201347937
+                    - 2455607882488938824
         example:
             channel_ids:
-                - 2135540402709782972
-                - 10781663784136988387
+                - 9427063990910993988
+                - 13323208687388243050
+                - 14437065215982481763
         required:
             - channel_ids
     NotificationsSubscribeUnauthenticatedResponseBody:
@@ -1894,7 +1943,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: true
+                example: false
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -1910,117 +1959,19 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: false
+                example: true
             timeout:
                 type: boolean
                 description: Is the error a timeout?
                 example: false
         description: subscribe_unauthenticated_response_body result type (default view)
         example:
-            fault: true
+            fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
             temporary: true
-            timeout: false
-        required:
-            - name
-            - id
-            - message
-            - temporary
-            - timeout
-            - fault
-    SessionsCreateInvalidPayloadResponseBody:
-        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
-        type: object
-        properties:
-            fault:
-                type: boolean
-                description: Is the error a server-side fault?
-                example: false
-            id:
-                type: string
-                description: ID is a unique identifier for this particular occurrence of the problem.
-                example: 123abc
-            message:
-                type: string
-                description: Message is a human-readable explanation specific to this occurrence of the problem.
-                example: parameter 'p' must be an integer
-            name:
-                type: string
-                description: Name is the name of this class of errors.
-                example: bad_request
-            temporary:
-                type: boolean
-                description: Is the error temporary?
-                example: true
-            timeout:
-                type: boolean
-                description: Is the error a timeout?
-                example: false
-        description: create_invalid_payload_response_body result type (default view)
-        example:
-            fault: true
-            id: 123abc
-            message: parameter 'p' must be an integer
-            name: bad_request
-            temporary: false
             timeout: true
-        required:
-            - name
-            - id
-            - message
-            - temporary
-            - timeout
-            - fault
-    SessionsCreateRequestBody:
-        title: SessionsCreateRequestBody
-        type: object
-        properties:
-            id_token:
-                type: string
-                description: ID Token
-                example: Enim et autem.
-        example:
-            id_token: Veritatis est.
-        required:
-            - id_token
-    SessionsDeleteInvalidPayloadResponseBody:
-        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
-        type: object
-        properties:
-            fault:
-                type: boolean
-                description: Is the error a server-side fault?
-                example: false
-            id:
-                type: string
-                description: ID is a unique identifier for this particular occurrence of the problem.
-                example: 123abc
-            message:
-                type: string
-                description: Message is a human-readable explanation specific to this occurrence of the problem.
-                example: parameter 'p' must be an integer
-            name:
-                type: string
-                description: Name is the name of this class of errors.
-                example: bad_request
-            temporary:
-                type: boolean
-                description: Is the error temporary?
-                example: false
-            timeout:
-                type: boolean
-                description: Is the error a timeout?
-                example: false
-        description: delete_invalid_payload_response_body result type (default view)
-        example:
-            fault: true
-            id: 123abc
-            message: parameter 'p' must be an integer
-            name: bad_request
-            temporary: false
-            timeout: false
         required:
             - name
             - id
@@ -2035,16 +1986,16 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 3467435790406122366
+                example: 16137542875620906133
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Cupiditate dolorem placeat.
+                example: Consequatur et.
         description: User-List-ItemResponseBody result type (default view)
         example:
-            id: 17192098247145145878
-            name: Dolorum aut culpa.
+            id: 10870529006625649247
+            name: Voluptatibus aut molestias repudiandae et.
         required:
             - id
             - name
@@ -2055,14 +2006,12 @@ definitions:
             $ref: '#/definitions/UserListItemResponseBody'
         description: User-List-ItemCollectionResponseBody is the result type for an array of User-List-ItemResponseBody (default view)
         example:
-            - id: 18446108638524574443
-              name: Omnis sed labore repudiandae animi odit.
-            - id: 18446108638524574443
-              name: Omnis sed labore repudiandae animi odit.
-            - id: 18446108638524574443
-              name: Omnis sed labore repudiandae animi odit.
-            - id: 18446108638524574443
-              name: Omnis sed labore repudiandae animi odit.
+            - id: 13592977823139416113
+              name: Consequatur dolores.
+            - id: 13592977823139416113
+              name: Consequatur dolores.
+            - id: 13592977823139416113
+              name: Consequatur dolores.
     UsersCreateInvalidPayloadResponseBody:
         title: 'Mediatype identifier: application/vnd.goa.error; view=default'
         type: object
@@ -2086,7 +2035,7 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: true
+                example: false
             timeout:
                 type: boolean
                 description: Is the error a timeout?
@@ -2113,14 +2062,14 @@ definitions:
             email:
                 type: string
                 description: Email
-                example: Nemo iusto deserunt quo.
+                example: Quia aut quia.
             name:
                 type: string
                 description: Name
-                example: Similique excepturi voluptas unde.
+                example: Perferendis ea assumenda.
         example:
-            email: Praesentium nesciunt explicabo eum.
-            name: Autem quia et aliquid eos sit enim.
+            email: Nostrum dicta est.
+            name: Ut voluptatem exercitationem adipisci natus nostrum iure.
         required:
             - name
             - email
@@ -2136,12 +2085,12 @@ definitions:
             id:
                 type: integer
                 description: ID
-                example: 799132025605169772
+                example: 7551512113948736360
                 format: int64
             name:
                 type: string
                 description: Name
-                example: Libero totam molestias fugiat magnam.
+                example: Doloremque rerum reprehenderit aliquam eligendi dicta sint.
             updated_at:
                 type: string
                 description: UpdatedAt
@@ -2150,8 +2099,8 @@ definitions:
         description: CreateResponseBody result type (default view)
         example:
             created_at: 2006-01-02T15:04:05Z07:00
-            id: 6543907846862485866
-            name: Quas et et ab deleniti.
+            id: 2207379066178238260
+            name: Et ad porro est velit illo repellendus.
             updated_at: 2006-01-02T15:04:05Z07:00
         required:
             - id
@@ -2177,17 +2126,22 @@ definitions:
         description: ListResponseBody result type (default view)
         example:
             items:
-                - id: 18446108638524574443
-                  name: Omnis sed labore repudiandae animi odit.
-                - id: 18446108638524574443
-                  name: Omnis sed labore repudiandae animi odit.
-                - id: 18446108638524574443
-                  name: Omnis sed labore repudiandae animi odit.
-                - id: 18446108638524574443
-                  name: Omnis sed labore repudiandae animi odit.
+                - id: 13592977823139416113
+                  name: Consequatur dolores.
+                - id: 13592977823139416113
+                  name: Consequatur dolores.
             offset: 0
             total: 160
         required:
             - items
             - total
             - offset
+securityDefinitions:
+    api_key_header_X-ID-TOKEN:
+        type: apiKey
+        name: X-ID-TOKEN
+        in: header
+    api_key_query_token:
+        type: apiKey
+        name: token
+        in: query

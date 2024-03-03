@@ -23,12 +23,12 @@ func BuildSubscribePayload(notificationsSubscribeMessage string) (*notifications
 		if notificationsSubscribeMessage != "" {
 			err = json.Unmarshal([]byte(notificationsSubscribeMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"session_id\": \"Neque et facilis quia similique quisquam sint.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id_token\": \"abcdef12345\"\n   }'")
 			}
 		}
 	}
 	v := &notifications.SubscribePayload{
-		SessionID: message.SessionId,
+		IDToken: message.IdToken,
 	}
 
 	return v, nil

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { createSession } from '$lib/session';
 	import { isFirebaseError } from '$lib/firebase';
 	import { auth } from '$lib/firebase/auth';
 	import { page } from '$app/stores';
@@ -19,19 +18,51 @@
 
 	const signin = async () => {
 		let userCredential: UserCredential;
+
+		let serviceWorkerUID: string | undefined;
+		const swMessageHandler = (event: MessageEvent) => {
+			console.log('swMessageHandler event:', event.data);
+			serviceWorkerUID = event.data.uid;
+		};
+		navigator.serviceWorker.addEventListener('message', swMessageHandler);
 		try {
-			userCredential = await signInWithEmailAndPassword(auth, email, password);
-			console.log('userCredential', userCredential);
-		} catch (err) {
-			if (isFirebaseError(err)) {
-				errorMessage = `[${err.code}] ${err.message}`;
+			try {
+				userCredential = await signInWithEmailAndPassword(auth, email, password);
+				console.log('userCredential', userCredential);
+			} catch (err) {
+				if (isFirebaseError(err)) {
+					errorMessage = `[${err.code}] ${err.message}`;
+					return;
+				}
+				throw err;
+			}
+
+			for (let i = 0; i < 30; i++) {
+				await new Promise((resolve) => setTimeout(resolve, 100));
+				if (serviceWorkerUID === userCredential.user.uid) {
+					break;
+				}
+			}
+			if (serviceWorkerUID !== userCredential.user.uid) {
+				errorMessage = 'failed to get uid from service-worker';
 				return;
 			}
+		} finally {
+			navigator.serviceWorker.removeEventListener('message', swMessageHandler);
+		}
+
+		let idToken: string;
+		try {
+			idToken = await userCredential.user.getIdToken();
+			console.log('after getIdToken: idToken', idToken);
+			localStorage.setItem('idToken', idToken);
+			localStorage.setItem('refreshToken', userCredential.user.refreshToken);
+		} catch (err) {
+			console.error(err);
+			errorMessage = 'failed to get token';
 			throw err;
 		}
-		const idToken = await userCredential.user.getIdToken();
-		await createSession(idToken);
-		console.log('createSession OK');
+
 		// await goto('/', { replaceState: true });
 		window.location.href = $page.url.origin + '/';
 	};

@@ -12,13 +12,13 @@ import (
 // notifications service example implementation.
 // The example methods log the requests and return zero values.
 type notificationssrvc struct {
-	baseAuthService
+	BaseAuthService
 }
 
 // NewNotifications returns the notifications service implementation.
 func NewNotifications(logger *log.Logger) notifications.Service {
 	return &notificationssrvc{
-		baseAuthService: newBaseAuthService(
+		BaseAuthService: NewBaseAuthService(
 			logger,
 			notifications.MakeUnauthenticated,
 		),
@@ -34,11 +34,12 @@ func (s *notificationssrvc) Subscribe(ctx context.Context, p *notifications.Subs
 	}()
 
 	err = s.actionWithDB(ctx, "notifications.subscribe", func(ctx context.Context, db *sql.DB) error {
+		defer s.logger.Printf("notifications.subscribe quit")
 		fbauth, err := s.firebaseAuthClient(ctx)
 		if err != nil {
 			return err
 		}
-		if _, err := s.authenticate(ctx, db, fbauth, p.SessionID); err != nil {
+		if _, err := s.authenticate(ctx, db, fbauth, p.IDToken); err != nil {
 			return err
 		}
 
@@ -50,7 +51,7 @@ func (s *notificationssrvc) Subscribe(ctx context.Context, p *notifications.Subs
 
 		done := false
 		for {
-			if _, err := s.authenticate(ctx, db, fbauth, p.SessionID); err != nil {
+			if _, err := s.authenticate(ctx, db, fbauth, p.IDToken); err != nil {
 				return err
 			}
 
@@ -71,7 +72,6 @@ func (s *notificationssrvc) Subscribe(ctx context.Context, p *notifications.Subs
 				break
 			}
 		}
-		s.logger.Printf("subscription ended")
 		return nil
 	})
 

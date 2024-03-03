@@ -5,13 +5,12 @@ import (
 )
 
 var _ = Service("notifications", func() {
-	// Security(sessionAuth)
+	_, grpcIdToken := idTokenSecurity()
 
 	httpUnautheticated, grpcUnauthenticated := unauthenticated()
 
 	HTTP(func() {
 		Path("/ws/notifications")
-		Cookie(sessionIdKey)
 		httpUnautheticated()
 	})
 
@@ -24,7 +23,7 @@ var _ = Service("notifications", func() {
 
 		Payload(func() {
 			Required(
-				fieldSessionID(1),
+				authApiKeyField(1),
 			)
 		})
 
@@ -32,10 +31,16 @@ var _ = Service("notifications", func() {
 
 		HTTP(func() {
 			GET("/subscribe")
+			// httpIdToken()
+			Params(func() {
+				Param(authApiKeyName + ":token")
+			})
+
 			Response(StatusOK)
 		})
 
 		GRPC(func() {
+			grpcIdToken()
 			Response(CodeOK)
 		})
 	})

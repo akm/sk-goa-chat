@@ -17,7 +17,7 @@ import (
 // "chat_messages" service from the gRPC request type.
 func NewListPayload(message *chat_messagespb.ListRequest) *chatmessages.ListPayload {
 	v := &chatmessages.ListPayload{
-		SessionID: message.SessionId,
+		IDToken:   message.IdToken,
 		Limit:     int(message.Limit),
 		ChannelID: message.ChannelId,
 		After:     message.After,
@@ -52,8 +52,8 @@ func NewProtoListResponse(result *chatmessagesviews.ChatMessageListView) *chat_m
 // "chat_messages" service from the gRPC request type.
 func NewShowPayload(message *chat_messagespb.ShowRequest) *chatmessages.ShowPayload {
 	v := &chatmessages.ShowPayload{
-		SessionID: message.SessionId,
-		ID:        message.Id,
+		IDToken: message.IdToken,
+		ID:      message.Id,
 	}
 	return v
 }
@@ -77,7 +77,7 @@ func NewProtoShowResponse(result *chatmessagesviews.ChatMessageView) *chat_messa
 // "chat_messages" service from the gRPC request type.
 func NewCreatePayload(message *chat_messagespb.CreateRequest) *chatmessages.ChatMessageCreatePayload {
 	v := &chatmessages.ChatMessageCreatePayload{
-		SessionID: message.SessionId,
+		IDToken:   message.IdToken,
 		ChannelID: message.ChannelId,
 		Content:   message.Content,
 	}
@@ -103,9 +103,9 @@ func NewProtoCreateResponse(result *chatmessagesviews.ChatMessageView) *chat_mes
 // "chat_messages" service from the gRPC request type.
 func NewUpdatePayload(message *chat_messagespb.UpdateRequest) *chatmessages.ChatMessageUpdatePayload {
 	v := &chatmessages.ChatMessageUpdatePayload{
-		SessionID: message.SessionId,
-		ID:        message.Id,
-		Content:   message.Content,
+		IDToken: message.IdToken,
+		ID:      message.Id,
+		Content: message.Content,
 	}
 	return v
 }
@@ -129,8 +129,8 @@ func NewProtoUpdateResponse(result *chatmessagesviews.ChatMessageView) *chat_mes
 // "chat_messages" service from the gRPC request type.
 func NewDeletePayload(message *chat_messagespb.DeleteRequest) *chatmessages.DeletePayload {
 	v := &chatmessages.DeletePayload{
-		SessionID: message.SessionId,
-		ID:        message.Id,
+		IDToken: message.IdToken,
+		ID:      message.Id,
 	}
 	return v
 }

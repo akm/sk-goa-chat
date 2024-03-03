@@ -3,7 +3,7 @@
 
 	import '../app.pcss';
 	import { page } from '$app/stores';
-	import { deleteSession } from '$lib/session';
+	import { auth, waitUntilSignedOut } from '$lib/firebase/auth';
 	import { closeWebSockets } from '$lib/websockets';
 	import type { Channel } from '$lib/models/channel';
 
@@ -13,17 +13,26 @@
 		} catch (e) {
 			console.log('failed to close websockets: ', e);
 		}
+		console.log('+layout.svelte signOut calling');
 		try {
-			await deleteSession();
+			// https://firebase.google.com/docs/reference/js/auth.auth.md#authsignout
+			await auth.signOut();
+			console.log('+layout.svelte signOut called');
+			localStorage.removeItem('idToken');
+			localStorage.removeItem('refreshToken');
 		} catch (e) {
-			console.log('failed to delete session: ', e);
+			console.log('failed to signOut: ', e);
 		}
+		await waitUntilSignedOut();
+		await new Promise((resolve) => setTimeout(resolve, 1_000));
+
+		console.log('+layout.svelte setting window.location.href');
 		window.location.href = $page.url.origin + '/signin';
 	};
 
 	// user の例: {id: 'nUhxKTpuXq4phNaBp1NF6Vp605wJ', name: 'Foo', email: 'foo@example.com'}
 	const user = $page.data.user;
-	console.log('user', user);
+	console.log('+layout.svelte script user:', user);
 
 	const channelLinks = $page.data.channels
 		? ($page.data.channels as Channel[]).map((channel) => ({

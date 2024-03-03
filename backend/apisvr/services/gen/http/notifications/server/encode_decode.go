@@ -21,20 +21,17 @@ import (
 func DecodeSubscribeRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (any, error) {
 	return func(r *http.Request) (any, error) {
 		var (
-			sessionID string
-			err       error
-			c         *http.Cookie
+			idToken string
+			err     error
 		)
-		c, err = r.Cookie("session_id")
-		if err == http.ErrNoCookie {
-			err = goa.MergeErrors(err, goa.MissingFieldError("session_id", "cookie"))
-		} else {
-			sessionID = c.Value
+		idToken = r.URL.Query().Get("token")
+		if idToken == "" {
+			err = goa.MergeErrors(err, goa.MissingFieldError("id_token", "query string"))
 		}
 		if err != nil {
 			return nil, err
 		}
-		payload := NewSubscribePayload(sessionID)
+		payload := NewSubscribePayload(idToken)
 
 		return payload, nil
 	}

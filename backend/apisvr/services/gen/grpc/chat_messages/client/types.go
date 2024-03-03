@@ -19,7 +19,7 @@ import (
 // "list" endpoint of the "chat_messages" service.
 func NewProtoListRequest(payload *chatmessages.ListPayload) *chat_messagespb.ListRequest {
 	message := &chat_messagespb.ListRequest{
-		SessionId: payload.SessionID,
+		IdToken:   payload.IDToken,
 		Limit:     int32(payload.Limit),
 		ChannelId: payload.ChannelID,
 		After:     payload.After,
@@ -53,8 +53,8 @@ func NewListResult(message *chat_messagespb.ListResponse) *chatmessagesviews.Cha
 // "show" endpoint of the "chat_messages" service.
 func NewProtoShowRequest(payload *chatmessages.ShowPayload) *chat_messagespb.ShowRequest {
 	message := &chat_messagespb.ShowRequest{
-		SessionId: payload.SessionID,
-		Id:        payload.ID,
+		IdToken: payload.IDToken,
+		Id:      payload.ID,
 	}
 	return message
 }
@@ -78,7 +78,7 @@ func NewShowResult(message *chat_messagespb.ShowResponse) *chatmessagesviews.Cha
 // "create" endpoint of the "chat_messages" service.
 func NewProtoCreateRequest(payload *chatmessages.ChatMessageCreatePayload) *chat_messagespb.CreateRequest {
 	message := &chat_messagespb.CreateRequest{
-		SessionId: payload.SessionID,
+		IdToken:   payload.IDToken,
 		ChannelId: payload.ChannelID,
 		Content:   payload.Content,
 	}
@@ -104,9 +104,9 @@ func NewCreateResult(message *chat_messagespb.CreateResponse) *chatmessagesviews
 // "update" endpoint of the "chat_messages" service.
 func NewProtoUpdateRequest(payload *chatmessages.ChatMessageUpdatePayload) *chat_messagespb.UpdateRequest {
 	message := &chat_messagespb.UpdateRequest{
-		SessionId: payload.SessionID,
-		Id:        payload.ID,
-		Content:   payload.Content,
+		IdToken: payload.IDToken,
+		Id:      payload.ID,
+		Content: payload.Content,
 	}
 	return message
 }
@@ -130,8 +130,8 @@ func NewUpdateResult(message *chat_messagespb.UpdateResponse) *chatmessagesviews
 // "delete" endpoint of the "chat_messages" service.
 func NewProtoDeleteRequest(payload *chatmessages.DeletePayload) *chat_messagespb.DeleteRequest {
 	message := &chat_messagespb.DeleteRequest{
-		SessionId: payload.SessionID,
-		Id:        payload.ID,
+		IdToken: payload.IDToken,
+		Id:      payload.ID,
 	}
 	return message
 }

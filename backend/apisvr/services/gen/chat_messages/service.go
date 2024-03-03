@@ -12,6 +12,7 @@ import (
 	"context"
 
 	goa "goa.design/goa/v3/pkg"
+	"goa.design/goa/v3/security"
 )
 
 // Service is the chat_messages service interface.
@@ -26,6 +27,12 @@ type Service interface {
 	Update(context.Context, *ChatMessageUpdatePayload) (res *ChatMessage, err error)
 	// Delete implements delete.
 	Delete(context.Context, *DeletePayload) (res *ChatMessage, err error)
+}
+
+// Auther defines the authorization functions to be implemented by the service.
+type Auther interface {
+	// APIKeyAuth implements the authorization logic for the APIKey security scheme.
+	APIKeyAuth(ctx context.Context, key string, schema *security.APIKeyScheme) (context.Context, error)
 }
 
 // ServiceName is the name of the service as defined in the design. This is the
@@ -59,8 +66,8 @@ type ChatMessage struct {
 // ChatMessageCreatePayload is the payload type of the chat_messages service
 // create method.
 type ChatMessageCreatePayload struct {
-	// Session ID
-	SessionID string
+	// X-ID-TOKEN
+	IDToken string
 	// Channel ID
 	ChannelID uint64
 	// Content
@@ -95,8 +102,8 @@ type ChatMessageListItemCollection []*ChatMessageListItem
 // ChatMessageUpdatePayload is the payload type of the chat_messages service
 // update method.
 type ChatMessageUpdatePayload struct {
-	// Session ID
-	SessionID string
+	// X-ID-TOKEN
+	IDToken string
 	// ID
 	ID uint64
 	// Content
@@ -105,16 +112,16 @@ type ChatMessageUpdatePayload struct {
 
 // DeletePayload is the payload type of the chat_messages service delete method.
 type DeletePayload struct {
-	// Session ID
-	SessionID string
+	// X-ID-TOKEN
+	IDToken string
 	// ID
 	ID uint64
 }
 
 // ListPayload is the payload type of the chat_messages service list method.
 type ListPayload struct {
-	// Session ID
-	SessionID string
+	// X-ID-TOKEN
+	IDToken string
 	// Limit
 	Limit int
 	// Channel ID
@@ -127,8 +134,8 @@ type ListPayload struct {
 
 // ShowPayload is the payload type of the chat_messages service show method.
 type ShowPayload struct {
-	// Session ID
-	SessionID string
+	// X-ID-TOKEN
+	IDToken string
 	// ID
 	ID uint64
 }
