@@ -8,7 +8,7 @@ const config: PlaywrightTestConfig = {
 			slowMo: Number(process.env.SLOMO || 0) // テスト実行時のスローモーション。デモなら 2000 くらいがよい
 		},
 		baseURL: 'http://localhost:' + (process.env.APP_UISVR_HTTP_PORT ?? '4173'),
-		trace: 'retain-on-failure',
+		trace: process.env.TRACE === 'on' ? 'on' : 'retain-on-failure',
 
 		// https://playwright.dev/docs/api/class-testoptions#test-options-video
 		video: process.env.VIDEO === 'on' ? 'on' : 'off'
