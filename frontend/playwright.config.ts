@@ -1,4 +1,4 @@
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
 	// timeout: 5 * 60_000,
@@ -35,5 +35,45 @@ export default defineConfig({
 	workers: 1,
 
 	// https://playwright.dev/docs/test-reporters#github-actions-annotations
-	reporter: process.env.CI ? 'github' : 'list'
+	reporter: process.env.CI ? 'github' : 'list',
+
+	// https://playwright.dev/docs/browsers
+	// https://playwright.dev/docs/api/class-testconfig#test-config-projects
+	projects: [
+		/* Test against desktop browsers */
+		{
+			name: 'chromium',
+			use: { ...devices['Desktop Chrome'] }
+		},
+		{
+			name: 'firefox',
+			use: { ...devices['Desktop Firefox'] }
+		},
+		{
+			name: 'webkit',
+			use: { ...devices['Desktop Safari'] }
+		},
+		/* Test against mobile viewports. */
+		{
+			name: 'Mobile Chrome',
+			use: { ...devices['Pixel 7'] }
+		},
+		{
+			name: 'Mobile Safari',
+			use: { ...devices['iPhone 14'] }
+		},
+		/* Test against branded browsers. */
+		{
+			name: 'Google Chrome',
+			use: { ...devices['Desktop Chrome'], channel: 'chrome' }
+		},
+		{
+			name: 'Apple Safari',
+			use: { ...devices['Desktop Safari'], channel: 'webkit' }
+		},
+		{
+			name: 'Microsoft Edge',
+			use: { ...devices['Desktop Edge'], channel: 'msedge' }
+		}
+	]
 });
