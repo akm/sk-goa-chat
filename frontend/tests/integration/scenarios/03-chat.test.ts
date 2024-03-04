@@ -1,13 +1,16 @@
 import { test, expect } from '@playwright/test';
 
-import { foo, bar } from './config';
+import { getFoo, getBar } from './config';
 
 import { signup } from '../steps/signup';
 import { ChannelListPane } from '../pom/panes/channel_list';
 import { ChatPage } from '../pom/pages/chat_page';
 import { signin } from '../steps/signin';
 
-test('show signin page when go to root', async ({ page, browser }) => {
+test('show signin page when go to root', async ({ page, browser }, workers) => {
+	const foo = getFoo(workers.workerIndex);
+	const bar = getBar(workers.workerIndex);
+
 	await page.goto('/');
 	await signin(page, foo);
 

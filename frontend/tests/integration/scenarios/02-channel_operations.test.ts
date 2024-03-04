@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { foo } from './config';
+import { getFoo } from './config';
 
 import { ChannelListPane } from '../pom/panes/channel_list';
 import { NewChannelPage } from '../pom/pages/new_channel_page';
@@ -7,7 +7,9 @@ import { ChatPage } from '../pom/pages/chat_page';
 import { ChannelSettingDialog } from '../pom/dialogs/channel_setting_dialog';
 import { signin } from '../steps/signin';
 
-test('operate channels', async ({ page }) => {
+test('operate channels', async ({ page }, workers) => {
+	const foo = getFoo(workers.workerIndex);
+
 	const channelList = new ChannelListPane(page);
 
 	await page.goto('/');
