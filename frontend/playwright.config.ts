@@ -1,6 +1,6 @@
-import type { PlaywrightTestConfig } from '@playwright/test';
+import { defineConfig } from '@playwright/test';
 
-const config: PlaywrightTestConfig = {
+export default defineConfig({
 	// timeout: 5 * 60_000,
 	use: {
 		headless: process.env.HEADED != 'true',
@@ -36,6 +36,4 @@ const config: PlaywrightTestConfig = {
 
 	// https://playwright.dev/docs/test-reporters#github-actions-annotations
 	reporter: process.env.CI ? 'github' : 'list'
-};
-
-export default config;
+});
