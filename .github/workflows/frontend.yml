@@ -79,6 +79,10 @@ jobs:
         run: npx playwright install
         working-directory: ./frontend
 
+      - name: install playwright dependencies
+        run: npx playwright install-deps
+        working-directory: ./frontend
+
       - name: integration test
         run: npm run test:integration
         working-directory: ./frontend
