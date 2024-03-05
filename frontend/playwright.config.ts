@@ -1,6 +1,51 @@
-import type { PlaywrightTestConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
-const config: PlaywrightTestConfig = {
+// https://playwright.dev/docs/browsers
+// https://playwright.dev/docs/api/class-testconfig#test-config-projects
+const defaultProjects = [
+	/* Test against desktop browsers */
+	{
+		name: 'chromium',
+		use: { ...devices['Desktop Chrome'] }
+	},
+	{
+		name: 'firefox',
+		use: { ...devices['Desktop Firefox'] }
+	},
+	{
+		name: 'webkit',
+		use: { ...devices['Desktop Safari'] }
+	},
+	/* Test against mobile viewports. */
+	// {
+	// 	name: 'Mobile Chrome',
+	// 	use: { ...devices['Pixel 7'] }
+	// },
+	// {
+	// 	name: 'Mobile Safari',
+	// 	use: { ...devices['iPhone 14'] }
+	// },
+	/* Test against branded browsers. */
+	{
+		name: 'Google Chrome',
+		use: { ...devices['Desktop Chrome'], channel: 'chrome' }
+	},
+	{
+		name: 'Apple Safari',
+		use: { ...devices['Desktop Safari'], channel: 'webkit' }
+	},
+	{
+		name: 'Microsoft Edge',
+		use: { ...devices['Desktop Edge'], channel: 'msedge' }
+	}
+];
+
+// https://docs.github.com/ja/actions/learn-github-actions/variables#default-environment-variables
+const projects = process.env.CI
+	? defaultProjects.filter((project) => project.name !== 'webkit') // GitHub Actions では webkit のテストが失敗するので除去
+	: defaultProjects;
+
+export default defineConfig({
 	// timeout: 5 * 60_000,
 	use: {
 		headless: process.env.HEADED != 'true',
@@ -35,7 +80,7 @@ const config: PlaywrightTestConfig = {
 	workers: 1,
 
 	// https://playwright.dev/docs/test-reporters#github-actions-annotations
-	reporter: process.env.CI ? 'github' : 'list'
-};
+	reporter: process.env.CI ? 'github' : 'list',
 
-export default config;
+	projects: projects
+});
