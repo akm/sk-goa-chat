@@ -1,3 +1,6 @@
+.PHONY: git_check
+git_check: git_check_uncommited_changes git_check_untracked_files
+
 .PHONY: git_check_uncommited_changes
 git_check_uncommited_changes:
 	@git diff --exit-code > /dev/null && \
