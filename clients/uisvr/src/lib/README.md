@@ -20,7 +20,7 @@ uisvr でのAPIクライアントには以下の2種類あります。
 ### gRPCクライアント
 
 gRPC クライアントは uisvr 上で動作する API クライアントです。
-[SvelteKitのルール](https://kit.svelte.jp/docs/modules#$lib-$lib-server) に従い [uisvr/src/lib/server](./uisvr/src/lib/server/) 以下に定義する必要があります。
+[SvelteKitのルール](https://kit.svelte.jp/docs/modules#$lib-$lib-server) に従い [src/lib/server](./server/) 以下に定義する必要があります。
 
 `npm run grpc:gen` で生成できます。
 gRPC クライアントはリソース毎に生成されるので、リソースが追加する場合には uisvr/Makefiles/grpc.mk に定義されている `GRPC_RESOURCES` に対象を追加してください。

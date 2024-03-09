@@ -9,19 +9,18 @@ install:
 .PHONY: build
 build:
 	$(MAKE) -C servers build && \
-	$(MAKE) -C uisvr build
+	$(MAKE) -C clients build
 
 .PHONY: lint
 lint:
 	$(MAKE) -C servers lint && \
-	$(MAKE) -C uisvr lint
+	$(MAKE) -C clients lint
 
 .PHONY: test
 test:
 	$(MAKE) -C servers test && \
-	$(MAKE) -C uisvr test_integration_pw_setup && \
-	$(MAKE) -C uisvr test
+	$(MAKE) -C clients test
 
 .PHONY: dev
 dev:
-	$(MAKE) -C uisvr dev
+	$(MAKE) -C clients dev

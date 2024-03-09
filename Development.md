@@ -93,7 +93,7 @@ Ruby on Rails の場合は、マイグレーション の作成と実行を行�
 (HTMLの基本的な理解と) [flowbite-svelte](https://flowbite-svelte.com/) のコンポーネントへの理解が必要です。
 またそのレイアウトについては flowbite が使用する [Tailwind CSS](https://tailwindcss.com/) を理解する必要があります。
 
-詳しくは [uisvr/README.md](./uisvr/README.md) を参照してください。
+詳しくは [clients/uisvr/README.md](./clients/uisvr/README.md) を参照してください。
 
 ### API仮実装
 
@@ -111,7 +111,7 @@ Goaが生成するAPI定義から、現時点ではgRPC のクライアントの
 OpenAPIのクライアントも生成するべきです。OpenAPI でのAPI定義については、
 [Swagger UI](https://swagger.io/tools/swagger-ui/) で確認することができます。
 
-詳しくは [uisvr/src/lib](./uisvr/src/lib/) を参照してください。
+詳しくは [clients/uisvr/src/lib](./clients/uisvr/src/lib/) を参照してください。
 
 
 ### DBマイグレーション追加, APIテスト実装, API実装
@@ -126,6 +126,6 @@ RDBのデータマイグレーションには [goose](https://github.com/pressly
 
 ### E2Eテスト実装
 
-E2Eテストは uisvr 内の tests/integration に [Playwright](https://playwright.dev/) を使って実装します。
+E2Eテストは clients/uisvr 内の tests/integration に [Playwright](https://playwright.dev/) を使って実装します。
 
-詳しくは [uisvr/tests/integration](./uisvr/tests/integration/) を参照してください。
+詳しくは [clients/uisvr/tests/integration](./clients/uisvr/tests/integration/) を参照してください。

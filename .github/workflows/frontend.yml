@@ -11,7 +11,7 @@ on:
       - "servers/apisvr/**"
       - "servers/containers/**"
       - "servers/dbmigrations/**"
-      - "uisvr/**"
+      - "clients/uisvr/**"
       - "*"
 
 jobs:
@@ -57,32 +57,32 @@ jobs:
 
       - name: Install firebase tools
         run: npm install -g firebase-tools
-        working-directory: ./uisvr
+        working-directory: ./clients/uisvr
 
       - name: npm install
         run: make install
-        working-directory: ./uisvr
+        working-directory: ./clients/uisvr
 
       - name: build
         run: make build
-        working-directory: ./uisvr
+        working-directory: ./clients/uisvr
 
       - name: lint
         run: make lint
-        working-directory: ./uisvr
+        working-directory: ./clients/uisvr
 
       - name: unit test
         run: npm run test:unit
-        working-directory: ./uisvr
+        working-directory: ./clients/uisvr
 
       - name: install playwright
         run: npx playwright install
-        working-directory: ./uisvr
+        working-directory: ./clients/uisvr
 
       - name: install playwright dependencies
         run: npx playwright install-deps
-        working-directory: ./uisvr
+        working-directory: ./clients/uisvr
 
       - name: integration test
         run: npm run test:integration
-        working-directory: ./uisvr
+        working-directory: ./clients/uisvr

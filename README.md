@@ -75,14 +75,14 @@ Name                                    | Description
 [servers/biz](./servers/biz/)                   | バックエンドのビジネスロジックのパッケージ群
 [servers/containers](./servers/containers/)     | ローカルで使用する MySQL や Firebase Emulators のコンテナ
 [servers/dbmigrations](./servers/dbmigrations/) | RDBのマイグレーション
-[uisvr](./uisvr/)                 | UIとそれを提供するサーバー(uisvr)のソースコード
+[clients/uisvr](./clients/uisvr/)                 | UIとそれを提供するサーバー(uisvr)のソースコード
 [modifiers](./modifiers/)               | 自動生成されるコードに更に変更を加えるための ruby のスクリプト群
 [tools](./tools)                        | 開発や運用で使用するツール群
 
 
 ## Libraries / Middlewares
 
-- uisvr
+- clients
   - [SvelteKit](https://kit.svelte.dev/)
       - [Vite](https://vitejs.dev/)
   - [flowbite-svelte](https://flowbite-svelte.com/)

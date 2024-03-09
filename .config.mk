@@ -43,8 +43,8 @@ endif
 # ---------|------------------
 # - server | uisvr, apisvr
 # - dev     | uisvr, apisvr, mysql, firebase_auth
-# - e2e_test | uisvr, apisvr, mysql, firebase_auth, uisvr/test/integration
-# - unit_test | uisvr のテスト( uisvr/test/integration 以外), servers 以下のテスト
+# - e2e_test | uisvr, apisvr, mysql, firebase_auth, clients/uisvr/test/integration
+# - unit_test | uisvr のテスト( clients/uisvr/test/integration 以外), servers 以下のテスト
 #
 # この環境変数は、Makefie で処理を開始する際に設定します。
 # つまりmakeのターゲットの実行時にのみ決定するので、静的に指定するものではありません。
@@ -52,14 +52,14 @@ endif
 
 # ## APP_PORT
 #
-# APP_ENV                   | APP_STAGE_TYPE           | apisvr HTTP | apisvr gRPC | ui HTTP  | mysql    | firebase authentication | swagger ui
-# --------------------------|--------------------------|-------------|-------------|----------|----------|-------------------------|------------
-# server                    | staging,production       | 8000        | 8080        | 4173     | 3306     | ?                       |
-# dev                       | local                    | 8000        | 8080        | 5173     | 3306     | 9099                    | 8090
-# uisvr/test:integration    | staging,production       | 8000        | 8080        | 4173     | 3306     | ?                       |
-# uisvr/test:integration    | local,github             | 8001        | 8081        | 4173     | 3307     | 9090                    |
-# uisvr/test:unit           | local,github             | -           | -           | -        | -        | -                       |
-# servers/apisvr/test       | local,github             | -           | -           | -        | 3311     | 9091                    |
+# APP_ENV                        | APP_STAGE_TYPE           | apisvr HTTP | apisvr gRPC | ui HTTP  | mysql    | firebase authentication | swagger ui
+# -------------------------------|--------------------------|-------------|-------------|----------|----------|-------------------------|------------
+# server                         | staging,production       | 8000        | 8080        | 4173     | 3306     | ?                       |
+# dev                            | local                    | 8000        | 8080        | 5173     | 3306     | 9099                    | 8090
+# clients/uisvr/test:integration | staging,production       | 8000        | 8080        | 4173     | 3306     | ?                       |
+# clients/uisvr/test:integration | local,github             | 8001        | 8081        | 4173     | 3307     | 9090                    |
+# clients/uisvr/test:unit        | local,github             | -           | -           | -        | -        | -                       |
+# servers/apisvr/test            | local,github             | -           | -           | -        | 3311     | 9091                    |
 
 APP_PORT_APISVR_HTTP_dev?=8000
 APP_PORT_APISVR_HTTP_e2e_test?=8001

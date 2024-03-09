@@ -1,4 +1,4 @@
-# APP_HTTP_PORT と APP_GRPC_PORT は uisvr/tests/integration から呼ばれる際は環境変数で上書きされます
+# APP_HTTP_PORT と APP_GRPC_PORT は clients/uisvr/tests/integration から呼ばれる際は環境変数で上書きされます
 APP_HTTP_PORT?=$(APP_PORT_APISVR_HTTP_dev)
 APP_GRPC_PORT?=$(APP_PORT_APISVR_GRPC_dev)
 
