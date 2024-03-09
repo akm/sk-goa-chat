@@ -21,7 +21,7 @@
 
 ## APIを追加するステップ
 
-(カレントディレクトリは backend/apisvr の前提)
+(カレントディレクトリは servers/apisvr の前提)
 
 1. [design](./design/) に定義を追加
 2. `make goa_gen` で [services/gen](./services/gen) を再生成

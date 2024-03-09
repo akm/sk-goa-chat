@@ -1,6 +1,6 @@
 # See https://help.github.com/en/actions/automating-your-workflow-with-github-actions
 
-name: backend apisvr CI
+name: servers apisvr CI
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
       - ".github/**"
       - ".gitignore"
       - ".tool-versions"
-      - "backend/**"
+      - "servers/**"
       - ".config.mk"
       - "Makefile"
       # - "modifiers"
@@ -28,7 +28,7 @@ jobs:
       # https://github.com/actions/setup-go
       - uses: actions/setup-go@v4
         with:
-          go-version-file: "backend/apisvr/go.mod"
+          go-version-file: "servers/apisvr/go.mod"
 
       - name: Check docker version
         run: |
@@ -50,14 +50,14 @@ jobs:
 
       - name: build
         run: make build
-        working-directory: ./backend/apisvr
+        working-directory: ./servers/apisvr
 
       - name: lint
         run: make lint
-        working-directory: ./backend/apisvr
+        working-directory: ./servers/apisvr
 
       - name: test
         run: make test
-        working-directory: ./backend/apisvr
+        working-directory: ./servers/apisvr
         env:
           APP_FIREBASE_API_KEY: ${{ secrets.APP_FIREBASE_API_KEY }}

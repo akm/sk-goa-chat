@@ -1,6 +1,6 @@
 # See https://help.github.com/en/actions/automating-your-workflow-with-github-actions
 
-name: backend biz CI
+name: servers biz CI
 
 on:
   push:
@@ -10,10 +10,10 @@ on:
       - ".github/**"
       - ".gitignore"
       - ".tool-versions"
-      - "backend/applib/**"
-      - "backend/biz/**"
-      - "backend/containers/**"
-      - "backend/dbmigrations/**"
+      - "servers/applib/**"
+      - "servers/biz/**"
+      - "servers/containers/**"
+      - "servers/dbmigrations/**"
       - ".config.mk"
       - "Makefile"
       # - "modifiers"
@@ -31,7 +31,7 @@ jobs:
       # https://github.com/actions/setup-go
       - uses: actions/setup-go@v4
         with:
-          go-version-file: "backend/biz/go.mod"
+          go-version-file: "servers/biz/go.mod"
 
       - name: Check docker version
         run: |
@@ -53,14 +53,14 @@ jobs:
 
       - name: build
         run: make build
-        working-directory: ./backend/biz
+        working-directory: ./servers/biz
 
       - name: lint
         run: make lint
-        working-directory: ./backend/biz
+        working-directory: ./servers/biz
 
       - name: test
         run: make test
-        working-directory: ./backend/biz
+        working-directory: ./servers/biz
         env:
           APP_FIREBASE_API_KEY: ${{ secrets.APP_FIREBASE_API_KEY }}

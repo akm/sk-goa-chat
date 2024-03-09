@@ -10,7 +10,7 @@
 
 ## モデルを追加するステップ
 
-(カレントディレクトリは backend/biz の前提)
+(カレントディレクトリは servers/biz の前提)
 
 1. DBマイグレーションを追加。詳しくは [dbmigrations](../dbmigrations/) を参照
 2. `make sqlboiler_gen`

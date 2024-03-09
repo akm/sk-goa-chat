@@ -102,7 +102,7 @@ APIを定義するためには [HTTP](https://developer.mozilla.org/ja/docs/Web/
 Goaのアプリケーションを使ってみるのが一番良いです。また [examples](https://github.com/goadesign/examples) も参考になります。
 また有料ですが [Goa v3 入門](https://zenn.dev/ikawaha/books/goa-design-v3) が日本語で解説してあり、最も分かりやすいと思います。
 
-詳しくは [backend/apisvr](./backend/apisvr/) を参照してください。
+詳しくは [servers/apisvr](./servers/apisvr/) を参照してください。
 
 
 ### 画面APIクライアント組み込み
@@ -120,7 +120,7 @@ RDBのデータマイグレーションには [goose](https://github.com/pressly
 データベースのデータの操作には [sqlboiler](https://github.com/volatiletech/sqlboiler) を用いて生成されたモデルを通じて行います。
 ですので、テーブルの作成やカラムの変更を行うマイグレーションを追加した場合、モデルを生成し直す必要があります。
 
-詳しくは [backend/biz](./backend/biz/) と [backend/apisvr](./backend/apisvr/) を参照してください。
+詳しくは [servers/biz](./servers/biz/) と [servers/apisvr](./servers/apisvr/) を参照してください。
 
 
 

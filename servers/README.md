@@ -1,4 +1,4 @@
-# backend
+# servers
 
 ## ディレクトリ
 

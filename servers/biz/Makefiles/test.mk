@@ -12,7 +12,7 @@ TEST_ENVS=\
 	FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:9091'
 
 # 環境変数 MYSQL_PORT はどこにも使われていないように見えますが
-# backend/biz/models/mysql_main_test.go で設定される
+# servers/biz/models/mysql_main_test.go で設定される
 # mysql.port に対応しています。
 
 .PHONY: test

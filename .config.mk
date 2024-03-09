@@ -7,7 +7,7 @@
 #
 # APP_STAGE_TYPE のインスタンスとして STAGE が複数個存在し、リポジトリにそれらの違いをコミットしなければならない場合もありえます。
 # 例えば staging に対して staging1, staging2 それぞれで設定が異なる場合が考えられます。
-# 逆に local のインスタンスとして各開発者の環境はそれぞれ別物ですが、それらの違いをコミットする必要がなければ local1, local2 
+# 逆に local のインスタンスとして各開発者の環境はそれぞれ別物ですが、それらの違いをコミットする必要がなければ local1, local2
 # というような Stage を登録する必要はありませんし、通常はそのように行うべきではありません。
 # ただし APP_STAGE_TYPE として local_windows と  local_mac のような区別を行った方が良い場合もあります。
 #
@@ -44,7 +44,7 @@ endif
 # - server | uisvr, apisvr
 # - dev     | uisvr, apisvr, mysql, firebase_auth
 # - e2e_test | uisvr, apisvr, mysql, firebase_auth, uisvr/test/integration
-# - unit_test | uisvr のテスト( uisvr/test/integration 以外), backend 以下のテスト
+# - unit_test | uisvr のテスト( uisvr/test/integration 以外), servers 以下のテスト
 #
 # この環境変数は、Makefie で処理を開始する際に設定します。
 # つまりmakeのターゲットの実行時にのみ決定するので、静的に指定するものではありません。
@@ -59,7 +59,7 @@ endif
 # uisvr/test:integration    | staging,production       | 8000        | 8080        | 4173     | 3306     | ?                       |
 # uisvr/test:integration    | local,github             | 8001        | 8081        | 4173     | 3307     | 9090                    |
 # uisvr/test:unit           | local,github             | -           | -           | -        | -        | -                       |
-# backend/apisvr/test       | local,github             | -           | -           | -        | 3311     | 9091                    |
+# servers/apisvr/test       | local,github             | -           | -           | -        | 3311     | 9091                    |
 
 APP_PORT_APISVR_HTTP_dev?=8000
 APP_PORT_APISVR_HTTP_e2e_test?=8001

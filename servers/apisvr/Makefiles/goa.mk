@@ -24,7 +24,7 @@ $(GOA_GEN_DIR): goa_gen
 .PHONY: goa_gen
 goa_gen: $(GOA) $(PROTO_GEN_GO) $(PROTO_GEN_GO_GRPC)
 	goa gen $(GOA_ROOT_PACKAGE)/design -o $(GOA_SERVICES_DIR) && \
-	$(MAKE) -C ../../modifiers backend_apisvr_services_gen
+	$(MAKE) -C ../../modifiers servers_apisvr_services_gen
 
 .PHONY: services_cmd_remove
 services_cmd_remove:
@@ -33,4 +33,4 @@ services_cmd_remove:
 .PHONY: goa_example
 goa_example: $(GOA) services_cmd_remove
 	goa example $(GOA_ROOT_PACKAGE)/design -o $(GOA_SERVICES_DIR) && \
-	$(MAKE) -C ../../modifiers backend_apisvr_services_cmd
+	$(MAKE) -C ../../modifiers servers_apisvr_services_cmd

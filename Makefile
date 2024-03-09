@@ -8,17 +8,17 @@ install:
 
 .PHONY: build
 build:
-	$(MAKE) -C backend build && \
+	$(MAKE) -C servers build && \
 	$(MAKE) -C uisvr build
 
 .PHONY: lint
 lint:
-	$(MAKE) -C backend lint && \
+	$(MAKE) -C servers lint && \
 	$(MAKE) -C uisvr lint
 
 .PHONY: test
 test:
-	$(MAKE) -C backend test && \
+	$(MAKE) -C servers test && \
 	$(MAKE) -C uisvr test_integration_pw_setup && \
 	$(MAKE) -C uisvr test
 

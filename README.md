@@ -70,11 +70,11 @@ See [Development.md](./Development.md)
 
 Name                                    | Description
 ----------------------------------------|------------------
-[backend/apisvr](./backend/apisvr/)             | APIを提供するサーバーのソースコード
-[backend/applib](./backend/applib/)             | バックエンドのライブラリ的なパッケージ群
-[backend/biz](./backend/biz/)                   | バックエンドのビジネスロジックのパッケージ群
-[backend/containers](./backend/containers/)     | ローカルで使用する MySQL や Firebase Emulators のコンテナ
-[backend/dbmigrations](./backend/dbmigrations/) | RDBのマイグレーション
+[servers/apisvr](./servers/apisvr/)             | APIを提供するサーバーのソースコード
+[servers/applib](./servers/applib/)             | バックエンドのライブラリ的なパッケージ群
+[servers/biz](./servers/biz/)                   | バックエンドのビジネスロジックのパッケージ群
+[servers/containers](./servers/containers/)     | ローカルで使用する MySQL や Firebase Emulators のコンテナ
+[servers/dbmigrations](./servers/dbmigrations/) | RDBのマイグレーション
 [uisvr](./uisvr/)                 | UIとそれを提供するサーバー(uisvr)のソースコード
 [modifiers](./modifiers/)               | 自動生成されるコードに更に変更を加えるための ruby のスクリプト群
 [tools](./tools)                        | 開発や運用で使用するツール群
@@ -86,7 +86,7 @@ Name                                    | Description
   - [SvelteKit](https://kit.svelte.dev/)
       - [Vite](https://vitejs.dev/)
   - [flowbite-svelte](https://flowbite-svelte.com/)
-- backend
+- servers
   - [Goa](https://goa.design/)
   - [sqlboiler](https://github.com/volatiletech/sqlboiler)
   - [goose](https://github.com/pressly/goose)
