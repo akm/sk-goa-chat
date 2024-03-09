@@ -60,3 +60,7 @@ jobs:
         working-directory: ./servers/biz
         env:
           APP_FIREBASE_API_KEY: ${{ secrets.APP_FIREBASE_API_KEY }}
+
+      - name: sqlboiler_gen_ci
+        run: make sqlboiler_gen_ci
+        working-directory: ./servers/biz

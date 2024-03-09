@@ -9,6 +9,9 @@ sqlboiler_gen: $(SQLBOILER) sqlboiler_gen_prepare
 	sqlboiler mysql && \
 	$(MAKE) -C ../replacements biz_models
 
+.PHONY: sqlboiler_gen_ci
+sqlboiler_gen_ci: sqlboiler_gen git_check_uncommited_changes git_check_untracked_files
+
 .PHONY: sqlboiler_gen_prepare
 sqlboiler_gen_prepare:
 	$(MAKE) -C ../containers/localdev up && \
