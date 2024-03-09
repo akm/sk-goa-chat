@@ -13,7 +13,7 @@ services:
       SWAGGER_JSON: ${SWAGGERUI_JSON_PATH}
       WITH_CREDENTIALS: "true"
     volumes:
-      - ../../backend/apisvr:/srv/apisvr
+      - ../../servers/apisvr:/srv/apisvr
     networks:
       - network1
 

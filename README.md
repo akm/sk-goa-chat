@@ -4,7 +4,7 @@
 
 sk-goa-chat は [SvelteKit](https://kit.svelte.dev/) と [Goa](https://goa.design/) を使ったWebアプリケーションの検証のためのプロジェクトです。
 
-Goa は OpenAPI で定義された HTTP と protoc に基づいた gRPC による通信を同時にサポートするWebアプリケーションのフレームワークです。 
+Goa は OpenAPI で定義された HTTP と protoc に基づいた gRPC による通信を同時にサポートするWebアプリケーションのフレームワークです。
 Goa は gRPC のようなストリーミングを HTTP においては WebSockets を用いて実現します。
 
 SvelteKit は [Svelte](https://svelte.dev/) と [Vite](https://vitejs.dev/) を用いたWebアプリケーション開発のフレームワークです。
@@ -60,7 +60,7 @@ make dev
 
 ### Open in browser
 
-Open http://localhost:5173 
+Open http://localhost:5173
 
 ## How to develop
 
@@ -70,23 +70,23 @@ See [Development.md](./Development.md)
 
 Name                                    | Description
 ----------------------------------------|------------------
-[backend/apisvr](./backend/apisvr/)             | APIを提供するサーバーのソースコード
-[backend/applib](./backend/applib/)             | バックエンドのライブラリ的なパッケージ群
-[backend/biz](./backend/biz/)                   | バックエンドのビジネスロジックのパッケージ群
-[backend/containers](./backend/containers/)     | ローカルで使用する MySQL や Firebase Emulators のコンテナ
-[backend/dbmigrations](./backend/dbmigrations/) | RDBのマイグレーション
-[frontend](./frontend/)                 | UIとそれを提供するサーバー(uisvr)のソースコード
+[servers/apisvr](./servers/apisvr/)             | APIを提供するサーバーのソースコード
+[servers/applib](./servers/applib/)             | バックエンドのライブラリ的なパッケージ群
+[servers/biz](./servers/biz/)                   | バックエンドのビジネスロジックのパッケージ群
+[servers/containers](./servers/containers/)     | ローカルで使用する MySQL や Firebase Emulators のコンテナ
+[servers/dbmigrations](./servers/dbmigrations/) | RDBのマイグレーション
+[clients/uisvr](./clients/uisvr/)                 | UIとそれを提供するサーバー(uisvr)のソースコード
 [modifiers](./modifiers/)               | 自動生成されるコードに更に変更を加えるための ruby のスクリプト群
 [tools](./tools)                        | 開発や運用で使用するツール群
 
 
 ## Libraries / Middlewares
 
-- frontend
+- clients
   - [SvelteKit](https://kit.svelte.dev/)
       - [Vite](https://vitejs.dev/)
   - [flowbite-svelte](https://flowbite-svelte.com/)
-- backend
+- servers
   - [Goa](https://goa.design/)
   - [sqlboiler](https://github.com/volatiletech/sqlboiler)
   - [goose](https://github.com/pressly/goose)

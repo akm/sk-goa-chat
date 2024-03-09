@@ -1,6 +1,6 @@
 # See https://help.github.com/en/actions/automating-your-workflow-with-github-actions
 
-name: frontend CI
+name: uisvr CI
 
 on:
   push:
@@ -8,10 +8,10 @@ on:
       - "**"
     paths:
       - ".github/**"
-      - "backend/apisvr/**"
-      - "backend/containers/**"
-      - "backend/dbmigrations/**"
-      - "frontend/**"
+      - "servers/apisvr/**"
+      - "servers/containers/**"
+      - "servers/dbmigrations/**"
+      - "clients/uisvr/**"
       - "*"
 
 jobs:
@@ -26,7 +26,7 @@ jobs:
       # https://github.com/actions/setup-go
       - uses: actions/setup-go@v4
         with:
-          go-version-file: "backend/apisvr/go.mod"
+          go-version-file: "servers/apisvr/go.mod"
 
       - name: Check golang version/env
         run: |
@@ -57,32 +57,32 @@ jobs:
 
       - name: Install firebase tools
         run: npm install -g firebase-tools
-        working-directory: ./frontend
+        working-directory: ./clients/uisvr
 
       - name: npm install
         run: make install
-        working-directory: ./frontend
+        working-directory: ./clients/uisvr
 
       - name: build
         run: make build
-        working-directory: ./frontend
+        working-directory: ./clients/uisvr
 
       - name: lint
         run: make lint
-        working-directory: ./frontend
+        working-directory: ./clients/uisvr
 
       - name: unit test
         run: npm run test:unit
-        working-directory: ./frontend
+        working-directory: ./clients/uisvr
 
       - name: install playwright
         run: npx playwright install
-        working-directory: ./frontend
+        working-directory: ./clients/uisvr
 
       - name: install playwright dependencies
         run: npx playwright install-deps
-        working-directory: ./frontend
+        working-directory: ./clients/uisvr
 
       - name: integration test
         run: npm run test:integration
-        working-directory: ./frontend
+        working-directory: ./clients/uisvr

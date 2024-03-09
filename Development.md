@@ -89,11 +89,11 @@ Ruby on Rails の場合は、マイグレーション の作成と実行を行�
 ### 画面仮実装, 画面実装
 
 基本的な画面遷移を行うためには [SvelteKit](https://kit.svelte.jp/) でのルーティング等を理解する必要があります。
-次に画面に配置するコンポーネント ( あるいは [素のHTMLの要素](https://developer.mozilla.org/ja/docs/Web/HTML/Element) ) として何を使うのかについては 
+次に画面に配置するコンポーネント ( あるいは [素のHTMLの要素](https://developer.mozilla.org/ja/docs/Web/HTML/Element) ) として何を使うのかについては
 (HTMLの基本的な理解と) [flowbite-svelte](https://flowbite-svelte.com/) のコンポーネントへの理解が必要です。
 またそのレイアウトについては flowbite が使用する [Tailwind CSS](https://tailwindcss.com/) を理解する必要があります。
 
-詳しくは [frontend/README.md](./frontend/README.md) を参照してください。
+詳しくは [clients/uisvr/README.md](./clients/uisvr/README.md) を参照してください。
 
 ### API仮実装
 
@@ -102,7 +102,7 @@ APIを定義するためには [HTTP](https://developer.mozilla.org/ja/docs/Web/
 Goaのアプリケーションを使ってみるのが一番良いです。また [examples](https://github.com/goadesign/examples) も参考になります。
 また有料ですが [Goa v3 入門](https://zenn.dev/ikawaha/books/goa-design-v3) が日本語で解説してあり、最も分かりやすいと思います。
 
-詳しくは [backend/apisvr](./backend/apisvr/) を参照してください。
+詳しくは [servers/apisvr](./servers/apisvr/) を参照してください。
 
 
 ### 画面APIクライアント組み込み
@@ -111,7 +111,7 @@ Goaが生成するAPI定義から、現時点ではgRPC のクライアントの
 OpenAPIのクライアントも生成するべきです。OpenAPI でのAPI定義については、
 [Swagger UI](https://swagger.io/tools/swagger-ui/) で確認することができます。
 
-詳しくは [frontend/src/lib](./frontend/src/lib/) を参照してください。
+詳しくは [clients/uisvr/src/lib](./clients/uisvr/src/lib/) を参照してください。
 
 
 ### DBマイグレーション追加, APIテスト実装, API実装
@@ -120,12 +120,12 @@ RDBのデータマイグレーションには [goose](https://github.com/pressly
 データベースのデータの操作には [sqlboiler](https://github.com/volatiletech/sqlboiler) を用いて生成されたモデルを通じて行います。
 ですので、テーブルの作成やカラムの変更を行うマイグレーションを追加した場合、モデルを生成し直す必要があります。
 
-詳しくは [backend/biz](./backend/biz/) と [backend/apisvr](./backend/apisvr/) を参照してください。
+詳しくは [servers/biz](./servers/biz/) と [servers/apisvr](./servers/apisvr/) を参照してください。
 
 
 
 ### E2Eテスト実装
 
-E2Eテストは frontend 内の tests/integration に [Playwright](https://playwright.dev/) を使って実装します。
+E2Eテストは clients/uisvr 内の tests/integration に [Playwright](https://playwright.dev/) を使って実装します。
 
-詳しくは [frontend/tests/integration](./frontend/tests/integration/) を参照してください。
+詳しくは [clients/uisvr/tests/integration](./clients/uisvr/tests/integration/) を参照してください。
