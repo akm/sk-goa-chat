@@ -7,7 +7,7 @@
 | ディレクトリ名 | 実行場所        | 内容                  |
 | -------------- | --------------- | --------------------- |
 | firebase       | ブラウザ, uisvr | firebase に関するもの |
-| models         | ブラウザ, uisvr | uisvr上でのモデル  |
+| models         | ブラウザ, uisvr | uisvr上でのモデル     |
 | server         | uisvr           | サーバー上で動く処理  |
 
 ## APIクライアント
