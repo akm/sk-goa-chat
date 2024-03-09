@@ -8,18 +8,18 @@ GOA_SERVICES_DIR=./services
 GOA=$(shell go env GOPATH)/bin/goa
 $(GOA):
 	go install goa.design/goa/v3/cmd/goa@v3 && \
-	asdf reshim
+	$(MAKE) asdf_reshim
 
 PROTO_GEN_GO=$(shell go env GOPATH)/bin/protoc-gen-go
 $(PROTO_GEN_GO):
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && \
-	asdf reshim
+	$(MAKE) asdf_reshim
 
 # protoc は別途インストールする必要がある
 PROTO_GEN_GO_GRPC=$(shell go env GOPATH)/bin/protoc-gen-go-grpc
 $(PROTO_GEN_GO_GRPC):
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest && \
-	asdf reshim
+	$(MAKE) asdf_reshim
 
 GOA_GEN_DIR=./gen
 $(GOA_GEN_DIR): goa_gen

@@ -2,6 +2,7 @@
 default: build lint test
 
 include ../../.config.mk
+include ./Makefiles/asdf.mk
 include ./Makefiles/dev.mk
 include ./Makefiles/go.mk
 include ./Makefiles/goa.mk
