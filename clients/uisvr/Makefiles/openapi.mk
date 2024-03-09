@@ -4,4 +4,4 @@ $(OPENAPI_TS_FILE):
 
 .PHONY: openapi_gen
 openapi_gen:
-	npx openapi-typescript ../servers/apisvr/services/gen/http/openapi3.yaml -o $(OPENAPI_TS_FILE)
+	npx openapi-typescript $(ROOT_PATH)/servers/apisvr/services/gen/http/openapi3.yaml -o $(OPENAPI_TS_FILE)

@@ -1,4 +1,6 @@
-include ../.config.mk
+ROOT_PATH=../..
+
+include $(ROOT_PATH)/.config.mk
 
 .PHONY: default
 default: build lint test
