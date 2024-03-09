@@ -43,7 +43,7 @@ jobs:
 
       - name: Install firebase tools
         run: npm install -g firebase-tools
-        working-directory: ./frontend
+        working-directory: ./uisvr
 
       - name: Check golang version/env
         run: |

@@ -1,4 +1,4 @@
-# frontend/tests/integration
+# uisvr/tests/integration
 
 ## 概要
 

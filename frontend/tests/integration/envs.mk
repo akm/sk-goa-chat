@@ -1,6 +1,6 @@
 # このファイルは以下の２つのファイルから読み込まれます
-# - frontend/tests/integration/Makefile
-# - frontend/tests/integration/containers/Makefile
+# - uisvr/tests/integration/Makefile
+# - uisvr/tests/integration/containers/Makefile
 APP_UISVR_HTTP_PORT=$(APP_PORT_UISVR_HTTP_e2e_test)
 APP_APISVR_HTTP_PORT=$(APP_PORT_APISVR_HTTP_e2e_test)
 APP_APISVR_GRPC_PORT=$(APP_PORT_APISVR_GRPC_e2e_test)
