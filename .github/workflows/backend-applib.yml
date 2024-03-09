@@ -40,10 +40,6 @@ jobs:
           docker compose version
           docker version
 
-      - name: Install firebase tools
-        run: npm install -g firebase-tools
-        working-directory: ./uisvr
-
       - name: Check golang version/env
         run: |
           set -x
