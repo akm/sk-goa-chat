@@ -2,7 +2,7 @@ SQLBOILER=$(shell go env GOPATH)/bin/sqlboiler
 $(SQLBOILER):
 	go install github.com/volatiletech/sqlboiler/v4@latest && \
 	go install github.com/volatiletech/sqlboiler/v4/drivers/sqlboiler-mysql@latest && \
-	asdf reshim
+	$(MAKE) asdf_reshim
 
 .PHONY: sqlboiler_gen
 sqlboiler_gen: $(SQLBOILER) sqlboiler_gen_prepare
