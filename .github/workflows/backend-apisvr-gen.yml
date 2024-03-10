@@ -13,6 +13,7 @@ on:
       - "servers/apisvr/Makefile"
       - "servers/apisvr/Makefiles/**"
       - "servers/apisvr/design/**"
+      - "servers/replacements/*"
       - "servers/replacements/apisvr/**"
       - ".config.mk"
       - "Makefile"
