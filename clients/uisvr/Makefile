@@ -1,6 +1,6 @@
-ROOT_PATH=../..
+PATH_TO_PROJECT=../..
 
-include $(ROOT_PATH)/.config.mk
+include $(PATH_TO_PROJECT)/.config.mk
 
 .PHONY: default
 default: build lint test

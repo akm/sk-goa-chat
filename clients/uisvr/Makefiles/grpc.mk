@@ -1,4 +1,4 @@
-GRPC_SOURCE_DIR=$(ROOT_PATH)/servers/apisvr/services/gen/grpc
+GRPC_SOURCE_DIR=$(PATH_TO_PROJECT)/servers/apisvr/services/gen/grpc
 GRPC_DEST_DIR=src/lib/server/protos
 
 GRPC_RESOURCES=users channels chat_messages

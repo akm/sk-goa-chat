@@ -1,16 +1,16 @@
 .PHONY: default
 default: build lint test
 
-PROJECT_ROOT=../..
-FUKOWL_ROOT=$(PROJECT_ROOT)/vendor/fukowl
-FUKOWL_MAKEFILES=$(FUKOWL_ROOT)/makefiles
+PATH_TO_PROJECT=../..
+PATH_TO_FUKOWL_ROOT=$(PATH_TO_PROJECT)/vendor/fukowl
+PATH_TO_FUKOWL_MAKEFILES=$(PATH_TO_FUKOWL_ROOT)/makefiles
 
 GO_ROOT_PACKAGE=biz
 
 include ../../.config.mk
-include $(FUKOWL_MAKEFILES)/asdf/reshim.atom.mk
-include $(FUKOWL_MAKEFILES)/git/check.atom.mk
-include $(FUKOWL_MAKEFILES)/golang/build.atom.mk
-include $(FUKOWL_MAKEFILES)/golang/lint.atom.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/asdf/reshim.atom.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/git/check.atom.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/golang/build.atom.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/golang/lint.atom.mk
 include ./Makefiles/sqlboiler.mk
 include ./Makefiles/test.mk

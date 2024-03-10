@@ -1,10 +1,10 @@
-ROOT_PATH=../../../../..
+PATH_TO_PROJECT=../../../../..
 
-include $(ROOT_PATH)/.config.mk
+include $(PATH_TO_PROJECT)/.config.mk
 include ../envs.mk
 
 CONTAINERS_ENVS=\
-	ROOT_PATH=$(ROOT_PATH)
+	PATH_TO_PROJECT=$(PATH_TO_PROJECT)
 
 .PHONY: run
 run:

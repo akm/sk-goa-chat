@@ -12,7 +12,7 @@ DEV_ENVS=\
 .PHONY: dev_servers
 dev_servers:
 	$(DEV_ENVS) APP_SKIP_DB_SCHEMA_DUMP=true \
-		$(MAKE) -C $(ROOT_PATH)/servers dev
+		$(MAKE) -C $(PATH_TO_PROJECT)/servers dev
 
 .PHONY: dev_run
 dev_run:
@@ -20,8 +20,8 @@ dev_run:
 
 .PHONY: dev_containers_up_with_migration
 dev_containers_up_with_migration:
-	$(MAKE) -C $(ROOT_PATH)/servers/apisvr dev_containers_up_with_migration
+	$(MAKE) -C $(PATH_TO_PROJECT)/servers/apisvr dev_containers_up_with_migration
 
 .PHONY: dev_containers_down
 dev_containers_down:
-	$(MAKE) -C $(ROOT_PATH)/servers/apisvr dev_containers_down
+	$(MAKE) -C $(PATH_TO_PROJECT)/servers/apisvr dev_containers_down
