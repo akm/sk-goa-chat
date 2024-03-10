@@ -15,5 +15,4 @@ include $(FUKOWL_MAKEFILES)/golang/lint.atom.mk
 include ./Makefiles/dev.mk
 include ./Makefiles/goa.mk
 include ./Makefiles/run.mk
-include ./Makefiles/sqlboiler.mk
 include ./Makefiles/test.mk
