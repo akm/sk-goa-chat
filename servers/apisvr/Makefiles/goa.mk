@@ -7,16 +7,19 @@ GOA_SERVICES_DIR=./services
 
 GOA=$(shell go env GOPATH)/bin/goa
 $(GOA):
-	go install goa.design/goa/v3/cmd/goa@v3
+	go install goa.design/goa/v3/cmd/goa@v3 && \
+	$(MAKE) asdf_reshim
 
 PROTO_GEN_GO=$(shell go env GOPATH)/bin/protoc-gen-go
 $(PROTO_GEN_GO):
-	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+	go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && \
+	$(MAKE) asdf_reshim
 
 # protoc は別途インストールする必要がある
 PROTO_GEN_GO_GRPC=$(shell go env GOPATH)/bin/protoc-gen-go-grpc
 $(PROTO_GEN_GO_GRPC):
-	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest && \
+	$(MAKE) asdf_reshim
 
 GOA_GEN_DIR=./gen
 $(GOA_GEN_DIR): goa_gen
@@ -24,7 +27,12 @@ $(GOA_GEN_DIR): goa_gen
 .PHONY: goa_gen
 goa_gen: $(GOA) $(PROTO_GEN_GO) $(PROTO_GEN_GO_GRPC)
 	goa gen $(GOA_ROOT_PACKAGE)/design -o $(GOA_SERVICES_DIR) && \
-	$(MAKE) -C ../../modifiers servers_apisvr_services_gen
+	$(MAKE) -C ../replacements apisvr_services_gen
+
+.PHONY: goa_gen_ci
+goa_gen_ci:
+	APP_SKIP_DB_SCHEMA_DUMP=true $(MAKE) goa_gen && \
+	$(MAKE) git_check
 
 .PHONY: services_cmd_remove
 services_cmd_remove:
@@ -33,4 +41,9 @@ services_cmd_remove:
 .PHONY: goa_example
 goa_example: $(GOA) services_cmd_remove
 	goa example $(GOA_ROOT_PACKAGE)/design -o $(GOA_SERVICES_DIR) && \
-	$(MAKE) -C ../../modifiers servers_apisvr_services_cmd
+	$(MAKE) -C ../replacements apisvr_services_cmd
+
+.PHONY: goa_example_ci
+goa_example_ci:
+	APP_SKIP_DB_SCHEMA_DUMP=true $(MAKE) goa_example && \
+	$(MAKE) git_check

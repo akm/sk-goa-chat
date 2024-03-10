@@ -1,0 +1,66 @@
+# See https://help.github.com/en/actions/automating-your-workflow-with-github-actions
+
+name: servers apisvr CI
+
+on:
+  push:
+    branches:
+      - "**"
+    paths:
+      - ".github/**"
+      - ".gitignore"
+      - ".tool-versions"
+      - "servers/*"
+      - "servers/apisvr/**"
+      - "servers/applib/**"
+      - "servers/biz/**"
+      - "servers/dbmigrations/**"
+      - ".config.mk"
+      - "Makefile"
+      # - "modifiers"
+      # - "tools/**"
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    # if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    steps:
+      # https://github.com/actions/checkout
+      - uses: actions/checkout@v4
+
+      # https://github.com/actions/setup-go
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: "servers/apisvr/go.mod"
+
+      - name: Check docker version
+        run: |
+          set -x
+          docker -v
+          docker-compose -v
+          docker compose version
+          docker version
+
+      - name: Install firebase tools
+        run: npm install -g firebase-tools
+
+      - name: Check golang version/env
+        run: |
+          set -x
+          go version
+          go env
+
+      - name: build
+        run: make build
+        working-directory: ./servers/apisvr
+
+      - name: lint
+        run: make lint
+        working-directory: ./servers/apisvr
+
+      - name: test
+        run: make test
+        working-directory: ./servers/apisvr
+        env:
+          APP_FIREBASE_API_KEY: ${{ secrets.APP_FIREBASE_API_KEY }}
