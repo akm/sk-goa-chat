@@ -1,6 +1,6 @@
 # See https://help.github.com/en/actions/automating-your-workflow-with-github-actions
 
-name: uisvr CI
+name: clients uisvr CI
 
 on:
   push:
