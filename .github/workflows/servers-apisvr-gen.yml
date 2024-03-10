@@ -69,10 +69,22 @@ jobs:
         with:
           version: "25.1"
 
-      - name: goa_gen_ci
-        run: make goa_gen_ci
+      - name: goa_gen
+        run: make goa_gen
+        working-directory: ./servers/apisvr
+        env:
+          APP_SKIP_DB_SCHEMA_DUMP: "true"
+
+      - name: git_check
+        run: make git_check
         working-directory: ./servers/apisvr
 
-      - name: goa_example_ci
-        run: make goa_example_ci
+      - name: goa_example
+        run: make goa_example
+        working-directory: ./servers/apisvr
+        env:
+          APP_SKIP_DB_SCHEMA_DUMP: "true"
+
+      - name: git_check
+        run: make git_check
         working-directory: ./servers/apisvr

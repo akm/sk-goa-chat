@@ -29,11 +29,6 @@ goa_gen: $(GOA) $(PROTO_GEN_GO) $(PROTO_GEN_GO_GRPC)
 	goa gen $(GOA_ROOT_PACKAGE)/design -o $(GOA_SERVICES_DIR) && \
 	$(MAKE) -C ../replacements apisvr_services_gen
 
-.PHONY: goa_gen_ci
-goa_gen_ci:
-	APP_SKIP_DB_SCHEMA_DUMP=true $(MAKE) goa_gen && \
-	$(MAKE) git_check
-
 .PHONY: services_cmd_remove
 services_cmd_remove:
 	rm -rf $(GOA_SERVICES_DIR)/cmd
@@ -42,8 +37,3 @@ services_cmd_remove:
 goa_example: $(GOA) services_cmd_remove
 	goa example $(GOA_ROOT_PACKAGE)/design -o $(GOA_SERVICES_DIR) && \
 	$(MAKE) -C ../replacements apisvr_services_cmd
-
-.PHONY: goa_example_ci
-goa_example_ci:
-	APP_SKIP_DB_SCHEMA_DUMP=true $(MAKE) goa_example && \
-	$(MAKE) git_check
