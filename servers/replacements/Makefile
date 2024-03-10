@@ -1,6 +1,6 @@
 .PHONY: setup
 setup:
-	gem install fukowl
+	gem install fukowl -v 0.1.1
 
 .PHONY: run_ruby_in_dir
 run_ruby_in_dir: setup
