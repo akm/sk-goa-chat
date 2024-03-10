@@ -9,11 +9,6 @@ sqlboiler_gen: $(SQLBOILER) sqlboiler_gen_prepare
 	sqlboiler mysql && \
 	$(MAKE) -C ../replacements biz_models
 
-.PHONY: sqlboiler_gen_ci
-sqlboiler_gen_ci:
-	APP_SKIP_DB_SCHEMA_DUMP=true $(MAKE) sqlboiler_gen && \
-	$(MAKE) git_check
-
 .PHONY: sqlboiler_gen_prepare
 sqlboiler_gen_prepare:
 	$(MAKE) -C ../containers/localdev up && \
