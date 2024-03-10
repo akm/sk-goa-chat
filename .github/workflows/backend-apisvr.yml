@@ -13,6 +13,8 @@ on:
       - "servers/*"
       - "servers/apisvr/**"
       - "servers/applib/**"
+      - "servers/biz/**"
+      - "servers/dbmigrations/**"
       - ".config.mk"
       - "Makefile"
       # - "modifiers"
