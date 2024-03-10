@@ -1,6 +1,6 @@
 # See https://help.github.com/en/actions/automating-your-workflow-with-github-actions
 
-name: servers apisvr CI
+name: servers apisvr gen CI
 
 on:
   push:
@@ -10,9 +10,10 @@ on:
       - ".github/**"
       - ".gitignore"
       - ".tool-versions"
-      - "servers/*"
-      - "servers/apisvr/**"
-      - "servers/applib/**"
+      - "servers/apisvr/Makefile"
+      - "servers/apisvr/Makefiles/**"
+      - "servers/apisvr/design/**"
+      - "servers/replacements/apisvr/**"
       - ".config.mk"
       - "Makefile"
       # - "modifiers"
@@ -49,16 +50,28 @@ jobs:
           go version
           go env
 
-      - name: build
-        run: make build
+      # https://github.com/ruby/setup-ruby
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+
+      - name: Check ruby version
+        run: |
+          set -x
+          ruby -v
+          gem env
+          gem list
+
+      # https://github.com/marketplace/actions/setup-protoc
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v3
+        with:
+          version: "25.1"
+
+      - name: goa_gen_ci
+        run: make goa_gen_ci
         working-directory: ./servers/apisvr
 
-      - name: lint
-        run: make lint
+      - name: goa_example_ci
+        run: make goa_example_ci
         working-directory: ./servers/apisvr
-
-      - name: test
-        run: make test
-        working-directory: ./servers/apisvr
-        env:
-          APP_FIREBASE_API_KEY: ${{ secrets.APP_FIREBASE_API_KEY }}
