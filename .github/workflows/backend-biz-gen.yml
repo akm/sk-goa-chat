@@ -1,6 +1,6 @@
 # See https://help.github.com/en/actions/automating-your-workflow-with-github-actions
 
-name: servers biz CI
+name: servers biz gen CI
 
 on:
   push:
@@ -14,6 +14,8 @@ on:
       - "servers/biz/**"
       - "servers/containers/**"
       - "servers/dbmigrations/**"
+      - "servers/replacements/*"
+      - "servers/replacements/biz/**"
       - ".config.mk"
       - "Makefile"
       # - "modifiers"
@@ -47,16 +49,6 @@ jobs:
           go version
           go env
 
-      - name: build
-        run: make build
+      - name: sqlboiler_gen_ci
+        run: make sqlboiler_gen_ci
         working-directory: ./servers/biz
-
-      - name: lint
-        run: make lint
-        working-directory: ./servers/biz
-
-      - name: test
-        run: make test
-        working-directory: ./servers/biz
-        env:
-          APP_FIREBASE_API_KEY: ${{ secrets.APP_FIREBASE_API_KEY }}
