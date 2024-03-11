@@ -12,7 +12,6 @@ include $(PATH_TO_FUKOWL_MAKEFILES)/asdf/reshim.atom.mk
 include $(PATH_TO_FUKOWL_MAKEFILES)/git/check.atom.mk
 include $(PATH_TO_FUKOWL_MAKEFILES)/golang/build.atom.mk
 include $(PATH_TO_FUKOWL_MAKEFILES)/golang/lint.atom.mk
-include ./Makefiles/test.mk
 
 # run, run_with_devbug
 include $(PATH_TO_FUKOWL_MAKEFILES)/apisvr/run.organism.mk
@@ -33,3 +32,8 @@ DEV_SERVER_ENVS=\
 include $(PATH_TO_FUKOWL_MAKEFILES)/apisvr/goa.organism.mk
 GOA_ROOT_PACKAGE=$(GO_ROOT_PACKAGE)
 PATH_TO_GOA_SERVICES_DIR=./services
+
+include $(PATH_TO_FUKOWL_MAKEFILES)/apisvr/test.organism.mk
+TEST_ENVS=\
+	GOOGLE_CLOUD_PROJECT=sk-goa-chat \
+	APP_FIREBASE_API_KEY=$(APP_FIREBASE_API_KEY)
