@@ -17,4 +17,4 @@ include $(PATH_TO_FUKOWL_MAKEFILES)/biz/test.organism.mk
 TEST_ENVS=\
 	GOOGLE_CLOUD_PROJECT=$(GOOGLE_CLOUD_PROJECT)
 
-include ./Makefiles/sqlboiler.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/biz/sqlboiler.organism.mk
