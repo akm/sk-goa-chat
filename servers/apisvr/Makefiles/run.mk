@@ -25,4 +25,4 @@ run:
 
 .PHONY: run_with_debug
 run_with_debug:
-	$(APISVR_ENVS) go run $(PATH_TO_CMD_APISVR) $(APISVR_OPTIONS) -debug
+	APISVR_OPTIONS='$(APISVR_OPTIONS) -debug' $(MAKE) run
