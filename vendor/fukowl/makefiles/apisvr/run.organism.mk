@@ -12,12 +12,9 @@ SWAGGERUI_ORIGIN?="http://localhost:$(SWAGGERUI_PORT)"
 APISVR_ENVS=\
 	APP_CORS_ALLOW_ORIGINS=$(SWAGGERUI_ORIGIN)
 
-.PHONY: envs
-envs:
+.PHONY: apisvr_envs
+apisvr_envs:
 	@echo $(APISVR_ENVS)
-
-# go run に渡されるので先頭のドットが必要です
-PATH_TO_CMD_APISVR=./services/cmd/apisvr
 
 .PHONY: run
 run:
