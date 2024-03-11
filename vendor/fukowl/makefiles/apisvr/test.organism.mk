@@ -11,16 +11,16 @@ TEST_ENVS_BASE=\
 
 .PHONY: test
 test: test_containers_up
-	$(TEST_ENVS) $(TEST_ENVS_BASE) $(MAKE) test_run
+	$(TEST_ENVS_BASE) $(TEST_ENVS) $(MAKE) test_run
 
 .PHONY: test_run
 test_run:
-	$(TEST_ENVS) $(TEST_ENVS_BASE) go test -p 1 -tags timetravel ./...
+	$(TEST_ENVS_BASE) $(TEST_ENVS) go test -p 1 -tags timetravel ./...
 
 .PHONY: test_containers_up
 test_containers_up:
-	$(TEST_ENVS) $(TEST_ENVS_BASE) $(MAKE) -C $(PATH_TO_LOCALTEST) up
+	$(TEST_ENVS_BASE) $(TEST_ENVS) $(MAKE) -C $(PATH_TO_LOCALTEST) up
 
 .PHONY: test_containers_down
 test_containers_down:
-	$(TEST_ENVS) $(TEST_ENVS_BASE) $(MAKE) -C $(PATH_TO_LOCALTEST) down
+	$(TEST_ENVS_BASE) $(TEST_ENVS) $(MAKE) -C $(PATH_TO_LOCALTEST) down
