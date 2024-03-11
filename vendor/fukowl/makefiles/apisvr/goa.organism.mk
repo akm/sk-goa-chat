@@ -1,10 +1,3 @@
-# This file uses the following variables or tasks from
-#
-# Depends on go.mk
-#   - GO_ROOT_PACKAGE
-GOA_ROOT_PACKAGE=$(GO_ROOT_PACKAGE)
-PATH_TO_GOA_SERVICES_DIR=./services
-
 GOA=$(shell go env GOPATH)/bin/goa
 $(GOA):
 	go install goa.design/goa/v3/cmd/goa@v3 && \

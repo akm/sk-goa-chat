@@ -12,7 +12,6 @@ include $(PATH_TO_FUKOWL_MAKEFILES)/asdf/reshim.atom.mk
 include $(PATH_TO_FUKOWL_MAKEFILES)/git/check.atom.mk
 include $(PATH_TO_FUKOWL_MAKEFILES)/golang/build.atom.mk
 include $(PATH_TO_FUKOWL_MAKEFILES)/golang/lint.atom.mk
-include ./Makefiles/goa.mk
 include ./Makefiles/test.mk
 
 # run, run_with_devbug
@@ -23,7 +22,6 @@ PATH_TO_CMD_APISVR=./services/cmd/apisvr
 # dev, dev_container_up, dev_container_down
 include $(PATH_TO_FUKOWL_MAKEFILES)/apisvr/dev.organism.mk
 DEV_MYSQL_DSN?='$(shell $(MAKE) -C $(PATH_TO_MYSQL) --no-print-directory dsn)'
-
 DEV_SERVER_ENVS=\
 	GOOGLE_CLOUD_PROJECT=$(GOOGLE_CLOUD_PROJECT) \
 	FIREBASE_AUTH_EMULATOR_HOST="127.0.0.1:$(APP_PORT_FIREBASE_AUTH_dev)" \
@@ -31,3 +29,7 @@ DEV_SERVER_ENVS=\
 	APP_MYSQL_DSN=$(DEV_MYSQL_DSN) \
 	APP_LOG_CONSOLE_WRITER=true \
 	APP_FIREBASE_API_KEY=$(APP_FIREBASE_API_KEY)
+
+include $(PATH_TO_FUKOWL_MAKEFILES)/apisvr/goa.organism.mk
+GOA_ROOT_PACKAGE=$(GO_ROOT_PACKAGE)
+PATH_TO_GOA_SERVICES_DIR=./services
