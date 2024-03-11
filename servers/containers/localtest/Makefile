@@ -16,8 +16,19 @@ run:
 	$(ENVS) docker compose up
 
 .PHONY: up
-up:
+up: up_start mysql_wait_to_connect dbmigration_up
+
+.PHONY: up_start
+up_start:
 	$(ENVS) docker compose up -d
+
+.PHONY: mysql_wait_to_connect
+mysql_wait_to_connect:
+	$(MAKE) -C $(PATH_TO_MYSQL) wait_to_connect
+
+.PHONY: dbmigration_up
+dbmigration_up:
+	$(MAKE) -C $(PATH_TO_DBMIGRATIONS) up
 
 .PHONY: down
 down:

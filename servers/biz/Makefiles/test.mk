@@ -16,7 +16,7 @@ TEST_ENVS=\
 # mysql.port に対応しています。
 
 .PHONY: test
-test: test_containers_up test_mysql_wait_to_connect test_dbmigration_up
+test: test_containers_up
 	$(TEST_ENVS) $(MAKE) test_run
 
 .PHONY: test_run
@@ -30,11 +30,3 @@ test_containers_up:
 .PHONY: test_containers_down
 test_containers_down:
 	$(TEST_ENVS) $(MAKE) -C $(PATH_TO_LOCALTEST) down
-
-.PHONY: test_mysql_wait_to_connect
-test_mysql_wait_to_connect:
-	$(TEST_ENVS) $(MAKE) -C $(PATH_TO_MYSQL) wait_to_connect
-
-.PHONY: test_dbmigration_up
-test_dbmigration_up:
-	$(TEST_ENVS) $(MAKE) -C $(PATH_TO_DBMIGRATIONS) up

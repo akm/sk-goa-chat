@@ -11,7 +11,7 @@ TEST_ENVS=\
 	FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:9091'
 
 .PHONY: test
-test: test_containers_up test_dbmigration_up
+test: test_containers_up
 	$(TEST_ENVS) $(MAKE) test_run
 
 .PHONY: test_run
@@ -19,20 +19,9 @@ test_run:
 	go test -p 1 -tags timetravel ./...
 
 .PHONY: test_containers_up
-test_containers_up: test_containers_up_start test_mysql_wait_to_connect
-
-.PHONY: test_containers_up_start
-test_containers_up_start:
+test_containers_up:
 	$(TEST_ENVS) $(MAKE) -C $(PATH_TO_LOCALTEST) up
 
 .PHONY: test_containers_down
 test_containers_down:
 	$(TEST_ENVS) $(MAKE) -C $(PATH_TO_LOCALTEST) down
-
-.PHONY: test_mysql_wait_to_connect
-test_mysql_wait_to_connect:
-	$(TEST_ENVS) $(MAKE) -C $(PATH_TO_MYSQL) wait_to_connect
-
-.PHONY: test_dbmigration_up
-test_dbmigration_up:
-	$(TEST_ENVS) $(MAKE) -C $(PATH_TO_DBMIGRATIONS) up
