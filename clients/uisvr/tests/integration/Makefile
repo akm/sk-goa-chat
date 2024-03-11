@@ -1,19 +1,20 @@
-PATH_TO_PROJECT=../../../..
+PATH_TO_UISVR:=../..
+PATH_TO_PROJECT:=$(PATH_TO_UISVR)/../..
 
 include $(PATH_TO_PROJECT)/.config.mk
 include ./envs.mk
 
 .PHONY: mysql_dsn
 mysql_dsn:
-	@$(ENVS) $(MAKE) -C $(PATH_TO_PROJECT)/servers/containers/mysql dsn
+	@$(ENVS) $(MAKE) -C $(PATH_TO_MYSQL) dsn
 
 .PHONY: mysql_wait_to_connect
 mysql_wait_to_connect:
-	$(ENVS) $(MAKE) -C $(PATH_TO_PROJECT)/servers/containers/mysql wait_to_connect
+	$(ENVS) $(MAKE) -C $(PATH_TO_MYSQL) wait_to_connect
 
 .PHONY: dbmigrations_up
 dbmigrations_up:
-	$(ENVS) $(MAKE) -C $(PATH_TO_PROJECT)/servers/dbmigrations up
+	$(ENVS) $(MAKE) -C $(PATH_TO_DBMIGRATIONS) up
 
 APISVR_ENVS=\
 	GOOGLE_CLOUD_PROJECT=$(GOOGLE_CLOUD_PROJECT) \
@@ -25,18 +26,18 @@ APISVR_ENVS=\
 apisvr_envs:
 	@echo $(APISVR_ENVS)
 
-APISVR_LOG_DIR=log
-$(APISVR_LOG_DIR):
-	mkdir -p $(APISVR_LOG_DIR)
+PATH_TO_APISVR_LOG_DIR=log
+$(PATH_TO_APISVR_LOG_DIR):
+	mkdir -p $(PATH_TO_APISVR_LOG_DIR)
 
-APISVR_MYSQL_DSN=$(shell $(ENVS) $(MAKE) -C $(PATH_TO_PROJECT)/servers/containers/mysql --no-print-directory dsn)
+APISVR_MYSQL_DSN=$(shell $(ENVS) $(MAKE) -C $(PATH_TO_MYSQL) --no-print-directory dsn)
 
 .PHONY: apisvr_run
-apisvr_run: $(APISVR_LOG_DIR)
+apisvr_run: $(PATH_TO_APISVR_LOG_DIR)
 	$(ENVS) \
 	$(APISVR_ENVS) \
 	APP_MYSQL_DSN='$(APISVR_MYSQL_DSN)' \
-		$(MAKE) -C $(PATH_TO_PROJECT)/servers/apisvr run >> $(APISVR_LOG_DIR)/apisvr.log 2>&1
+		$(MAKE) -C $(PATH_TO_APISVR) run >> $(PATH_TO_APISVR_LOG_DIR)/apisvr.log 2>&1
 
 FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:$(APP_FIREBASE_AUTH_PORT)
 
@@ -56,10 +57,10 @@ uisvr_envs:
 	@echo $(UISVR_ENVS)
 
 .PHONY: uisvr_run
-uisvr_run: $(APISVR_LOG_DIR)
+uisvr_run: $(PATH_TO_APISVR_LOG_DIR)
 	$(ENVS) \
 	$(UISVR_ENVS) \
-		$(MAKE) -C ../.. build preview >> $(APISVR_LOG_DIR)/uisvr.log 2>&1
+		$(MAKE) -C $(PATH_TO_UISVR) build preview >> $(PATH_TO_APISVR_LOG_DIR)/uisvr.log 2>&1
 
 
 .PHONY: test_setup

@@ -1,3 +1,5 @@
+# TODO sqlboiler の接続先を localdev ではなく localtest に変更
+
 SQLBOILER=$(shell go env GOPATH)/bin/sqlboiler
 $(SQLBOILER):
 	go install github.com/volatiletech/sqlboiler/v4@latest && \
@@ -7,10 +9,10 @@ $(SQLBOILER):
 .PHONY: sqlboiler_gen
 sqlboiler_gen: $(SQLBOILER) sqlboiler_gen_prepare
 	sqlboiler mysql && \
-	$(MAKE) -C ../replacements biz_models
+	$(MAKE) -C $(PATH_TO_SERVER_REPLACEMENTS) biz_models
 
 .PHONY: sqlboiler_gen_prepare
 sqlboiler_gen_prepare:
-	$(MAKE) -C ../containers/localdev up && \
-	$(MAKE) -C ../containers/mysql wait_to_connect && \
-	APP_SKIP_DB_SCHEMA_DUMP=true $(MAKE) -C ../dbmigrations up
+	$(MAKE) -C $(PATH_TO_LOCALDEV) up && \
+	$(MAKE) -C $(PATH_TO_MYSQL) wait_to_connect && \
+	APP_SKIP_DB_SCHEMA_DUMP=true $(MAKE) -C $(PATH_TO_DBMIGRATIONS) up

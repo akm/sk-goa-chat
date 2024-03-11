@@ -1,4 +1,6 @@
-include ../../../.config.mk
+PATH_TO_PROJECT:=../../..
+
+include $(PATH_TO_PROJECT)/.config.mk
 
 ENVS=\
 	APP_MYSQL_DATABASE_NAME=$(APP_MYSQL_DATABASE_NAME) \
@@ -23,4 +25,4 @@ down:
 
 .PHONY: mysql_dsn
 mysql_dsn:
-	@$(ENVS) $(MAKE) -C ../mysql dsn
+	@$(ENVS) $(MAKE) -C $(PATH_TO_MYSQL) dsn

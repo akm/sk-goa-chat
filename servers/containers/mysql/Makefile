@@ -1,4 +1,6 @@
-include ../../../.config.mk
+PATH_TO_PROJECT:=../../..
+
+include $(PATH_TO_PROJECT)/.config.mk
 
 ## mysql クライアントを docker コンテナとして独立して動かす場合はこちらを使う
 # LOCAL_CONTAINERS_MYSQL?=localdev_mysql
@@ -41,4 +43,3 @@ dsn:
 .PHONY: port
 port:
 	@echo "$(APP_MYSQL_PORT)"
-

@@ -1,5 +1,5 @@
-GRPC_SOURCE_DIR=$(PATH_TO_PROJECT)/servers/apisvr/services/gen/grpc
-GRPC_DEST_DIR=src/lib/server/protos
+PATH_TO_GRPC_SOURCE_DIR=$(PATH_TO_APISVR)/services/gen/grpc
+PATH_TO_GRPC_DEST_DIR=src/lib/server/protos
 
 GRPC_RESOURCES=users channels chat_messages
 
@@ -11,4 +11,4 @@ grpc_gen:
 
 .PHONY: grpc_gen_impl
 grpc_gen_impl:
-	mkdir -p $(GRPC_DEST_DIR) && protoc --ts_out $(GRPC_DEST_DIR) --proto_path $(GRPC_SOURCE_DIR)/$(RESOURCE)/pb $(GRPC_SOURCE_DIR)/$(RESOURCE)/pb/goagen_services_$(RESOURCE).proto
+	mkdir -p $(PATH_TO_GRPC_DEST_DIR) && protoc --ts_out $(PATH_TO_GRPC_DEST_DIR) --proto_path $(PATH_TO_GRPC_SOURCE_DIR)/$(RESOURCE)/pb $(PATH_TO_GRPC_SOURCE_DIR)/$(RESOURCE)/pb/goagen_services_$(RESOURCE).proto

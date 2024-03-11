@@ -6,7 +6,7 @@ APISVR_OPTIONS=\
 	-http-port $(APP_HTTP_PORT) \
 	-grpc-port $(APP_GRPC_PORT)
 
-SWAGGERUI_PORT?=$(shell $(MAKE) -C ../../tools/swaggerui --no-print-directory port)
+SWAGGERUI_PORT?=$(shell $(MAKE) -C $(PATH_TO_SWAGGERUI) --no-print-directory port)
 SWAGGERUI_ORIGIN?="http://localhost:$(SWAGGERUI_PORT)"
 
 APISVR_ENVS=\
@@ -16,10 +16,13 @@ APISVR_ENVS=\
 envs:
 	@echo $(APISVR_ENVS)
 
+# go run に渡されるので先頭のドットが必要です
+PATH_TO_CMD_APISVR=./services/cmd/apisvr
+
 .PHONY: run
 run:
-	$(APISVR_ENVS) go run ./services/cmd/apisvr $(APISVR_OPTIONS)
+	$(APISVR_ENVS) go run $(PATH_TO_CMD_APISVR) $(APISVR_OPTIONS)
 
 .PHONY: run_with_debug
 run_with_debug:
-	$(APISVR_ENVS) go run ./services/cmd/apisvr $(APISVR_OPTIONS) -debug
+	$(APISVR_ENVS) go run $(PATH_TO_CMD_APISVR) $(APISVR_OPTIONS) -debug

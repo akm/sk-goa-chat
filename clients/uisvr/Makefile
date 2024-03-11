@@ -1,4 +1,4 @@
-PATH_TO_PROJECT=../..
+PATH_TO_PROJECT:=../..
 
 include $(PATH_TO_PROJECT)/.config.mk
 
@@ -31,12 +31,12 @@ test:
 	npm run test
 
 .PHONY: setup
-setup: $(NODE_MODULES) 
-	$(MAKE) $(FIREBASE_CONFIG_FILE)
+setup: $(NODE_MODULES)
+	$(MAKE) $(PATH_TO_FIREBASE_CONFIG_FILE)
 
-FIREBASE_CONFIG_FILE=src/lib/firebase/firebaseconfig.ts
-$(FIREBASE_CONFIG_FILE):
-	cp $(FIREBASE_CONFIG_FILE).dummy $(FIREBASE_CONFIG_FILE)
+PATH_TO_FIREBASE_CONFIG_FILE=src/lib/firebase/firebaseconfig.ts
+$(PATH_TO_FIREBASE_CONFIG_FILE):
+	cp $(PATH_TO_FIREBASE_CONFIG_FILE).dummy $(PATH_TO_FIREBASE_CONFIG_FILE)
 
 include ./Makefiles/dev.mk
 include ./Makefiles/grpc.mk

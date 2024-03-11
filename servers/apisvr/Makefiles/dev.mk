@@ -1,4 +1,4 @@
-DEV_MYSQL_DSN?='$(shell $(MAKE) -C ../containers/mysql --no-print-directory dsn)'
+DEV_MYSQL_DSN?='$(shell $(MAKE) -C $(PATH_TO_MYSQL) --no-print-directory dsn)'
 
 DEV_SERVER_ENVS=\
 	GOOGLE_CLOUD_PROJECT=$(GOOGLE_CLOUD_PROJECT) \
@@ -14,19 +14,19 @@ dev: dev_containers_up
 
 .PHONY: dev_containers_up
 dev_containers_up:
-	$(DEV_SERVER_ENVS) $(MAKE) -C ../containers/localdev up
+	$(DEV_SERVER_ENVS) $(MAKE) -C $(PATH_TO_LOCALDEV) up
 
 .PHONY: dev_containers_up_with_migration
 dev_containers_up_with_migration: dev_containers_up dev_dbmigrations_up
 
 .PHONY: dev_containers_down
 dev_containers_down:
-	$(DEV_SERVER_ENVS) $(MAKE) -C ../containers/localdev down
+	$(DEV_SERVER_ENVS) $(MAKE) -C $(PATH_TO_LOCALDEV) down
 
 .PHONY: dev_mysql_wait_to_connect
 dev_mysql_wait_to_connect:
-	$(ENVS) $(MAKE) -C ../containers/mysql wait_to_connect
+	$(ENVS) $(MAKE) -C $(PATH_TO_MYSQL) wait_to_connect
 
 .PHONY: dev_dbmigrations_up
 dev_dbmigrations_up: dev_mysql_wait_to_connect
-	$(ENVS) $(MAKE) -C ../dbmigrations up
+	$(ENVS) $(MAKE) -C $(PATH_TO_DBMIGRATIONS) up

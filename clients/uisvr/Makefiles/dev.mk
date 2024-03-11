@@ -12,16 +12,18 @@ DEV_ENVS=\
 .PHONY: dev_servers
 dev_servers:
 	$(DEV_ENVS) APP_SKIP_DB_SCHEMA_DUMP=true \
-		$(MAKE) -C $(PATH_TO_PROJECT)/servers dev
+		$(MAKE) -C $(PATH_TO_SERVERS) dev
 
 .PHONY: dev_run
 dev_run:
 	$(DEV_ENVS) npx vite dev
 
+## TODO PATH_TO_APISVR ではなく PATH_TO_SERVERS に変更 (servers/Makefile に dev_containers_up と dev_containers_down を追加)
+
 .PHONY: dev_containers_up_with_migration
 dev_containers_up_with_migration:
-	$(MAKE) -C $(PATH_TO_PROJECT)/servers/apisvr dev_containers_up_with_migration
+	$(MAKE) -C $(PATH_TO_APISVR) dev_containers_up_with_migration
 
 .PHONY: dev_containers_down
 dev_containers_down:
-	$(MAKE) -C $(PATH_TO_PROJECT)/servers/apisvr dev_containers_down
+	$(MAKE) -C $(PATH_TO_APISVR) dev_containers_down

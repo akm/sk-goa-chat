@@ -1,4 +1,4 @@
-PATH_TO_PROJECT=../../../../..
+PATH_TO_PROJECT:=../../../../..
 
 include $(PATH_TO_PROJECT)/.config.mk
 include ../envs.mk

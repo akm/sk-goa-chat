@@ -1,6 +1,6 @@
-TEST_CONTAINER_ENVS=$(shell $(MAKE) -C ../containers/localtest --no-print-directory envs)
-TEST_MYSQL_PORT?=$(shell $(TEST_CONTAINER_ENVS) $(MAKE) -C ../containers/mysql --no-print-directory port)
-TEST_MYSQL_DSN?='$(shell $(TEST_CONTAINER_ENVS) $(MAKE) -C ../containers/mysql --no-print-directory dsn)'
+TEST_CONTAINER_ENVS=$(shell $(MAKE) -C $(PATH_TO_LOCALTEST) --no-print-directory envs)
+TEST_MYSQL_PORT?=$(shell $(TEST_CONTAINER_ENVS) $(MAKE) -C $(PATH_TO_MYSQL) --no-print-directory port)
+TEST_MYSQL_DSN?='$(shell $(TEST_CONTAINER_ENVS) $(MAKE) -C $(PATH_TO_MYSQL) --no-print-directory dsn)'
 
 TEST_ENVS=\
 	APP_STAGE=$(APP_STAGE) \
@@ -25,16 +25,16 @@ test_run:
 
 .PHONY: test_containers_up
 test_containers_up:
-	$(TEST_ENVS) $(MAKE) -C ../containers/localtest up
+	$(TEST_ENVS) $(MAKE) -C $(PATH_TO_LOCALTEST) up
 
 .PHONY: test_containers_down
 test_containers_down:
-	$(TEST_ENVS) $(MAKE) -C ../containers/localtest down
+	$(TEST_ENVS) $(MAKE) -C $(PATH_TO_LOCALTEST) down
 
 .PHONY: test_mysql_wait_to_connect
 test_mysql_wait_to_connect:
-	$(TEST_ENVS) $(MAKE) -C ../containers/mysql wait_to_connect
+	$(TEST_ENVS) $(MAKE) -C $(PATH_TO_MYSQL) wait_to_connect
 
 .PHONY: test_dbmigration_up
 test_dbmigration_up:
-	$(TEST_ENVS) $(MAKE) -C ../dbmigrations up
+	$(TEST_ENVS) $(MAKE) -C $(PATH_TO_DBMIGRATIONS) up
