@@ -43,10 +43,12 @@ $(PATH_TO_FIREBASE_CONFIG_FILE):
 PATH_TO_APISVR_GEN=$(PATH_TO_APISVR)/services/gen
 
 include ./Makefiles/dev.mk
-include ./Makefiles/openapi.mk
 include ./Makefiles/test_integration.mk
 
 include $(PATH_TO_FUKOWL_MAKEFILES)/uisvr/grpc.molecular.mk
 PATH_TO_GRPC_SOURCE_DIR=$(PATH_TO_APISVR_GEN)/grpc
 PATH_TO_GRPC_DEST_DIR=src/lib/server/protos
 GRPC_RESOURCES=users channels chat_messages
+
+include $(PATH_TO_FUKOWL_MAKEFILES)/uisvr/openapi.molecular.mk
+PATH_TO_OPENAPI_TS_FILE=src/lib/openapi.d.ts

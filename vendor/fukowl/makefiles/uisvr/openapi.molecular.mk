@@ -1,4 +1,3 @@
-PATH_TO_OPENAPI_TS_FILE=src/lib/openapi.d.ts
 $(PATH_TO_OPENAPI_TS_FILE):
 	$(MAKE) openapi_gen
 
