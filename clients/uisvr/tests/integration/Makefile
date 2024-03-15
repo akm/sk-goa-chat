@@ -4,17 +4,9 @@ PATH_TO_PROJECT:=$(PATH_TO_UISVR)/../..
 include $(PATH_TO_PROJECT)/.config.mk
 include ./envs.mk
 
-.PHONY: mysql_dsn
-mysql_dsn:
-	@$(ENVS) $(MAKE) -C $(PATH_TO_MYSQL) dsn
-
-.PHONY: mysql_wait_to_connect
-mysql_wait_to_connect:
-	$(ENVS) $(MAKE) -C $(PATH_TO_MYSQL) wait_to_connect
-
-.PHONY: dbmigrations_up
-dbmigrations_up:
-	$(ENVS) $(MAKE) -C $(PATH_TO_DBMIGRATIONS) up
+# Firebase Emulators が期待する環境変数ですので名前を変更しないでください
+# https://firebase.google.com/docs/emulator-suite/connect_auth?hl=ja
+FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:$(APP_FIREBASE_AUTH_PORT)
 
 APISVR_ENVS=\
 	GOOGLE_CLOUD_PROJECT=$(GOOGLE_CLOUD_PROJECT) \
@@ -39,9 +31,7 @@ apisvr_run: $(PATH_TO_APISVR_LOG_DIR)
 	APP_MYSQL_DSN='$(APISVR_MYSQL_DSN)' \
 		$(MAKE) -C $(PATH_TO_APISVR) run >> $(PATH_TO_APISVR_LOG_DIR)/apisvr.log 2>&1
 
-FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:$(APP_FIREBASE_AUTH_PORT)
 
-# https://firebase.google.com/docs/emulator-suite/connect_auth?hl=ja
 #      FIREBASE_AUTH_EMULATOR_HOST と
 # VITE_FIREBASE_AUTH_EMULATOR_HOST は重複していますが、どちらの環境変数も必要です
 UISVR_ENVS= \
