@@ -24,13 +24,13 @@ DEV_ENVS=\
 	APP_FIREBASE_API_KEY=$(APP_FIREBASE_API_KEY)
 include $(PATH_TO_FUKOWL_MAKEFILES)/uisvr/dev.mk
 
-include $(PATH_TO_FUKOWL_MAKEFILES)/uisvr/grpc.molecular.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/uisvr/grpc.mk
 PATH_TO_APISVR_GEN=$(PATH_TO_APISVR)/services/gen
 PATH_TO_GRPC_SOURCE_DIR=$(PATH_TO_APISVR_GEN)/grpc
 PATH_TO_GRPC_DEST_DIR=src/lib/server/protos
 GRPC_RESOURCES=users channels chat_messages
 
-include $(PATH_TO_FUKOWL_MAKEFILES)/uisvr/openapi.molecular.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/uisvr/openapi.mk
 PATH_TO_OPENAPI_TS_FILE=src/lib/openapi.d.ts
 
 include $(PATH_TO_FUKOWL_MAKEFILES)/uisvr/test_integration.mk
