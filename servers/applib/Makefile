@@ -12,6 +12,6 @@ include $(PATH_TO_FUKOWL_MAKEFILES)/asdf/reshim.atom.mk
 include $(PATH_TO_FUKOWL_MAKEFILES)/golang/build.atom.mk
 include $(PATH_TO_FUKOWL_MAKEFILES)/golang/lint.atom.mk
 
-include $(PATH_TO_FUKOWL_MAKEFILES)/applib/test.organism.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/applib/test.mk
 TEST_ENVS=\
 	GOOGLE_CLOUD_PROJECT=$(GOOGLE_CLOUD_PROJECT)

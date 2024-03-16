@@ -13,8 +13,8 @@ include $(PATH_TO_FUKOWL_MAKEFILES)/git/check.atom.mk
 include $(PATH_TO_FUKOWL_MAKEFILES)/golang/build.atom.mk
 include $(PATH_TO_FUKOWL_MAKEFILES)/golang/lint.atom.mk
 
-include $(PATH_TO_FUKOWL_MAKEFILES)/biz/test.organism.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/biz/test.mk
 TEST_ENVS=\
 	GOOGLE_CLOUD_PROJECT=$(GOOGLE_CLOUD_PROJECT)
 
-include $(PATH_TO_FUKOWL_MAKEFILES)/biz/sqlboiler.organism.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/biz/sqlboiler.mk
