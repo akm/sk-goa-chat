@@ -8,7 +8,7 @@ TEST_ENVS=\
 	APP_MYSQL_PORT=$(TEST_MYSQL_PORT) \
 	APP_MYSQL_DSN=$(TEST_MYSQL_DSN) \
 	MYSQL_PORT=$(TEST_MYSQL_PORT) \
-	FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:9091'
+	FIREBASE_AUTH_EMULATOR_HOST='127.0.0.1:$(APP_PORT_FIREBASE_AUTH_unit_test)'
 
 # 環境変数 MYSQL_PORT はどこにも使われていないように見えますが
 # servers/biz/models/mysql_main_test.go で設定される
