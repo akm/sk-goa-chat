@@ -11,7 +11,6 @@ test_integration_run: test_integration_up
 
 .PHONY: test_integration_up
 test_integration_up: 
-	$(MAKE) -C $(PATH_TO_TEST_INTEGRATION) test_setup
 	$(MAKE) -C $(PATH_TO_TEST_INTEGRATION_CONTAINERS) reup
 
 # このターゲットは、playwright のセットアップを行うためのものです。
