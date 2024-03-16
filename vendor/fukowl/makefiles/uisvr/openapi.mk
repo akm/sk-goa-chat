@@ -3,4 +3,4 @@ $(PATH_TO_OPENAPI_TS_FILE):
 
 .PHONY: openapi_gen
 openapi_gen:
-	npx openapi-typescript $(PATH_TO_PROJECT)/servers/apisvr/services/gen/http/openapi3.yaml -o $(PATH_TO_OPENAPI_TS_FILE)
+	npx openapi-typescript $(PATH_TO_OPENAPI_DEFINITION_FILE) -o $(PATH_TO_OPENAPI_TS_FILE)

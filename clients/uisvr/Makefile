@@ -29,6 +29,7 @@ PATH_TO_GRPC_DEST_DIR=src/lib/server/protos
 GRPC_RESOURCES=users channels chat_messages
 include $(PATH_TO_FUKOWL_MAKEFILES)/uisvr/grpc.mk
 
+PATH_TO_OPENAPI_DEFINITION_FILE=$(PATH_TO_APISVR_GEN)/http/openapi3.yaml
 PATH_TO_OPENAPI_TS_FILE=src/lib/openapi.d.ts
 include $(PATH_TO_FUKOWL_MAKEFILES)/uisvr/openapi.mk
 
