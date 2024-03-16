@@ -1,6 +1,6 @@
-# DEV_DEPENDENCIES の定義は この .mk ファイルを include する前に定義してください
+# DEV_DEPS の定義は この .mk ファイルを include する前に定義してください
 .PHONY: dev
-dev: $(DEV_DEPENDENCIES)
+dev: $(DEV_DEPS)
 	npm run dev
 
 DEV_ENVS_BASE=\
