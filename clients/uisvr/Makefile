@@ -11,37 +11,13 @@ PATH_TO_FIREBASE_CONFIG_FILE=src/lib/firebase/firebaseconfig.ts
 $(PATH_TO_FIREBASE_CONFIG_FILE):
 	cp $(PATH_TO_FIREBASE_CONFIG_FILE).dummy $(PATH_TO_FIREBASE_CONFIG_FILE)
 
-PATH_TO_NODE_MODULES=node_modules
-$(PATH_TO_NODE_MODULES):
-	$(MAKE) install
-
-BASE_DEPS=$(PATH_TO_NODE_MODULES) $(PATH_TO_FIREBASE_CONFIG_FILE)
+BASE_DEPS=$(PATH_TO_FIREBASE_CONFIG_FILE)
 BUILD_DEPS   = $(BASE_DEPS)
 LINT_DEPS    = $(BASE_DEPS)
 TEST_DEPS    = $(BASE_DEPS)
 PREVIEW_DEPS = $(BASE_DEPS)
 DEV_DEPS     = $(BASE_DEPS)
-
-.PHONY: install
-install:
-	npm install
-
-# TODO npm run build ではなく npm run check を使うように変更
-.PHONY: build
-build: $(BUILD_DEPS)
-	npm run build
-
-.PHONY: lint
-lint: $(LINT_DEPS)
-	npm run lint
-
-.PHONY: preview
-preview: $(PREVIEW_DEPS)
-	npm run preview
-
-.PHONY: test
-test: $(TEST_DEPS)
-	npm run test
+include $(PATH_TO_FUKOWL_MAKEFILES)/uisvr/base.mk
 
 DEV_ENVS=\
 	GOOGLE_CLOUD_PROJECT=$(GOOGLE_CLOUD_PROJECT) \
