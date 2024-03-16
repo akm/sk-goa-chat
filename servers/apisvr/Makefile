@@ -8,10 +8,10 @@ default: build lint test
 GO_ROOT_PACKAGE=apisvr
 
 include $(PATH_TO_PROJECT)/.config.mk
-include $(PATH_TO_FUKOWL_MAKEFILES)/asdf/reshim.atom.mk
-include $(PATH_TO_FUKOWL_MAKEFILES)/git/check.atom.mk
-include $(PATH_TO_FUKOWL_MAKEFILES)/golang/build.atom.mk
-include $(PATH_TO_FUKOWL_MAKEFILES)/golang/lint.atom.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/asdf/reshim.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/git/check.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/golang/build.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/golang/lint.mk
 
 # run, run_with_devbug
 include $(PATH_TO_FUKOWL_MAKEFILES)/apisvr/run.mk

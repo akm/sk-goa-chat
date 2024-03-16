@@ -8,9 +8,9 @@ PATH_TO_FUKOWL_MAKEFILES=$(PATH_TO_FUKOWL_ROOT)/makefiles
 GO_ROOT_PACKAGE=applib
 
 include $(PATH_TO_PROJECT)/.config.mk
-include $(PATH_TO_FUKOWL_MAKEFILES)/asdf/reshim.atom.mk
-include $(PATH_TO_FUKOWL_MAKEFILES)/golang/build.atom.mk
-include $(PATH_TO_FUKOWL_MAKEFILES)/golang/lint.atom.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/asdf/reshim.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/golang/build.mk
+include $(PATH_TO_FUKOWL_MAKEFILES)/golang/lint.mk
 
 include $(PATH_TO_FUKOWL_MAKEFILES)/applib/test.mk
 TEST_ENVS=\
