@@ -7,8 +7,8 @@ include $(PATH_TO_PROJECT)/.config.mk
 .PHONY: default
 default: build lint test
 
-NODE_MODULES=node_modules
-$(NODE_MODULES):
+PATH_TO_NODE_MODULES=node_modules
+$(PATH_TO_NODE_MODULES):
 	$(MAKE) install
 
 .PHONY: install
@@ -33,7 +33,7 @@ test:
 	npm run test
 
 .PHONY: setup
-setup: $(NODE_MODULES)
+setup: $(PATH_TO_NODE_MODULES)
 	$(MAKE) $(PATH_TO_FIREBASE_CONFIG_FILE)
 
 PATH_TO_FIREBASE_CONFIG_FILE=src/lib/firebase/firebaseconfig.ts
