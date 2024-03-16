@@ -11,6 +11,6 @@ include $(PATH_TO_FUKOWL_MAKEFILES)/asdf/reshim.mk
 include $(PATH_TO_FUKOWL_MAKEFILES)/golang/build.mk
 include $(PATH_TO_FUKOWL_MAKEFILES)/golang/lint.mk
 
-include $(PATH_TO_FUKOWL_MAKEFILES)/applib/test.mk
 TEST_ENVS=\
 	GOOGLE_CLOUD_PROJECT=$(GOOGLE_CLOUD_PROJECT)
+include $(PATH_TO_FUKOWL_MAKEFILES)/applib/test.mk
