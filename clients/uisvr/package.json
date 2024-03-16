@@ -6,8 +6,6 @@
 		"dev": "run-p dev:servers dev:run",
 		"dev:servers": "make dev_servers",
 		"dev:run": "make dev_run",
-		"dev:containers:up": "make dev_containers_up",
-		"dev:containers:down": "make dev_containers_down",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
