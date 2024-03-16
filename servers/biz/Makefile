@@ -2,8 +2,7 @@
 default: build lint test
 
 PATH_TO_PROJECT:=../..
-PATH_TO_FUKOWL_ROOT=$(PATH_TO_PROJECT)/vendor/fukowl
-PATH_TO_FUKOWL_MAKEFILES=$(PATH_TO_FUKOWL_ROOT)/makefiles
+PATH_TO_FUKOWL_MAKEFILES=$(PATH_TO_PROJECT)/vendor/fukowl/makefiles
 
 GO_ROOT_PACKAGE=biz
 
