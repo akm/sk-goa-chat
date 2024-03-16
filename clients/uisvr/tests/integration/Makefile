@@ -53,6 +53,7 @@ uisvr_run: $(PATH_TO_APISVR_LOG_DIR)
 		$(MAKE) -C $(PATH_TO_UISVR) build preview >> $(PATH_TO_APISVR_LOG_DIR)/uisvr.log 2>&1
 
 
+# tmp ディレクトリはテスト中で使用する一時ファイルのために使用します
 TMP_DIR=tmp
 $(TMP_DIR):
 	mkdir -p $(TMP_DIR)
