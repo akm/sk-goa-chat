@@ -1,9 +1,5 @@
-.PHONY: setup
-setup:
-	gem install fukowl -v 0.1.1
-
 .PHONY: run_ruby_in_dir
-run_ruby_in_dir: setup
+run_ruby_in_dir:
 	find ${TARGET_DIR} -name '*.rb' | xargs -I{} ruby {}
 
 .PHONY: apisvr_services_cmd
