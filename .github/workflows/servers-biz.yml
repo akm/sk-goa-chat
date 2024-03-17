@@ -28,6 +28,8 @@ jobs:
     steps:
       # https://github.com/actions/checkout
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       # https://github.com/actions/setup-go
       - uses: actions/setup-go@v4
