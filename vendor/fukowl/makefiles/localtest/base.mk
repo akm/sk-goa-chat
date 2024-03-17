@@ -4,7 +4,7 @@ ENVS_BASE=\
 
 .PHONY: envs
 envs:
-	@echo $(ENVS)
+	@echo $(ENVS_BASE) $(ENVS)
 
 .PHONY: run
 run:
