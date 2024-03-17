@@ -1,5 +1,5 @@
 PATH_TO_PROJECT:=../..
-PATH_TO_FUKOWL_MAKEFILES=$(PATH_TO_PROJECT)/vendor/fukowl/makefiles
+PATH_TO_GOAVELTE_MAKEFILES=$(PATH_TO_PROJECT)/vendor/goavelte/makefiles
 
 include $(PATH_TO_PROJECT)/.config.mk
 
@@ -16,21 +16,21 @@ LINT_DEPS    = $(BASE_DEPS)
 TEST_DEPS    = $(BASE_DEPS)
 PREVIEW_DEPS = $(BASE_DEPS)
 DEV_DEPS     = $(BASE_DEPS)
-include $(PATH_TO_FUKOWL_MAKEFILES)/uisvr/base.mk
+include $(PATH_TO_GOAVELTE_MAKEFILES)/uisvr/base.mk
 
 DEV_ENVS=\
 	GOOGLE_CLOUD_PROJECT=$(GOOGLE_CLOUD_PROJECT) \
 	APP_FIREBASE_API_KEY=$(APP_FIREBASE_API_KEY)
-include $(PATH_TO_FUKOWL_MAKEFILES)/uisvr/dev.mk
+include $(PATH_TO_GOAVELTE_MAKEFILES)/uisvr/dev.mk
 
 PATH_TO_APISVR_GEN=$(PATH_TO_APISVR)/services/gen
 PATH_TO_GRPC_SOURCE_DIR=$(PATH_TO_APISVR_GEN)/grpc
 PATH_TO_GRPC_DEST_DIR=src/lib/server/protos
 GRPC_RESOURCES=users channels chat_messages
-include $(PATH_TO_FUKOWL_MAKEFILES)/uisvr/grpc.mk
+include $(PATH_TO_GOAVELTE_MAKEFILES)/uisvr/grpc.mk
 
 PATH_TO_OPENAPI_DEFINITION_FILE=$(PATH_TO_APISVR_GEN)/http/openapi3.yaml
 PATH_TO_OPENAPI_TS_FILE=src/lib/openapi.d.ts
-include $(PATH_TO_FUKOWL_MAKEFILES)/uisvr/openapi.mk
+include $(PATH_TO_GOAVELTE_MAKEFILES)/uisvr/openapi.mk
 
-include $(PATH_TO_FUKOWL_MAKEFILES)/uisvr/test_integration.mk
+include $(PATH_TO_GOAVELTE_MAKEFILES)/uisvr/test_integration.mk

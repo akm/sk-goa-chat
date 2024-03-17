@@ -1,7 +1,7 @@
 PATH_TO_PROJECT:=../../..
-PATH_TO_FUKOWL_MAKEFILES=$(PATH_TO_PROJECT)/vendor/fukowl/makefiles
+PATH_TO_GOAVELTE_MAKEFILES=$(PATH_TO_PROJECT)/vendor/goavelte/makefiles
 
 include $(PATH_TO_PROJECT)/.config.mk
 
 APP_MYSQL_DB_NAME=$(APP_MYSQL_DATABASE_NAME)
-include $(PATH_TO_FUKOWL_MAKEFILES)/mysql/base.mk
+include $(PATH_TO_GOAVELTE_MAKEFILES)/mysql/base.mk

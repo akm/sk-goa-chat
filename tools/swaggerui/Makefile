@@ -1,5 +1,5 @@
 PATH_TO_PROJECT:=../..
-PATH_TO_FUKOWL_MAKEFILES=$(PATH_TO_PROJECT)/vendor/fukowl/makefiles
+PATH_TO_GOAVELTE_MAKEFILES=$(PATH_TO_PROJECT)/vendor/goavelte/makefiles
 
 .PHONY: default
 default: up
