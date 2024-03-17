@@ -1,13 +1,32 @@
 .PHONY: default
 default: build lint test
 
-include ../../.config.mk
-include ./Makefiles/asdf.mk
-include ./Makefiles/git_check.mk
-include ./Makefiles/dev.mk
-include ./Makefiles/go.mk
-include ./Makefiles/goa.mk
-include ./Makefiles/lint.mk
-include ./Makefiles/run.mk
-include ./Makefiles/sqlboiler.mk
-include ./Makefiles/test.mk
+PATH_TO_PROJECT:=../..
+include $(PATH_TO_PROJECT)/.config.mk
+
+GO_ROOT_PACKAGE=apisvr
+
+include $(PATH_TO_GOAVELTE_MAKEFILES)/asdf/reshim.mk
+include $(PATH_TO_GOAVELTE_MAKEFILES)/git/check.mk
+include $(PATH_TO_GOAVELTE_MAKEFILES)/golang/build.mk
+include $(PATH_TO_GOAVELTE_MAKEFILES)/golang/lint.mk
+
+# run, run_with_devbug
+include $(PATH_TO_GOAVELTE_MAKEFILES)/apisvr/run.mk
+# go run に渡されるので先頭のドットが必要です
+PATH_TO_CMD_APISVR=./services/cmd/apisvr
+
+# dev, dev_container_up, dev_container_down
+DEV_SERVER_ENVS=\
+	GOOGLE_CLOUD_PROJECT=$(GOOGLE_CLOUD_PROJECT) \
+	APP_FIREBASE_API_KEY=$(APP_FIREBASE_API_KEY)
+include $(PATH_TO_GOAVELTE_MAKEFILES)/apisvr/dev.mk
+
+GOA_ROOT_PACKAGE=$(GO_ROOT_PACKAGE)
+PATH_TO_GOA_SERVICES_DIR=./services
+include $(PATH_TO_GOAVELTE_MAKEFILES)/apisvr/goa.mk
+
+TEST_ENVS=\
+	GOOGLE_CLOUD_PROJECT=$(GOOGLE_CLOUD_PROJECT) \
+	APP_FIREBASE_API_KEY=$(APP_FIREBASE_API_KEY)
+include $(PATH_TO_GOAVELTE_MAKEFILES)/apisvr/test.mk

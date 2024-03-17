@@ -10,10 +10,10 @@ services:
       - "${SWAGGERUI_PORT}:8080"
     # https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/
     environment:
-      SWAGGER_JSON: ${SWAGGERUI_JSON_PATH}
+      SWAGGER_JSON: ${SWAGGERUI_JSON_CONTAINER_PATH}
       WITH_CREDENTIALS: "true"
     volumes:
-      - ../../servers/apisvr:/srv/apisvr
+      - ${SWAGGERUI_MAPPING_HOST_PATH}:${SWAGGERUI_MAPPING_CONTAINER_PATH}
     networks:
       - network1
 

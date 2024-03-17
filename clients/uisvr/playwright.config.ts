@@ -41,9 +41,12 @@ const defaultProjects = [
 ];
 
 // https://docs.github.com/ja/actions/learn-github-actions/variables#default-environment-variables
-const projects = process.env.CI
-	? defaultProjects.filter((project) => project.name !== 'webkit') // GitHub Actions では webkit のテストが失敗するので除去
-	: defaultProjects;
+const projects =
+	process.env.SHORT_TEST === 'true'
+		? defaultProjects.slice(0, 1)
+		: process.env.CI
+		  ? defaultProjects.filter((project) => project.name !== 'webkit') // GitHub Actions では webkit のテストが失敗するので除去
+		  : defaultProjects;
 
 export default defineConfig({
 	// timeout: 5 * 60_000,

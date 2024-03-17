@@ -1,19 +1,6 @@
-ROOT_PATH=../../../../..
+PATH_TO_UISVR:=../../..
+PATH_TO_PROJECT:=$(PATH_TO_UISVR)/../..
+include $(PATH_TO_PROJECT)/.config.mk
 
-include $(ROOT_PATH)/.config.mk
-include ../envs.mk
-
-CONTAINERS_ENVS=\
-	ROOT_PATH=$(ROOT_PATH)
-
-.PHONY: run
-run:
-	$(ENVS) $(CONTAINERS_ENVS) docker compose up
-
-.PHONY: up
-up:
-	$(ENVS) $(CONTAINERS_ENVS) docker compose up -d
-
-.PHONY: down
-down:
-	$(ENVS) $(CONTAINERS_ENVS) docker compose down
+include $(PATH_TO_GOAVELTE_MAKEFILES)/locale2e/envs.mk
+include $(PATH_TO_GOAVELTE_MAKEFILES)/locale2e/containers.mk

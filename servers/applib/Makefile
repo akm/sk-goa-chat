@@ -1,7 +1,15 @@
 .PHONY: default
 default: build lint test
 
-include ../../.config.mk
-include ./Makefiles/go.mk
-include ./Makefiles/lint.mk
-include ./Makefiles/test.mk
+PATH_TO_PROJECT:=../..
+include $(PATH_TO_PROJECT)/.config.mk
+
+GO_ROOT_PACKAGE=applib
+
+include $(PATH_TO_GOAVELTE_MAKEFILES)/asdf/reshim.mk
+include $(PATH_TO_GOAVELTE_MAKEFILES)/golang/build.mk
+include $(PATH_TO_GOAVELTE_MAKEFILES)/golang/lint.mk
+
+TEST_ENVS=\
+	GOOGLE_CLOUD_PROJECT=$(GOOGLE_CLOUD_PROJECT)
+include $(PATH_TO_GOAVELTE_MAKEFILES)/applib/test.mk

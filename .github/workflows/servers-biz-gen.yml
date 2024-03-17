@@ -20,6 +20,7 @@ on:
       - "Makefile"
       # - "modifiers"
       # - "tools/**"
+      - "vendor/**"
 
 jobs:
   test:
@@ -29,6 +30,8 @@ jobs:
     steps:
       # https://github.com/actions/checkout
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       # https://github.com/actions/setup-go
       - uses: actions/setup-go@v4
@@ -61,6 +64,12 @@ jobs:
           gem env
           gem list
 
-      - name: sqlboiler_gen_ci
-        run: make sqlboiler_gen_ci
+      - name: sqlboiler_gen
+        run: make sqlboiler_gen
         working-directory: ./servers/biz
+        env:
+          APP_SKIP_DB_SCHEMA_DUMP: "true"
+
+      - name: git_check
+        run: make git_check
+        working-directory: ./servers/apisvr

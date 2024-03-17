@@ -1,44 +1,34 @@
-ROOT_PATH=../..
-
-include $(ROOT_PATH)/.config.mk
-
 .PHONY: default
 default: build lint test
 
-NODE_MODULES=node_modules
-$(NODE_MODULES):
-	$(MAKE) install
+PATH_TO_PROJECT:=../..
+include $(PATH_TO_PROJECT)/.config.mk
 
-.PHONY: install
-install:
-	npm install
+PATH_TO_FIREBASE_CONFIG_FILE=src/lib/firebase/firebaseconfig.ts
+$(PATH_TO_FIREBASE_CONFIG_FILE):
+	cp $(PATH_TO_FIREBASE_CONFIG_FILE).dummy $(PATH_TO_FIREBASE_CONFIG_FILE)
 
-# TODO npm run build ではなく npm run check を使うように変更
-.PHONY: build
-build: setup
-	npm run build
+BASE_DEPS=$(PATH_TO_FIREBASE_CONFIG_FILE)
+BUILD_DEPS   = $(BASE_DEPS)
+LINT_DEPS    = $(BASE_DEPS)
+TEST_DEPS    = $(BASE_DEPS)
+PREVIEW_DEPS = $(BASE_DEPS)
+DEV_DEPS     = $(BASE_DEPS)
+include $(PATH_TO_GOAVELTE_MAKEFILES)/uisvr/base.mk
 
-.PHONY: lint
-lint:
-	npm run lint
+DEV_ENVS=\
+	GOOGLE_CLOUD_PROJECT=$(GOOGLE_CLOUD_PROJECT) \
+	APP_FIREBASE_API_KEY=$(APP_FIREBASE_API_KEY)
+include $(PATH_TO_GOAVELTE_MAKEFILES)/uisvr/dev.mk
 
-.PHONY: preview
-preview: setup
-	npm run preview
+PATH_TO_APISVR_GEN=$(PATH_TO_APISVR)/services/gen
+PATH_TO_GRPC_SOURCE_DIR=$(PATH_TO_APISVR_GEN)/grpc
+PATH_TO_GRPC_DEST_DIR=src/lib/server/protos
+GRPC_RESOURCES=users channels chat_messages
+include $(PATH_TO_GOAVELTE_MAKEFILES)/uisvr/grpc.mk
 
-.PHONY: test
-test:
-	npm run test
+PATH_TO_OPENAPI_DEFINITION_FILE=$(PATH_TO_APISVR_GEN)/http/openapi3.yaml
+PATH_TO_OPENAPI_TS_FILE=src/lib/openapi.d.ts
+include $(PATH_TO_GOAVELTE_MAKEFILES)/uisvr/openapi.mk
 
-.PHONY: setup
-setup: $(NODE_MODULES) 
-	$(MAKE) $(FIREBASE_CONFIG_FILE)
-
-FIREBASE_CONFIG_FILE=src/lib/firebase/firebaseconfig.ts
-$(FIREBASE_CONFIG_FILE):
-	cp $(FIREBASE_CONFIG_FILE).dummy $(FIREBASE_CONFIG_FILE)
-
-include ./Makefiles/dev.mk
-include ./Makefiles/grpc.mk
-include ./Makefiles/openapi.mk
-include ./Makefiles/test_integration.mk
+include $(PATH_TO_GOAVELTE_MAKEFILES)/uisvr/test_integration.mk
