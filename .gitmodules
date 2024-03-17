@@ -1,0 +1,3 @@
+[submodule "vendor/goavelte"]
+	path = vendor/goavelte
+	url = git@github.com:akm/goavelte.git
