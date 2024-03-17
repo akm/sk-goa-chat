@@ -12,6 +12,7 @@ on:
       - "servers/containers/**"
       - "servers/dbmigrations/**"
       - "clients/uisvr/**"
+      - "vendor/**"
       - "*"
 
 jobs:

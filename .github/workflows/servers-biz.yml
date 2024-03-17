@@ -18,6 +18,7 @@ on:
       - "Makefile"
       # - "modifiers"
       # - "tools/**"
+      - "vendor/**"
 
 jobs:
   test:
