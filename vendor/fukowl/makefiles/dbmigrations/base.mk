@@ -60,7 +60,7 @@ new_go: $(COMMAND_RUNNER)
 .PHONY: up
 up: $(COMMAND_RUNNER)
 	$(ENVS) $(COMMAND_RUNNER) $(OPTIONS) up && \
-	[ "${APP_ENV}" =~ test ] && echo "SKIP dump schema" || $(MAKE) dump_schema
+	$(ENVS) $(MAKE) dump_schema
 
 # マイグレーションを一つ戻す
 .PHONY: down
@@ -85,8 +85,7 @@ MYSQLDUMP_OPTIONS=$(shell $(MAKE) -C ../containers/mysql --no-print-directory cl
 
 .PHONY: dump_schema
 dump_schema:
-ifdef APP_SKIP_DB_SCHEMA_DUMP
-	@echo "SKIP dump schema"
-else
-	mysqldump $(MYSQLDUMP_OPTIONS) --no-data $(APP_MYSQL_DATABASE_NAME) > $(SCHEMA_DUMP_SQL_FILE)
-endif
+	echo "APP_SKIP_DB_SCHEMA_DUMP: $$APP_SKIP_DB_SCHEMA_DUMP, APP_ENV: $$APP_ENV"
+	( [ -n "$$APP_SKIP_DB_SCHEMA_DUMP" ] || [[ $$APP_ENV =~ test ]] ) && \
+		echo "SKIP dump schema" || \
+		mysqldump $(MYSQLDUMP_OPTIONS) --no-data $(APP_MYSQL_DATABASE_NAME) > $(SCHEMA_DUMP_SQL_FILE)
