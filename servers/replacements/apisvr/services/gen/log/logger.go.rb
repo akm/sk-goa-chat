@@ -1,8 +1,8 @@
 # coding: utf-8
 
-require 'fukowl'
+require './replace_file'
 
-Fukowl.replace(__FILE__.sub('replacements/', '').sub(/\.rb$/, '')) do |content|
+replace_file(__FILE__.sub('replacements/', '').sub(/\.rb$/, '')) do |content|
     content.sub!('"github.com/rs/zerolog"'){ '"applib/log"' }
 
     content.gsub!('zerolog.'){ 'log.' }
