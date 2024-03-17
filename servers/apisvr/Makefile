@@ -1,12 +1,11 @@
-PATH_TO_PROJECT:=../..
-PATH_TO_GOAVELTE_MAKEFILES=$(PATH_TO_PROJECT)/vendor/goavelte/makefiles
-
 .PHONY: default
 default: build lint test
 
+PATH_TO_PROJECT:=../..
+include $(PATH_TO_PROJECT)/.config.mk
+
 GO_ROOT_PACKAGE=apisvr
 
-include $(PATH_TO_PROJECT)/.config.mk
 include $(PATH_TO_GOAVELTE_MAKEFILES)/asdf/reshim.mk
 include $(PATH_TO_GOAVELTE_MAKEFILES)/git/check.mk
 include $(PATH_TO_GOAVELTE_MAKEFILES)/golang/build.mk

@@ -1,10 +1,8 @@
-PATH_TO_PROJECT:=../..
-PATH_TO_GOAVELTE_MAKEFILES=$(PATH_TO_PROJECT)/vendor/goavelte/makefiles
-
-include $(PATH_TO_PROJECT)/.config.mk
-
 .PHONY: default
 default: build lint test
+
+PATH_TO_PROJECT:=../..
+include $(PATH_TO_PROJECT)/.config.mk
 
 PATH_TO_FIREBASE_CONFIG_FILE=src/lib/firebase/firebaseconfig.ts
 $(PATH_TO_FIREBASE_CONFIG_FILE):

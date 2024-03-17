@@ -1,9 +1,7 @@
-PATH_TO_PROJECT:=../..
-PATH_TO_GOAVELTE_MAKEFILES=$(PATH_TO_PROJECT)/vendor/goavelte/makefiles
-
 .PHONY: default
 default: up
 
+PATH_TO_PROJECT:=../..
 include $(PATH_TO_PROJECT)/.config.mk
 
 SWAGGERUI_MAPPING_HOST_PATH?=$(PATH_TO_APISVR)/services/gen/http/openapi3.json
