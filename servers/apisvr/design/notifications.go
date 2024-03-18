@@ -23,7 +23,7 @@ var _ = Service("notifications", func() {
 
 		Payload(func() {
 			Required(
-				authApiKeyField(1),
+				idTokenApiKeyField(1),
 			)
 		})
 
@@ -33,7 +33,7 @@ var _ = Service("notifications", func() {
 			GET("/subscribe")
 			// httpIdToken()
 			Params(func() {
-				Param(authApiKeyName + ":token")
+				Param(idTokenApiKeyName + ":token")
 			})
 
 			Response(StatusOK)

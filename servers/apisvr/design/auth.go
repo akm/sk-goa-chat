@@ -2,25 +2,26 @@ package design
 
 import "goa.design/goa/v3/dsl"
 
-const authApiKeyScheme = "api_key"
-const authApiKeyName = "id_token"
+// ID Token による認証
+const idTokenApiKeyScheme = "api_key"
+const idTokenApiKeyName = "id_token"
 
-var authApiKeySecurity = dsl.APIKeySecurity(authApiKeyScheme, func() {
+var idTokenApiKeySecurity = dsl.APIKeySecurity(idTokenApiKeyScheme, func() {
 })
 
-func authApiKeyField(tag any) string {
-	dsl.APIKeyField(tag, authApiKeyScheme, authApiKeyName, dsl.String, "X-ID-TOKEN", func() { dsl.Example("abcdef12345") })
-	return authApiKeyName
+func idTokenApiKeyField(tag any) string {
+	dsl.APIKeyField(tag, idTokenApiKeyScheme, idTokenApiKeyName, dsl.String, "X-ID-TOKEN", func() { dsl.Example("abcdef12345") })
+	return idTokenApiKeyName
 }
 
 func idTokenSecurity() (func(), func()) {
-	dsl.Security(authApiKeySecurity)
+	dsl.Security(idTokenApiKeySecurity)
 	return func() {
-			dsl.Header(authApiKeyName + ":X-ID-TOKEN")
+			dsl.Header(idTokenApiKeyName + ":X-ID-TOKEN")
 		},
 		func() {
 			dsl.Message(func() {
-				dsl.Attribute(authApiKeyName)
+				dsl.Attribute(idTokenApiKeyName)
 			})
 		}
 }
