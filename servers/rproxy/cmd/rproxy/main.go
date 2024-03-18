@@ -3,7 +3,6 @@ package main
 import (
 	"applib/collection"
 	"context"
-	"log"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -32,15 +31,15 @@ func main() {
 		uidHeaderKey = "X-UID"
 	}
 
-	logger := log.New(os.Stderr, "rproxy: ", log.LstdFlags)
+	logger := log.New(os.Stderr)
 
 	// https://gist.github.com/JalfResi/6287706
 	// https://pkg.go.dev/net/http/httputil#ReverseProxy
 
-	verifyIdToken := verifyIdTokenFunc(logger, tokenHeaderKey)
+	verifyIdToken := verifyIdTokenFunc(&logger, tokenHeaderKey)
 	handler := func(p *httputil.ReverseProxy) func(http.ResponseWriter, *http.Request) {
 		return func(w http.ResponseWriter, r *http.Request) {
-			log.Println(r.URL)
+			logger.Debug().Str("URL", r.URL.String())
 			if !skipAuth(r.URL) {
 				ctx := r.Context()
 				uid, err := verifyIdToken(ctx, r)
@@ -94,14 +93,13 @@ func skipAuth(u *url.URL) bool {
 
 func newMultiHostReverseProxy() *httputil.ReverseProxy {
 	director := func(req *http.Request) {
-		log.Println(req.URL)
 		targetUrl := mappingUrl(req.URL)
 		rewriteRequestURL(req, targetUrl)
 	}
 	return &httputil.ReverseProxy{Director: director}
 }
 
-var authError = errors.New("auth error")
+var authError = errors.Errorf("auth error")
 
 func verifyIdTokenFunc(logger *log.Logger, idTokenHeader string) func(ctx context.Context, r *http.Request) (string, error) {
 	return func(ctx context.Context, r *http.Request) (string, error) {
