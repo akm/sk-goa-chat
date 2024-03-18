@@ -3,7 +3,7 @@ package design
 import "goa.design/goa/v3/dsl"
 
 // ID Token による認証
-const idTokenApiKeyScheme = "api_key"
+const idTokenApiKeyScheme = "id_token_api_key"
 const idTokenApiKeyName = "id_token"
 
 var idTokenApiKeySecurity = dsl.APIKeySecurity(idTokenApiKeyScheme, func() {
