@@ -23,7 +23,7 @@ func chatMessageFields(action string) []string {
 	r := []string{}
 
 	if InPayload() {
-		r = append(r, idTokenApiKeyField(1))
+		r = append(r, uidApiKeyField(1))
 	}
 
 	if InRT() || action == "update" {
@@ -75,7 +75,7 @@ var ChatMessageUpdatePayload = Type("ChatMessageUpdatePayload", func() {
 
 func chatMessageListPayloadAttrs() ([]string, []string) {
 	requiredCookies := []string{
-		idTokenApiKeyField(1),
+		uidApiKeyField(1),
 	}
 	requiredParams := []string{
 		field(2, "limit", Int, "Limit", func() { Default(50) }),
@@ -89,7 +89,7 @@ func chatMessageListPayloadAttrs() ([]string, []string) {
 }
 
 var _ = Service("chat_messages", func() {
-	httpIdToken, grpcIdToken := idTokenSecurity()
+	httpIdToken, grpcIdToken := uidSecurity()
 
 	httpUnautheticated, grpcUnauthenticated := unauthenticated()
 
@@ -130,7 +130,7 @@ var _ = Service("chat_messages", func() {
 	Method("show", func() {
 		Payload(func() {
 			Required(
-				idTokenApiKeyField(1),
+				uidApiKeyField(1),
 				field(2, "id", UInt64, "ID"),
 			)
 		})
@@ -192,7 +192,7 @@ var _ = Service("chat_messages", func() {
 	Method("delete", func() {
 		Payload(func() {
 			Required(
-				idTokenApiKeyField(1),
+				uidApiKeyField(1),
 				field(2, "id", UInt64, "ID"),
 			)
 		})
