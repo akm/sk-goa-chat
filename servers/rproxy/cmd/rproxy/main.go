@@ -44,7 +44,11 @@ func main() {
 				ctx := r.Context()
 				uid, err := verifyIdToken(ctx, r)
 				if err != nil {
-					http.Error(w, "Unauthorized", http.StatusUnauthorized)
+					if err == authError {
+						http.Error(w, "Unauthorized", http.StatusUnauthorized)
+					} else {
+						http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+					}
 				}
 				r.Header.Set(uidHeaderKey, uid)
 			}
