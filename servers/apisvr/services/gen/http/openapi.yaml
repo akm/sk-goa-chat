@@ -38,7 +38,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
         post:
             tags:
                 - channels
@@ -73,7 +73,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
     /api/channels/{id}:
         get:
             tags:
@@ -107,7 +107,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
         put:
             tags:
                 - channels
@@ -151,7 +151,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
         delete:
             tags:
                 - channels
@@ -184,7 +184,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
     /api/chat_messages:
         get:
             tags:
@@ -230,7 +230,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
         post:
             tags:
                 - chat_messages
@@ -266,7 +266,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
     /api/chat_messages/{id}:
         get:
             tags:
@@ -300,7 +300,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
         put:
             tags:
                 - chat_messages
@@ -344,7 +344,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
         delete:
             tags:
                 - chat_messages
@@ -377,7 +377,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
     /api/users:
         get:
             tags:
@@ -443,7 +443,7 @@ paths:
             schemes:
                 - ws
             security:
-                - api_key_query_token: []
+                - id_token_api_key_query_token: []
 definitions:
     ChannelListItemResponseBody:
         title: 'Mediatype identifier: application/vnd.channel-list-item; view=default'
@@ -2137,11 +2137,11 @@ definitions:
             - total
             - offset
 securityDefinitions:
-    api_key_header_X-ID-TOKEN:
+    id_token_api_key_header_X-ID-TOKEN:
         type: apiKey
         name: X-ID-TOKEN
         in: header
-    api_key_query_token:
+    id_token_api_key_query_token:
         type: apiKey
         name: token
         in: query

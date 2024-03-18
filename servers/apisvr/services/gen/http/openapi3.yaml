@@ -49,7 +49,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
         post:
             tags:
                 - channels
@@ -99,7 +99,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
     /api/channels/{id}:
         delete:
             tags:
@@ -151,7 +151,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
         get:
             tags:
                 - channels
@@ -202,7 +202,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
         put:
             tags:
                 - channels
@@ -267,7 +267,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
     /api/chat_messages:
         get:
             tags:
@@ -361,7 +361,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
         post:
             tags:
                 - chat_messages
@@ -415,7 +415,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
     /api/chat_messages/{id}:
         delete:
             tags:
@@ -470,7 +470,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
         get:
             tags:
                 - chat_messages
@@ -524,7 +524,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
         put:
             tags:
                 - chat_messages
@@ -592,7 +592,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - id_token_api_key_header_X-ID-TOKEN: []
     /api/users:
         get:
             tags:
@@ -685,7 +685,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_query_token: []
+                - id_token_api_key_query_token: []
 components:
     schemas:
         Channel:
@@ -1151,11 +1151,11 @@ components:
                 - id: 12732113688530886158
                   name: Est voluptate et numquam quia perferendis.
     securitySchemes:
-        api_key_header_X-ID-TOKEN:
+        id_token_api_key_header_X-ID-TOKEN:
             type: apiKey
             name: X-ID-TOKEN
             in: header
-        api_key_query_token:
+        id_token_api_key_query_token:
             type: apiKey
             name: token
             in: query

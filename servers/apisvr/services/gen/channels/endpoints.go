@@ -52,7 +52,7 @@ func NewListEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endpoi
 		p := req.(*ListPayload)
 		var err error
 		sc := security.APIKeyScheme{
-			Name:           "api_key",
+			Name:           "id_token_api_key",
 			Scopes:         []string{},
 			RequiredScopes: []string{},
 		}
@@ -76,7 +76,7 @@ func NewShowEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endpoi
 		p := req.(*ShowPayload)
 		var err error
 		sc := security.APIKeyScheme{
-			Name:           "api_key",
+			Name:           "id_token_api_key",
 			Scopes:         []string{},
 			RequiredScopes: []string{},
 		}
@@ -100,7 +100,7 @@ func NewCreateEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endp
 		p := req.(*ChannelCreatePayload)
 		var err error
 		sc := security.APIKeyScheme{
-			Name:           "api_key",
+			Name:           "id_token_api_key",
 			Scopes:         []string{},
 			RequiredScopes: []string{},
 		}
@@ -124,7 +124,7 @@ func NewUpdateEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endp
 		p := req.(*ChannelUpdatePayload)
 		var err error
 		sc := security.APIKeyScheme{
-			Name:           "api_key",
+			Name:           "id_token_api_key",
 			Scopes:         []string{},
 			RequiredScopes: []string{},
 		}
@@ -148,7 +148,7 @@ func NewDeleteEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endp
 		p := req.(*DeletePayload)
 		var err error
 		sc := security.APIKeyScheme{
-			Name:           "api_key",
+			Name:           "id_token_api_key",
 			Scopes:         []string{},
 			RequiredScopes: []string{},
 		}

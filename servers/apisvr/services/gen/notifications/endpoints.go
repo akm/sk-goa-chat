@@ -50,7 +50,7 @@ func NewSubscribeEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.E
 		ep := req.(*SubscribeEndpointInput)
 		var err error
 		sc := security.APIKeyScheme{
-			Name:           "api_key",
+			Name:           "id_token_api_key",
 			Scopes:         []string{},
 			RequiredScopes: []string{},
 		}
