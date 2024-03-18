@@ -34,14 +34,14 @@ users (list|create)
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
 	return os.Args[0] + ` channels list --message '{
-      "id_token": "abcdef12345"
+      "uid": "abcdef12345"
    }'` + "\n" +
 		os.Args[0] + ` chat-messages list --message '{
       "after": 178502275960762926,
       "before": 13043671830441135493,
       "channel_id": 1428451127207239674,
-      "id_token": "abcdef12345",
-      "limit": 4391472896458759808
+      "limit": 4391472896458759808,
+      "uid": "abcdef12345"
    }'` + "\n" +
 		os.Args[0] + ` notifications subscribe --message '{
       "id_token": "abcdef12345"
@@ -323,7 +323,7 @@ List implements list.
 
 Example:
     %[1]s channels list --message '{
-      "id_token": "abcdef12345"
+      "uid": "abcdef12345"
    }'
 `, os.Args[0])
 }
@@ -337,7 +337,7 @@ Show implements show.
 Example:
     %[1]s channels show --message '{
       "id": 4243154004623530542,
-      "id_token": "abcdef12345"
+      "uid": "abcdef12345"
    }'
 `, os.Args[0])
 }
@@ -350,8 +350,8 @@ Create implements create.
 
 Example:
     %[1]s channels create --message '{
-      "id_token": "abcdef12345",
-      "name": "Sit quos enim praesentium provident et."
+      "name": "Sit quos enim praesentium provident et.",
+      "uid": "abcdef12345"
    }'
 `, os.Args[0])
 }
@@ -365,8 +365,8 @@ Update implements update.
 Example:
     %[1]s channels update --message '{
       "id": 8845190340737756413,
-      "id_token": "abcdef12345",
-      "name": "Nihil aliquam dicta."
+      "name": "Nihil aliquam dicta.",
+      "uid": "abcdef12345"
    }'
 `, os.Args[0])
 }
@@ -380,7 +380,7 @@ Delete implements delete.
 Example:
     %[1]s channels delete --message '{
       "id": 13886048143001497827,
-      "id_token": "abcdef12345"
+      "uid": "abcdef12345"
    }'
 `, os.Args[0])
 }
@@ -414,8 +414,8 @@ Example:
       "after": 178502275960762926,
       "before": 13043671830441135493,
       "channel_id": 1428451127207239674,
-      "id_token": "abcdef12345",
-      "limit": 4391472896458759808
+      "limit": 4391472896458759808,
+      "uid": "abcdef12345"
    }'
 `, os.Args[0])
 }
@@ -429,7 +429,7 @@ Show implements show.
 Example:
     %[1]s chat-messages show --message '{
       "id": 5488054146337984253,
-      "id_token": "abcdef12345"
+      "uid": "abcdef12345"
    }'
 `, os.Args[0])
 }
@@ -444,7 +444,7 @@ Example:
     %[1]s chat-messages create --message '{
       "channel_id": 4983432453251475648,
       "content": "Doloremque vitae quo nesciunt necessitatibus hic.",
-      "id_token": "abcdef12345"
+      "uid": "abcdef12345"
    }'
 `, os.Args[0])
 }
@@ -459,7 +459,7 @@ Example:
     %[1]s chat-messages update --message '{
       "content": "Qui voluptatibus.",
       "id": 12959863651503537545,
-      "id_token": "abcdef12345"
+      "uid": "abcdef12345"
    }'
 `, os.Args[0])
 }
@@ -473,7 +473,7 @@ Delete implements delete.
 Example:
     %[1]s chat-messages delete --message '{
       "id": 6373914294829582548,
-      "id_token": "abcdef12345"
+      "uid": "abcdef12345"
    }'
 `, os.Args[0])
 }

@@ -60,8 +60,8 @@ type Channel struct {
 // ChannelCreatePayload is the payload type of the channels service create
 // method.
 type ChannelCreatePayload struct {
-	// X-ID-TOKEN
-	IDToken string
+	// X-UID
+	UID string
 	// Name
 	Name string
 }
@@ -92,8 +92,8 @@ type ChannelListItemCollection []*ChannelListItem
 // ChannelUpdatePayload is the payload type of the channels service update
 // method.
 type ChannelUpdatePayload struct {
-	// X-ID-TOKEN
-	IDToken string
+	// X-UID
+	UID string
 	// ID
 	ID uint64
 	// Name
@@ -102,22 +102,22 @@ type ChannelUpdatePayload struct {
 
 // DeletePayload is the payload type of the channels service delete method.
 type DeletePayload struct {
-	// X-ID-TOKEN
-	IDToken string
+	// X-UID
+	UID string
 	// ID
 	ID uint64
 }
 
 // ListPayload is the payload type of the channels service list method.
 type ListPayload struct {
-	// X-ID-TOKEN
-	IDToken string
+	// X-UID
+	UID string
 }
 
 // ShowPayload is the payload type of the channels service show method.
 type ShowPayload struct {
-	// X-ID-TOKEN
-	IDToken string
+	// X-UID
+	UID string
 	// ID
 	ID uint64
 }

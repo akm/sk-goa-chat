@@ -17,7 +17,7 @@ import (
 // "chat_messages" service from the gRPC request type.
 func NewListPayload(message *chat_messagespb.ListRequest) *chatmessages.ListPayload {
 	v := &chatmessages.ListPayload{
-		IDToken:   message.IdToken,
+		UID:       message.Uid,
 		Limit:     int(message.Limit),
 		ChannelID: message.ChannelId,
 		After:     message.After,
@@ -52,8 +52,8 @@ func NewProtoListResponse(result *chatmessagesviews.ChatMessageListView) *chat_m
 // "chat_messages" service from the gRPC request type.
 func NewShowPayload(message *chat_messagespb.ShowRequest) *chatmessages.ShowPayload {
 	v := &chatmessages.ShowPayload{
-		IDToken: message.IdToken,
-		ID:      message.Id,
+		UID: message.Uid,
+		ID:  message.Id,
 	}
 	return v
 }
@@ -77,7 +77,7 @@ func NewProtoShowResponse(result *chatmessagesviews.ChatMessageView) *chat_messa
 // "chat_messages" service from the gRPC request type.
 func NewCreatePayload(message *chat_messagespb.CreateRequest) *chatmessages.ChatMessageCreatePayload {
 	v := &chatmessages.ChatMessageCreatePayload{
-		IDToken:   message.IdToken,
+		UID:       message.Uid,
 		ChannelID: message.ChannelId,
 		Content:   message.Content,
 	}
@@ -103,7 +103,7 @@ func NewProtoCreateResponse(result *chatmessagesviews.ChatMessageView) *chat_mes
 // "chat_messages" service from the gRPC request type.
 func NewUpdatePayload(message *chat_messagespb.UpdateRequest) *chatmessages.ChatMessageUpdatePayload {
 	v := &chatmessages.ChatMessageUpdatePayload{
-		IDToken: message.IdToken,
+		UID:     message.Uid,
 		ID:      message.Id,
 		Content: message.Content,
 	}
@@ -129,8 +129,8 @@ func NewProtoUpdateResponse(result *chatmessagesviews.ChatMessageView) *chat_mes
 // "chat_messages" service from the gRPC request type.
 func NewDeletePayload(message *chat_messagespb.DeleteRequest) *chatmessages.DeletePayload {
 	v := &chatmessages.DeletePayload{
-		IDToken: message.IdToken,
-		ID:      message.Id,
+		UID: message.Uid,
+		ID:  message.Id,
 	}
 	return v
 }

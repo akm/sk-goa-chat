@@ -43,8 +43,8 @@ func EncodeListRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.R
 			return goahttp.ErrInvalidType("channels", "list", "*channels.ListPayload", v)
 		}
 		{
-			head := p.IDToken
-			req.Header.Set("X-ID-TOKEN", head)
+			head := p.UID
+			req.Header.Set("X-UID", head)
 		}
 		return nil
 	}
@@ -143,8 +143,8 @@ func EncodeShowRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.R
 			return goahttp.ErrInvalidType("channels", "show", "*channels.ShowPayload", v)
 		}
 		{
-			head := p.IDToken
-			req.Header.Set("X-ID-TOKEN", head)
+			head := p.UID
+			req.Header.Set("X-UID", head)
 		}
 		return nil
 	}
@@ -248,8 +248,8 @@ func EncodeCreateRequest(encoder func(*http.Request) goahttp.Encoder) func(*http
 			return goahttp.ErrInvalidType("channels", "create", "*channels.ChannelCreatePayload", v)
 		}
 		{
-			head := p.IDToken
-			req.Header.Set("X-ID-TOKEN", head)
+			head := p.UID
+			req.Header.Set("X-UID", head)
 		}
 		body := NewCreateRequestBody(p)
 		if err := encoder(req).Encode(&body); err != nil {
@@ -367,8 +367,8 @@ func EncodeUpdateRequest(encoder func(*http.Request) goahttp.Encoder) func(*http
 			return goahttp.ErrInvalidType("channels", "update", "*channels.ChannelUpdatePayload", v)
 		}
 		{
-			head := p.IDToken
-			req.Header.Set("X-ID-TOKEN", head)
+			head := p.UID
+			req.Header.Set("X-UID", head)
 		}
 		body := NewUpdateRequestBody(p)
 		if err := encoder(req).Encode(&body); err != nil {
@@ -501,8 +501,8 @@ func EncodeDeleteRequest(encoder func(*http.Request) goahttp.Encoder) func(*http
 			return goahttp.ErrInvalidType("channels", "delete", "*channels.DeletePayload", v)
 		}
 		{
-			head := p.IDToken
-			req.Header.Set("X-ID-TOKEN", head)
+			head := p.UID
+			req.Header.Set("X-UID", head)
 		}
 		return nil
 	}

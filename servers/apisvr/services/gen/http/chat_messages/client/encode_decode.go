@@ -44,8 +44,8 @@ func EncodeListRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.R
 			return goahttp.ErrInvalidType("chat_messages", "list", "*chatmessages.ListPayload", v)
 		}
 		{
-			head := p.IDToken
-			req.Header.Set("X-ID-TOKEN", head)
+			head := p.UID
+			req.Header.Set("X-UID", head)
 		}
 		values := req.URL.Query()
 		values.Add("limit", fmt.Sprintf("%v", p.Limit))
@@ -156,8 +156,8 @@ func EncodeShowRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.R
 			return goahttp.ErrInvalidType("chat_messages", "show", "*chatmessages.ShowPayload", v)
 		}
 		{
-			head := p.IDToken
-			req.Header.Set("X-ID-TOKEN", head)
+			head := p.UID
+			req.Header.Set("X-UID", head)
 		}
 		return nil
 	}
@@ -261,8 +261,8 @@ func EncodeCreateRequest(encoder func(*http.Request) goahttp.Encoder) func(*http
 			return goahttp.ErrInvalidType("chat_messages", "create", "*chatmessages.ChatMessageCreatePayload", v)
 		}
 		{
-			head := p.IDToken
-			req.Header.Set("X-ID-TOKEN", head)
+			head := p.UID
+			req.Header.Set("X-UID", head)
 		}
 		body := NewCreateRequestBody(p)
 		if err := encoder(req).Encode(&body); err != nil {
@@ -380,8 +380,8 @@ func EncodeUpdateRequest(encoder func(*http.Request) goahttp.Encoder) func(*http
 			return goahttp.ErrInvalidType("chat_messages", "update", "*chatmessages.ChatMessageUpdatePayload", v)
 		}
 		{
-			head := p.IDToken
-			req.Header.Set("X-ID-TOKEN", head)
+			head := p.UID
+			req.Header.Set("X-UID", head)
 		}
 		body := NewUpdateRequestBody(p)
 		if err := encoder(req).Encode(&body); err != nil {
@@ -514,8 +514,8 @@ func EncodeDeleteRequest(encoder func(*http.Request) goahttp.Encoder) func(*http
 			return goahttp.ErrInvalidType("chat_messages", "delete", "*chatmessages.DeletePayload", v)
 		}
 		{
-			head := p.IDToken
-			req.Header.Set("X-ID-TOKEN", head)
+			head := p.UID
+			req.Header.Set("X-UID", head)
 		}
 		return nil
 	}

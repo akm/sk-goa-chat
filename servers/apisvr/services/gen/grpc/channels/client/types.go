@@ -19,7 +19,7 @@ import (
 // "list" endpoint of the "channels" service.
 func NewProtoListRequest(payload *channels.ListPayload) *channelspb.ListRequest {
 	message := &channelspb.ListRequest{
-		IdToken: payload.IDToken,
+		Uid: payload.UID,
 	}
 	return message
 }
@@ -49,8 +49,8 @@ func NewListResult(message *channelspb.ListResponse) *channelsviews.ChannelListV
 // "show" endpoint of the "channels" service.
 func NewProtoShowRequest(payload *channels.ShowPayload) *channelspb.ShowRequest {
 	message := &channelspb.ShowRequest{
-		IdToken: payload.IDToken,
-		Id:      payload.ID,
+		Uid: payload.UID,
+		Id:  payload.ID,
 	}
 	return message
 }
@@ -71,8 +71,8 @@ func NewShowResult(message *channelspb.ShowResponse) *channelsviews.ChannelView 
 // "create" endpoint of the "channels" service.
 func NewProtoCreateRequest(payload *channels.ChannelCreatePayload) *channelspb.CreateRequest {
 	message := &channelspb.CreateRequest{
-		IdToken: payload.IDToken,
-		Name:    payload.Name,
+		Uid:  payload.UID,
+		Name: payload.Name,
 	}
 	return message
 }
@@ -93,9 +93,9 @@ func NewCreateResult(message *channelspb.CreateResponse) *channelsviews.ChannelV
 // "update" endpoint of the "channels" service.
 func NewProtoUpdateRequest(payload *channels.ChannelUpdatePayload) *channelspb.UpdateRequest {
 	message := &channelspb.UpdateRequest{
-		IdToken: payload.IDToken,
-		Id:      payload.ID,
-		Name:    payload.Name,
+		Uid:  payload.UID,
+		Id:   payload.ID,
+		Name: payload.Name,
 	}
 	return message
 }
@@ -116,8 +116,8 @@ func NewUpdateResult(message *channelspb.UpdateResponse) *channelsviews.ChannelV
 // "delete" endpoint of the "channels" service.
 func NewProtoDeleteRequest(payload *channels.DeletePayload) *channelspb.DeleteRequest {
 	message := &channelspb.DeleteRequest{
-		IdToken: payload.IDToken,
-		Id:      payload.ID,
+		Uid: payload.UID,
+		Id:  payload.ID,
 	}
 	return message
 }

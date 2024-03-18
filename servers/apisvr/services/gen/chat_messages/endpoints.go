@@ -53,11 +53,11 @@ func NewListEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endpoi
 		p := req.(*ListPayload)
 		var err error
 		sc := security.APIKeyScheme{
-			Name:           "id_token_api_key",
+			Name:           "uid_api_key",
 			Scopes:         []string{},
 			RequiredScopes: []string{},
 		}
-		ctx, err = authAPIKeyFn(ctx, p.IDToken, &sc)
+		ctx, err = authAPIKeyFn(ctx, p.UID, &sc)
 		if err != nil {
 			return nil, err
 		}
@@ -77,11 +77,11 @@ func NewShowEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endpoi
 		p := req.(*ShowPayload)
 		var err error
 		sc := security.APIKeyScheme{
-			Name:           "id_token_api_key",
+			Name:           "uid_api_key",
 			Scopes:         []string{},
 			RequiredScopes: []string{},
 		}
-		ctx, err = authAPIKeyFn(ctx, p.IDToken, &sc)
+		ctx, err = authAPIKeyFn(ctx, p.UID, &sc)
 		if err != nil {
 			return nil, err
 		}
@@ -101,11 +101,11 @@ func NewCreateEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endp
 		p := req.(*ChatMessageCreatePayload)
 		var err error
 		sc := security.APIKeyScheme{
-			Name:           "id_token_api_key",
+			Name:           "uid_api_key",
 			Scopes:         []string{},
 			RequiredScopes: []string{},
 		}
-		ctx, err = authAPIKeyFn(ctx, p.IDToken, &sc)
+		ctx, err = authAPIKeyFn(ctx, p.UID, &sc)
 		if err != nil {
 			return nil, err
 		}
@@ -125,11 +125,11 @@ func NewUpdateEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endp
 		p := req.(*ChatMessageUpdatePayload)
 		var err error
 		sc := security.APIKeyScheme{
-			Name:           "id_token_api_key",
+			Name:           "uid_api_key",
 			Scopes:         []string{},
 			RequiredScopes: []string{},
 		}
-		ctx, err = authAPIKeyFn(ctx, p.IDToken, &sc)
+		ctx, err = authAPIKeyFn(ctx, p.UID, &sc)
 		if err != nil {
 			return nil, err
 		}
@@ -149,11 +149,11 @@ func NewDeleteEndpoint(s Service, authAPIKeyFn security.AuthAPIKeyFunc) goa.Endp
 		p := req.(*DeletePayload)
 		var err error
 		sc := security.APIKeyScheme{
-			Name:           "id_token_api_key",
+			Name:           "uid_api_key",
 			Scopes:         []string{},
 			RequiredScopes: []string{},
 		}
-		ctx, err = authAPIKeyFn(ctx, p.IDToken, &sc)
+		ctx, err = authAPIKeyFn(ctx, p.UID, &sc)
 		if err != nil {
 			return nil, err
 		}

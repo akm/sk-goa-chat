@@ -23,12 +23,12 @@ func BuildListPayload(channelsListMessage string) (*channels.ListPayload, error)
 		if channelsListMessage != "" {
 			err = json.Unmarshal([]byte(channelsListMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id_token\": \"abcdef12345\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"uid\": \"abcdef12345\"\n   }'")
 			}
 		}
 	}
 	v := &channels.ListPayload{
-		IDToken: message.IdToken,
+		UID: message.Uid,
 	}
 
 	return v, nil
@@ -43,13 +43,13 @@ func BuildShowPayload(channelsShowMessage string) (*channels.ShowPayload, error)
 		if channelsShowMessage != "" {
 			err = json.Unmarshal([]byte(channelsShowMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 4243154004623530542,\n      \"id_token\": \"abcdef12345\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 4243154004623530542,\n      \"uid\": \"abcdef12345\"\n   }'")
 			}
 		}
 	}
 	v := &channels.ShowPayload{
-		IDToken: message.IdToken,
-		ID:      message.Id,
+		UID: message.Uid,
+		ID:  message.Id,
 	}
 
 	return v, nil
@@ -64,13 +64,13 @@ func BuildCreatePayload(channelsCreateMessage string) (*channels.ChannelCreatePa
 		if channelsCreateMessage != "" {
 			err = json.Unmarshal([]byte(channelsCreateMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id_token\": \"abcdef12345\",\n      \"name\": \"Sit quos enim praesentium provident et.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"name\": \"Sit quos enim praesentium provident et.\",\n      \"uid\": \"abcdef12345\"\n   }'")
 			}
 		}
 	}
 	v := &channels.ChannelCreatePayload{
-		IDToken: message.IdToken,
-		Name:    message.Name,
+		UID:  message.Uid,
+		Name: message.Name,
 	}
 
 	return v, nil
@@ -85,14 +85,14 @@ func BuildUpdatePayload(channelsUpdateMessage string) (*channels.ChannelUpdatePa
 		if channelsUpdateMessage != "" {
 			err = json.Unmarshal([]byte(channelsUpdateMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 8845190340737756413,\n      \"id_token\": \"abcdef12345\",\n      \"name\": \"Nihil aliquam dicta.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 8845190340737756413,\n      \"name\": \"Nihil aliquam dicta.\",\n      \"uid\": \"abcdef12345\"\n   }'")
 			}
 		}
 	}
 	v := &channels.ChannelUpdatePayload{
-		IDToken: message.IdToken,
-		ID:      message.Id,
-		Name:    message.Name,
+		UID:  message.Uid,
+		ID:   message.Id,
+		Name: message.Name,
 	}
 
 	return v, nil
@@ -107,13 +107,13 @@ func BuildDeletePayload(channelsDeleteMessage string) (*channels.DeletePayload, 
 		if channelsDeleteMessage != "" {
 			err = json.Unmarshal([]byte(channelsDeleteMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 13886048143001497827,\n      \"id_token\": \"abcdef12345\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 13886048143001497827,\n      \"uid\": \"abcdef12345\"\n   }'")
 			}
 		}
 	}
 	v := &channels.DeletePayload{
-		IDToken: message.IdToken,
-		ID:      message.Id,
+		UID: message.Uid,
+		ID:  message.Id,
 	}
 
 	return v, nil

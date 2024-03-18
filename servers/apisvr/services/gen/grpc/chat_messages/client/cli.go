@@ -23,12 +23,12 @@ func BuildListPayload(chatMessagesListMessage string) (*chatmessages.ListPayload
 		if chatMessagesListMessage != "" {
 			err = json.Unmarshal([]byte(chatMessagesListMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"after\": 178502275960762926,\n      \"before\": 13043671830441135493,\n      \"channel_id\": 1428451127207239674,\n      \"id_token\": \"abcdef12345\",\n      \"limit\": 4391472896458759808\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"after\": 178502275960762926,\n      \"before\": 13043671830441135493,\n      \"channel_id\": 1428451127207239674,\n      \"limit\": 4391472896458759808,\n      \"uid\": \"abcdef12345\"\n   }'")
 			}
 		}
 	}
 	v := &chatmessages.ListPayload{
-		IDToken:   message.IdToken,
+		UID:       message.Uid,
 		Limit:     int(message.Limit),
 		ChannelID: message.ChannelId,
 		After:     message.After,
@@ -47,13 +47,13 @@ func BuildShowPayload(chatMessagesShowMessage string) (*chatmessages.ShowPayload
 		if chatMessagesShowMessage != "" {
 			err = json.Unmarshal([]byte(chatMessagesShowMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 5488054146337984253,\n      \"id_token\": \"abcdef12345\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 5488054146337984253,\n      \"uid\": \"abcdef12345\"\n   }'")
 			}
 		}
 	}
 	v := &chatmessages.ShowPayload{
-		IDToken: message.IdToken,
-		ID:      message.Id,
+		UID: message.Uid,
+		ID:  message.Id,
 	}
 
 	return v, nil
@@ -68,12 +68,12 @@ func BuildCreatePayload(chatMessagesCreateMessage string) (*chatmessages.ChatMes
 		if chatMessagesCreateMessage != "" {
 			err = json.Unmarshal([]byte(chatMessagesCreateMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"channel_id\": 4983432453251475648,\n      \"content\": \"Doloremque vitae quo nesciunt necessitatibus hic.\",\n      \"id_token\": \"abcdef12345\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"channel_id\": 4983432453251475648,\n      \"content\": \"Doloremque vitae quo nesciunt necessitatibus hic.\",\n      \"uid\": \"abcdef12345\"\n   }'")
 			}
 		}
 	}
 	v := &chatmessages.ChatMessageCreatePayload{
-		IDToken:   message.IdToken,
+		UID:       message.Uid,
 		ChannelID: message.ChannelId,
 		Content:   message.Content,
 	}
@@ -90,12 +90,12 @@ func BuildUpdatePayload(chatMessagesUpdateMessage string) (*chatmessages.ChatMes
 		if chatMessagesUpdateMessage != "" {
 			err = json.Unmarshal([]byte(chatMessagesUpdateMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"content\": \"Qui voluptatibus.\",\n      \"id\": 12959863651503537545,\n      \"id_token\": \"abcdef12345\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"content\": \"Qui voluptatibus.\",\n      \"id\": 12959863651503537545,\n      \"uid\": \"abcdef12345\"\n   }'")
 			}
 		}
 	}
 	v := &chatmessages.ChatMessageUpdatePayload{
-		IDToken: message.IdToken,
+		UID:     message.Uid,
 		ID:      message.Id,
 		Content: message.Content,
 	}
@@ -112,13 +112,13 @@ func BuildDeletePayload(chatMessagesDeleteMessage string) (*chatmessages.DeleteP
 		if chatMessagesDeleteMessage != "" {
 			err = json.Unmarshal([]byte(chatMessagesDeleteMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 6373914294829582548,\n      \"id_token\": \"abcdef12345\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": 6373914294829582548,\n      \"uid\": \"abcdef12345\"\n   }'")
 			}
 		}
 	}
 	v := &chatmessages.DeletePayload{
-		IDToken: message.IdToken,
-		ID:      message.Id,
+		UID: message.Uid,
+		ID:  message.Id,
 	}
 
 	return v, nil

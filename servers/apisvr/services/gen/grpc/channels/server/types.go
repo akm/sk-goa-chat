@@ -17,7 +17,7 @@ import (
 // service from the gRPC request type.
 func NewListPayload(message *channelspb.ListRequest) *channels.ListPayload {
 	v := &channels.ListPayload{
-		IDToken: message.IdToken,
+		UID: message.Uid,
 	}
 	return v
 }
@@ -48,8 +48,8 @@ func NewProtoListResponse(result *channelsviews.ChannelListView) *channelspb.Lis
 // service from the gRPC request type.
 func NewShowPayload(message *channelspb.ShowRequest) *channels.ShowPayload {
 	v := &channels.ShowPayload{
-		IDToken: message.IdToken,
-		ID:      message.Id,
+		UID: message.Uid,
+		ID:  message.Id,
 	}
 	return v
 }
@@ -70,8 +70,8 @@ func NewProtoShowResponse(result *channelsviews.ChannelView) *channelspb.ShowRes
 // "channels" service from the gRPC request type.
 func NewCreatePayload(message *channelspb.CreateRequest) *channels.ChannelCreatePayload {
 	v := &channels.ChannelCreatePayload{
-		IDToken: message.IdToken,
-		Name:    message.Name,
+		UID:  message.Uid,
+		Name: message.Name,
 	}
 	return v
 }
@@ -92,9 +92,9 @@ func NewProtoCreateResponse(result *channelsviews.ChannelView) *channelspb.Creat
 // "channels" service from the gRPC request type.
 func NewUpdatePayload(message *channelspb.UpdateRequest) *channels.ChannelUpdatePayload {
 	v := &channels.ChannelUpdatePayload{
-		IDToken: message.IdToken,
-		ID:      message.Id,
-		Name:    message.Name,
+		UID:  message.Uid,
+		ID:   message.Id,
+		Name: message.Name,
 	}
 	return v
 }
@@ -115,8 +115,8 @@ func NewProtoUpdateResponse(result *channelsviews.ChannelView) *channelspb.Updat
 // "channels" service from the gRPC request type.
 func NewDeletePayload(message *channelspb.DeleteRequest) *channels.DeletePayload {
 	v := &channels.DeletePayload{
-		IDToken: message.IdToken,
-		ID:      message.Id,
+		UID: message.Uid,
+		ID:  message.Id,
 	}
 	return v
 }
