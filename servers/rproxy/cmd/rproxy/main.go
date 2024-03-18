@@ -1,12 +1,13 @@
 package main
 
 import (
-	"applib/collection"
 	"context"
+	"fmt"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
 	"os"
+	"regexp"
 	"strings"
 
 	"applib/errors"
@@ -18,7 +19,7 @@ import (
 func main() {
 	hostPort := os.Getenv("HOST_PORT")
 	if hostPort == "" {
-		hostPort = ":9000"
+		hostPort = "localhost:9000"
 	}
 
 	tokenHeaderKey := os.Getenv("TOKEN_HEADER_KEY")
@@ -32,14 +33,20 @@ func main() {
 	}
 
 	logger := log.New(os.Stderr)
+	logger.Level(log.DebugLevel)
+
+	logger.Debug().Msg(fmt.Sprintf("Listening: http://%s", hostPort))
 
 	// https://gist.github.com/JalfResi/6287706
 	// https://pkg.go.dev/net/http/httputil#ReverseProxy
 
 	verifyIdToken := verifyIdTokenFunc(&logger, tokenHeaderKey)
 	handler := func(p *httputil.ReverseProxy) func(http.ResponseWriter, *http.Request) {
+		logger.Debug().Msg("return handler")
 		return func(w http.ResponseWriter, r *http.Request) {
-			logger.Debug().Str("URL", r.URL.String())
+			// logger.Debug().Str("URL", r.URL.String())
+			// logger.Debug().Str("URL.Path", r.URL.Path)
+			logger.Debug().Msg("URL.Path" + r.URL.Path)
 			if !skipAuth(r.URL) {
 				ctx := r.Context()
 				uid, err := verifyIdToken(ctx, r)
@@ -58,16 +65,31 @@ func main() {
 
 	proxy := newMultiHostReverseProxy()
 	http.HandleFunc("/", handler(proxy))
-	err := http.ListenAndServe(hostPort, nil)
+	err := http.ListenAndServe(strings.TrimPrefix(hostPort, "localhost"), nil)
 	if err != nil {
 		panic(err)
 	}
 }
 
 var noAuthPaths = []string{
+	"/",
+	"/favicon.ico",
+	"/favicon.png",
+	"/manifest.json",
+	"/service-worker.js",
 	"/signin",
 	"/signup",
 	"/api/version",
+}
+
+var noAuthPatterns = []*regexp.Regexp{
+	regexp.MustCompile(`^/logo\d+.png$`),
+	regexp.MustCompile(`^/node_modules/`),
+	regexp.MustCompile(`^/src/`),
+	regexp.MustCompile(`^/.svelte-kit/`),
+	regexp.MustCompile(`^/@fs/`),
+	regexp.MustCompile(`^/@id/`),
+	regexp.MustCompile(`^/@vite/`),
 }
 
 var (
@@ -92,7 +114,17 @@ func mappingUrl(u *url.URL) *url.URL {
 }
 
 func skipAuth(u *url.URL) bool {
-	return collection.Any(noAuthPaths, func(p string) bool { return u.Path == p })
+	for _, p := range noAuthPaths {
+		if u.Path == p {
+			return true
+		}
+	}
+	for _, r := range noAuthPatterns {
+		if r.MatchString(u.Path) {
+			return true
+		}
+	}
+	return false
 }
 
 func newMultiHostReverseProxy() *httputil.ReverseProxy {
@@ -119,6 +151,7 @@ func verifyIdTokenFunc(logger *log.Logger, idTokenHeader string) func(ctx contex
 		givenIdToken := r.Header.Get(idTokenHeader)
 		token, err := fbauth.VerifyIDToken(ctx, givenIdToken)
 		if err != nil {
+			logger.Error().Any("verifyIdToken", err)
 			return "", authError
 		}
 		return token.UID, nil
