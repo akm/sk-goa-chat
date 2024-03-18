@@ -18,7 +18,7 @@ import (
 func main() {
 	hostPort := os.Getenv("HOST_PORT")
 	if hostPort == "" {
-		hostPort = ":8080"
+		hostPort = ":9000"
 	}
 
 	tokenHeaderKey := os.Getenv("TOKEN_HEADER_KEY")
