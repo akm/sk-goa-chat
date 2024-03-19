@@ -41,13 +41,12 @@ func TestChaeMessages(t *testing.T) {
 
 	userFoo := testuser.Foo().Setup(t, ctx, fbauth, conn)
 	userBar := testuser.Bar().Setup(t, ctx, fbauth, conn)
-	idToken := userFoo.IDToken
 
 	ctx = NewContextWithUser(ctx, userFoo.Model)
 
 	t.Run("no data", func(t *testing.T) {
 		t.Run("list", func(t *testing.T) {
-			res, err := srvc.List(ctx, &chatmessages.ListPayload{IDToken: idToken})
+			res, err := srvc.List(ctx, &chatmessages.ListPayload{UID: userFoo.Model.FbauthUID})
 			assert.NoError(t, err)
 			assert.Len(t, res.Items, 0)
 		})
@@ -68,7 +67,7 @@ func TestChaeMessages(t *testing.T) {
 	sqlboilertest.Insert(t, ctx, conn, boil.Infer(), ch1Msg1, ch1Msg2, ch1Msg3)
 
 	t.Run("list", func(t *testing.T) {
-		res, err := srvc.List(ctx, &chatmessages.ListPayload{IDToken: idToken, ChannelID: &ch1.ID, Limit: 50})
+		res, err := srvc.List(ctx, &chatmessages.ListPayload{UID: userFoo.Model.FbauthUID, ChannelID: &ch1.ID, Limit: 50})
 		assert.NoError(t, err)
 		assert.Len(t, res.Items, 3)
 		assert.Equal(t, conv.ModelsToList([]*models.ChatMessage{ch1Msg1, ch1Msg2, ch1Msg3}), res)
@@ -77,7 +76,7 @@ func TestChaeMessages(t *testing.T) {
 	t.Run("show", func(t *testing.T) {
 		for _, ch := range []*models.ChatMessage{ch1Msg1, ch1Msg2, ch1Msg3} {
 			t.Run(ch.Content, func(t *testing.T) {
-				res, err := srvc.Show(ctx, &chatmessages.ShowPayload{IDToken: idToken, ID: ch.ID})
+				res, err := srvc.Show(ctx, &chatmessages.ShowPayload{UID: userFoo.Model.FbauthUID, ID: ch.ID})
 				assert.NoError(t, err)
 				assert.Equal(t, conv.ModelToResult(ch), res)
 			})
@@ -86,19 +85,19 @@ func TestChaeMessages(t *testing.T) {
 
 	t.Run("create", func(t *testing.T) {
 		t.Run("valid content", func(t *testing.T) {
-			res, err := srvc.Create(ctx, &chatmessages.ChatMessageCreatePayload{IDToken: idToken, ChannelID: ch1.ID, Content: "Hola"})
+			res, err := srvc.Create(ctx, &chatmessages.ChatMessageCreatePayload{UID: userFoo.Model.FbauthUID, ChannelID: ch1.ID, Content: "Hola"})
 			assert.NoError(t, err)
 			assert.Equal(t, conv.ModelToResult(&models.ChatMessage{ID: res.ID, ChannelID: ch1.ID, UserID: null.Uint64From(userFoo.Model.ID), UserName: userFoo.Name, Content: "Hola", CreatedAt: now, UpdatedAt: now}), res)
 		})
 		t.Run("empty content", func(t *testing.T) {
-			res, err := srvc.Create(ctx, &chatmessages.ChatMessageCreatePayload{IDToken: idToken, ChannelID: ch1.ID, Content: ""})
+			res, err := srvc.Create(ctx, &chatmessages.ChatMessageCreatePayload{UID: userFoo.Model.FbauthUID, ChannelID: ch1.ID, Content: ""})
 			goatest.AssertServiceError(t, "invalid_payload", err)
 			assert.Nil(t, res)
 		})
 		t.Run("too long content", func(t *testing.T) {
 			// mediumtext は 最大長が 16,777,215 (2 ^ 24 − 1) 文字の TEXT カラム。
 			// https://dev.mysql.com/doc/refman/8.0/ja/string-type-syntax.html
-			res, err := srvc.Create(ctx, &chatmessages.ChatMessageCreatePayload{IDToken: idToken, ChannelID: ch1.ID, Content: strings.Repeat("a", int(math.Pow(2, 24)))})
+			res, err := srvc.Create(ctx, &chatmessages.ChatMessageCreatePayload{UID: userFoo.Model.FbauthUID, ChannelID: ch1.ID, Content: strings.Repeat("a", int(math.Pow(2, 24)))})
 			goatest.AssertServiceError(t, "invalid_payload", err)
 			assert.Nil(t, res)
 		})
@@ -106,24 +105,24 @@ func TestChaeMessages(t *testing.T) {
 
 	t.Run("update", func(t *testing.T) {
 		t.Run("invalid id", func(t *testing.T) {
-			res, err := srvc.Update(ctx, &chatmessages.ChatMessageUpdatePayload{IDToken: idToken, ID: 999, Content: "bonjour"})
+			res, err := srvc.Update(ctx, &chatmessages.ChatMessageUpdatePayload{UID: userFoo.Model.FbauthUID, ID: 999, Content: "bonjour"})
 			goatest.AssertServiceError(t, "not_found", err)
 			assert.Nil(t, res)
 		})
 		t.Run("valid content", func(t *testing.T) {
-			res, err := srvc.Update(ctx, &chatmessages.ChatMessageUpdatePayload{IDToken: idToken, ID: ch1Msg1.ID, Content: "Ni hao"})
+			res, err := srvc.Update(ctx, &chatmessages.ChatMessageUpdatePayload{UID: userFoo.Model.FbauthUID, ID: ch1Msg1.ID, Content: "Ni hao"})
 			assert.NoError(t, err)
 			assert.Equal(t, conv.ModelToResult(&models.ChatMessage{ID: res.ID, ChannelID: ch1.ID, UserID: null.Uint64From(userFoo.Model.ID), UserName: userFoo.Name, Content: "Ni hao", CreatedAt: now, UpdatedAt: now}), res)
 		})
 		t.Run("empty content", func(t *testing.T) {
-			res, err := srvc.Update(ctx, &chatmessages.ChatMessageUpdatePayload{IDToken: idToken, ID: ch1Msg1.ID, Content: ""})
+			res, err := srvc.Update(ctx, &chatmessages.ChatMessageUpdatePayload{UID: userFoo.Model.FbauthUID, ID: ch1Msg1.ID, Content: ""})
 			goatest.AssertServiceError(t, "invalid_payload", err)
 			assert.Nil(t, res)
 		})
 		t.Run("too long content", func(t *testing.T) {
 			// mediumtext は 最大長が 16,777,215 (2 ^ 24 − 1) 文字の TEXT カラム。
 			// https://dev.mysql.com/doc/refman/8.0/ja/string-type-syntax.html
-			res, err := srvc.Update(ctx, &chatmessages.ChatMessageUpdatePayload{IDToken: idToken, ID: ch1Msg1.ID, Content: strings.Repeat("a", int(math.Pow(2, 24)))})
+			res, err := srvc.Update(ctx, &chatmessages.ChatMessageUpdatePayload{UID: userFoo.Model.FbauthUID, ID: ch1Msg1.ID, Content: strings.Repeat("a", int(math.Pow(2, 24)))})
 			goatest.AssertServiceError(t, "invalid_payload", err)
 			assert.Nil(t, res)
 		})
@@ -131,12 +130,12 @@ func TestChaeMessages(t *testing.T) {
 
 	t.Run("delete", func(t *testing.T) {
 		t.Run("invalid id", func(t *testing.T) {
-			res, err := srvc.Delete(ctx, &chatmessages.DeletePayload{IDToken: idToken, ID: 999})
+			res, err := srvc.Delete(ctx, &chatmessages.DeletePayload{UID: userFoo.Model.FbauthUID, ID: 999})
 			goatest.AssertServiceError(t, "not_found", err)
 			assert.Nil(t, res)
 		})
 		t.Run("valid id", func(t *testing.T) {
-			res, err := srvc.Delete(ctx, &chatmessages.DeletePayload{IDToken: idToken, ID: ch1Msg2.ID})
+			res, err := srvc.Delete(ctx, &chatmessages.DeletePayload{UID: userFoo.Model.FbauthUID, ID: ch1Msg2.ID})
 			assert.NoError(t, err)
 			assert.Equal(t, conv.ModelToResult(ch1Msg2), res)
 		})
@@ -159,7 +158,6 @@ func TestChaeMessagesList(t *testing.T) {
 
 	userFoo := testuser.Foo().Setup(t, ctx, fbauth, conn)
 	userBar := testuser.Bar().Setup(t, ctx, fbauth, conn)
-	idToken := userFoo.IDToken
 
 	ctx = NewContextWithUser(ctx, userFoo.Model)
 
@@ -186,7 +184,7 @@ func TestChaeMessagesList(t *testing.T) {
 
 	type listPayload = chatmessages.ListPayload
 	payload := func(funcs ...func(*listPayload)) *listPayload {
-		r := &listPayload{IDToken: idToken, Limit: 50}
+		r := &listPayload{UID: userFoo.Model.FbauthUID, Limit: 50}
 		for _, f := range funcs {
 			f(r)
 		}
