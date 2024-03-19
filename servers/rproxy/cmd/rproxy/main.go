@@ -49,14 +49,17 @@ func main() {
 				ctx := r.Context()
 				uid, err := verifyIdToken(ctx, r)
 				if err != nil {
-					if err == authError {
-						http.Error(w, "Unauthorized", http.StatusUnauthorized)
-					} else {
-						http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+					if !allowAuthError(r.URL) {
+						if err == authError {
+							http.Error(w, "Unauthorized", http.StatusUnauthorized)
+						} else {
+							http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+						}
 					}
+				} else {
+					logger.Debug().Str(uidHeaderKey, uid).Msg("Set uid to header")
+					r.Header.Set(uidHeaderKey, uid)
 				}
-				logger.Debug().Str(uidHeaderKey, uid).Msg("Set to header")
-				r.Header.Set(uidHeaderKey, uid)
 			}
 			p.ServeHTTP(w, r)
 		}
@@ -71,7 +74,7 @@ func main() {
 }
 
 var noAuthPaths = []string{
-	"/",
+	// "/",
 	"/favicon.ico",
 	"/favicon.png",
 	"/manifest.json",
@@ -79,6 +82,10 @@ var noAuthPaths = []string{
 	"/signin",
 	"/signup",
 	"/api/version",
+}
+
+var allowAuthErrorPaths = []string{
+	"/",
 }
 
 var noAuthPatterns = []*regexp.Regexp{
@@ -120,6 +127,15 @@ func skipAuth(u *url.URL) bool {
 	}
 	for _, r := range noAuthPatterns {
 		if r.MatchString(u.Path) {
+			return true
+		}
+	}
+	return false
+}
+
+func allowAuthError(u *url.URL) bool {
+	for _, p := range allowAuthErrorPaths {
+		if u.Path == p {
 			return true
 		}
 	}
