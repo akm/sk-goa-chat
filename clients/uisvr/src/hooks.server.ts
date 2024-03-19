@@ -5,6 +5,7 @@ import { auth } from '$lib/server/firebase-admin';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const uid = event.request.headers.get('X-UID');
+	// console.log('uid', uid);
 	if (!uid) {
 		return await resolve(event);
 	}

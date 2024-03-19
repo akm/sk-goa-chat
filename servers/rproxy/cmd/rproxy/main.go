@@ -44,9 +44,7 @@ func main() {
 	handler := func(p *httputil.ReverseProxy) func(http.ResponseWriter, *http.Request) {
 		logger.Debug().Msg("return handler")
 		return func(w http.ResponseWriter, r *http.Request) {
-			// logger.Debug().Str("URL", r.URL.String())
-			// logger.Debug().Str("URL.Path", r.URL.Path)
-			logger.Debug().Msg("URL.Path" + r.URL.Path)
+			logger.Debug().Str("URL", r.URL.String()).Send()
 			if !skipAuth(r.URL) {
 				ctx := r.Context()
 				uid, err := verifyIdToken(ctx, r)
@@ -57,6 +55,7 @@ func main() {
 						http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 					}
 				}
+				logger.Debug().Str(uidHeaderKey, uid).Msg("Set to header")
 				r.Header.Set(uidHeaderKey, uid)
 			}
 			p.ServeHTTP(w, r)

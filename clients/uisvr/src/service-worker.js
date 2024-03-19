@@ -13,6 +13,7 @@ import { getIdToken, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '$lib/firebase/auth';
 
 auth.onAuthStateChanged((user) => {
+	console.log('service-worker/auth.onAuthStateChanged：user', user);
 	if (!user) {
 		// console.log('service-worker/auth.onAuthStateChanged no user');
 		return;
