@@ -21,7 +21,7 @@ import (
 func main() {
 	hostPort := os.Getenv("HOST_PORT")
 	if hostPort == "" {
-		hostPort = "localhost:9000"
+		hostPort = "localhost:3000"
 	}
 
 	tokenHeaderKey := os.Getenv("TOKEN_HEADER_KEY")
