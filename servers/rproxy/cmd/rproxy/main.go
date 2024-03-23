@@ -40,7 +40,7 @@ func main() {
 	logger.Debug().Msg(fmt.Sprintf("Listening: http://%s", hostPort))
 
 	// https://github.com/koding/websocketproxy/
-	wsProxy := websocketproxy.NewProxy(apisvrOriginUrl)
+	wsProxy := websocketproxy.NewProxy(wssvrOriginUrl)
 	http.Handle("/ws/", wsProxy)
 
 	// https://gist.github.com/JalfResi/6287706
@@ -106,6 +106,15 @@ var noAuthPatterns = []*regexp.Regexp{
 var (
 	uisvrOriginUrl  = GetUrlFromEnv("UISVR_ORIGIN_URL")
 	apisvrOriginUrl = GetUrlFromEnv("APISVR_ORIGIN_URL")
+	wssvrOriginUrl  = (func() *url.URL {
+		r := *apisvrOriginUrl
+		if r.Scheme == "http" {
+			r.Scheme = "ws"
+		} else {
+			r.Scheme = "wss"
+		}
+		return &r
+	})()
 )
 
 func GetUrlFromEnv(key string) *url.URL {
