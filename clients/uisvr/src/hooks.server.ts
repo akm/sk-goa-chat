@@ -9,6 +9,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (!uid) {
 		return await resolve(event);
 	}
+	event.locals.uid = uid;
 
 	const user = await auth.getUser(uid);
 

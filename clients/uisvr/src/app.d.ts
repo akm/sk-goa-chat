@@ -8,7 +8,7 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			user: User | undefined;
-			idToken: string | undefined;
+			uid: string | undefined;
 		}
 		// interface PageData {}
 		// interface Platform {}
