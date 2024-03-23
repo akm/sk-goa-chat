@@ -8,7 +8,7 @@
 
 	const createChannel = async () => {
 		const result = await POST('/api/channels', {
-			params: { header: { 'X-ID-TOKEN': localStorage.getItem('idToken') || '' } },
+			params: { header: { 'X-UID': '' } }, // X-UID は rproxy での U-ID-TOKEN による認証の結果設定される
 			body: { name }
 		});
 		if (result.error) {
