@@ -41,7 +41,7 @@ func main() {
 	// https://pkg.go.dev/net/http/httputil#ReverseProxy
 
 	verifyIdToken := verifyIdTokenFunc(&logger, tokenHeaderKey)
-	handler := func(p *httputil.ReverseProxy) func(http.ResponseWriter, *http.Request) {
+	httpHandler := func(p *httputil.ReverseProxy) func(http.ResponseWriter, *http.Request) {
 		logger.Debug().Msg("return handler")
 		return func(w http.ResponseWriter, r *http.Request) {
 			logger.Debug().Str("URL", r.URL.String()).Send()
@@ -66,7 +66,7 @@ func main() {
 	}
 
 	proxy := newMultiHostReverseProxy()
-	http.HandleFunc("/", handler(proxy))
+	http.HandleFunc("/", httpHandler(proxy))
 	err := http.ListenAndServe(strings.TrimPrefix(hostPort, "localhost"), nil)
 	if err != nil {
 		panic(err)
