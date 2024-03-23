@@ -6,10 +6,10 @@ let _notificationsSocket: WebSocket;
 export const notificationsSocket = (idToken: string): Promise<WebSocket> => {
 	console.log('notificationsSocket with idToken', idToken);
 
-	const apisvrOrigin = import.meta.env.VITE_UISVR_ORIGIN as string;
-	const wsOrigin = apisvrOrigin.includes('https://')
-		? apisvrOrigin.replace('https://', 'wss://')
-		: apisvrOrigin.replace('http://', 'ws://');
+	const rproxyOrigin = import.meta.env.VITE_RPROXY_ORIGIN as string;
+	const wsOrigin = rproxyOrigin.includes('https://')
+		? rproxyOrigin.replace('https://', 'wss://')
+		: rproxyOrigin.replace('http://', 'ws://');
 	const wsUrl = `${wsOrigin}/ws/notifications/subscribe?token=${idToken}`;
 
 	console.log('notificationsSocket wsUrl', wsUrl);
