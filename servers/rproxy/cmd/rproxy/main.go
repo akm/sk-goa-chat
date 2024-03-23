@@ -15,7 +15,7 @@ import (
 	"applib/firebase/auth"
 	"applib/log"
 
-	"github.com/koding/websocketproxy"
+	"github.com/yhat/wsutil"
 )
 
 func main() {
@@ -40,7 +40,7 @@ func main() {
 	logger.Debug().Msg(fmt.Sprintf("Listening: http://%s", hostPort))
 
 	// https://github.com/koding/websocketproxy/
-	wsProxy := websocketproxy.NewProxy(wssvrOriginUrl)
+	wsProxy := wsutil.NewSingleHostReverseProxy(wssvrOriginUrl)
 	http.Handle("/ws/", wsProxy)
 
 	// https://gist.github.com/JalfResi/6287706
