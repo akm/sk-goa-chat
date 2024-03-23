@@ -30,8 +30,12 @@ func (s *notificationssrvc) Subscribe(ctx context.Context, p *notifications.Subs
 	defer func() {
 		if err := stream.Close(); err != nil {
 			s.logger.Printf("failed to close stream: [%T] %+v", err, err)
+		} else {
+			s.logger.Debug().Str("IDToken", p.IDToken).Msg("Stream Closed Successfully")
 		}
 	}()
+
+	s.logger.Debug().Str("IDToken", p.IDToken).Msg("Stream Started")
 
 	err = s.actionWithDB(ctx, "notifications.subscribe", func(ctx context.Context, db *sql.DB) error {
 		defer s.logger.Printf("notifications.subscribe quit")
