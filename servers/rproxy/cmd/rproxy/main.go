@@ -14,6 +14,8 @@ import (
 	"applib/firebase"
 	"applib/firebase/auth"
 	"applib/log"
+
+	"github.com/koding/websocketproxy"
 )
 
 func main() {
@@ -37,9 +39,12 @@ func main() {
 
 	logger.Debug().Msg(fmt.Sprintf("Listening: http://%s", hostPort))
 
+	// https://github.com/koding/websocketproxy/
+	wsProxy := websocketproxy.NewProxy(apisvrOriginUrl)
+	http.Handle("/ws/", wsProxy)
+
 	// https://gist.github.com/JalfResi/6287706
 	// https://pkg.go.dev/net/http/httputil#ReverseProxy
-
 	verifyIdToken := verifyIdTokenFunc(&logger, tokenHeaderKey)
 	httpHandler := func(p *httputil.ReverseProxy) func(http.ResponseWriter, *http.Request) {
 		logger.Debug().Msg("return handler")
@@ -64,9 +69,9 @@ func main() {
 			p.ServeHTTP(w, r)
 		}
 	}
-
 	proxy := newMultiHostReverseProxy()
 	http.HandleFunc("/", httpHandler(proxy))
+
 	err := http.ListenAndServe(strings.TrimPrefix(hostPort, "localhost"), nil)
 	if err != nil {
 		panic(err)
