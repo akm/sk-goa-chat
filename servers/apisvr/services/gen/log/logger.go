@@ -21,10 +21,13 @@ type Logger struct {
 
 // New creates a new zerologger
 func New(serviceName string, isDebug bool) *Logger {
-	logLevel := log.InfoLevel
+	var logLevel log.Level
 	if isDebug {
 		logLevel = log.DebugLevel
+	} else {
+		logLevel = log.InfoLevel
 	}
+	fmt.Fprintf(os.Stderr, "log level: %s\n", logLevel.String())
 	log.SetGlobalLevel(logLevel)
 	logger := *log.NewServiceLogger(os.Stderr, serviceName)
 	return &Logger{&logger}
