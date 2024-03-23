@@ -17,15 +17,15 @@ const transport = new GrpcTransport({
 const client: IChatMessagesClient = new ChatMessagesClient(transport);
 
 export const listChatMessages = async (arg: {
-	idToken: string;
+	uid: string;
 	channelId: bigint;
 	limit?: number;
 	after?: bigint;
 }): Promise<ChatMessage[]> => {
-	const { idToken, channelId, after } = arg;
+	const { uid, channelId, after } = arg;
 	let { limit } = arg;
 	limit = limit ?? 50;
-	const { response } = await client.list({ idToken, channelId, limit, after });
+	const { response } = await client.list({ uid, channelId, limit, after });
 	return (
 		response.items?.field.map((item) => {
 			return {
@@ -41,37 +41,34 @@ export const listChatMessages = async (arg: {
 	);
 };
 
-export const showChatMessage = async (arg: {
-	idToken: string;
-	id: bigint;
-}): Promise<ChatMessage> => {
-	const { idToken, id } = arg;
-	const { response } = await client.show({ idToken, id });
+export const showChatMessage = async (arg: { uid: string; id: bigint }): Promise<ChatMessage> => {
+	const { uid, id } = arg;
+	const { response } = await client.show({ uid, id });
 	return response;
 };
 
 export const createChatMessage = async (arg: {
-	idToken: string;
+	uid: string;
 	channelId: bigint;
 	content: string;
 }): Promise<{ id: string }> => {
-	const { idToken, channelId, content } = arg;
-	const { response } = await client.create({ idToken, channelId, content });
+	const { uid, channelId, content } = arg;
+	const { response } = await client.create({ uid, channelId, content });
 	return { id: response.id.toString() };
 };
 
 export const updateChatMessage = async (arg: {
-	idToken: string;
+	uid: string;
 	id: bigint;
 	content: string;
 }): Promise<void> => {
-	const { idToken, id, content } = arg;
+	const { uid, id, content } = arg;
 	if (!id) return;
-	await client.update({ idToken, id, content });
+	await client.update({ uid, id, content });
 };
 
-export const deleteChatMessage = async (arg: { idToken: string; id: bigint }): Promise<void> => {
+export const deleteChatMessage = async (arg: { uid: string; id: bigint }): Promise<void> => {
 	if (!arg.id) return;
-	const { idToken, id } = arg;
-	await client.delete({ idToken, id });
+	const { uid, id } = arg;
+	await client.delete({ uid, id });
 };
