@@ -7,9 +7,7 @@ export async function load(event: ServerLoadEvent): Promise<void> {
 		throw redirect(302, '/signin');
 	}
 
-	const channels = event.locals.idToken
-		? await listChannels({ idToken: event.locals.idToken })
-		: undefined;
+	const channels = event.locals.uid ? await listChannels({ uid: event.locals.uid }) : undefined;
 	if (channels && channels.length > 0) {
 		throw redirect(302, `/channels/${channels[0].id}`);
 	}

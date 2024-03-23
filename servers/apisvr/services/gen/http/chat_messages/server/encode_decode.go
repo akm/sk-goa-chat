@@ -41,7 +41,7 @@ func DecodeListRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.De
 			channelID *uint64
 			after     *uint64
 			before    *uint64
-			idToken   string
+			uid       string
 			err       error
 		)
 		{
@@ -86,18 +86,18 @@ func DecodeListRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.De
 				before = &v
 			}
 		}
-		idToken = r.Header.Get("X-ID-TOKEN")
-		if idToken == "" {
-			err = goa.MergeErrors(err, goa.MissingFieldError("id_token", "header"))
+		uid = r.Header.Get("X-UID")
+		if uid == "" {
+			err = goa.MergeErrors(err, goa.MissingFieldError("uid", "header"))
 		}
 		if err != nil {
 			return nil, err
 		}
-		payload := NewListPayload(limit, channelID, after, before, idToken)
-		if strings.Contains(payload.IDToken, " ") {
+		payload := NewListPayload(limit, channelID, after, before, uid)
+		if strings.Contains(payload.UID, " ") {
 			// Remove authorization scheme prefix (e.g. "Bearer")
-			cred := strings.SplitN(payload.IDToken, " ", 2)[1]
-			payload.IDToken = cred
+			cred := strings.SplitN(payload.UID, " ", 2)[1]
+			payload.UID = cred
 		}
 
 		return payload, nil
@@ -150,9 +150,9 @@ func EncodeShowResponse(encoder func(context.Context, http.ResponseWriter) goaht
 func DecodeShowRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (any, error) {
 	return func(r *http.Request) (any, error) {
 		var (
-			id      uint64
-			idToken string
-			err     error
+			id  uint64
+			uid string
+			err error
 
 			params = mux.Vars(r)
 		)
@@ -164,18 +164,18 @@ func DecodeShowRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.De
 			}
 			id = v
 		}
-		idToken = r.Header.Get("X-ID-TOKEN")
-		if idToken == "" {
-			err = goa.MergeErrors(err, goa.MissingFieldError("id_token", "header"))
+		uid = r.Header.Get("X-UID")
+		if uid == "" {
+			err = goa.MergeErrors(err, goa.MissingFieldError("uid", "header"))
 		}
 		if err != nil {
 			return nil, err
 		}
-		payload := NewShowPayload(id, idToken)
-		if strings.Contains(payload.IDToken, " ") {
+		payload := NewShowPayload(id, uid)
+		if strings.Contains(payload.UID, " ") {
 			// Remove authorization scheme prefix (e.g. "Bearer")
-			cred := strings.SplitN(payload.IDToken, " ", 2)[1]
-			payload.IDToken = cred
+			cred := strings.SplitN(payload.UID, " ", 2)[1]
+			payload.UID = cred
 		}
 
 		return payload, nil
@@ -257,20 +257,20 @@ func DecodeCreateRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.
 		}
 
 		var (
-			idToken string
+			uid string
 		)
-		idToken = r.Header.Get("X-ID-TOKEN")
-		if idToken == "" {
-			err = goa.MergeErrors(err, goa.MissingFieldError("id_token", "header"))
+		uid = r.Header.Get("X-UID")
+		if uid == "" {
+			err = goa.MergeErrors(err, goa.MissingFieldError("uid", "header"))
 		}
 		if err != nil {
 			return nil, err
 		}
-		payload := NewCreateChatMessageCreatePayload(&body, idToken)
-		if strings.Contains(payload.IDToken, " ") {
+		payload := NewCreateChatMessageCreatePayload(&body, uid)
+		if strings.Contains(payload.UID, " ") {
 			// Remove authorization scheme prefix (e.g. "Bearer")
-			cred := strings.SplitN(payload.IDToken, " ", 2)[1]
-			payload.IDToken = cred
+			cred := strings.SplitN(payload.UID, " ", 2)[1]
+			payload.UID = cred
 		}
 
 		return payload, nil
@@ -352,8 +352,8 @@ func DecodeUpdateRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.
 		}
 
 		var (
-			id      uint64
-			idToken string
+			id  uint64
+			uid string
 
 			params = mux.Vars(r)
 		)
@@ -365,18 +365,18 @@ func DecodeUpdateRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.
 			}
 			id = v
 		}
-		idToken = r.Header.Get("X-ID-TOKEN")
-		if idToken == "" {
-			err = goa.MergeErrors(err, goa.MissingFieldError("id_token", "header"))
+		uid = r.Header.Get("X-UID")
+		if uid == "" {
+			err = goa.MergeErrors(err, goa.MissingFieldError("uid", "header"))
 		}
 		if err != nil {
 			return nil, err
 		}
-		payload := NewUpdateChatMessageUpdatePayload(&body, id, idToken)
-		if strings.Contains(payload.IDToken, " ") {
+		payload := NewUpdateChatMessageUpdatePayload(&body, id, uid)
+		if strings.Contains(payload.UID, " ") {
 			// Remove authorization scheme prefix (e.g. "Bearer")
-			cred := strings.SplitN(payload.IDToken, " ", 2)[1]
-			payload.IDToken = cred
+			cred := strings.SplitN(payload.UID, " ", 2)[1]
+			payload.UID = cred
 		}
 
 		return payload, nil
@@ -455,9 +455,9 @@ func EncodeDeleteResponse(encoder func(context.Context, http.ResponseWriter) goa
 func DecodeDeleteRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (any, error) {
 	return func(r *http.Request) (any, error) {
 		var (
-			id      uint64
-			idToken string
-			err     error
+			id  uint64
+			uid string
+			err error
 
 			params = mux.Vars(r)
 		)
@@ -469,18 +469,18 @@ func DecodeDeleteRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.
 			}
 			id = v
 		}
-		idToken = r.Header.Get("X-ID-TOKEN")
-		if idToken == "" {
-			err = goa.MergeErrors(err, goa.MissingFieldError("id_token", "header"))
+		uid = r.Header.Get("X-UID")
+		if uid == "" {
+			err = goa.MergeErrors(err, goa.MissingFieldError("uid", "header"))
 		}
 		if err != nil {
 			return nil, err
 		}
-		payload := NewDeletePayload(id, idToken)
-		if strings.Contains(payload.IDToken, " ") {
+		payload := NewDeletePayload(id, uid)
+		if strings.Contains(payload.UID, " ") {
 			// Remove authorization scheme prefix (e.g. "Bearer")
-			cred := strings.SplitN(payload.IDToken, " ", 2)[1]
-			payload.IDToken = cred
+			cred := strings.SplitN(payload.UID, " ", 2)[1]
+			payload.UID = cred
 		}
 
 		return payload, nil

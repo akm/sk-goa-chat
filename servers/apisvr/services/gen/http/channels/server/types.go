@@ -494,50 +494,50 @@ func NewDeleteUnauthenticatedResponseBody(res *goa.ServiceError) *DeleteUnauthen
 }
 
 // NewListPayload builds a channels service list endpoint payload.
-func NewListPayload(idToken string) *channels.ListPayload {
+func NewListPayload(uid string) *channels.ListPayload {
 	v := &channels.ListPayload{}
-	v.IDToken = idToken
+	v.UID = uid
 
 	return v
 }
 
 // NewShowPayload builds a channels service show endpoint payload.
-func NewShowPayload(id uint64, idToken string) *channels.ShowPayload {
+func NewShowPayload(id uint64, uid string) *channels.ShowPayload {
 	v := &channels.ShowPayload{}
 	v.ID = id
-	v.IDToken = idToken
+	v.UID = uid
 
 	return v
 }
 
 // NewCreateChannelCreatePayload builds a channels service create endpoint
 // payload.
-func NewCreateChannelCreatePayload(body *CreateRequestBody, idToken string) *channels.ChannelCreatePayload {
+func NewCreateChannelCreatePayload(body *CreateRequestBody, uid string) *channels.ChannelCreatePayload {
 	v := &channels.ChannelCreatePayload{
 		Name: *body.Name,
 	}
-	v.IDToken = idToken
+	v.UID = uid
 
 	return v
 }
 
 // NewUpdateChannelUpdatePayload builds a channels service update endpoint
 // payload.
-func NewUpdateChannelUpdatePayload(body *UpdateRequestBody, id uint64, idToken string) *channels.ChannelUpdatePayload {
+func NewUpdateChannelUpdatePayload(body *UpdateRequestBody, id uint64, uid string) *channels.ChannelUpdatePayload {
 	v := &channels.ChannelUpdatePayload{
 		Name: *body.Name,
 	}
 	v.ID = id
-	v.IDToken = idToken
+	v.UID = uid
 
 	return v
 }
 
 // NewDeletePayload builds a channels service delete endpoint payload.
-func NewDeletePayload(id uint64, idToken string) *channels.DeletePayload {
+func NewDeletePayload(id uint64, uid string) *channels.DeletePayload {
 	v := &channels.DeletePayload{}
 	v.ID = id
-	v.IDToken = idToken
+	v.UID = uid
 
 	return v
 }

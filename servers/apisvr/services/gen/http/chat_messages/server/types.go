@@ -532,55 +532,55 @@ func NewDeleteUnauthenticatedResponseBody(res *goa.ServiceError) *DeleteUnauthen
 }
 
 // NewListPayload builds a chat_messages service list endpoint payload.
-func NewListPayload(limit int, channelID *uint64, after *uint64, before *uint64, idToken string) *chatmessages.ListPayload {
+func NewListPayload(limit int, channelID *uint64, after *uint64, before *uint64, uid string) *chatmessages.ListPayload {
 	v := &chatmessages.ListPayload{}
 	v.Limit = limit
 	v.ChannelID = channelID
 	v.After = after
 	v.Before = before
-	v.IDToken = idToken
+	v.UID = uid
 
 	return v
 }
 
 // NewShowPayload builds a chat_messages service show endpoint payload.
-func NewShowPayload(id uint64, idToken string) *chatmessages.ShowPayload {
+func NewShowPayload(id uint64, uid string) *chatmessages.ShowPayload {
 	v := &chatmessages.ShowPayload{}
 	v.ID = id
-	v.IDToken = idToken
+	v.UID = uid
 
 	return v
 }
 
 // NewCreateChatMessageCreatePayload builds a chat_messages service create
 // endpoint payload.
-func NewCreateChatMessageCreatePayload(body *CreateRequestBody, idToken string) *chatmessages.ChatMessageCreatePayload {
+func NewCreateChatMessageCreatePayload(body *CreateRequestBody, uid string) *chatmessages.ChatMessageCreatePayload {
 	v := &chatmessages.ChatMessageCreatePayload{
 		ChannelID: *body.ChannelID,
 		Content:   *body.Content,
 	}
-	v.IDToken = idToken
+	v.UID = uid
 
 	return v
 }
 
 // NewUpdateChatMessageUpdatePayload builds a chat_messages service update
 // endpoint payload.
-func NewUpdateChatMessageUpdatePayload(body *UpdateRequestBody, id uint64, idToken string) *chatmessages.ChatMessageUpdatePayload {
+func NewUpdateChatMessageUpdatePayload(body *UpdateRequestBody, id uint64, uid string) *chatmessages.ChatMessageUpdatePayload {
 	v := &chatmessages.ChatMessageUpdatePayload{
 		Content: *body.Content,
 	}
 	v.ID = id
-	v.IDToken = idToken
+	v.UID = uid
 
 	return v
 }
 
 // NewDeletePayload builds a chat_messages service delete endpoint payload.
-func NewDeletePayload(id uint64, idToken string) *chatmessages.DeletePayload {
+func NewDeletePayload(id uint64, uid string) *chatmessages.DeletePayload {
 	v := &chatmessages.DeletePayload{}
 	v.ID = id
-	v.IDToken = idToken
+	v.UID = uid
 
 	return v
 }

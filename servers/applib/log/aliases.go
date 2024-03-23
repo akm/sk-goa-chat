@@ -7,6 +7,8 @@ import (
 type (
 	Logger        = zerolog.Logger
 	ConsoleWriter = zerolog.ConsoleWriter
+
+	Level = zerolog.Level
 )
 
 var (

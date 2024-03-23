@@ -16,20 +16,20 @@ import (
 
 // BuildListPayload builds the payload for the channels list endpoint from CLI
 // flags.
-func BuildListPayload(channelsListIDToken string) (*channels.ListPayload, error) {
-	var idToken string
+func BuildListPayload(channelsListUID string) (*channels.ListPayload, error) {
+	var uid string
 	{
-		idToken = channelsListIDToken
+		uid = channelsListUID
 	}
 	v := &channels.ListPayload{}
-	v.IDToken = idToken
+	v.UID = uid
 
 	return v, nil
 }
 
 // BuildShowPayload builds the payload for the channels show endpoint from CLI
 // flags.
-func BuildShowPayload(channelsShowID string, channelsShowIDToken string) (*channels.ShowPayload, error) {
+func BuildShowPayload(channelsShowID string, channelsShowUID string) (*channels.ShowPayload, error) {
 	var err error
 	var id uint64
 	{
@@ -38,20 +38,20 @@ func BuildShowPayload(channelsShowID string, channelsShowIDToken string) (*chann
 			return nil, fmt.Errorf("invalid value for id, must be UINT64")
 		}
 	}
-	var idToken string
+	var uid string
 	{
-		idToken = channelsShowIDToken
+		uid = channelsShowUID
 	}
 	v := &channels.ShowPayload{}
 	v.ID = id
-	v.IDToken = idToken
+	v.UID = uid
 
 	return v, nil
 }
 
 // BuildCreatePayload builds the payload for the channels create endpoint from
 // CLI flags.
-func BuildCreatePayload(channelsCreateBody string, channelsCreateIDToken string) (*channels.ChannelCreatePayload, error) {
+func BuildCreatePayload(channelsCreateBody string, channelsCreateUID string) (*channels.ChannelCreatePayload, error) {
 	var err error
 	var body CreateRequestBody
 	{
@@ -60,21 +60,21 @@ func BuildCreatePayload(channelsCreateBody string, channelsCreateIDToken string)
 			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"name\": \"Dolorem optio consequatur est eligendi.\"\n   }'")
 		}
 	}
-	var idToken string
+	var uid string
 	{
-		idToken = channelsCreateIDToken
+		uid = channelsCreateUID
 	}
 	v := &channels.ChannelCreatePayload{
 		Name: body.Name,
 	}
-	v.IDToken = idToken
+	v.UID = uid
 
 	return v, nil
 }
 
 // BuildUpdatePayload builds the payload for the channels update endpoint from
 // CLI flags.
-func BuildUpdatePayload(channelsUpdateBody string, channelsUpdateID string, channelsUpdateIDToken string) (*channels.ChannelUpdatePayload, error) {
+func BuildUpdatePayload(channelsUpdateBody string, channelsUpdateID string, channelsUpdateUID string) (*channels.ChannelUpdatePayload, error) {
 	var err error
 	var body UpdateRequestBody
 	{
@@ -90,22 +90,22 @@ func BuildUpdatePayload(channelsUpdateBody string, channelsUpdateID string, chan
 			return nil, fmt.Errorf("invalid value for id, must be UINT64")
 		}
 	}
-	var idToken string
+	var uid string
 	{
-		idToken = channelsUpdateIDToken
+		uid = channelsUpdateUID
 	}
 	v := &channels.ChannelUpdatePayload{
 		Name: body.Name,
 	}
 	v.ID = id
-	v.IDToken = idToken
+	v.UID = uid
 
 	return v, nil
 }
 
 // BuildDeletePayload builds the payload for the channels delete endpoint from
 // CLI flags.
-func BuildDeletePayload(channelsDeleteID string, channelsDeleteIDToken string) (*channels.DeletePayload, error) {
+func BuildDeletePayload(channelsDeleteID string, channelsDeleteUID string) (*channels.DeletePayload, error) {
 	var err error
 	var id uint64
 	{
@@ -114,13 +114,13 @@ func BuildDeletePayload(channelsDeleteID string, channelsDeleteIDToken string) (
 			return nil, fmt.Errorf("invalid value for id, must be UINT64")
 		}
 	}
-	var idToken string
+	var uid string
 	{
-		idToken = channelsDeleteIDToken
+		uid = channelsDeleteUID
 	}
 	v := &channels.DeletePayload{}
 	v.ID = id
-	v.IDToken = idToken
+	v.UID = uid
 
 	return v, nil
 }

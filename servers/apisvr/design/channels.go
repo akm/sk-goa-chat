@@ -23,7 +23,7 @@ func channelFields(action string) []string {
 	r := []string{}
 
 	if InPayload() {
-		r = append(r, authApiKeyField(1))
+		r = append(r, uidApiKeyField(1))
 	}
 
 	if InRT() || action == "update" {
@@ -67,7 +67,7 @@ var ChannelUpdatePayload = Type("ChannelUpdatePayload", func() {
 })
 
 var _ = Service("channels", func() {
-	httpIdToken, grpcIdToken := idTokenSecurity()
+	httpIdToken, grpcIdToken := uidSecurity()
 
 	httpUnautheticated, grpcUnauthenticated := unauthenticated()
 
@@ -81,7 +81,7 @@ var _ = Service("channels", func() {
 	})
 
 	Method("list", func() {
-		Payload(func() { Required(authApiKeyField(1)) })
+		Payload(func() { Required(uidApiKeyField(1)) })
 		Result(ChannelListRT)
 		HTTP(func() {
 			GET("")
@@ -97,7 +97,7 @@ var _ = Service("channels", func() {
 	Method("show", func() {
 		Payload(func() {
 			Required(
-				authApiKeyField(1),
+				uidApiKeyField(1),
 				field(2, "id", UInt64, "ID"),
 			)
 		})
@@ -159,7 +159,7 @@ var _ = Service("channels", func() {
 	Method("delete", func() {
 		Payload(func() {
 			Required(
-				authApiKeyField(1),
+				uidApiKeyField(1),
 				field(2, "id", UInt64, "ID"),
 			)
 		})

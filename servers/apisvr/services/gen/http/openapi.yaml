@@ -21,9 +21,9 @@ paths:
             summary: list channels
             operationId: channels#list
             parameters:
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   required: true
                   type: string
             responses:
@@ -38,16 +38,16 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
         post:
             tags:
                 - channels
             summary: create channels
             operationId: channels#create
             parameters:
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   required: true
                   type: string
                 - name: CreateRequestBody
@@ -73,7 +73,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
     /api/channels/{id}:
         get:
             tags:
@@ -86,9 +86,9 @@ paths:
                   description: ID
                   required: true
                   type: integer
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   required: true
                   type: string
             responses:
@@ -107,7 +107,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
         put:
             tags:
                 - channels
@@ -119,9 +119,9 @@ paths:
                   description: ID
                   required: true
                   type: integer
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   required: true
                   type: string
                 - name: UpdateRequestBody
@@ -151,7 +151,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
         delete:
             tags:
                 - channels
@@ -163,9 +163,9 @@ paths:
                   description: ID
                   required: true
                   type: integer
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   required: true
                   type: string
             responses:
@@ -184,7 +184,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
     /api/chat_messages:
         get:
             tags:
@@ -213,9 +213,9 @@ paths:
                   description: ChatMessage ID for query to get messages before this
                   required: false
                   type: integer
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   required: true
                   type: string
             responses:
@@ -230,16 +230,16 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
         post:
             tags:
                 - chat_messages
             summary: create chat_messages
             operationId: chat_messages#create
             parameters:
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   required: true
                   type: string
                 - name: CreateRequestBody
@@ -266,7 +266,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
     /api/chat_messages/{id}:
         get:
             tags:
@@ -279,9 +279,9 @@ paths:
                   description: ID
                   required: true
                   type: integer
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   required: true
                   type: string
             responses:
@@ -300,7 +300,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
         put:
             tags:
                 - chat_messages
@@ -312,9 +312,9 @@ paths:
                   description: ID
                   required: true
                   type: integer
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   required: true
                   type: string
                 - name: UpdateRequestBody
@@ -344,7 +344,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
         delete:
             tags:
                 - chat_messages
@@ -356,9 +356,9 @@ paths:
                   description: ID
                   required: true
                   type: integer
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   required: true
                   type: string
             responses:
@@ -377,7 +377,7 @@ paths:
             schemes:
                 - http
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
     /api/users:
         get:
             tags:
@@ -443,7 +443,7 @@ paths:
             schemes:
                 - ws
             security:
-                - api_key_query_token: []
+                - id_token_api_key_query_token: []
 definitions:
     ChannelListItemResponseBody:
         title: 'Mediatype identifier: application/vnd.channel-list-item; view=default'
@@ -2137,11 +2137,11 @@ definitions:
             - total
             - offset
 securityDefinitions:
-    api_key_header_X-ID-TOKEN:
-        type: apiKey
-        name: X-ID-TOKEN
-        in: header
-    api_key_query_token:
+    id_token_api_key_query_token:
         type: apiKey
         name: token
         in: query
+    uid_api_key_header_X-UID:
+        type: apiKey
+        name: X-UID
+        in: header

@@ -65,7 +65,7 @@
 		console.log('updateChannel', data);
 		const result = await PUT('/api/channels/{id}', {
 			params: {
-				header: { 'X-ID-TOKEN': localStorage.getItem('idToken') || '' },
+				header: { 'X-UID': '' }, // X-UID は rproxy での U-ID-TOKEN による認証の結果設定される
 				path: { id: Number(data.channel.id) }
 			},
 			body: { name }
@@ -81,7 +81,7 @@
 	const deleteChannel = async () => {
 		const result = await DELETE('/api/channels/{id}', {
 			params: {
-				header: { 'X-ID-TOKEN': localStorage.getItem('idToken') || '' },
+				header: { 'X-UID': '' }, // X-UID は rproxy での U-ID-TOKEN による認証の結果設定される
 				path: { id: Number(data.channel.id) }
 			}
 		});
@@ -96,7 +96,7 @@
 	let textarea: HTMLTextAreaElement;
 	const postMessage = async () => {
 		const result = await POST('/api/chat_messages', {
-			params: { header: { 'X-ID-TOKEN': localStorage.getItem('idToken') || '' } },
+			params: { header: { 'X-UID': '' } }, // X-UID は rproxy での U-ID-TOKEN による認証の結果設定される
 			body: { channel_id: Number(data.channel.id), content: textarea.value }
 		});
 		if (result.error) {
@@ -114,7 +114,7 @@
 	}): Promise<ChatMessage[]> => {
 		const result = await GET('/api/chat_messages', {
 			params: {
-				header: { 'X-ID-TOKEN': localStorage.getItem('idToken') || '' },
+				header: { 'X-UID': '' }, // X-UID は rproxy での U-ID-TOKEN による認証の結果設定される
 				query: {
 					channel_id: Number(data.channel.id),
 					before: options.before,

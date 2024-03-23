@@ -580,10 +580,10 @@ export interface operations {
     parameters: {
       header: {
         /**
-         * @description X-ID-TOKEN
+         * @description X-UID
          * @example abcdef12345
          */
-        "X-ID-TOKEN": string;
+        "X-UID": string;
       };
     };
     responses: {
@@ -606,10 +606,10 @@ export interface operations {
     parameters: {
       header: {
         /**
-         * @description X-ID-TOKEN
+         * @description X-UID
          * @example abcdef12345
          */
-        "X-ID-TOKEN": string;
+        "X-UID": string;
       };
     };
     requestBody: {
@@ -648,10 +648,10 @@ export interface operations {
     parameters: {
       header: {
         /**
-         * @description X-ID-TOKEN
+         * @description X-UID
          * @example abcdef12345
          */
-        "X-ID-TOKEN": string;
+        "X-UID": string;
       };
       path: {
         /**
@@ -687,10 +687,10 @@ export interface operations {
     parameters: {
       header: {
         /**
-         * @description X-ID-TOKEN
+         * @description X-UID
          * @example abcdef12345
          */
-        "X-ID-TOKEN": string;
+        "X-UID": string;
       };
       path: {
         /**
@@ -742,10 +742,10 @@ export interface operations {
     parameters: {
       header: {
         /**
-         * @description X-ID-TOKEN
+         * @description X-UID
          * @example abcdef12345
          */
-        "X-ID-TOKEN": string;
+        "X-UID": string;
       };
       path: {
         /**
@@ -803,10 +803,10 @@ export interface operations {
       };
       header: {
         /**
-         * @description X-ID-TOKEN
+         * @description X-UID
          * @example abcdef12345
          */
-        "X-ID-TOKEN": string;
+        "X-UID": string;
       };
     };
     responses: {
@@ -829,10 +829,10 @@ export interface operations {
     parameters: {
       header: {
         /**
-         * @description X-ID-TOKEN
+         * @description X-UID
          * @example abcdef12345
          */
-        "X-ID-TOKEN": string;
+        "X-UID": string;
       };
     };
     requestBody: {
@@ -872,10 +872,10 @@ export interface operations {
     parameters: {
       header: {
         /**
-         * @description X-ID-TOKEN
+         * @description X-UID
          * @example abcdef12345
          */
-        "X-ID-TOKEN": string;
+        "X-UID": string;
       };
       path: {
         /**
@@ -911,10 +911,10 @@ export interface operations {
     parameters: {
       header: {
         /**
-         * @description X-ID-TOKEN
+         * @description X-UID
          * @example abcdef12345
          */
-        "X-ID-TOKEN": string;
+        "X-UID": string;
       };
       path: {
         /**
@@ -966,10 +966,10 @@ export interface operations {
     parameters: {
       header: {
         /**
-         * @description X-ID-TOKEN
+         * @description X-UID
          * @example abcdef12345
          */
-        "X-ID-TOKEN": string;
+        "X-UID": string;
       };
       path: {
         /**
@@ -1045,12 +1045,12 @@ export interface operations {
    */
   "notifications#subscribe": {
     parameters: {
-      header: {
+      query: {
         /**
          * @description X-ID-TOKEN
          * @example abcdef12345
          */
-        "X-ID-TOKEN": string;
+        token: string;
       };
     };
     responses: {

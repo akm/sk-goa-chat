@@ -13,9 +13,9 @@ const transport = new GrpcTransport({
 
 const client: IChannelsClient = new ChannelsClient(transport);
 
-export const listChannels = async (arg: { idToken: string }): Promise<Channel[]> => {
-	const { idToken } = arg;
-	const { response } = await client.list({ idToken });
+export const listChannels = async (arg: { uid: string }): Promise<Channel[]> => {
+	const { uid } = arg;
+	const { response } = await client.list({ uid });
 	return (
 		response.items?.field.map((item) => {
 			return {
@@ -26,33 +26,33 @@ export const listChannels = async (arg: { idToken: string }): Promise<Channel[]>
 	);
 };
 
-export const showChannel = async (arg: { idToken: string; id: bigint }): Promise<Channel> => {
-	const { idToken, id } = arg;
-	const { response } = await client.show({ idToken, id });
+export const showChannel = async (arg: { uid: string; id: bigint }): Promise<Channel> => {
+	const { uid, id } = arg;
+	const { response } = await client.show({ uid, id });
 	return response;
 };
 
 export const createChannel = async (arg: {
-	idToken: string;
+	uid: string;
 	name: string;
 }): Promise<{ id: string }> => {
-	const { idToken, name } = arg;
-	const { response } = await client.create({ idToken, name });
+	const { uid, name } = arg;
+	const { response } = await client.create({ uid, name });
 	return { id: response.id.toString() };
 };
 
 export const updateChannel = async (arg: {
-	idToken: string;
+	uid: string;
 	id: bigint;
 	name: string;
 }): Promise<void> => {
-	const { idToken, id, name } = arg;
+	const { uid, id, name } = arg;
 	if (!id) return;
-	await client.update({ idToken, id, name });
+	await client.update({ uid, id, name });
 };
 
-export const deleteChannel = async (arg: { idToken: string; id: bigint }): Promise<void> => {
+export const deleteChannel = async (arg: { uid: string; id: bigint }): Promise<void> => {
 	if (!arg.id) return;
-	const { idToken, id } = arg;
-	await client.delete({ idToken, id });
+	const { uid, id } = arg;
+	await client.delete({ uid, id });
 };

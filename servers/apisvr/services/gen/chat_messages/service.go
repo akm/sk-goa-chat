@@ -66,8 +66,8 @@ type ChatMessage struct {
 // ChatMessageCreatePayload is the payload type of the chat_messages service
 // create method.
 type ChatMessageCreatePayload struct {
-	// X-ID-TOKEN
-	IDToken string
+	// X-UID
+	UID string
 	// Channel ID
 	ChannelID uint64
 	// Content
@@ -102,8 +102,8 @@ type ChatMessageListItemCollection []*ChatMessageListItem
 // ChatMessageUpdatePayload is the payload type of the chat_messages service
 // update method.
 type ChatMessageUpdatePayload struct {
-	// X-ID-TOKEN
-	IDToken string
+	// X-UID
+	UID string
 	// ID
 	ID uint64
 	// Content
@@ -112,16 +112,16 @@ type ChatMessageUpdatePayload struct {
 
 // DeletePayload is the payload type of the chat_messages service delete method.
 type DeletePayload struct {
-	// X-ID-TOKEN
-	IDToken string
+	// X-UID
+	UID string
 	// ID
 	ID uint64
 }
 
 // ListPayload is the payload type of the chat_messages service list method.
 type ListPayload struct {
-	// X-ID-TOKEN
-	IDToken string
+	// X-UID
+	UID string
 	// Limit
 	Limit int
 	// Channel ID
@@ -134,8 +134,8 @@ type ListPayload struct {
 
 // ShowPayload is the payload type of the chat_messages service show method.
 type ShowPayload struct {
-	// X-ID-TOKEN
-	IDToken string
+	// X-UID
+	UID string
 	// ID
 	ID uint64
 }

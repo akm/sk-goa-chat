@@ -43,6 +43,10 @@
 					break;
 				}
 			}
+			console.log('swMessageHandler', {
+				serviceWorkerUID,
+				userCredentialUID: userCredential.user.uid
+			});
 			if (serviceWorkerUID !== userCredential.user.uid) {
 				errorMessage = 'failed to get uid from service-worker';
 				return;

@@ -78,8 +78,11 @@ func (s *BaseAuthService) authenticate(ctx context.Context, db *sql.DB, fbauth a
 	if err != nil {
 		return nil, s.ConvToAuthenticationError(err)
 	}
+	return s.getUserByUID(ctx, db, token.UID)
+}
 
-	user, err := models.Users(qm.Where("fbauth_uid = ?", token.UID)).One(ctx, db)
+func (s *BaseAuthService) getUserByUID(ctx context.Context, db *sql.DB, uid string) (*models.User, error) {
+	user, err := models.Users(qm.Where("fbauth_uid = ?", uid)).One(ctx, db)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, s.ConvToAuthenticationError(fmt.Errorf("user not found"))
@@ -101,22 +104,32 @@ func (s *BaseAuthService) APIKeyAuth(ctx context.Context, key string, schema *se
 		}
 		defer db.Close()
 
-		fbauth, err := s.firebaseAuthClient(ctx)
-		if err != nil {
-			return err
+		var u *models.User
+		switch schema.Name {
+		case "uid_api_key":
+			var err error
+			u, err = s.getUserByUID(ctx, db, key)
+			if err != nil {
+				return err
+			}
+		case "id_token_api_key":
+			fbauth, err := s.firebaseAuthClient(ctx)
+			if err != nil {
+				return err
+			}
+			u, err = s.authenticate(ctx, db, fbauth, key)
+			if err != nil {
+				return err
+			}
 		}
 
-		u, err := s.authenticate(ctx, db, fbauth, key)
-		if err != nil {
-			return err
-		}
 		newCtx = NewContextWithUser(ctx, u)
 		return nil
 	}()
 	return
 }
 
-func (s *BaseAuthService) actionWithUser(ctx context.Context, name string, idToken string, cb func(context.Context, *sql.DB, *models.User) error) error {
+func (s *BaseAuthService) actionWithUser(ctx context.Context, name string, cb func(context.Context, *sql.DB, *models.User) error) error {
 	return s.actionWithDB(ctx, name, func(ctx context.Context, db *sql.DB) error {
 		u, err := UserFromContext(ctx)
 		if err != nil {

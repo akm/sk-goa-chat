@@ -34,8 +34,8 @@ users (list|create)
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
-	return os.Args[0] + ` channels list --id-token "abcdef12345"` + "\n" +
-		os.Args[0] + ` chat-messages list --limit 4957638961049071245 --channel-id 248369442570821029 --after 11502104032657031607 --before 821952026860172930 --id-token "abcdef12345"` + "\n" +
+	return os.Args[0] + ` channels list --uid "abcdef12345"` + "\n" +
+		os.Args[0] + ` chat-messages list --limit 4957638961049071245 --channel-id 248369442570821029 --after 11502104032657031607 --before 821952026860172930 --uid "abcdef12345"` + "\n" +
 		os.Args[0] + ` notifications subscribe --id-token "abcdef12345"` + "\n" +
 		os.Args[0] + ` users list` + "\n" +
 		""
@@ -55,25 +55,25 @@ func ParseEndpoint(
 	var (
 		channelsFlags = flag.NewFlagSet("channels", flag.ContinueOnError)
 
-		channelsListFlags       = flag.NewFlagSet("list", flag.ExitOnError)
-		channelsListIDTokenFlag = channelsListFlags.String("id-token", "REQUIRED", "")
+		channelsListFlags   = flag.NewFlagSet("list", flag.ExitOnError)
+		channelsListUIDFlag = channelsListFlags.String("uid", "REQUIRED", "")
 
-		channelsShowFlags       = flag.NewFlagSet("show", flag.ExitOnError)
-		channelsShowIDFlag      = channelsShowFlags.String("id", "REQUIRED", "ID")
-		channelsShowIDTokenFlag = channelsShowFlags.String("id-token", "REQUIRED", "")
+		channelsShowFlags   = flag.NewFlagSet("show", flag.ExitOnError)
+		channelsShowIDFlag  = channelsShowFlags.String("id", "REQUIRED", "ID")
+		channelsShowUIDFlag = channelsShowFlags.String("uid", "REQUIRED", "")
 
-		channelsCreateFlags       = flag.NewFlagSet("create", flag.ExitOnError)
-		channelsCreateBodyFlag    = channelsCreateFlags.String("body", "REQUIRED", "")
-		channelsCreateIDTokenFlag = channelsCreateFlags.String("id-token", "REQUIRED", "")
+		channelsCreateFlags    = flag.NewFlagSet("create", flag.ExitOnError)
+		channelsCreateBodyFlag = channelsCreateFlags.String("body", "REQUIRED", "")
+		channelsCreateUIDFlag  = channelsCreateFlags.String("uid", "REQUIRED", "")
 
-		channelsUpdateFlags       = flag.NewFlagSet("update", flag.ExitOnError)
-		channelsUpdateBodyFlag    = channelsUpdateFlags.String("body", "REQUIRED", "")
-		channelsUpdateIDFlag      = channelsUpdateFlags.String("id", "REQUIRED", "ID")
-		channelsUpdateIDTokenFlag = channelsUpdateFlags.String("id-token", "REQUIRED", "")
+		channelsUpdateFlags    = flag.NewFlagSet("update", flag.ExitOnError)
+		channelsUpdateBodyFlag = channelsUpdateFlags.String("body", "REQUIRED", "")
+		channelsUpdateIDFlag   = channelsUpdateFlags.String("id", "REQUIRED", "ID")
+		channelsUpdateUIDFlag  = channelsUpdateFlags.String("uid", "REQUIRED", "")
 
-		channelsDeleteFlags       = flag.NewFlagSet("delete", flag.ExitOnError)
-		channelsDeleteIDFlag      = channelsDeleteFlags.String("id", "REQUIRED", "ID")
-		channelsDeleteIDTokenFlag = channelsDeleteFlags.String("id-token", "REQUIRED", "")
+		channelsDeleteFlags   = flag.NewFlagSet("delete", flag.ExitOnError)
+		channelsDeleteIDFlag  = channelsDeleteFlags.String("id", "REQUIRED", "ID")
+		channelsDeleteUIDFlag = channelsDeleteFlags.String("uid", "REQUIRED", "")
 
 		chatMessagesFlags = flag.NewFlagSet("chat-messages", flag.ContinueOnError)
 
@@ -82,24 +82,24 @@ func ParseEndpoint(
 		chatMessagesListChannelIDFlag = chatMessagesListFlags.String("channel-id", "", "")
 		chatMessagesListAfterFlag     = chatMessagesListFlags.String("after", "", "")
 		chatMessagesListBeforeFlag    = chatMessagesListFlags.String("before", "", "")
-		chatMessagesListIDTokenFlag   = chatMessagesListFlags.String("id-token", "REQUIRED", "")
+		chatMessagesListUIDFlag       = chatMessagesListFlags.String("uid", "REQUIRED", "")
 
-		chatMessagesShowFlags       = flag.NewFlagSet("show", flag.ExitOnError)
-		chatMessagesShowIDFlag      = chatMessagesShowFlags.String("id", "REQUIRED", "ID")
-		chatMessagesShowIDTokenFlag = chatMessagesShowFlags.String("id-token", "REQUIRED", "")
+		chatMessagesShowFlags   = flag.NewFlagSet("show", flag.ExitOnError)
+		chatMessagesShowIDFlag  = chatMessagesShowFlags.String("id", "REQUIRED", "ID")
+		chatMessagesShowUIDFlag = chatMessagesShowFlags.String("uid", "REQUIRED", "")
 
-		chatMessagesCreateFlags       = flag.NewFlagSet("create", flag.ExitOnError)
-		chatMessagesCreateBodyFlag    = chatMessagesCreateFlags.String("body", "REQUIRED", "")
-		chatMessagesCreateIDTokenFlag = chatMessagesCreateFlags.String("id-token", "REQUIRED", "")
+		chatMessagesCreateFlags    = flag.NewFlagSet("create", flag.ExitOnError)
+		chatMessagesCreateBodyFlag = chatMessagesCreateFlags.String("body", "REQUIRED", "")
+		chatMessagesCreateUIDFlag  = chatMessagesCreateFlags.String("uid", "REQUIRED", "")
 
-		chatMessagesUpdateFlags       = flag.NewFlagSet("update", flag.ExitOnError)
-		chatMessagesUpdateBodyFlag    = chatMessagesUpdateFlags.String("body", "REQUIRED", "")
-		chatMessagesUpdateIDFlag      = chatMessagesUpdateFlags.String("id", "REQUIRED", "ID")
-		chatMessagesUpdateIDTokenFlag = chatMessagesUpdateFlags.String("id-token", "REQUIRED", "")
+		chatMessagesUpdateFlags    = flag.NewFlagSet("update", flag.ExitOnError)
+		chatMessagesUpdateBodyFlag = chatMessagesUpdateFlags.String("body", "REQUIRED", "")
+		chatMessagesUpdateIDFlag   = chatMessagesUpdateFlags.String("id", "REQUIRED", "ID")
+		chatMessagesUpdateUIDFlag  = chatMessagesUpdateFlags.String("uid", "REQUIRED", "")
 
-		chatMessagesDeleteFlags       = flag.NewFlagSet("delete", flag.ExitOnError)
-		chatMessagesDeleteIDFlag      = chatMessagesDeleteFlags.String("id", "REQUIRED", "ID")
-		chatMessagesDeleteIDTokenFlag = chatMessagesDeleteFlags.String("id-token", "REQUIRED", "")
+		chatMessagesDeleteFlags   = flag.NewFlagSet("delete", flag.ExitOnError)
+		chatMessagesDeleteIDFlag  = chatMessagesDeleteFlags.String("id", "REQUIRED", "ID")
+		chatMessagesDeleteUIDFlag = chatMessagesDeleteFlags.String("uid", "REQUIRED", "")
 
 		notificationsFlags = flag.NewFlagSet("notifications", flag.ContinueOnError)
 
@@ -252,38 +252,38 @@ func ParseEndpoint(
 			switch epn {
 			case "list":
 				endpoint = c.List()
-				data, err = channelsc.BuildListPayload(*channelsListIDTokenFlag)
+				data, err = channelsc.BuildListPayload(*channelsListUIDFlag)
 			case "show":
 				endpoint = c.Show()
-				data, err = channelsc.BuildShowPayload(*channelsShowIDFlag, *channelsShowIDTokenFlag)
+				data, err = channelsc.BuildShowPayload(*channelsShowIDFlag, *channelsShowUIDFlag)
 			case "create":
 				endpoint = c.Create()
-				data, err = channelsc.BuildCreatePayload(*channelsCreateBodyFlag, *channelsCreateIDTokenFlag)
+				data, err = channelsc.BuildCreatePayload(*channelsCreateBodyFlag, *channelsCreateUIDFlag)
 			case "update":
 				endpoint = c.Update()
-				data, err = channelsc.BuildUpdatePayload(*channelsUpdateBodyFlag, *channelsUpdateIDFlag, *channelsUpdateIDTokenFlag)
+				data, err = channelsc.BuildUpdatePayload(*channelsUpdateBodyFlag, *channelsUpdateIDFlag, *channelsUpdateUIDFlag)
 			case "delete":
 				endpoint = c.Delete()
-				data, err = channelsc.BuildDeletePayload(*channelsDeleteIDFlag, *channelsDeleteIDTokenFlag)
+				data, err = channelsc.BuildDeletePayload(*channelsDeleteIDFlag, *channelsDeleteUIDFlag)
 			}
 		case "chat-messages":
 			c := chatmessagesc.NewClient(scheme, host, doer, enc, dec, restore)
 			switch epn {
 			case "list":
 				endpoint = c.List()
-				data, err = chatmessagesc.BuildListPayload(*chatMessagesListLimitFlag, *chatMessagesListChannelIDFlag, *chatMessagesListAfterFlag, *chatMessagesListBeforeFlag, *chatMessagesListIDTokenFlag)
+				data, err = chatmessagesc.BuildListPayload(*chatMessagesListLimitFlag, *chatMessagesListChannelIDFlag, *chatMessagesListAfterFlag, *chatMessagesListBeforeFlag, *chatMessagesListUIDFlag)
 			case "show":
 				endpoint = c.Show()
-				data, err = chatmessagesc.BuildShowPayload(*chatMessagesShowIDFlag, *chatMessagesShowIDTokenFlag)
+				data, err = chatmessagesc.BuildShowPayload(*chatMessagesShowIDFlag, *chatMessagesShowUIDFlag)
 			case "create":
 				endpoint = c.Create()
-				data, err = chatmessagesc.BuildCreatePayload(*chatMessagesCreateBodyFlag, *chatMessagesCreateIDTokenFlag)
+				data, err = chatmessagesc.BuildCreatePayload(*chatMessagesCreateBodyFlag, *chatMessagesCreateUIDFlag)
 			case "update":
 				endpoint = c.Update()
-				data, err = chatmessagesc.BuildUpdatePayload(*chatMessagesUpdateBodyFlag, *chatMessagesUpdateIDFlag, *chatMessagesUpdateIDTokenFlag)
+				data, err = chatmessagesc.BuildUpdatePayload(*chatMessagesUpdateBodyFlag, *chatMessagesUpdateIDFlag, *chatMessagesUpdateUIDFlag)
 			case "delete":
 				endpoint = c.Delete()
-				data, err = chatmessagesc.BuildDeletePayload(*chatMessagesDeleteIDFlag, *chatMessagesDeleteIDTokenFlag)
+				data, err = chatmessagesc.BuildDeletePayload(*chatMessagesDeleteIDFlag, *chatMessagesDeleteUIDFlag)
 			}
 		case "notifications":
 			c := notificationsc.NewClient(scheme, host, doer, enc, dec, restore, dialer, notificationsConfigurer)
@@ -329,66 +329,66 @@ Additional help:
 `, os.Args[0])
 }
 func channelsListUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels list -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels list -uid STRING
 
 List implements list.
-    -id-token STRING: 
+    -uid STRING: 
 
 Example:
-    %[1]s channels list --id-token "abcdef12345"
+    %[1]s channels list --uid "abcdef12345"
 `, os.Args[0])
 }
 
 func channelsShowUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels show -id UINT64 -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels show -id UINT64 -uid STRING
 
 Show implements show.
     -id UINT64: ID
-    -id-token STRING: 
+    -uid STRING: 
 
 Example:
-    %[1]s channels show --id 13449821290766471387 --id-token "abcdef12345"
+    %[1]s channels show --id 13449821290766471387 --uid "abcdef12345"
 `, os.Args[0])
 }
 
 func channelsCreateUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels create -body JSON -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels create -body JSON -uid STRING
 
 Create implements create.
     -body JSON: 
-    -id-token STRING: 
+    -uid STRING: 
 
 Example:
     %[1]s channels create --body '{
       "name": "Dolorem optio consequatur est eligendi."
-   }' --id-token "abcdef12345"
+   }' --uid "abcdef12345"
 `, os.Args[0])
 }
 
 func channelsUpdateUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels update -body JSON -id UINT64 -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels update -body JSON -id UINT64 -uid STRING
 
 Update implements update.
     -body JSON: 
     -id UINT64: ID
-    -id-token STRING: 
+    -uid STRING: 
 
 Example:
     %[1]s channels update --body '{
       "name": "Animi ut aut totam."
-   }' --id 5188841799517865761 --id-token "abcdef12345"
+   }' --id 5188841799517865761 --uid "abcdef12345"
 `, os.Args[0])
 }
 
 func channelsDeleteUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels delete -id UINT64 -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] channels delete -id UINT64 -uid STRING
 
 Delete implements delete.
     -id UINT64: ID
-    -id-token STRING: 
+    -uid STRING: 
 
 Example:
-    %[1]s channels delete --id 7140320228966239079 --id-token "abcdef12345"
+    %[1]s channels delete --id 7140320228966239079 --uid "abcdef12345"
 `, os.Args[0])
 }
 
@@ -411,71 +411,71 @@ Additional help:
 `, os.Args[0])
 }
 func chatMessagesListUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages list -limit INT -channel-id UINT64 -after UINT64 -before UINT64 -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages list -limit INT -channel-id UINT64 -after UINT64 -before UINT64 -uid STRING
 
 List implements list.
     -limit INT: 
     -channel-id UINT64: 
     -after UINT64: 
     -before UINT64: 
-    -id-token STRING: 
+    -uid STRING: 
 
 Example:
-    %[1]s chat-messages list --limit 4957638961049071245 --channel-id 248369442570821029 --after 11502104032657031607 --before 821952026860172930 --id-token "abcdef12345"
+    %[1]s chat-messages list --limit 4957638961049071245 --channel-id 248369442570821029 --after 11502104032657031607 --before 821952026860172930 --uid "abcdef12345"
 `, os.Args[0])
 }
 
 func chatMessagesShowUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages show -id UINT64 -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages show -id UINT64 -uid STRING
 
 Show implements show.
     -id UINT64: ID
-    -id-token STRING: 
+    -uid STRING: 
 
 Example:
-    %[1]s chat-messages show --id 9267441921255015593 --id-token "abcdef12345"
+    %[1]s chat-messages show --id 9267441921255015593 --uid "abcdef12345"
 `, os.Args[0])
 }
 
 func chatMessagesCreateUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages create -body JSON -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages create -body JSON -uid STRING
 
 Create implements create.
     -body JSON: 
-    -id-token STRING: 
+    -uid STRING: 
 
 Example:
     %[1]s chat-messages create --body '{
       "channel_id": 3412152620045203249,
       "content": "Non accusantium."
-   }' --id-token "abcdef12345"
+   }' --uid "abcdef12345"
 `, os.Args[0])
 }
 
 func chatMessagesUpdateUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages update -body JSON -id UINT64 -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages update -body JSON -id UINT64 -uid STRING
 
 Update implements update.
     -body JSON: 
     -id UINT64: ID
-    -id-token STRING: 
+    -uid STRING: 
 
 Example:
     %[1]s chat-messages update --body '{
       "content": "Qui similique dolor."
-   }' --id 9594253205796740350 --id-token "abcdef12345"
+   }' --id 9594253205796740350 --uid "abcdef12345"
 `, os.Args[0])
 }
 
 func chatMessagesDeleteUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages delete -id UINT64 -id-token STRING
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] chat-messages delete -id UINT64 -uid STRING
 
 Delete implements delete.
     -id UINT64: ID
-    -id-token STRING: 
+    -uid STRING: 
 
 Example:
-    %[1]s chat-messages delete --id 14096741058994480104 --id-token "abcdef12345"
+    %[1]s chat-messages delete --id 14096741058994480104 --uid "abcdef12345"
 `, os.Args[0])
 }
 

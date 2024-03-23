@@ -13,14 +13,14 @@ paths:
             summary: list channels
             operationId: channels#list
             parameters:
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: X-ID-TOKEN
+                    description: X-UID
                     example: abcdef12345
                   example: abcdef12345
             responses:
@@ -49,21 +49,21 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
         post:
             tags:
                 - channels
             summary: create channels
             operationId: channels#create
             parameters:
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: X-ID-TOKEN
+                    description: X-UID
                     example: abcdef12345
                   example: abcdef12345
             requestBody:
@@ -99,7 +99,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
     /api/channels/{id}:
         delete:
             tags:
@@ -116,14 +116,14 @@ paths:
                     description: ID
                     example: 16719644734848992631
                   example: 3345418820542876276
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: X-ID-TOKEN
+                    description: X-UID
                     example: abcdef12345
                   example: abcdef12345
             responses:
@@ -151,7 +151,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
         get:
             tags:
                 - channels
@@ -167,14 +167,14 @@ paths:
                     description: ID
                     example: 2083606697895106347
                   example: 2135540402709782972
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: X-ID-TOKEN
+                    description: X-UID
                     example: abcdef12345
                   example: abcdef12345
             responses:
@@ -202,7 +202,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
         put:
             tags:
                 - channels
@@ -218,14 +218,14 @@ paths:
                     description: ID
                     example: 10781663784136988387
                   example: 57829092557472515
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: X-ID-TOKEN
+                    description: X-UID
                     example: abcdef12345
                   example: abcdef12345
             requestBody:
@@ -267,7 +267,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
     /api/chat_messages:
         get:
             tags:
@@ -314,14 +314,14 @@ paths:
                     description: ChatMessage ID for query to get messages before this
                     example: 6636858784629839241
                   example: 3428741854183539318
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: X-ID-TOKEN
+                    description: X-UID
                     example: abcdef12345
                   example: abcdef12345
             responses:
@@ -361,21 +361,21 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
         post:
             tags:
                 - chat_messages
             summary: create chat_messages
             operationId: chat_messages#create
             parameters:
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: X-ID-TOKEN
+                    description: X-UID
                     example: abcdef12345
                   example: abcdef12345
             requestBody:
@@ -415,7 +415,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
     /api/chat_messages/{id}:
         delete:
             tags:
@@ -432,14 +432,14 @@ paths:
                     description: ID
                     example: 4238688227212468876
                   example: 13200870719650333346
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: X-ID-TOKEN
+                    description: X-UID
                     example: abcdef12345
                   example: abcdef12345
             responses:
@@ -470,7 +470,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
         get:
             tags:
                 - chat_messages
@@ -486,14 +486,14 @@ paths:
                     description: ID
                     example: 16721574290007971384
                   example: 7640296165610347364
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: X-ID-TOKEN
+                    description: X-UID
                     example: abcdef12345
                   example: abcdef12345
             responses:
@@ -524,7 +524,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
         put:
             tags:
                 - chat_messages
@@ -540,14 +540,14 @@ paths:
                     description: ID
                     example: 6872091514831306567
                   example: 2596968404017912684
-                - name: X-ID-TOKEN
+                - name: X-UID
                   in: header
-                  description: X-ID-TOKEN
+                  description: X-UID
                   allowEmptyValue: true
                   required: true
                   schema:
                     type: string
-                    description: X-ID-TOKEN
+                    description: X-UID
                     example: abcdef12345
                   example: abcdef12345
             requestBody:
@@ -592,7 +592,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_header_X-ID-TOKEN: []
+                - uid_api_key_header_X-UID: []
     /api/users:
         get:
             tags:
@@ -685,7 +685,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Error'
             security:
-                - api_key_query_token: []
+                - id_token_api_key_query_token: []
 components:
     schemas:
         Channel:
@@ -1151,14 +1151,14 @@ components:
                 - id: 12732113688530886158
                   name: Est voluptate et numquam quia perferendis.
     securitySchemes:
-        api_key_header_X-ID-TOKEN:
-            type: apiKey
-            name: X-ID-TOKEN
-            in: header
-        api_key_query_token:
+        id_token_api_key_query_token:
             type: apiKey
             name: token
             in: query
+        uid_api_key_header_X-UID:
+            type: apiKey
+            name: X-UID
+            in: header
 tags:
     - name: channels
     - name: chat_messages
